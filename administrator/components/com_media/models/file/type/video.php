@@ -9,23 +9,15 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
-
 /**
  * Media Component File Type Video Model
  */
-class MediaModelFileTypeVideo extends MediaModelFileTypeAbstract implements MediaModelInterfaceFileType
+class MediaModelFileTypeVideo extends MediaModelFileTypeAbstract implements MediaModelFileTypeInterface
 {
-	/**
-	 * File group
-	 */
-	protected $_group = 'videos';
-
 	/**
 	 * File extensions supported by this file type
 	 */
-	protected $_extensions = array(
+	protected $extensions = array(
 		'mp4',
 	);
 

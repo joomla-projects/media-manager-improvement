@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Media Component File Type Interface
  */
-interface MediaModelInterfaceFileType
+interface MediaModelFileTypeInterface
 {
 	/**
 	 * Return a listing of supported file extensions
@@ -34,11 +34,4 @@ interface MediaModelInterfaceFileType
 	 * @return array
 	 */
 	public function getProperties($filePath);
-
-	/**
-	 * Return the group name
-	 *
-	 * @return string
-	 */
-	public function getGroup();
 }

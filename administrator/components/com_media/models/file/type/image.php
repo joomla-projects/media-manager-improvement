@@ -9,23 +9,15 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
-
 /**
  * Media Component File Type Image Model
  */
-class MediaModelFileTypeImage extends MediaModelFileTypeAbstract implements MediaModelInterfaceFileType
+class MediaModelFileTypeImage extends MediaModelFileTypeAbstract implements MediaModelFileTypeInterface
 {
-	/**
-	 * File group
-	 */
-	protected $_group = 'images';
-
 	/**
 	 * File extensions supported by this file type
 	 */
-	protected $_extensions = array(
+	protected $extensions = array(
 		'jpg',
 		'png',
 		'gif',
@@ -39,9 +31,15 @@ class MediaModelFileTypeImage extends MediaModelFileTypeAbstract implements Medi
 	/**
 	 * MIME types supported by this file type
 	 */
-	protected $_mimeTypes = array(
+	protected $mimeTypes = array(
 		'image/png',
+		'image/gif'.
+		'image/x-icon',
 		'image/jpeg',
+		'image/bmp',
+		'image/xcf',
+		'image/odg',
+		'image/x-windows-bmp',
 	);
 
 	/**

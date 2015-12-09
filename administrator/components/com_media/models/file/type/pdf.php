@@ -9,25 +9,22 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
-
 /**
  * Media Component File Type Image Model
  */
-class MediaModelFileTypePdf extends MediaModelFileTypeAbstract implements MediaModelInterfaceFileType
+class MediaModelFileTypePdf extends MediaModelFileTypeAbstract implements MediaModelFileTypeInterface
 {
 	/**
 	 * File extensions supported by this file type
 	 */
-	protected $_extensions = array(
+	protected $extensions = array(
 		'pdf',
 	);
 
 	/**
 	 * MIME types supported by this file type
 	 */
-	protected $_mimeTypes = array(
+	protected $mimeTypes = array(
 		'application/pdf',
 	);
 

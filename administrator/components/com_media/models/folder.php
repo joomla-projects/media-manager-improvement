@@ -20,5 +20,5 @@ class MediaModelFolder extends JModelLegacy
 	/**
 	 * Identifier
 	 */
-	protected $_id = null;
+	protected $id = null;
 }

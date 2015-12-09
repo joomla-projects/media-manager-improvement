@@ -9,28 +9,20 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
-
 /**
  * Media Component File Type Image Model
  */
-abstract class MediaModelFileTypeAbstract implements MediaModelInterfaceFileType
+abstract class MediaModelFileTypeAbstract implements MediaModelFileTypeInterface
 {
-	/**
-	 * File group
-	 */
-	protected $_group = 'docs';
-
 	/**
 	 * File extensions supported by this file type
 	 */
-	protected $_extensions = array();
+	protected $extensions = array();
 
 	/**
 	 * MIME types supported by this file type
 	 */
-	protected $_mimeTypes = array();
+	protected $mimeTypes = array();
 
 	/**
 	 * Return the list of supported exensions
@@ -39,7 +31,7 @@ abstract class MediaModelFileTypeAbstract implements MediaModelInterfaceFileType
 	 */
 	public function getExtensions()
 	{
-		return $this->_extensions;
+		return $this->extensions;
 	}
 
 	/**
@@ -49,7 +41,7 @@ abstract class MediaModelFileTypeAbstract implements MediaModelInterfaceFileType
 	 */
 	public function getMimeTypes()
 	{
-		return $this->_mimeTypes;
+		return $this->mimeTypes;
 	}
 
 	/**
@@ -62,15 +54,5 @@ abstract class MediaModelFileTypeAbstract implements MediaModelInterfaceFileType
 	public function getProperties($filePath)
 	{
 		return array();
-	}
-
-	/**
-	 * Return the group name
-	 *
-	 * @return string
-	 */
-	public function getGroup()
-	{
-		return $this->_group;
 	}
 }
