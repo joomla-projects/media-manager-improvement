@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.0
  */
-class MediaViewImagesList extends JViewLegacy
+class MediaViewFiles extends JViewLegacy
 {
 	/**
 	 * Execute and display a template script.
@@ -30,13 +30,13 @@ class MediaViewImagesList extends JViewLegacy
 		// Do not allow cache
 		JFactory::getApplication()->allowCache(false);
 
-		$images  = $this->get('images');
-		$folders = $this->get('folders');
+		$images  = $this->get('files');
+//		$folders = $this->get('folders');
 		$state   = $this->get('state');
 
 		$this->baseURL = COM_MEDIA_BASEURL;
 		$this->images  = &$images;
-		$this->folders = &$folders;
+//		$this->folders = &$folders;
 		$this->state   = &$state;
 
 		parent::display($tpl);
