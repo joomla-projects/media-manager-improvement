@@ -80,14 +80,15 @@ class MediaControllerFile extends JControllerLegacy
 
 		// Check for the total size of post back data.
 		if (($postMaxSize > 0 && $contentLength > $postMaxSize)
-			|| ($memoryLimit != -1 && $contentLength > $memoryLimit))
+			|| ($memoryLimit != -1 && $contentLength > $memoryLimit)
+		)
 		{
 			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNUPLOADTOOLARGE'));
 
 			return false;
 		}
 
-		$uploadMaxSize = $params->get('upload_maxsize', 0) * 1024 * 1024;
+		$uploadMaxSize     = $params->get('upload_maxsize', 0) * 1024 * 1024;
 		$uploadMaxFileSize = $mediaHelper->toBytes(ini_get('upload_max_filesize'));
 
 		// Perform basic checks on file info before attempting anything
@@ -98,7 +99,8 @@ class MediaControllerFile extends JControllerLegacy
 
 			if (($file['error'] == 1)
 				|| ($uploadMaxSize > 0 && $file['size'] > $uploadMaxSize)
-				|| ($uploadMaxFileSize > 0 && $file['size'] > $uploadMaxFileSize))
+				|| ($uploadMaxFileSize > 0 && $file['size'] > $uploadMaxFileSize)
+			)
 			{
 				// File size exceed either 'upload_max_filesize' or 'upload_maxsize'.
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
@@ -142,7 +144,7 @@ class MediaControllerFile extends JControllerLegacy
 
 			// Trigger the onContentBeforeSave event.
 			$object_file = new JObject($file);
-			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file, true));
+			$result      = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file, true));
 
 			if (in_array(false, $result, true))
 			{
@@ -171,7 +173,7 @@ class MediaControllerFile extends JControllerLegacy
 	/**
 	 * Check that the user is authorized to perform this action
 	 *
-	 * @param   string  $action  - the action to be peformed (create or delete)
+	 * @param   string $action - the action to be peformed (create or delete)
 	 *
 	 * @return  boolean
 	 *
@@ -247,7 +249,7 @@ class MediaControllerFile extends JControllerLegacy
 				continue;
 			}
 
-			$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
+			$fullPath    = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
 			$object_file = new JObject(array('filepath' => $fullPath));
 
 			if (is_file($object_file->filepath))
@@ -307,5 +309,108 @@ class MediaControllerFile extends JControllerLegacy
 		}
 
 		return $ret;
+	}
+
+	/**
+	 * Proof of pudding for Media Editor plugins
+	 * 1) Install the GitHub plugin yireo/plg_media-editor_plugin and enable it
+	 * 2) Access the backend URL index.php?option=com_media&task=file.editor&plugin=example&file=images/powered_by.png
+	 *
+	 * @throws Exception
+	 */
+	public function editor()
+	{
+		$app = JFactory::getApplication();
+
+		$html       = null;
+		$filePath   = $app->input->getPath('file');
+		$pluginName = $app->input->getCmd('plugin');
+
+		if (empty($pluginName))
+		{
+			throw new RuntimeException('No plugin identified');
+		}
+
+		$plugin = $this->loadPlugin($pluginName);
+
+		if ($plugin == false)
+		{
+			throw new RuntimeException('Unable to load plugin from plugin data');
+		}
+
+		if (method_exists($plugin, 'onMediaEditorDisplay') == false)
+		{
+			throw new RuntimeException('Unsupported plugin');
+		}
+
+		$postUrl = 'index.php?option=com_media&task=file.editorPost&plugin=' . $pluginName;
+		$html    = $plugin->onMediaEditorDisplay($filePath, $postUrl);
+
+		// @todo: Create actually a view to generate a HTML container for this $html
+		echo $html;
+
+		$app->close();
+	}
+
+	/**
+	 *  Proof of pudding for Media Editor plugins
+	 */
+	public function editorPost()
+	{
+		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+
+		$app = JFactory::getApplication();
+
+		$file       = $app->input->getString('file');
+		$pluginName = $app->input->getCmd('plugin');
+		$plugin     = $this->loadPlugin($pluginName);
+
+		if ($plugin == false)
+		{
+			throw new RuntimException('Unsupported plugin');
+		}
+
+		$filePath = JPATH_ROOT . '/' . $file;
+		$plugin->onMediaEditorProcess($filePath);
+
+		$app->close();
+	}
+
+	/**
+	 * Helper method to load a specific Media Editor plugin from its name
+	 *
+	 * @param $pluginName
+	 *
+	 * @return bool|JPlugin
+	 */
+	protected function loadPlugin($pluginName)
+	{
+		$pluginData = JPluginHelper::getPlugin('media-editor', $pluginName);
+
+		if (empty($pluginData))
+		{
+			return false;
+		}
+
+		$fileName = JPATH_ROOT . '/plugins/media-editor/' . $pluginData->name . '/' . $pluginData->name . '.php';
+		include_once $fileName;
+
+		$className = 'PlgMediaEditor' . ucfirst($pluginData->name);
+		$plugin    = null;
+
+		if (!class_exists($className))
+		{
+			return false;
+		}
+
+		$dispatcher = JEventDispatcher::getInstance();
+		$plugin     = new $className($dispatcher, (array) $pluginData);
+
+		if (!$plugin instanceof JPlugin)
+		{
+			return false;
+		}
+
+		return $plugin;
 	}
 }

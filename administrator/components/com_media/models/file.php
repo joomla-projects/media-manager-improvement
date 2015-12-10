@@ -217,7 +217,7 @@ class MediaModelFile extends JModelLegacy
 
 		if (!$table->save($data))
 		{
-			throw RuntimeException($table->getError());
+			throw new RuntimeException($table->getError());
 
 			return false;
 		}
@@ -266,7 +266,7 @@ class MediaModelFile extends JModelLegacy
 
 		if (!$table->save($data))
 		{
-			throw RuntimeException($table->getError());
+			throw new RuntimeException($table->getError());
 
 			return false;
 		}

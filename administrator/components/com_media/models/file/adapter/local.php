@@ -60,18 +60,4 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 
 		return finfo_file($fileInfo, $this->filePath);
 	}
-
-	/**
-	 * Set the current file path
-	 *
-	 * @param string $filePath
-	 *
-	 * @return $this
-	 */
-	public function setFilePath($filePath)
-	{
-		$this->filePath = $filePath;
-
-		return $this;
-	}
 }
