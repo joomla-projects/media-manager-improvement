@@ -29,29 +29,16 @@ class MediaController extends JControllerLegacy
 	public function display($cachable = false, $urlparams = false)
 	{
 		JPluginHelper::importPlugin('content');
-//
+
 		$vType    = JFactory::getDocument()->getType();
-		$vName    = $this->input->get('view', 'media');
+		$vName    = $this->input->get('view', 'folders');
 
 		switch ($vName)
 		{
-			case 'images':
-				$vName   = 'folders';
-				$vLayout = $this->input->get('layout', 'default', 'string');
-				$mName   = 'folders';
-
-				break;
-
 			case 'files':
-				$mName   = 'files';
+				$vName   = 'files';
 				$vLayout = $this->input->get('layout', 'default', 'string');
-
-				break;
-
-			case 'mediaList':
-				$app     = JFactory::getApplication();
-				$mName   = 'folders';
-				$vLayout = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
+				$mName   = 'files';
 
 				break;
 

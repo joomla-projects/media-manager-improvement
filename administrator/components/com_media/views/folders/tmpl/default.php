@@ -14,14 +14,9 @@ $input  = JFactory::getApplication()->input;
 $params = JComponentHelper::getParams('com_media');
 $lang   = JFactory::getLanguage();
 
-JHtml::_('formbehavior.chosen', 'select');
-
-// Load tooltip instance without HTML support because we have a HTML tag in the tip
-JHtml::_('bootstrap.tooltip', '.noHtmlTip', array('html' => false));
-
 // Include jQuery
 JHtml::_('jquery.framework');
-JHtml::_('script', 'media/popup-imagemanager.min.js', false, true, false, false, true);
+JHtml::_('script', 'media/folders.js', false, true, false, false, true);
 JHtml::_('stylesheet', 'media/popup-imagemanager.css', array(), true);
 
 if ($lang->isRtl())
@@ -31,7 +26,7 @@ if ($lang->isRtl())
 
 JFactory::getDocument()->addScriptDeclaration(
 	"
-		var image_base_path = '" . $params->get('image_path', 'images') . "/';
+		var basepath = '" . $params->get('image_path', 'images') . "/';
 	"
 );
 ?>
@@ -100,7 +95,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index');?>" name="folderForm" id="folderForm" method="post">
 				<div id="filesview">
 					<div class="view">
-						<iframe class="thumbnail" src="index.php?option=com_media&amp;view=files&amp;tmpl=component&amp;folder=<?php echo "/images/";?>" id="folderframe" name="folderframe" width="100%" height="500px" marginwidth="0" marginheight="0" scrolling="auto"></iframe>
+						<iframe class="thumbnail" src="index.php?option=com_media&amp;view=files&amp;tmpl=component&amp;folder=<?php echo $this->state->folder;?>" id="imageframe" name="folderframe" width="100%" height="500px" marginwidth="0" marginheight="0" scrolling="auto"></iframe>
 					</div>
 					<?php echo JHtml::_('form.token'); ?>
 				</div>
