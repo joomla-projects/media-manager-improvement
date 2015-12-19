@@ -11,20 +11,15 @@ defined('_JEXEC') or die;
 
 /**
  * Media Component File Adapter Interface
+ *
+ * The purpose of this interface is to guarantee compatibility of different adapters with the new file handling.
  */
-interface MediaModelFileAdapterInterface
+interface MediaModelFileAdapterInterfaceAdapter
 {
-	/**
-	 * Return a filesystem handler
-	 *
-	 * @return mixed
-	 */
-	public function getHandler();
-
 	/**
 	 * Return a unique hash identifying this file
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public function getHash();
 
@@ -39,13 +34,17 @@ interface MediaModelFileAdapterInterface
 	 * Set the current file path
 	 *
 	 * @param string $filePath
+	 *
+	 * @return $this
 	 */
 	public function setFilePath($filePath);
 
 	/**
 	 * Detect the MIME type of a specific file
 	 *
+	 * @param string $filePath
+	 *
 	 * @return string
 	 */
-	public function getMimeType();
+	public function getMimeType($filePath = null);
 }

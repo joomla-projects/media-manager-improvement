@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/adapter/interface.php';
+require_once __DIR__ . '/adapter/interface/adapter.php';
+require_once __DIR__ . '/adapter/interface/flysystem.php';
 require_once __DIR__ . '/adapter/abstract.php';
 
 /**
@@ -34,7 +35,7 @@ class MediaModelFileAdapter
 	/**
 	 * Default file adapter
 	 *
-	 * @var MediaModelFileAdapterInterface
+	 * @var MediaModelFileAdapterInterfaceAdapter
 	 */
 	protected $defaultFileAdapter = 'local';
 
@@ -102,7 +103,7 @@ class MediaModelFileAdapter
 	 *
 	 * @param string $identifier
 	 *
-	 * @return bool|MediaModelFileAdapterInterface
+	 * @return bool|MediaModelFileAdapterInterfaceAdapter
 	 */
 	protected function getFileAdapterObjectFromIdentifier($identifier)
 	{
@@ -121,7 +122,7 @@ class MediaModelFileAdapter
 		include_once $identifierFile;
 
 		$fileAdapterClass = 'MediaModelFileAdapter' . ucfirst($identifier);
-		$fileType      = new $fileAdapterClass;
+		$fileType = new $fileAdapterClass(JPATH_ROOT);
 
 		return $fileType;
 	}

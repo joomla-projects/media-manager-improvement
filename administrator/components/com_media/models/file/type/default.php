@@ -10,19 +10,40 @@
 defined('_JEXEC') or die;
 
 /**
- * Media Component File Type Image Model
+ * Media Component File model for abstract type
  */
-abstract class MediaModelFileTypeAbstract implements MediaModelFileTypeInterface
+class MediaModelFileTypeDefault implements MediaModelFileTypeInterface
 {
 	/**
+	 * Name of this file type
+	 *
+	 * @var string
+	 */
+	protected $name = 'default';
+
+	/**
 	 * File extensions supported by this file type
+	 *
+	 * @var array
 	 */
 	protected $extensions = array();
 
 	/**
 	 * MIME types supported by this file type
+	 *
+	 * @var array
 	 */
 	protected $mimeTypes = array();
+
+	/**
+	 * Return the name of this file type
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
 	/**
 	 * Return the list of supported exensions

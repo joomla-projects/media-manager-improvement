@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Media Manager model to abstract file actions
  */
-abstract class MediaModelFileAdapterAbstract implements MediaModelFileAdapterInterface
+abstract class MediaModelFileAdapterAbstract implements MediaModelFileAdapterInterfaceAdapter
 {
 	/**
 	 * Full path to a file

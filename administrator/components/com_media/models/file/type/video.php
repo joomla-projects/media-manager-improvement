@@ -12,13 +12,22 @@ defined('_JEXEC') or die;
 /**
  * Media Component File Type Video Model
  */
-class MediaModelFileTypeVideo extends MediaModelFileTypeAbstract implements MediaModelFileTypeInterface
+class MediaModelFileTypeVideo extends MediaModelFileTypeDefault implements MediaModelFileTypeInterface
 {
+	/**
+	 * Name of this file type
+	 *
+	 * @var string
+	 */
+	protected $name = 'video';
+
 	/**
 	 * File extensions supported by this file type
 	 */
 	protected $extensions = array(
 		'mp4',
+		'webp',
+		'ogg',
 	);
 
 	/**

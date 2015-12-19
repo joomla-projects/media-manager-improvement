@@ -41,7 +41,9 @@ class MediaModelFiles extends JModelLegacy
 	/**
 	 * Set the current folder
 	 *
-	 * @param $folder
+	 * @param string $folder
+	 *
+	 * @return MediaModelFiles
 	 */
 	public function setCurrentFolder($currentFolder)
 	{
@@ -92,7 +94,8 @@ class MediaModelFiles extends JModelLegacy
 				}
 
 				$fileModel = $this->getFileModel();
-				$fileModel->setFileAdapter('local', $filePath)->loadByPath($filePath);
+				$fileModel->setFileAdapter('local', $filePath)
+					->loadByPath($filePath);
 
 				// Construct the file object for use in the Media Manager
 				$tmp = new JObject;
@@ -143,7 +146,7 @@ class MediaModelFiles extends JModelLegacy
 
 		$query->select($db->quoteName(array('id', 'filename', 'path', 'md5sum', 'adapter')));
 		$query->from($db->quoteName('#__media_files'));
-		$query->where($db->quoteName('path') . ' = '. $db->quote($folder));
+		$query->where($db->quoteName('path') . ' = ' . $db->quote($folder));
 		$query->order('ordering ASC');
 
 		$db->setQuery($query);
@@ -156,7 +159,7 @@ class MediaModelFiles extends JModelLegacy
 	/**
 	 * Check whether this file is browsable in the Media Manager
 	 *
-	 * @param $file
+	 * @param string $file
 	 *
 	 * @return bool
 	 */

@@ -15,6 +15,13 @@ defined('_JEXEC') or die;
 interface MediaModelFileTypeInterface
 {
 	/**
+	 * Return the name of this file type
+	 *
+	 * @return string
+	 */
+	public function getName();
+
+	/**
 	 * Return a listing of supported file extensions
 	 *
 	 * @return mixed

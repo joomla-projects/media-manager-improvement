@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+require_once JPATH_COMPONENT . '/helpers/editor.php';
+
 /**
  * Media Manager Editor Controller
  */
@@ -21,36 +23,38 @@ class MediaControllerEditor extends JControllerLegacy
 	 *
 	 * @throws Exception
 	 */
-	public function display()
+	public function display($cachable = false, $urlparams = array())
 	{
 		$app = JFactory::getApplication();
 
-		$html       = null;
-		$filePath   = $app->input->getPath('file');
+		$html = null;
+		$filePath = $app->input->getPath('file');
 		$pluginName = $app->input->getCmd('plugin');
+
 
 		if (empty($pluginName))
 		{
-			throw new RuntimeException('No plugin identified');
+			throw new RuntimeException(JText::_('COM_MEDIA_ERROR_UNKNOWN_PLUGIN'));
 		}
 
-		$plugin = $this->loadPlugin($pluginName);
+		$plugin = MediaHelperEditor::loadPlugin($pluginName);
 
 		if ($plugin == false)
 		{
-			throw new RuntimeException('Unable to load plugin from plugin data');
+			throw new RuntimeException(JText::_('COM_MEDIA_ERROR_UNKNOWN_PLUGIN'));
 		}
 
 		if (method_exists($plugin, 'onMediaEditorDisplay') == false)
 		{
-			throw new RuntimeException('Unsupported plugin');
+			throw new RuntimeException(JText::_('COM_MEDIA_ERROR_UNKNOWN_PLUGIN'));
 		}
 
 		$postUrl = 'index.php?option=com_media&task=editor.post&plugin=' . $pluginName;
-		$html    = $plugin->onMediaEditorDisplay($filePath, $postUrl);
+		$pluginHtml = $plugin->onMediaEditorDisplay($filePath);
 
-		// @todo: Create actually a view to generate a HTML container for this $html
-		echo $html;
+		$layout = new JLayoutFile('editor.form');
+		$layoutData = array('plugin' => $pluginHtml, 'postUrl' => $postUrl, 'filePath' => $filePath);
+		echo $layout->render($layoutData);
 
 		$app->close();
 	}
@@ -64,56 +68,22 @@ class MediaControllerEditor extends JControllerLegacy
 
 		$app = JFactory::getApplication();
 
-		$file       = $app->input->getString('file');
+		$file = $app->input->getString('file');
 		$pluginName = $app->input->getCmd('plugin');
-		$plugin     = $this->loadPlugin($pluginName);
+		$plugin = MediaHelperEditor::loadPlugin($pluginName);
 
 		if ($plugin == false)
 		{
-			throw new RuntimException('Unsupported plugin');
+			throw new RuntimeException(JText::_('COM_MEDIA_ERROR_UNKNOWN_PLUGIN'));
 		}
 
-		$filePath = JPATH_ROOT . '/' . $file;
+		$filePath = COM_MEDIA_BASE . '/' . $file;
 		$plugin->onMediaEditorProcess($filePath);
 
+		$layout = new JLayoutFile('editor.close');
+		$layoutData = array();
+		echo $layout->render($layoutData);
+
 		$app->close();
-	}
-
-	/**
-	 * Helper method to load a specific Media Editor plugin from its name
-	 *
-	 * @param $pluginName
-	 *
-	 * @return bool|JPlugin
-	 */
-	protected function loadPlugin($pluginName)
-	{
-		$pluginData = JPluginHelper::getPlugin('media-editor', $pluginName);
-
-		if (empty($pluginData))
-		{
-			return false;
-		}
-
-		$fileName = JPATH_ROOT . '/plugins/media-editor/' . $pluginData->name . '/' . $pluginData->name . '.php';
-		include_once $fileName;
-
-		$className = 'PlgMediaEditor' . ucfirst($pluginData->name);
-		$plugin    = null;
-
-		if (!class_exists($className))
-		{
-			return false;
-		}
-
-		$dispatcher = JEventDispatcher::getInstance();
-		$plugin     = new $className($dispatcher, (array) $pluginData);
-
-		if (!$plugin instanceof JPlugin)
-		{
-			return false;
-		}
-
-		return $plugin;
 	}
 }
