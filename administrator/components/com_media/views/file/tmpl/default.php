@@ -41,7 +41,7 @@ $formUrl = 'index.php?option=com_media';
 			</tr>
 			<tr>
 				<td><?php echo JText::_('COM_MEDIA_MIMETYPE'); ?></td>
-				<td><?php echo $fileProperties['mime']; ?></td>
+				<td><?php echo $fileProperties['mime_type']; ?></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_('COM_MEDIA_FILE_TYPE'); ?></td>

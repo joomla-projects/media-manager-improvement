@@ -55,6 +55,7 @@ class MediaViewFile extends JViewLegacy
 		}
 
 		$this->fileProperties = $fileModel->getFileProperties();
+		$this->fileType = $this->fileProperties['file_type'];
 
 		// Set the toolbar
 		$this->addToolbar();
@@ -69,17 +70,24 @@ class MediaViewFile extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
-
-		JToolbarHelper::cancel('file.cancel', 'JTOOLBAR_CLOSE');
-
 		$plugins = JPluginHelper::getPlugin('media-editor');
 		$toolbar = JToolBar::getInstance('toolbar');
+
+		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
+		JToolbarHelper::cancel('editor.cancel', 'JTOOLBAR_CLOSE');
 
 		foreach ($plugins as $pluginData)
 		{
 			$pluginName = $pluginData->name;
 			$plugin = MediaHelperEditor::loadPlugin($pluginName);
+
+			if (method_exists($plugin, 'onMediaEditorAllowed'))
+			{
+				if ($plugin->onMediaEditorAllowed($this->fileType) == false)
+				{
+					continue;
+				}
+			}
 
 			if (method_exists($plugin, 'onMediaEditorButtonLabel'))
 			{

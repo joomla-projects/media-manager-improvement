@@ -94,6 +94,7 @@ class MediaModelFile extends JModelLegacy
 		$this->loadFileAdapter();
 		$this->loadFileType();
 		$this->setPropertiesByFileType();
+		$this->setPropertiesByFileAdapter();
 
 		return true;
 	}
@@ -352,6 +353,22 @@ class MediaModelFile extends JModelLegacy
 		{
 			$properties = $this->fileType->getProperties($this->fileProperties['path']);
 			$this->fileProperties = array_merge($this->fileProperties, $properties);
+		}
+	}
+
+	/**
+	 * Merge file type specific properties with the generic file properties
+	 */
+	protected function setPropertiesByFileAdapter()
+	{
+		if ($this->fileAdapter)
+		{
+			$mimeType = $this->fileAdapter->getMimeType($this->fileProperties['path']);
+
+			if (!empty($mimeType))
+			{
+				$this->fileProperties['mime_type'] = $mimeType;
+			}
 		}
 	}
 

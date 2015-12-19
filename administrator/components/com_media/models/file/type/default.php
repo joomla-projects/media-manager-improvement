@@ -74,6 +74,6 @@ class MediaModelFileTypeDefault implements MediaModelFileTypeInterface
 	 */
 	public function getProperties($filePath)
 	{
-		return array();
+		return array('mime_type' => 'unknown');
 	}
 }

@@ -31,7 +31,6 @@ class MediaControllerEditor extends JControllerLegacy
 		$filePath = $app->input->getPath('file');
 		$pluginName = $app->input->getCmd('plugin');
 
-
 		if (empty($pluginName))
 		{
 			throw new RuntimeException(JText::_('COM_MEDIA_ERROR_UNKNOWN_PLUGIN'));
@@ -84,6 +83,15 @@ class MediaControllerEditor extends JControllerLegacy
 		$layoutData = array();
 		echo $layout->render($layoutData);
 
+		$app->close();
+	}
+
+	public function cancel()
+	{
+		$redirectUrl = JRoute::_('index.php?option=com_media');
+
+		$app = JFactory::getApplication();
+		$app->redirect($redirectUrl);
 		$app->close();
 	}
 }

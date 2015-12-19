@@ -383,7 +383,7 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 			$this->filePath = $filePath;
 		}
 
-		if (empty($this->filePath) || file_exists($this->filePath))
+		if (empty($this->filePath) || !file_exists($this->filePath))
 		{
 			return null;
 		}

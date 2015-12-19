@@ -64,7 +64,7 @@ class MediaModelFileTypeImage extends MediaModelFileTypeDefault implements Media
 		$properties['width'] = @$info[0];
 		$properties['height'] = @$info[1];
 		$properties['type'] = @$info[2];
-		$properties['mime']  = @$info['mime'];
+		$properties['mime_type']  = @$info['mime'];
 
 		if (($info[0] > 60) || ($info[1] > 60))
 		{
