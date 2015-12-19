@@ -43,6 +43,9 @@ class MediaViewMediaList extends JViewLegacy
 		$videos    = $this->get('videos');
 		$state     = $this->get('state');
 
+		// Ugly hack by @jissereitsma to get the file listing working temporarily
+		$documents = $this->get('files');
+
 		// Check for invalid folder name
 		if (empty($state->folder))
 		{
