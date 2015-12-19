@@ -24,7 +24,7 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 			<?php  echo JHtml::_('image', $this->_tmp_doc->icon_16, $this->_tmp_doc->title, null, true, true) ? JHtml::_('image', $this->_tmp_doc->icon_16, $this->_tmp_doc->title, array('width' => 16, 'height' => 16), true) : JHtml::_('image', 'media/con_info.png', $this->_tmp_doc->title, array('width' => 16, 'height' => 16), true);?> </a>
 	</td>
 	<td class="description"  title="<?php echo $this->_tmp_doc->name; ?>">
-		<?php echo $this->_tmp_doc->title; ?>
+		<a target="_parent" href="index.php?option=com_media&view=file&file=<?php echo $this->_tmp_doc->path_relative; ?>"><?php echo $this->_tmp_doc->title; ?></a>
 	</td>
 	<td>&#160;
 
