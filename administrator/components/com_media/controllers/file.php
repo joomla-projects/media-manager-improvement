@@ -27,6 +27,7 @@ class MediaControllerFile extends JControllerLegacy
 	protected $folder = '';
 
 	/**
+<<<<<<< HEAD
 	 * Upload one or more files
 	 *
 	 * @return  boolean
@@ -171,6 +172,8 @@ class MediaControllerFile extends JControllerLegacy
 	}
 
 	/**
+=======
+>>>>>>> 9cfb971d7f0bf92e0677e65682d1ebdcc8c98957
 	 * Check that the user is authorized to perform this action
 	 *
 	 * @param   string $action - the action to be peformed (create or delete)

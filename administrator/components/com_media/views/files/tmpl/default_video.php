@@ -9,13 +9,4 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Media Component Manager Model
- *
- * @since  1.5
- *
- * @Deprecated 3.6
- */
-class MediaModelManager extends JModelLegacy
-{
-}
+echo $this->loadTemplate('default');

@@ -8,3 +8,5 @@
  */
 
 defined('_JEXEC') or die;
+
+echo $this->loadTemplate('default');

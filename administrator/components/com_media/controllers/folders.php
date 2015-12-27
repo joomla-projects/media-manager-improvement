@@ -9,13 +9,15 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
+
 /**
- * Media Component Manager Model
+ * Folder Media Controller
  *
  * @since  1.5
- *
- * @Deprecated 3.6
  */
-class MediaModelManager extends JModelLegacy
+class MediaControllerFolders extends JControllerLegacy
 {
+
 }

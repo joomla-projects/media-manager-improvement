@@ -29,7 +29,7 @@ class MediaController extends JControllerLegacy
 	public function display($cachable = false, $urlparams = false)
 	{
 		JPluginHelper::importPlugin('content');
-
+//
 		$vType    = JFactory::getDocument()->getType();
 		$vName    = $this->input->get('view', 'media');
 
@@ -42,49 +42,51 @@ class MediaController extends JControllerLegacy
 				break;
 
 			case 'images':
+				$vName   = 'folders';
 				$vLayout = $this->input->get('layout', 'default', 'string');
-				$mName   = 'manager';
+				$mName   = 'folders';
 
 				break;
 
-			case 'imagesList':
-				$mName   = 'list';
+			case 'files':
+				$mName   = 'files';
 				$vLayout = $this->input->get('layout', 'default', 'string');
 
 				break;
 
 			case 'mediaList':
 				$app     = JFactory::getApplication();
-				$mName   = 'list';
+				$mName   = 'folders';
 				$vLayout = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
 				break;
 
-			case 'media':
+			case 'folders':
 			default:
-				$vName   = 'media';
+				$vName   = 'folders';
 				$vLayout = $this->input->get('layout', 'default', 'string');
-				$mName   = 'manager';
+				$mName   = 'folders';
 
 				break;
 		}
-
-		// Get/Create the view
-		$view = $this->getView($vName, $vType, '', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
-
-		// Get/Create the model
+//
+//		// Get/Create the view
+		$view = $this->getView($mName, $vType, '', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
+//
+//		$view = $this->getView('images', JFactory::getDocument()->getType(), '', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
+//		// Get/Create the model
 		if ($model = $this->getModel($mName))
 		{
 			// Push the model into the view (as default)
 			$view->setModel($model, true);
 		}
-
-		// Set the layout
-		$view->setLayout($vLayout);
-
-		// Display the view
+//
+//		// Set the layout
+		$view->setLayout($this->input->get('layout', 'default', 'string'));
+//
+//		// Display the view
 		$view->display();
-
+//
 		return $this;
 	}
 

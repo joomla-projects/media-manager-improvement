@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.file');
+
 /**
  * Media Component Folders Model
  */
@@ -41,55 +44,15 @@ class MediaModelFolders extends JModelLegacy
 	/**
 	 * Set the current folder
 	 *
-	 * @param $folder
+	 * @var string $folder
+	 *
+	 * @return string
 	 */
 	public function setCurrentFolder($currentFolder)
 	{
 		$this->currentFolder = $currentFolder;
 
 		return $this;
-	}
-
-	/**
-	 * Build browsable list of files
-	 *
-	 * @return  array
-	 */
-	public function getFolders()
-	{
-		if (!empty($this->folders))
-		{
-			return $this->folders;
-		}
-
-		$currentFolder = $this->getCurrentFolder();
-
-		if (!file_exists($currentFolder))
-		{
-			return $this->folders;
-		}
-
-		$folderList = JFolder::folders($currentFolder);
-		$mediaHelper = new JHelperMedia;
-
-		// Iterate over the folders if they exist
-		if ($folderList !== false)
-		{
-			foreach ($folderList as $folder)
-			{
-				$tmp                = new JObject;
-				$tmp->name          = basename($folder);
-				$tmp->path          = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($currentFolder . '/' . $folder));
-				$tmp->path_relative = str_replace($currentFolder, '', $tmp->path);
-				$tmp->count         = $mediaHelper->countFiles($tmp->path);
-				$tmp->files         = $tmp->count[0];
-				$tmp->folders       = $tmp->count[1];
-
-				$this->folders[] = $tmp;
-			}
-		}
-
-		return $this->folders;
 	}
 
 	/**
@@ -100,5 +63,110 @@ class MediaModelFolders extends JModelLegacy
 	protected function getFolderModel()
 	{
 		return new MediaModelFolder;
+	}
+
+	/**
+	 * Get the folder tree
+	 *
+	 * @param   mixed  $base  Base folder | null for using base media folder
+	 *
+	 * @return  array
+	 *
+	 * @since   1.5
+	 */
+	public function getFolders($base = null)
+	{
+		// Get some paths from the request
+		if (empty($base))
+		{
+			$base = COM_MEDIA_BASE;
+		}
+
+		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
+
+		// Get the list of folders
+		jimport('joomla.filesystem.folder');
+		$folders = JFolder::folders($base, '.', true, true);
+
+		$tree = array();
+
+		foreach ($folders as $folder)
+		{
+			$folder   = str_replace(DIRECTORY_SEPARATOR, '/', $folder);
+			$name     = substr($folder, strrpos($folder, '/') + 1);
+			$relative = str_replace($mediaBase, '', $folder);
+			$absolute = $folder;
+			$path     = explode('/', $relative);
+			$node     = (object) array('name' => $name, 'relative' => $relative, 'absolute' => $absolute);
+			$tmp      = &$tree;
+
+			for ($i = 0, $n = count($path); $i < $n; $i++)
+			{
+				if (!isset($tmp['children']))
+				{
+					$tmp['children'] = array();
+				}
+
+				if ($i == $n - 1)
+				{
+					// We need to place the node
+					$tmp['children'][$relative] = array('data' => $node, 'children' => array());
+
+					break;
+				}
+
+				if (array_key_exists($key = implode('/', array_slice($path, 0, $i + 1)), $tmp['children']))
+				{
+					$tmp = &$tmp['children'][$key];
+				}
+			}
+		}
+
+		$tree['data'] = (object) array('name' => JText::_('COM_MEDIA_MEDIA'), 'relative' => '', 'absolute' => $base);
+
+		return $tree;
+	}
+
+	/**
+	 * Method to get model state variables
+	 *
+	 * @param   string  $property  Optional parameter name
+	 * @param   mixed   $default   Optional default value
+	 *
+	 * @return  object  The property where specified, the state object where omitted
+	 *
+	 * @since   1.5
+	 */
+	public function getState($property = null, $default = null)
+	{
+		static $set;
+
+		if (!$set)
+		{
+			$input = JFactory::getApplication()->input;
+
+			$folder = $input->get('folder', '', 'path');
+			$this->setState('folder', $folder);
+
+			$fieldid = $input->get('fieldid', '');
+			$this->setState('field.id', $fieldid);
+
+			$parent = str_replace("\\", "/", dirname($folder));
+			$parent = ($parent == '.') ? null : $parent;
+			$this->setState('parent', $parent);
+			$set = true;
+		}
+
+		return parent::getState($property, $default);
+	}
+
+	/**
+	 * Return the folder model
+	 *
+	 * @return MediaModelFolders
+	 */
+	protected function getFoldersModel()
+	{
+		return new MediaModelFolders;
 	}
 }
