@@ -18,5 +18,4 @@ defined('_JEXEC') or die;
  */
 class MediaModelManager extends JModelLegacy
 {
-
 }

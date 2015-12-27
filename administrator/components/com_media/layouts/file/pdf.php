@@ -9,18 +9,7 @@
 
 defined('_JEXEC') or die;
 
-/**
- * File table
- */
-class MediaTableFile extends JTable
-{
-	/**
-	 * Constructor
-	 *
-	 * @param   JDatabaseDriver  &$db  Database connector object
-	 */
-	public function __construct(&$db)
-	{
-		parent::__construct('#__media_files', 'id', $db);
-	}
-}
+$pdf = $displayData['path_relative'];
+$pdfPath = JURI::root() . 'images/' . $pdf;
+?>
+<embed src="<?php echo $pdfPath ?>" width="600" height="500" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">

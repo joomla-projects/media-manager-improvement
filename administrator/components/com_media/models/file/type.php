@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 require_once __DIR__ . '/type/interface.php';
-require_once __DIR__ . '/type/abstract.php';
+require_once __DIR__ . '/type/default.php';
 
 /**
  * Media Component File Type Model
@@ -29,7 +29,7 @@ class MediaModelFileType
 	 *
 	 * @var array
 	 */
-	protected $defaultFileTypeIdentifiers = array('image', 'pdf');
+	protected $defaultFileTypeIdentifiers = array('default', 'image', 'pdf', 'video');
 
 	/**
 	 * Abstraction of the file type of $_file
@@ -42,16 +42,18 @@ class MediaModelFileType
 	 * Return a file type object
 	 *
 	 * @param string $filePath
-	 * @param MediaModelFileAdapterInterface $fileAdapter
+	 * @param MediaModelFileAdapterInterfaceAdapter $fileAdapter
 	 *
-	 * @return mixed|false
+	 * @return MediaModelFileTypeInterface
 	 */
 	public function getFileType($filePath, $fileAdapter)
 	{
+		/** @var $fileAdapter MediaModelFileAdapterInterfaceAdapter */
+
 		// Loop through the available file types and match this file accordingly
 		foreach ($this->getAvailableFileTypes() as $availableFileType)
 		{
-			/** @var MediaModelFileTypeInterface $mimeType */
+			/** @var $availableFileType MediaModelFileTypeInterface */
 
 			// Detect the MIME-type
 			$mimeType = $fileAdapter->setFilePath($filePath)->getMimeType();
@@ -61,14 +63,13 @@ class MediaModelFileType
 				return $availableFileType;
 			}
 
-			/** @var $availableFileType MediaModelFileTypeAbstract */
 			if (in_array(JFile::getExt($filePath), $availableFileType->getExtensions()))
 			{
 				return $availableFileType;
 			}
 		}
 
-		return false;
+		return $this->availableFileTypes['default'];
 	}
 
 	/**

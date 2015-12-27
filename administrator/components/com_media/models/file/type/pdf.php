@@ -12,8 +12,15 @@ defined('_JEXEC') or die;
 /**
  * Media Component File Type Image Model
  */
-class MediaModelFileTypePdf extends MediaModelFileTypeAbstract implements MediaModelFileTypeInterface
+class MediaModelFileTypePdf extends MediaModelFileTypeDefault implements MediaModelFileTypeInterface
 {
+	/**
+	 * Name of this file type
+	 *
+	 * @var string
+	 */
+	protected $name = 'pdf';
+
 	/**
 	 * File extensions supported by this file type
 	 */

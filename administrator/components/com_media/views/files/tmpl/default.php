@@ -34,7 +34,8 @@ JFactory::getDocument()->addStyleDeclaration(
 	<ul class="manager thumbnails">
 		<?php for ($i = 0, $n = count($this->images); $i < $n; $i++) :
 			$this->setImage($i);
-			echo $this->loadTemplate('image');
+			$image = $this->images[$i];
+			echo $this->loadTemplate($image->file_type);
 		endfor; ?>
 	</ul>
 <?php else : ?>

@@ -83,37 +83,36 @@ class MediaModelFolder extends JModelLegacy
 		return $this->files;
 	}
 
-//	/**
-//	 * Build browsable list of files
-//	 *
-//	 * @return  array
-//	 */
-//	public function getFolders()
-//	{
-//		if (!empty($this->folders))
-//		{
-//			return $this->folders;
-//		}
-//
-//		$currentFolder = $this->getCurrentFolder();
-//		$this->folders = $this->getFoldersModel()->setCurrentFolder($currentFolder)->getFolders();
-//
-//
-//		return $this->folders;
-//	}
-//
-//	/**
-//	 * Return the current folder
-//	 *
-//	 * @return string
-//	 */
-//	public function getCurrentFolder()
-//	{
-//		$current = (string) $this->getState('folder');
-//		$currentFolder  = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
-//
-//		return $currentFolder;
-//	}
+	/**
+	 * Build browsable list of files
+	 *
+	 * @return  array
+	 */
+	public function getFolders()
+	{
+		if (!empty($this->folders))
+		{
+			return $this->folders;
+		}
+
+		$currentFolder = $this->getCurrentFolder();
+		$this->folders = $this->getFoldersModel()->setCurrentFolder($currentFolder)->getFolders();
+
+		return $this->folders;
+	}
+
+	/**
+	 * Return the current folder
+	 *
+	 * @return string
+	 */
+	public function getCurrentFolder()
+	{
+		$current = (string) $this->getState('folder');
+		$currentFolder  = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
+
+		return $currentFolder;
+	}
 
 	/**
 	 * Return the files model

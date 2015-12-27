@@ -9,18 +9,8 @@
 
 defined('_JEXEC') or die;
 
-/**
- * File table
- */
-class MediaTableFile extends JTable
-{
-	/**
-	 * Constructor
-	 *
-	 * @param   JDatabaseDriver  &$db  Database connector object
-	 */
-	public function __construct(&$db)
-	{
-		parent::__construct('#__media_files', 'id', $db);
-	}
-}
+$image = $displayData['path_relative'];
+$imagePath = JURI::root() . 'images/' . $image;
+$name = $displayData['name'];
+?>
+<img src="<?php echo $imagePath; ?>" alt="<?php echo $name; ?>" title="<?php echo $name; ?>" />

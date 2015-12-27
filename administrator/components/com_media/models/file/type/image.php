@@ -12,8 +12,15 @@ defined('_JEXEC') or die;
 /**
  * Media Component File Type Image Model
  */
-class MediaModelFileTypeImage extends MediaModelFileTypeAbstract implements MediaModelFileTypeInterface
+class MediaModelFileTypeImage extends MediaModelFileTypeDefault implements MediaModelFileTypeInterface
 {
+	/**
+	 * Name of this file type
+	 *
+	 * @var string
+	 */
+	protected $name = 'image';
+
 	/**
 	 * File extensions supported by this file type
 	 */
@@ -25,22 +32,19 @@ class MediaModelFileTypeImage extends MediaModelFileTypeAbstract implements Medi
 		'odg',
 		'bmp',
 		'jpeg',
-		'ico',
-	);
+		'ico',);
 
 	/**
 	 * MIME types supported by this file type
 	 */
 	protected $mimeTypes = array(
 		'image/png',
-		'image/gif'.
-		'image/x-icon',
+		'image/gif' . 'image/x-icon',
 		'image/jpeg',
 		'image/bmp',
 		'image/xcf',
 		'image/odg',
-		'image/x-windows-bmp',
-	);
+		'image/x-windows-bmp',);
 
 	/**
 	 * Return the file properties of a specific file
@@ -57,7 +61,7 @@ class MediaModelFileTypeImage extends MediaModelFileTypeAbstract implements Medi
 		$properties['width'] = @$info[0];
 		$properties['height'] = @$info[1];
 		$properties['type'] = @$info[2];
-		$properties['mime']  = @$info['mime'];
+		$properties['mime_type'] = @$info['mime'];
 
 		if (($info[0] > 60) || ($info[1] > 60))
 		{
