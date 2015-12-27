@@ -57,9 +57,9 @@ class PlgMediaEditorRename extends JPlugin
 	 */
 	public function onMediaEditorDisplay($filePath)
 	{
-		$data   = array('filePath' => $filePath);
+		$data = array('filePath' => $filePath);
 		$layout = new JLayoutFile('form', __DIR__ . '/layout');
-		$html   = $layout->render($data);
+		$html = $layout->render($data);
 
 		return $html;
 	}
@@ -80,10 +80,11 @@ class PlgMediaEditorRename extends JPlugin
 		$newFilePath = $folder . '/' . $newFile;
 
 		// Rename the file
-		rename ($filePath, $newFilePath);
+		rename($filePath, $newFilePath);
 
 		// If the redirect below is ommitted, the current page will be refreshed, which will give an error now
 		$newUrl = JRoute::_('index.php?option=com_media&view=file&view=file&file=' . $newFile, false);
+
 		return $newUrl;
 	}
 }
