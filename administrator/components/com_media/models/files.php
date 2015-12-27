@@ -53,11 +53,28 @@ class MediaModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * Build browsable list of files with pagination support
+	 *
+	 * @return  array
+	 */
+	public function getFiles($offset = 0, $filesNo = 0)
+	{
+		$files = $this->loadFiles();
+
+		if ($filesNo == 0)
+		{
+			return $files;
+		}
+
+		return array_slice($files, $offset, $filesNo);
+	}
+
+	/**
 	 * Build browsable list of files
 	 *
 	 * @return  array
 	 */
-	public function getFiles()
+	protected function loadFiles()
 	{
 		if (!empty($this->files))
 		{
@@ -86,22 +103,13 @@ class MediaModelFiles extends JModelLegacy
 			// Add all files that are physically detected in this folder
 			foreach ($fileList as $file)
 			{
-				$filePath = $currentFolder . '/' . $file;
+				// Construct the file object for use in the Media Manager
+				$tmp = $this->loadObjectFromFile($file, $currentFolder, $fileHashes);
 
-				if (!$this->isFileBrowsable($filePath))
+				if ($tmp == false)
 				{
 					continue;
 				}
-
-				$fileModel = $this->getFileModel();
-				$fileModel->setFileAdapter('local', $filePath)
-					->loadByPath($filePath);
-
-				// Construct the file object for use in the Media Manager
-				$tmp = new JObject;
-				$tmp->setProperties($fileModel->getFileProperties());
-				$tmpHash = md5($currentFolder . '/' . $file);
-				$fileHashes[] = $tmpHash;
 
 				$this->files[] = $tmp;
 			}
@@ -109,26 +117,75 @@ class MediaModelFiles extends JModelLegacy
 			// Add all files that are in the database and are not detected in this folder
 			foreach ($storedFiles as $storedFile)
 			{
-				$fileModel = $this->getFileModel();
-				$fileModel->loadByPath($currentFolder . '/' . $storedFile->filename);
+				// Construct the file object for use in the Media Manager
+				$tmp = $this->loadObjectFromStoredFile($storedFile, $currentFolder, $fileHashes);
 
-				// Skip files already detected
-				$tmpHash = md5($currentFolder . '/' . $storedFile->filename);
-
-				if (in_array($tmpHash, $fileHashes))
+				if ($tmp == false)
 				{
 					continue;
 				}
-
-				// Construct the file object for use in the Media Manager
-				$tmp = new JObject;
-				$tmp->setProperties($fileModel->getFileProperties());
 
 				$this->files[] = $tmp;
 			}
 		}
 
 		return $this->files;
+	}
+
+	/**
+	 * @param $file
+	 * @param $currentFolder
+	 * @param $fileHashes
+	 *
+	 * @return JObject
+	 */
+	protected function loadObjectFromFile($file, $currentFolder, $fileHashes)
+	{
+		$filePath = $currentFolder . '/' . $file;
+
+		if (!$this->isFileBrowsable($filePath))
+		{
+			return false;
+		}
+
+		$fileModel = $this->getFileModel();
+		$fileModel->setFileAdapter('local', $filePath)
+			->loadByPath($filePath);
+
+		// Construct the file object for use in the Media Manager
+		$tmp = new JObject;
+		$tmp->setProperties($fileModel->getFileProperties());
+		$tmpHash = md5($currentFolder . '/' . $file);
+		$fileHashes[] = $tmpHash;
+
+		return $tmp;
+	}
+
+	/**
+	 * @param $storedFile
+	 * @param $currentFolder
+	 * @param $fileHashes
+	 *
+	 * @return bool|JObject
+	 */
+	public function loadObjectFromStoredFile($storedFile, $currentFolder, $fileHashes)
+	{
+		$fileModel = $this->getFileModel();
+		$fileModel->loadByPath($currentFolder . '/' . $storedFile->filename);
+
+		// Skip files already detected
+		$tmpHash = md5($currentFolder . '/' . $storedFile->filename);
+
+		if (in_array($tmpHash, $fileHashes))
+		{
+			return false;
+		}
+
+		// Construct the file object for use in the Media Manager
+		$tmp = new JObject;
+		$tmp->setProperties($fileModel->getFileProperties());
+
+		return $tmp;
 	}
 
 	/**
