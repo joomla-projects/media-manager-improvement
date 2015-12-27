@@ -69,7 +69,7 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	 */
 	public function __construct($root, $writeFlags = LOCK_EX, $linkHandling = self::DISALLOW_LINKS, array $permissions = [])
 	{
-		// permissionMap needs to be set before ensureDirectory() is called.
+		// The $permissionMap needs to be set before ensureDirectory() is called.
 		$this->permissionMap = array_replace_recursive(static::$permissions, $permissions);
 		$realRoot = $this->ensureDirectory($root);
 
@@ -319,10 +319,12 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	public function setPathPrefix($prefix)
 	{
 		$is_empty = empty($prefix);
+
 		if (!$is_empty)
 		{
 			$prefix = rtrim($prefix, $this->pathSeparator) . $this->pathSeparator;
 		}
+
 		$this->pathPrefix = $is_empty ? null : $prefix;
 	}
 
@@ -346,6 +348,7 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	public function removePathPrefix($path)
 	{
 		$pathPrefix = $this->getPathPrefix();
+
 		if ($pathPrefix === null)
 		{
 			return $path;

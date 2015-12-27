@@ -86,8 +86,7 @@ class MediaModelFile extends JModelLegacy
 			'icon_32' => 'media/mime-icon-32/' . $fileExtension . '.png',
 			'icon_16' => 'media/mime-icon-16/' . $fileExtension . '.png',
 			'file_adapter' => 'local',
-			'file_type' => 'default',
-		);
+			'file_type' => 'default',);
 
 		// Detect properties per file type
 		$this->attachStoredFile($filePath);
@@ -130,8 +129,9 @@ class MediaModelFile extends JModelLegacy
 					{
 						$this->update();
 					}
-					catch(Exception $e)
-					{}
+					catch (Exception $e)
+					{
+					}
 				}
 			}
 
@@ -142,8 +142,9 @@ class MediaModelFile extends JModelLegacy
 		{
 			$this->id = $this->create();
 		}
-		catch(Exception $e)
-		{}
+		catch (Exception $e)
+		{
+		}
 
 		$this->fileProperties['id'] = $this->id;
 
@@ -159,7 +160,7 @@ class MediaModelFile extends JModelLegacy
 	 */
 	protected function getStoredFileByPath($filePath)
 	{
-		$path = str_replace(JPATH_ROOT.'/', '', dirname($filePath));
+		$path = str_replace(JPATH_ROOT . '/', '', dirname($filePath));
 		$filename = basename($filePath);
 
 		foreach ($this->getStoredFiles($path) as $storedFile)
@@ -186,7 +187,8 @@ class MediaModelFile extends JModelLegacy
 
 		if (empty($files[$folder]))
 		{
-			$files[$folder] = $this->getFilesModel()->getStoredFiles($folder);
+			$files[$folder] = $this->getFilesModel()
+				->getStoredFiles($folder);
 		}
 
 		return $files[$folder];
@@ -210,7 +212,7 @@ class MediaModelFile extends JModelLegacy
 		$date = JFactory::getDate();
 		$table = JTable::getInstance('File', 'MediaTable');
 
-		$path = str_replace(JPATH_ROOT.'/', '', dirname($this->fileProperties['path']));
+		$path = str_replace(JPATH_ROOT . '/', '', dirname($this->fileProperties['path']));
 		$hash = null;
 
 		if ($this->fileAdapter instanceof MediaModelFileAdapterInterfaceAdapter)
@@ -227,8 +229,7 @@ class MediaModelFile extends JModelLegacy
 			'created' => $date->toSql(),
 			'adapter' => 'local',
 			'published' => 1,
-			'ordering' => 1,
-		);
+			'ordering' => 1,);
 
 		if (!$table->save($data))
 		{
@@ -256,7 +257,7 @@ class MediaModelFile extends JModelLegacy
 		$date = JFactory::getDate();
 		$table = JTable::getInstance('File', 'MediaTable');
 
-		$path = str_replace(JPATH_ROOT.'/', '', dirname($this->fileProperties['path']));
+		$path = str_replace(JPATH_ROOT . '/', '', dirname($this->fileProperties['path']));
 		$hash = null;
 
 		if ($this->fileAdapter instanceof MediaModelFileAdapterInterfaceAdapter)
@@ -274,8 +275,7 @@ class MediaModelFile extends JModelLegacy
 			'modified' => $date->toSql(),
 			'adapter' => 'local',
 			'published' => 1,
-			'ordering' => 1,
-		);
+			'ordering' => 1,);
 
 		if (!$table->save($data))
 		{

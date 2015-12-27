@@ -100,7 +100,6 @@ class MediaModelList extends JModelLegacy
 		$currentFolder = $this->getCurrentFolder();
 		$this->folders = $this->getFoldersModel()->setCurrentFolder($currentFolder)->getFolders();
 
-
 		return $this->folders;
 	}
 

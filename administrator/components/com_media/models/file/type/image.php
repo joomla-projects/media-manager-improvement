@@ -32,22 +32,19 @@ class MediaModelFileTypeImage extends MediaModelFileTypeDefault implements Media
 		'odg',
 		'bmp',
 		'jpeg',
-		'ico',
-	);
+		'ico',);
 
 	/**
 	 * MIME types supported by this file type
 	 */
 	protected $mimeTypes = array(
 		'image/png',
-		'image/gif'.
-		'image/x-icon',
+		'image/gif' . 'image/x-icon',
 		'image/jpeg',
 		'image/bmp',
 		'image/xcf',
 		'image/odg',
-		'image/x-windows-bmp',
-	);
+		'image/x-windows-bmp',);
 
 	/**
 	 * Return the file properties of a specific file
@@ -64,7 +61,7 @@ class MediaModelFileTypeImage extends MediaModelFileTypeDefault implements Media
 		$properties['width'] = @$info[0];
 		$properties['height'] = @$info[1];
 		$properties['type'] = @$info[2];
-		$properties['mime_type']  = @$info['mime'];
+		$properties['mime_type'] = @$info['mime'];
 
 		if (($info[0] > 60) || ($info[1] > 60))
 		{
