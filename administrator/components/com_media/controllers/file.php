@@ -14,8 +14,6 @@ jimport('joomla.filesystem.folder');
 
 /**
  * Media File Controller
- *
- * @since  1.5
  */
 class MediaControllerFile extends JControllerLegacy
 {
@@ -27,12 +25,9 @@ class MediaControllerFile extends JControllerLegacy
 	protected $folder = '';
 
 	/**
-<<<<<<< HEAD
 	 * Upload one or more files
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.5
 	 */
 	public function upload()
 	{
@@ -41,8 +36,9 @@ class MediaControllerFile extends JControllerLegacy
 		$params = JComponentHelper::getParams('com_media');
 
 		// Get some data from the request
-		$files        = $this->input->files->get('Filedata', '', 'array');
-		$return       = JFactory::getSession()->get('com_media.return_url');
+		$files = $this->input->files->get('Filedata', '', 'array');
+		$return = JFactory::getSession()
+			->get('com_media.return_url');
 		$this->folder = $this->input->get('folder', '', 'path');
 
 		// Don't redirect to an external URL.
@@ -80,28 +76,23 @@ class MediaControllerFile extends JControllerLegacy
 		$memoryLimit = $mediaHelper->toBytes(ini_get('memory_limit'));
 
 		// Check for the total size of post back data.
-		if (($postMaxSize > 0 && $contentLength > $postMaxSize)
-			|| ($memoryLimit != -1 && $contentLength > $memoryLimit)
-		)
+		if (($postMaxSize > 0 && $contentLength > $postMaxSize) || ($memoryLimit != -1 && $contentLength > $memoryLimit))
 		{
 			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNUPLOADTOOLARGE'));
 
 			return false;
 		}
 
-		$uploadMaxSize     = $params->get('upload_maxsize', 0) * 1024 * 1024;
+		$uploadMaxSize = $params->get('upload_maxsize', 0) * 1024 * 1024;
 		$uploadMaxFileSize = $mediaHelper->toBytes(ini_get('upload_max_filesize'));
 
 		// Perform basic checks on file info before attempting anything
 		foreach ($files as &$file)
 		{
-			$file['name']     = JFile::makeSafe($file['name']);
+			$file['name'] = JFile::makeSafe($file['name']);
 			$file['filepath'] = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $file['name'])));
 
-			if (($file['error'] == 1)
-				|| ($uploadMaxSize > 0 && $file['size'] > $uploadMaxSize)
-				|| ($uploadMaxFileSize > 0 && $file['size'] > $uploadMaxFileSize)
-			)
+			if (($file['error'] == 1) || ($uploadMaxSize > 0 && $file['size'] > $uploadMaxSize) || ($uploadMaxFileSize > 0 && $file['size'] > $uploadMaxFileSize))
 			{
 				// File size exceed either 'upload_max_filesize' or 'upload_maxsize'.
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
@@ -145,7 +136,7 @@ class MediaControllerFile extends JControllerLegacy
 
 			// Trigger the onContentBeforeSave event.
 			$object_file = new JObject($file);
-			$result      = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file, true));
+			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file, true));
 
 			if (in_array(false, $result, true))
 			{
@@ -172,19 +163,17 @@ class MediaControllerFile extends JControllerLegacy
 	}
 
 	/**
-=======
->>>>>>> 9cfb971d7f0bf92e0677e65682d1ebdcc8c98957
 	 * Check that the user is authorized to perform this action
 	 *
 	 * @param   string $action - the action to be peformed (create or delete)
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.6
 	 */
 	protected function authoriseUser($action)
 	{
-		if (!JFactory::getUser()->authorise('core.' . strtolower($action), 'com_media'))
+		$user = JFactory::getUser();
+
+		if (!$user->authorise('core.' . strtolower($action), 'com_media'))
 		{
 			// User is not authorised
 			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_' . strtoupper($action) . '_NOT_PERMITTED'));
@@ -200,15 +189,14 @@ class MediaControllerFile extends JControllerLegacy
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.5
 	 */
 	public function delete()
 	{
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get some data from the request
-		$tmpl   = $this->input->get('tmpl');
-		$paths  = $this->input->get('rm', array(), 'array');
+		$tmpl = $this->input->get('tmpl');
+		$paths = $this->input->get('rm', array(), 'array');
 		$folder = $this->input->get('folder', '', 'path');
 
 		$redirect = 'index.php?option=com_media&folder=' . $folder;
@@ -252,7 +240,7 @@ class MediaControllerFile extends JControllerLegacy
 				continue;
 			}
 
-			$fullPath    = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
+			$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
 			$object_file = new JObject(array('filepath' => $fullPath));
 
 			if (is_file($object_file->filepath))
@@ -280,7 +268,14 @@ class MediaControllerFile extends JControllerLegacy
 
 			if (is_dir($object_file->filepath))
 			{
-				$contents = JFolder::files($object_file->filepath, '.', true, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.html'));
+				$skipList = array(
+					'.svn',
+					'CVS',
+					'.DS_Store',
+					'__MACOSX',
+					'index.html');
+
+				$contents = JFolder::files($object_file->filepath, '.', true, false, $skipList);
 
 				if (!empty($contents))
 				{
