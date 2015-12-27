@@ -17,48 +17,6 @@ require_once JPATH_COMPONENT . '/helpers/editor.php';
 class MediaControllerEditor extends JControllerLegacy
 {
 	/**
-	 * Proof of pudding for Media Editor plugins
-	 * 1) Install the GitHub plugin yireo/plg_media-editor_plugin and enable it
-	 * 2) Access the backend URL index.php?option=com_media&task=editor.display&plugin=example&file=images/powered_by.png
-	 *
-	 * @throws Exception
-	 */
-	public function display($cachable = false, $urlparams = array())
-	{
-		$app = JFactory::getApplication();
-
-		$html = null;
-		$filePath = $app->input->getPath('file');
-		$pluginName = $app->input->getCmd('plugin');
-
-		if (empty($pluginName))
-		{
-			throw new RuntimeException(JText::_('COM_MEDIA_ERROR_UNKNOWN_PLUGIN'));
-		}
-
-		$plugin = MediaHelperEditor::loadPlugin($pluginName);
-
-		if ($plugin == false)
-		{
-			throw new RuntimeException(JText::_('COM_MEDIA_ERROR_UNKNOWN_PLUGIN'));
-		}
-
-		if (method_exists($plugin, 'onMediaEditorDisplay') == false)
-		{
-			throw new RuntimeException(JText::_('COM_MEDIA_ERROR_UNKNOWN_PLUGIN'));
-		}
-
-		$postUrl = 'index.php?option=com_media&task=editor.post&plugin=' . $pluginName;
-		$pluginHtml = $plugin->onMediaEditorDisplay($filePath);
-
-		$layout = new JLayoutFile('editor.form');
-		$layoutData = array('plugin' => $pluginHtml, 'postUrl' => $postUrl, 'filePath' => $filePath);
-		echo $layout->render($layoutData);
-
-		$app->close();
-	}
-
-	/**
 	 *  Proof of pudding for Media Editor plugins
 	 */
 	public function post()
@@ -77,15 +35,20 @@ class MediaControllerEditor extends JControllerLegacy
 		}
 
 		$filePath = COM_MEDIA_BASE . '/' . $file;
-		$plugin->onMediaEditorProcess($filePath);
+		$redirectUrl = $plugin->onMediaEditorProcess($filePath);
 
 		$layout = new JLayoutFile('editor.close');
-		$layoutData = array();
+		$layoutData = array('redirectUrl' => $redirectUrl);
 		echo $layout->render($layoutData);
 
 		$app->close();
 	}
 
+	/**
+	 * Redirect back to the Media Manager
+	 *
+	 * @throws Exception
+	 */
 	public function cancel()
 	{
 		$redirectUrl = JRoute::_('index.php?option=com_media');

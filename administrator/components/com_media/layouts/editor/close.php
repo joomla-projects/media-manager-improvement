@@ -10,5 +10,9 @@
 defined('_JEXEC') or die;
 ?>
 <script type="text/javascript">
+	<?php if (!empty($displayData['redirectUrl'])) : ?>
+	window.parent.location = '<?php echo $displayData['redirectUrl'] ?>';
+	<?php else: ?>
 	window.parent.location.reload();
+	<?php endif; ?>
 </script>

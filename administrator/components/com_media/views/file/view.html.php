@@ -125,7 +125,7 @@ class MediaViewFile extends JViewLegacy
 				$buttonHeight = 400;
 			}
 
-			$buttonUrl = JUri::base() . 'index.php?option=com_media&task=editor.display&plugin=' . $pluginName . '&file=' . $this->fileProperties['path_relative'];
+			$buttonUrl = JUri::base() . 'index.php?option=com_media&view=editor&tmpl=component&plugin=' . $pluginName . '&file=' . $this->fileProperties['path_relative'];
 
 			$toolbar->appendButton('Popup', $buttonIcon, $buttonLabel, $buttonUrl, $buttonWidth, $buttonHeight);
 		}

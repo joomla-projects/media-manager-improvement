@@ -9,12 +9,9 @@
 
 defined('_JEXEC') or die;
 
-$plugin = $displayData['plugin'];
-$filePath = $displayData['filePath'];
-$postUrl = $displayData['postUrl'];
 ?>
-<form method="post" action="<?php echo $postUrl ?>">
-	<?php echo $plugin; ?>
-	<input type="hidden" name="file" value="<?php echo $filePath ?>"/>
+<form class="form-horizontal form-validate" name="mediaEditorForm" id="mediaEditorForm" method="post" action="<?php echo $this->postUrl ?>">
+	<?php echo $this->pluginHtml; ?>
+	<input type="hidden" name="file" value="<?php echo $this->filePath ?>"/>
 	<?php echo JHTML::_('form.token'); ?>
 </form>
