@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.file');
+require_once __DIR__ . '/file.php';
 /**
  * Media Component Files Model
  */
@@ -39,18 +42,6 @@ class MediaModelFiles extends JModelLegacy
 	}
 
 	/**
-	 * Set the current folder
-	 *
-	 * @param $folder
-	 */
-	public function setCurrentFolder($currentFolder)
-	{
-		$this->currentFolder = $currentFolder;
-
-		return $this;
-	}
-
-	/**
 	 * Build browsable list of files
 	 *
 	 * @return  array
@@ -62,7 +53,8 @@ class MediaModelFiles extends JModelLegacy
 			return $this->files;
 		}
 
-		$currentFolder = $this->getCurrentFolder();
+		$currentFolder = COM_MEDIA_BASE;
+				//$this->getCurrentFolder();
 
 		if (!file_exists($currentFolder))
 		{
