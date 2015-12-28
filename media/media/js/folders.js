@@ -10,182 +10,232 @@
  * @subpackage  Media
  * @since		1.5
  */
-;(function( $, scope ) {
-	"use strict";
+//;(function( $, scope ) {
+//	"use strict";
+//
+//	var MediaFolders = scope.MediaFolders = {
+//
+//		/**
+//		 * Basic setup
+//		 *
+//		 * @return  void
+//		 */
+//		initialize: function() {
+//			this.folderpath = $( '#folderpath' );
+//
+//			this.updatepaths = $( 'input.update-folder' );
+//
+//			//$('#folderview').ajax()
+//			this.frame = window.frames.folderframe;
+//			this.frameurl = this.frame.location.href;
+//		},
+//
+//		/**
+//		 * Called from outside. Only ever called with task 'folder.delete'
+//		 *
+//		 * @param   string  task  [description]
+//		 *
+//		 * @return  void
+//		 */
+//		submit: function( task ) {
+//			var form = this.frame.document.getElementById( 'mediamanager-form' );
+//			form.task.value = task;
+//
+//			if ( $( '#username' ).length ) {
+//				form.username.value = $( '#username' ).val();
+//				form.password.value = $( '#password' ).val();
+//			}
+//
+//			form.submit();
+//		},
+//
+//		/**
+//		 * [onloadframe description]
+//		 *
+//		 * @return  {[type]}
+//		 */
+//		onloadframe: function() {
+//			// Update the frame url
+//			this.frameurl = this.frame.location.href;
+//
+//			var folder = this.getFolder() || '',
+//				query = [],
+//				a = getUriObject( $( '#uploadForm' ).attr( 'action' ) ),
+//				q = getQueryObject( a.query ),
+//				k, v;
+//
+//			this.updatepaths.each( function( path, el ) {
+//				el.value = folder;
+//			} );
+//
+//			this.folderpath.value = basepath + (folder ? '/' + folder : '');
+//
+//			q.folder = folder;
+//
+//			for ( k in q ) {
+//				if (!q.hasOwnProperty( k )) { continue; }
+//
+//				v = q[ k ];
+//				query.push( k + (v === null ? '' : '=' + v) );
+//			}
+//
+//			a.query = query.join( '&' );
+//			a.fragment = null;
+//
+//			$( '#uploadForm' ).attr( 'action', buildUri(a) );
+//			//$( '#' + viewstyle ).addClass( 'active' );
+//		},
+//
+//		/**
+//		 * Switch the view type
+//		 *
+//		 * @param  string  type  'thumbs' || 'details'
+//		 */
+//		setViewType: function( type ) {
+//			$( '#' + type ).addClass( 'active' );
+//			//$( '#' + viewstyle ).removeClass( 'active' );
+//			//viewstyle = type;
+//			var folder = this.getFolder();
+//			console.log(folder);
+//
+//			this.setFrameUrl( 'index.php?option=com_media&view=folders&tmpl=component&folder=' + folder + '&layout=' + type );
+//		},
+//
+//		refreshFrame: function() {
+//			this.setFrameUrl();
+//		},
+//
+//		getFolder: function() {
+//			var args = getQueryObject( this.frame.location.search.substring( 1 ) );
+//
+//			args.folder = args.folder === undefined ? '' : args.folder;
+//
+//			return args.folder;
+//		},
+//
+//		setFrameUrl: function( url ) {
+//			if ( url !== null ) {
+//				this.frameurl = url;
+//			}
+//
+//			this.frame.location.href = this.frameurl;
+//		},
+//	};
+//
+//	/**
+//	 * Convert a query string to an object
+//	 *
+//	 * @param   string  q  A query string (no leading ?)
+//	 *
+//	 * @return  object
+//	 */
+//	function getQueryObject( q ) {
+//		var rs = {};
+//
+//		q = q || '';
+//
+//		$.each( q.split( /[&;]/ ),
+//			function( key, val ) {
+//				var keys = val.split( '=' );
+//
+//				rs[ decodeURIComponent(keys[ 0 ]) ] = keys.length == 2 ? decodeURIComponent(keys[ 1 ]) : null;
+//			});
+//
+//		return rs;
+//	}
+//
+//	/**
+//	 * Break a url into its component parts
+//	 *
+//	 * @param   string  u  URL
+//	 *
+//	 * @return  object
+//	 */
+//	function getUriObject( u ) {
+//		var bitsAssociate = {},
+//			bits = u.match( /^(?:([^:\/?#.]+):)?(?:\/\/)?(([^:\/?#]*)(?::(\d*))?)((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[\?#]|$)))*\/?)?([^?#\/]*))?(?:\?([^#]*))?(?:#(.*))?/ );
+//
+//		$.each([ 'uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment' ],
+//			function( key, index ) {
+//				bitsAssociate[ index ] = ( !!bits && !!bits[ key ] ) ? bits[ key ] : '';
+//			});
+//
+//		return bitsAssociate;
+//	}
+//
+//	/**
+//	 * Build a url from component parts
+//	 *
+//	 * @param   object  o  Such as the return value of `getUriObject()`
+//	 *
+//	 * @return  string
+//	 */
+//	function buildUri ( o ) {
+//		return o.scheme + '://' + o.domain +
+//			(o.port ? ':' + o.port : '') +
+//			(o.path ? o.path : '/') +
+//			(o.query ? '?' + o.query : '') +
+//			(o.fragment ? '#' + o.fragment : '');
+//	}
+//
+//	$(function() {
+//		// Added to populate data on iframe load
+//		MediaFolders.initialize();
+//
+//		document.updateUploader = function() {
+//			MediaFolders.onloadframe();
+//		};
+//
+//		MediaFolders.onloadframe();
+//	});
+//
+//}( jQuery, window ));
 
-	var MediaFolders = scope.MediaFolders = {
+jQuery(document).ready(function($){
+	$('a').each(function(index, value){
+		if ($(this).hasClass("ajaxInit")) {
+			$(this).click(function(e){
+				e.preventDefault();
+				var relDir = $(this).data('href');
 
-		/**
-		 * Basic setup
-		 *
-		 * @return  void
-		 */
-		initialize: function() {
-			this.folderpath = $( '#folderpath' );
+				// Ajax call to reload the #filesview div with the files on that folder
+				var request = $.ajax({
+					url: 'index.php?option=com_media&view=files&tmpl=component&format=raw',
+					method: "GET",
+					data: { folder : relDir },
+					dataType: "html"
+				});
 
-			this.updatepaths = $( 'input.update-folder' );
+				request.done(function( msg ) {
+					$( "#filesview" ).html( msg );
+				});
 
-			//$('#folderview').ajax()
-			this.frame = window.frames.folderframe;
-			this.frameurl = this.frame.location.href;
-		},
-
-		/**
-		 * Called from outside. Only ever called with task 'folder.delete'
-		 *
-		 * @param   string  task  [description]
-		 *
-		 * @return  void
-		 */
-		submit: function( task ) {
-			var form = this.frame.document.getElementById( 'mediamanager-form' );
-			form.task.value = task;
-
-			if ( $( '#username' ).length ) {
-				form.username.value = $( '#username' ).val();
-				form.password.value = $( '#password' ).val();
-			}
-
-			form.submit();
-		},
-
-		/**
-		 * [onloadframe description]
-		 *
-		 * @return  {[type]}
-		 */
-		onloadframe: function() {
-			// Update the frame url
-			this.frameurl = this.frame.location.href;
-
-			var folder = this.getFolder() || '',
-				query = [],
-				a = getUriObject( $( '#uploadForm' ).attr( 'action' ) ),
-				q = getQueryObject( a.query ),
-				k, v;
-
-			this.updatepaths.each( function( path, el ) {
-				el.value = folder;
-			} );
-
-			this.folderpath.value = basepath + (folder ? '/' + folder : '');
-
-			q.folder = folder;
-
-			for ( k in q ) {
-				if (!q.hasOwnProperty( k )) { continue; }
-
-				v = q[ k ];
-				query.push( k + (v === null ? '' : '=' + v) );
-			}
-
-			a.query = query.join( '&' );
-			a.fragment = null;
-
-			$( '#uploadForm' ).attr( 'action', buildUri(a) );
-			//$( '#' + viewstyle ).addClass( 'active' );
-		},
-
-		/**
-		 * Switch the view type
-		 *
-		 * @param  string  type  'thumbs' || 'details'
-		 */
-		setViewType: function( type ) {
-			$( '#' + type ).addClass( 'active' );
-			//$( '#' + viewstyle ).removeClass( 'active' );
-			//viewstyle = type;
-			var folder = this.getFolder();
-
-			this.setFrameUrl( 'index.php?option=com_media&view=mediafiles&tmpl=component&folder=' + folder + '&layout=' + type );
-		},
-
-		refreshFrame: function() {
-			this.setFrameUrl();
-		},
-
-		getFolder: function() {
-			var args = getQueryObject( this.frame.location.search.substring( 1 ) );
-
-			args.folder = args.folder === undefined ? '' : args.folder;
-
-			return args.folder;
-		},
-
-		setFrameUrl: function( url ) {
-			if ( url !== null ) {
-				this.frameurl = url;
-			}
-
-			this.frame.location.href = this.frameurl;
-		},
-	};
-
-	/**
-	 * Convert a query string to an object
-	 *
-	 * @param   string  q  A query string (no leading ?)
-	 *
-	 * @return  object
-	 */
-	function getQueryObject( q ) {
-		var rs = {};
-
-		q = q || '';
-
-		$.each( q.split( /[&;]/ ),
-			function( key, val ) {
-				var keys = val.split( '=' );
-
-				rs[ decodeURIComponent(keys[ 0 ]) ] = keys.length == 2 ? decodeURIComponent(keys[ 1 ]) : null;
+				request.fail(function( jqXHR, textStatus ) {
+					alert( "Request failed: " + textStatus );
+				});
+				console.log(relDir);
 			});
-
-		return rs;
-	}
-
-	/**
-	 * Break a url into its component parts
-	 *
-	 * @param   string  u  URL
-	 *
-	 * @return  object
-	 */
-	function getUriObject( u ) {
-		var bitsAssociate = {},
-			bits = u.match( /^(?:([^:\/?#.]+):)?(?:\/\/)?(([^:\/?#]*)(?::(\d*))?)((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[\?#]|$)))*\/?)?([^?#\/]*))?(?:\?([^#]*))?(?:#(.*))?/ );
-
-		$.each([ 'uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment' ],
-			function( key, index ) {
-				bitsAssociate[ index ] = ( !!bits && !!bits[ key ] ) ? bits[ key ] : '';
-			});
-
-		return bitsAssociate;
-	}
-
-	/**
-	 * Build a url from component parts
-	 *
-	 * @param   object  o  Such as the return value of `getUriObject()`
-	 *
-	 * @return  string
-	 */
-	function buildUri ( o ) {
-		return o.scheme + '://' + o.domain +
-			(o.port ? ':' + o.port : '') +
-			(o.path ? o.path : '/') +
-			(o.query ? '?' + o.query : '') +
-			(o.fragment ? '#' + o.fragment : '');
-	}
-
-	$(function() {
-		// Added to populate data on iframe load
-		MediaFolders.initialize();
-
-		document.updateUploader = function() {
-			MediaFolders.onloadframe();
-		};
-
-		MediaFolders.onloadframe();
+		}
 	});
 
-}( jQuery, window ));
+	console.log(basepath);
+	if (basepath === 'images')
+	{
+		// Ajax call to reload the #filesview div with the files on that folder
+		var request = $.ajax({
+			url: 'index.php?option=com_media&view=files&tmpl=component&format=raw',
+			method: "GET",
+			data: { folder : "" },
+			dataType: "html"
+		});
+
+		request.done(function( msg ) {
+			$( "#filesview" ).html( msg );
+		});
+
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
+		console.log(basepath);
+	}
+});

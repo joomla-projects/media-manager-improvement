@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 $lang = JFactory::getLanguage();
+$folderName = JFactory::getApplication()->input->get('folder', 'images', 'path');
 
 JHtml::_('stylesheet', 'media/popup-imagelist.css', array(), true);
 
@@ -18,7 +19,7 @@ if ($lang->isRtl())
 	JHtml::_('stylesheet', 'media/popup-imagelist_rtl.css', array(), true);
 }
 
-JFactory::getDocument()->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
+//JFactory::getDocument()->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
 JFactory::getDocument()->addStyleDeclaration(
 	"
 		@media (max-width: 767px) {
@@ -30,6 +31,9 @@ JFactory::getDocument()->addStyleDeclaration(
 	"
 );
 ?>
+<div>
+	<p>Displaying the content of ::: /images/<?php echo $folderName; ?> :::</p>
+</div>
 <?php if (count($this->images) > 0) : ?>
 	<ul class="manager thumbnails">
 		<?php for ($i = 0, $n = count($this->images); $i < $n; $i++) :

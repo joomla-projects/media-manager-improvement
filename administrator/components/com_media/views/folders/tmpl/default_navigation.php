@@ -12,9 +12,10 @@ $app   = JFactory::getApplication();
 $style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 ?>
 
-<div class="media btn-group">
-	<a href="#" id="thumbs" onclick="MediaManager.setViewType('thumbs')" class="btn <?php echo ($style == "thumbs") ? 'active' : '';?>">
-	<span class="icon-grid-view-2"></span> <?php echo JText::_('COM_MEDIA_THUMBNAIL_VIEW'); ?></a>
-	<a href="#" id="details" onclick="MediaManager.setViewType('details')" class="btn <?php echo ($style == "details") ? 'active' : '';?>">
-	<span class="icon-list-view"></span> <?php echo JText::_('COM_MEDIA_DETAIL_VIEW'); ?></a>
+<!--<div class="media btn-group">
+	<a href="#" id="thumbs" onclick="MediaManager.setViewType('thumbs')" class="btn <?php //echo ($style == "thumbs") ? 'active' : '';?>">
+	<span class="icon-grid-view-2"></span> <?php //echo JText::_('COM_MEDIA_THUMBNAIL_VIEW'); ?></a>
+	<a href="#" id="details" onclick="MediaManager.setViewType('details')" class="btn <?php //echo ($style == "details") ? 'active' : '';?>">
+	<span class="icon-list-view"></span> <?php //echo JText::_('COM_MEDIA_DETAIL_VIEW'); ?></a>
 </div>
+!-->

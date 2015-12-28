@@ -36,19 +36,28 @@ class MediaController extends JControllerLegacy
 		switch ($vName)
 		{
 			case 'files':
+			default:
 				$vName   = 'files';
 				$vLayout = $this->input->get('layout', 'default', 'string');
 				$mName   = 'files';
 
 				break;
+			case 'folder':
+				$vName   = 'folder';
+				$vLayout = $this->input->get('layout', 'default', 'string');
+				$mName   = 'folder';
+
+				break;
 
 			case 'folders':
-			default:
+
 				$vName   = 'folders';
 				$vLayout = $this->input->get('layout', 'default', 'string');
 				$mName   = 'folders';
 
 				break;
+
+
 		}
 //
 //		// Get/Create the view
