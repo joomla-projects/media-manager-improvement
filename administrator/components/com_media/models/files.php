@@ -48,11 +48,8 @@ class MediaModelFiles extends JModelLegacy
 	 */
 	public function getFiles()
 	{
-		$input = new JInput();
-
-		$currentFolder = ($input->get('folder', '', 'path')) ? $input->get('folder', '', 'path') : COM_MEDIA_BASE;
-
 		$currentFolder = COM_MEDIA_BASE;
+
 		if (!empty($this->files))
 		{
 			return $this->files;

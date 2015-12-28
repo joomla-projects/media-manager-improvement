@@ -166,10 +166,4 @@ class MediaControllerFile extends JControllerLegacy
 
 		return $ret;
 	}
-
-
-	public function edit()
-	{
-		// @TODO connect this to the plugin interface ??
-	}
 }

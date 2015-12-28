@@ -30,13 +30,15 @@ class MediaViewFiles extends JViewLegacy
 		// Do not allow cache
 		JFactory::getApplication()->allowCache(false);
 
-		$images  = $this->get('files');
-//		$folders = $this->get('folders');
+		$foldersModel = JModelLegacy::getInstance('folders', 'MediaModel');
+
+		$mediaFiles  = $this->get('files');
+		$folders = $foldersModel->getFolders(COM_MEDIA_BASE);
 		$state   = $this->get('state');
 
 		$this->baseURL = COM_MEDIA_BASEURL;
-		$this->images  = &$images;
-//		$this->folders = &$folders;
+		$this->mediaFiles  = &$mediaFiles;
+		$this->folders = &$folders;
 		$this->state   = &$state;
 
 		parent::display($tpl);
@@ -51,11 +53,11 @@ class MediaViewFiles extends JViewLegacy
 	 *
 	 * @since   1.0
 	 */
-	public function setFolder($index = 0)
+	public function setActFolder($index = 0)
 	{
-		if (isset($this->folders[$index]))
+		if (isset($this->folders[0][$index]))
 		{
-			$this->_tmp_folder = &$this->folders[$index];
+			$this->_tmp_folder = &$this->folders[0][$index];
 		}
 		else
 		{
@@ -74,9 +76,9 @@ class MediaViewFiles extends JViewLegacy
 	 */
 	public function setImage($index = 0)
 	{
-		if (isset($this->images[$index]))
+		if (isset($this->mediaFiles[$index]))
 		{
-			$this->_tmp_img = &$this->images[$index];
+			$this->_tmp_img = &$this->mediaFiles[$index];
 		}
 		else
 		{

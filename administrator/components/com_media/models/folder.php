@@ -134,9 +134,4 @@ class MediaModelFolder extends JModelLegacy
 	{
 		return new MediaModelFolders;
 	}
-
-	protected function listFiles()
-	{
-
-	}
 }
