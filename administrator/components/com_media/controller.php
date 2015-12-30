@@ -29,12 +29,18 @@ class MediaController extends JControllerLegacy
 	public function display($cachable = false, $urlparams = false)
 	{
 		JPluginHelper::importPlugin('content');
-//
+
 		$vType    = JFactory::getDocument()->getType();
 		$vName    = $this->input->get('view', 'media');
 
 		switch ($vName)
 		{
+			case 'editor':
+				$vLayout = 'default';
+				$mName   = 'editor';
+
+				break;
+
 			case 'file':
 				$vLayout = 'default';
 				$mName   = 'file';
@@ -69,24 +75,24 @@ class MediaController extends JControllerLegacy
 
 				break;
 		}
-//
-//		// Get/Create the view
+
+		// Get/Create the view
 		$view = $this->getView($mName, $vType, '', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
-//
-//		$view = $this->getView('images', JFactory::getDocument()->getType(), '', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
-//		// Get/Create the model
+		//$view = $this->getView('images', JFactory::getDocument()->getType(), '', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
+
+		// Get/Create the model
 		if ($model = $this->getModel($mName))
 		{
 			// Push the model into the view (as default)
 			$view->setModel($model, true);
 		}
-//
-//		// Set the layout
+
+		// Set the layout
 		$view->setLayout($this->input->get('layout', 'default', 'string'));
-//
-//		// Display the view
+
+		// Display the view
 		$view->display();
-//
+
 		return $this;
 	}
 

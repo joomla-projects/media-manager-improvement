@@ -14,10 +14,7 @@ jimport('joomla.filesystem.folder');
 
 /**
  * Folder Media Controller
- *
- * @since  1.5
  */
 class MediaControllerFolders extends JControllerLegacy
 {
-
 }
