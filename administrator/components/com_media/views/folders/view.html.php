@@ -49,10 +49,21 @@ class MediaViewFolders extends JViewLegacy
 		$this->folders     = &$folders;
 		$this->state       = &$state;
 
+		$user  = JFactory::getUser();
+
 		if ($this->state->folder === "")
 		{
 			$this->state->folder = COM_MEDIA_BASEURL;
 		}
+
+		JToolbarHelper::title(JText::_('COM_MEDIA_FILES'), 'media manager');
+
+		if ($user->authorise('core.admin', 'com_media') || $user->authorise('core.options', 'com_media'))
+		{
+			JToolbarHelper::preferences('com_media');
+		}
+
+		JToolbarHelper::help('JHELP_COMPONENTS_MEDIA_FILES');
 
 		parent::display($tpl);
 	}
