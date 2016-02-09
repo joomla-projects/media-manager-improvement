@@ -31,7 +31,7 @@ class MediaController extends JControllerLegacy
 		JPluginHelper::importPlugin('content');
 
 		$vType    = JFactory::getDocument()->getType();
-		$vName    = $this->input->get('view', 'media');
+		$vName    = $this->input->get('view', 'folders');
 
 		switch ($vName)
 		{
@@ -41,34 +41,16 @@ class MediaController extends JControllerLegacy
 
 				break;
 
-			case 'file':
-				$vLayout = 'default';
-				$mName   = 'file';
-
-				break;
-
-			case 'images':
-				$vName   = 'folders';
-				$vLayout = $this->input->get('layout', 'default', 'string');
-				$mName   = 'folders';
-
-				break;
-
 			case 'files':
-				$mName   = 'files';
+			default:
+				$vName   = 'files';
 				$vLayout = $this->input->get('layout', 'default', 'string');
-
-				break;
-
-			case 'mediaList':
-				$app     = JFactory::getApplication();
-				$mName   = 'folders';
-				$vLayout = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
+				$mName   = 'files';
 
 				break;
 
 			case 'folders':
-			default:
+
 				$vName   = 'folders';
 				$vLayout = $this->input->get('layout', 'default', 'string');
 				$mName   = 'folders';
@@ -78,7 +60,6 @@ class MediaController extends JControllerLegacy
 
 		// Get/Create the view
 		$view = $this->getView($mName, $vType, '', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
-		//$view = $this->getView('images', JFactory::getDocument()->getType(), '', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
 
 		// Get/Create the model
 		if ($model = $this->getModel($mName))

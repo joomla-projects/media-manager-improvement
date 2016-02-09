@@ -21,21 +21,24 @@ defined('_JEXEC') or die;
 //	echo $folder['data']->name;
 //}
 
+JFactory::getDocument()->addStyleDeclaration("
+#treeData {list-style: none; }
+ul {list-style: none; margin: 0 0 15px 7px;}
+")
 ?>
-<div id="tree">
-	<ul id="treeData">
-		<?php if (isset($this->folders['children'])) :
-			foreach ($this->folders['children'] as $folder) :
-				// Get a sanitised name for the target
-				$target = str_replace('/', '-', $folder['data']->relative); ?>
-				<li class="expanded folder">
-					<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $folder['data']->relative; ?>" target="folderframe">
-						<span class="icon-folder-2 pull-left"></span>
-						<?php echo $folder['data']->name; ?>
-					</a>
-					<?php echo $this->getFolderLevel($folder); ?>
-				</li>
-			<?php endforeach;
-		endif; ?>
-	</ul>
-</div>
+
+<ul id="treeData">
+<?php if (isset($this->folders['children'])) :
+	foreach ($this->folders['children'] as $folder) :
+		// Get a sanitised name for the target
+		$target = str_replace('/', '-', $folder['data']->relative); ?>
+		<li class="expanded folder">
+			<a href="#" data-href="<?php echo $folder['data']->relative; ?>" class="ajaxInit">
+				<span class="icon-folder-2 pull-left"></span>
+				<?php echo $folder['data']->name; ?>
+			</a>
+			<?php echo $this->getFolderLevel($folder); ?>
+		</li>
+	<?php endforeach;
+endif; ?>
+</ul>
