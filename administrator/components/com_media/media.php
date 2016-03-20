@@ -38,8 +38,16 @@ if (substr(strtolower($view), 0, 6) == 'images' || $popup_upload == 1)
 	$path = 'image_path';
 }
 
-define('COM_MEDIA_BASE', JPATH_ROOT . '/' . $params->get($path, 'images'));
-define('COM_MEDIA_BASEURL', JUri::root() . $params->get($path, 'images'));
+if ($input->get('folder') != null)
+{
+	define('COM_MEDIA_BASE', JPATH_ROOT . '/images/' . $input->get('folder', '', 'path'));
+	define('COM_MEDIA_BASEURL', JUri::root() . '/images/' . $input->get('folder', '', 'path'));
+}
+else
+{
+	define('COM_MEDIA_BASE', JPATH_ROOT . '/' . $params->get($path, 'images'));
+	define('COM_MEDIA_BASEURL', JUri::root() . $params->get($path, 'images'));
+}
 
 $controller = JControllerLegacy::getInstance('Media', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
 $controller->execute($input->get('task'));
