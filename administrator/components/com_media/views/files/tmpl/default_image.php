@@ -19,7 +19,8 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$file, &
 
 	<li class="imgOutline thumbnail height-80 width-80 center">
 		<a class="img-preview"
-		   href="javascript:ImageManager.populateFields('<?php echo $file->path_relative; ?>')"
+		   href="index.php?option=com_media&view=file&file=<?php echo $file->path_relative; ?>"
+		   <?php /* href="javascript:ImageManager.populateFields('<?php echo $file->path_relative; ?>')" */ ?>
 		   title="<?php echo $file->name; ?>">
 			<div class="thumbnail height-50">
 				<?php
