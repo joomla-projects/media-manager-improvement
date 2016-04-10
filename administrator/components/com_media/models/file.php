@@ -73,7 +73,7 @@ class MediaModelFile extends JModelLegacy
 		}
 
 		$fileExtension = strtolower(JFile::getExt($filePath));
-		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
+		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', JPATH_ROOT . '/images/');
 
 		// Base file properties
 		$this->fileProperties = array(
@@ -83,8 +83,8 @@ class MediaModelFile extends JModelLegacy
 			'path_relative' => str_replace($mediaBase, '', $filePath),
 			'extension' => $fileExtension,
 			'size' => filesize($filePath),
-			'icon_32' => 'media/mime-icon-32/' . $fileExtension . '.png',
-			'icon_16' => 'media/mime-icon-16/' . $fileExtension . '.png',
+			'icon_32' => 'mime-icon-32/' . $fileExtension . '.png',
+			'icon_16' => 'mime-icon-16/' . $fileExtension . '.png',
 			'file_adapter' => 'local',
 			'file_type' => 'default',);
 

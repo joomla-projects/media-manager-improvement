@@ -19,43 +19,49 @@ class MediaController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean $cachable  If true, the view output will be cached
+	 * @param   array   $urlparams An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  JController        This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
 		JPluginHelper::importPlugin('content');
 
-		$vType    = JFactory::getDocument()->getType();
-		$vName    = $this->input->get('view', 'folders');
+		$document = JFactory::getDocument();
+		$vType = $document->getType();
+		$vName = $this->input->get('view', 'folders');
 
 		switch ($vName)
 		{
 			case 'editor':
 				$vLayout = 'default';
-				$mName   = 'editor';
-
-				break;
-
-			case 'files':
-			default:
-				$vName   = 'files';
-				$vLayout = $this->input->get('layout', 'default', 'string');
-				$mName   = 'files';
+				$mName = 'editor';
 
 				break;
 
 			case 'folders':
 
-				$vName   = 'folders';
 				$vLayout = $this->input->get('layout', 'default', 'string');
-				$mName   = 'folders';
+				$mName = 'folders';
 
 				break;
+
+			case 'file':
+				$vLayout = $this->input->get('layout', 'default', 'string');
+				$mName = 'file';
+
+				break;
+
+			case 'files':
+			default:
+				$vLayout = $this->input->get('layout', 'default', 'string');
+				$mName = 'files';
+
+				break;
+
 		}
 
 		// Get/Create the view
@@ -69,7 +75,7 @@ class MediaController extends JControllerLegacy
 		}
 
 		// Set the layout
-		$view->setLayout($this->input->get('layout', 'default', 'string'));
+		$view->setLayout($vLayout);
 
 		// Display the view
 		$view->display();

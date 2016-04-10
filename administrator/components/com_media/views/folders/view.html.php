@@ -17,6 +17,30 @@ defined('_JEXEC') or die;
 class MediaViewFolders extends JViewLegacy
 {
 	/**
+	 * Current state object
+	 *
+	 * @var mixed
+	 */
+	protected $state;
+
+	/**
+	 * List of subfolders
+	 *
+	 * @var array
+	 */
+	protected $folders;
+
+	/**
+	 * @var JSession
+	 */
+	protected $session;
+
+	/**
+	 * @var JConfig
+	 */
+	protected $config;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
@@ -45,9 +69,9 @@ class MediaViewFolders extends JViewLegacy
 		$this->folders     = $this->get('foldersTree');
 		$this->require_ftp = $ftp;
 		$this->baseURL     = COM_MEDIA_BASEURL;
-		$this->images      = &$images;
-		$this->folders     = &$folders;
-		$this->state       = &$state;
+		$this->images      = $images;
+		$this->folders     = $folders;
+		$this->state       = $state;
 
 		$user  = JFactory::getUser();
 
