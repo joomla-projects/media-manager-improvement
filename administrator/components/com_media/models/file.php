@@ -73,7 +73,7 @@ class MediaModelFile extends JModelLegacy
 		}
 
 		$fileExtension = strtolower(JFile::getExt($filePath));
-		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
+		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', JPATH_ROOT . '/images/');
 
 		// Base file properties
 		$this->fileProperties = array(

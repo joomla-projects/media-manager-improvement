@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-$file = $this->_tmp_img;
+$file = $this->_tmp_file;
 $params = new Registry;
 $dispatcher = JEventDispatcher::getInstance();
 $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$file, &$params));

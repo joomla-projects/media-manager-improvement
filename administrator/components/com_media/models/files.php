@@ -81,7 +81,6 @@ class MediaModelFiles extends JModelLegacy
 	 */
 	protected function loadFiles()
 	{
-		$currentFolder = COM_MEDIA_BASE;
 		if (!empty($this->files))
 		{
 			return $this->files;
