@@ -9,8 +9,15 @@
 
 defined('_JEXEC') or die;
 
-$image = $displayData['path_relative'];
-$imagePath = JURI::root() . 'images/' . $image;
-$name = $displayData['name'];
+$file = $displayData['file'];
+$imagePath = JURI::root() . 'images/' . $file->path_relative;
 ?>
-<img src="<?php echo $imagePath; ?>" alt="<?php echo $name; ?>" title="<?php echo $name; ?>" />
+<?php echo JHtml::_('image', $imagePath, JText::sprintf('COM_MEDIA_IMAGE_TITLE', $file->title, JHtml::_('number.bytes', $file->size)), array(
+	'width' => $file->width_60,
+	'height' => $file->height_60
+)); ?>
+<!--
+@todo: Debugging info. Remove when ready:
+<?php print_r($file); ?>
+-->
+

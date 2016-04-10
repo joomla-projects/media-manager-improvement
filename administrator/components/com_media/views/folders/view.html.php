@@ -31,6 +31,16 @@ class MediaViewFolders extends JViewLegacy
 	protected $folders;
 
 	/**
+	 * @var JSession
+	 */
+	protected $session;
+
+	/**
+	 * @var JConfig
+	 */
+	protected $config;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.

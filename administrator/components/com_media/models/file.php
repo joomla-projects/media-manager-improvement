@@ -83,8 +83,8 @@ class MediaModelFile extends JModelLegacy
 			'path_relative' => str_replace($mediaBase, '', $filePath),
 			'extension' => $fileExtension,
 			'size' => filesize($filePath),
-			'icon_32' => 'media/mime-icon-32/' . $fileExtension . '.png',
-			'icon_16' => 'media/mime-icon-16/' . $fileExtension . '.png',
+			'icon_32' => 'mime-icon-32/' . $fileExtension . '.png',
+			'icon_16' => 'mime-icon-16/' . $fileExtension . '.png',
 			'file_adapter' => 'local',
 			'file_type' => 'default',);
 
