@@ -14,6 +14,7 @@ require_once JPATH_COMPONENT . '/helpers/editor.php';
 /**
  * HTML View class for the editor in the Media Manager
  *
+ * @since  3.6
  */
 class MediaViewEditor extends JViewLegacy
 {
@@ -23,12 +24,14 @@ class MediaViewEditor extends JViewLegacy
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   3.6
 	 */
 	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
 
-		$filePath = $app->input->getPath('file');
+		$filePath   = $app->input->getPath('file');
 		$pluginName = $app->input->getCmd('plugin');
 
 		if (empty($pluginName))
@@ -48,9 +51,9 @@ class MediaViewEditor extends JViewLegacy
 			throw new RuntimeException(JText::_('COM_MEDIA_ERROR_UNKNOWN_PLUGIN'));
 		}
 
-		$this->postUrl = 'index.php?option=com_media&task=editor.post&plugin=' . $pluginName;
+		$this->postUrl    = 'index.php?option=com_media&task=editor.post&plugin=' . $pluginName;
 		$this->pluginHtml = $plugin->onMediaEditorDisplay($filePath);
-		$this->filePath = $filePath;
+		$this->filePath   = $filePath;
 
 		parent::display($tpl);
 	}

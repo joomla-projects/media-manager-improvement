@@ -11,13 +11,13 @@
 
 defined('_JEXEC') or die;
 
-$user = JFactory::getUser();
-$input = JFactory::getApplication()->input;
+$user   = JFactory::getUser();
+$input  = JFactory::getApplication()->input;
 $params = JComponentHelper::getParams('com_media');
-$lang = JFactory::getLanguage();
-$doc = JFactory::getDocument();
+$lang   = JFactory::getLanguage();
+$doc    = JFactory::getDocument();
 
-// Inclu§de jQuery
+// Include jQuery
 JHtml::_('jquery.framework');
 JHtml::_('script', 'media/folders.js', false, true, false, false, true);
 JHtml::_('stylesheet', 'media/popup-imagemanager.css', array(), true);

@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 /**
  * File table
+ *
+ * @since  3.6
  */
 class MediaTableFile extends JTable
 {
@@ -18,6 +20,8 @@ class MediaTableFile extends JTable
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  &$db  Database connector object
+	 *
+	 * @since   3.6
 	 */
 	public function __construct(&$db)
 	{

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$folder = $this->getFolder();
+$folder     = $this->getFolder();
 $folderData = $folder['data'];
 ?>
 <li class="imgOutline thumbnail height-80 width-80 center">

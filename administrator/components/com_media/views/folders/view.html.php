@@ -55,8 +55,6 @@ class MediaViewFolders extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$config = JComponentHelper::getParams('com_media');
-
 		/*
 		 * Display form for FTP credentials?
 		 * Don't set them here, as there are other functions called before this one if there is any file write operation
@@ -68,7 +66,7 @@ class MediaViewFolders extends JViewLegacy
 		$state   = $this->get('state');
 
 		$this->session     = JFactory::getSession();
-		$this->config      = $config;
+		$this->config      = JComponentHelper::getParams('com_media');
 		$this->state       = $this->get('state');
 		$this->folders     = $this->get('foldersTree');
 		$this->require_ftp = $ftp;
