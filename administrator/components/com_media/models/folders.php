@@ -14,27 +14,33 @@ jimport('joomla.filesystem.file');
 
 /**
  * Media Component Folders Model
+ *
+ * @since  3.6
  */
 class MediaModelFolders extends JModelLegacy
 {
 	/**
 	 * Lists the folders in a parent folder
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  3.6
 	 */
 	protected $folders = array();
 
 	/**
 	 * Folder to search for files
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.6
 	 */
 	protected $currentFolder = '';
 
 	/**
 	 * Get the current folder
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   3.6
 	 */
 	public function getCurrentFolder()
 	{
@@ -44,9 +50,11 @@ class MediaModelFolders extends JModelLegacy
 	/**
 	 * Set the current folder
 	 *
-	 * @var string $folder
+	 * @param   string  $folder
 	 *
-	 * @return string
+	 * @return  $this
+	 *
+	 * @since   3.6
 	 */
 	public function setCurrentFolder($currentFolder)
 	{
@@ -58,7 +66,9 @@ class MediaModelFolders extends JModelLegacy
 	/**
 	 * Return the file model
 	 *
-	 * @return MediaModelFolder
+	 * @return  MediaModelFolder
+	 *
+	 * @since   3.6
 	 */
 	protected function getFolderModel()
 	{
@@ -72,7 +82,7 @@ class MediaModelFolders extends JModelLegacy
 	 *
 	 * @return  array
 	 *
-	 * @since   1.5
+	 * @since   3.6
 	 */
 	public function getFolders($base = null)
 	{
@@ -135,7 +145,7 @@ class MediaModelFolders extends JModelLegacy
 	 *
 	 * @return  object  The property where specified, the state object where omitted
 	 *
-	 * @since   1.5
+	 * @since   3.6
 	 */
 	public function getState($property = null, $default = null)
 	{
@@ -163,7 +173,9 @@ class MediaModelFolders extends JModelLegacy
 	/**
 	 * Return the folder model
 	 *
-	 * @return MediaModelFolders
+	 * @return  MediaModelFolders
+	 *
+	 * @since   3.6
 	 */
 	protected function getFoldersModel()
 	{

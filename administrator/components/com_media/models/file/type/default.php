@@ -17,28 +17,33 @@ class MediaModelFileTypeDefault implements MediaModelFileTypeInterface
 	/**
 	 * Name of this file type
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.6
 	 */
 	protected $name = 'default';
 
 	/**
 	 * File extensions supported by this file type
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  3.6
 	 */
 	protected $extensions = array();
 
 	/**
 	 * MIME types supported by this file type
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  3.6
 	 */
 	protected $mimeTypes = array();
 
 	/**
 	 * Return the name of this file type
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   3.6
 	 */
 	public function getName()
 	{
@@ -48,7 +53,9 @@ class MediaModelFileTypeDefault implements MediaModelFileTypeInterface
 	/**
 	 * Return the list of supported exensions
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   3.6
 	 */
 	public function getExtensions()
 	{
@@ -58,7 +65,9 @@ class MediaModelFileTypeDefault implements MediaModelFileTypeInterface
 	/**
 	 * Return the list of supported MIME types
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   3.6
 	 */
 	public function getMimeTypes()
 	{
@@ -68,9 +77,11 @@ class MediaModelFileTypeDefault implements MediaModelFileTypeInterface
 	/**
 	 * Return the file properties of a specific file
 	 *
-	 * @param string $filePath
+	 * @param  string  $filePath
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   3.6
 	 */
 	public function getProperties($filePath)
 	{

@@ -17,41 +17,49 @@ require_once __DIR__ . '/files.php';
 
 /**
  * Media Component File Model
+ *
+ * @since  3.6
  */
 class MediaModelFile extends JModelLegacy
 {
 	/**
 	 * Numerical database identifier for this file
 	 *
-	 * @var int
+	 * @var    int
+	 * @since  3.6
 	 */
 	protected $id = null;
 
 	/**
 	 * Properties of a file
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  3.6
 	 */
 	protected $fileProperties = array();
 
 	/**
 	 * File type object
 	 *
-	 * @var MediaModelFileTypeInterface
+	 * @var    MediaModelFileTypeInterface
+	 * @since  3.6
 	 */
 	protected $fileType = null;
 
 	/**
 	 * File adapter object
 	 *
-	 * @var MediaModelFileAdapterInterfaceAdapter
+	 * @var    MediaModelFileAdapterInterfaceAdapter
+	 * @since  3.6
 	 */
 	protected $fileAdapter = null;
 
 	/**
 	 * Return the database identifier
 	 *
-	 * @return int
+	 * @return  int
+	 *
+	 * @since   3.6
 	 */
 	public function getId()
 	{
@@ -61,9 +69,11 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Load a new file model by path
 	 *
-	 * @param string $filePath
+	 * @param  string  $filePath
 	 *
-	 * @return bool
+	 * @return  bool
+	 *
+	 * @since   3.6
 	 */
 	public function loadByPath($filePath)
 	{
@@ -77,16 +87,17 @@ class MediaModelFile extends JModelLegacy
 
 		// Base file properties
 		$this->fileProperties = array(
-			'name' => basename($filePath),
-			'title' => basename($filePath),
-			'path' => $filePath,
+			'name'          => basename($filePath),
+			'title'         => basename($filePath),
+			'path'          => $filePath,
 			'path_relative' => str_replace($mediaBase, '', $filePath),
-			'extension' => $fileExtension,
-			'size' => filesize($filePath),
-			'icon_32' => 'mime-icon-32/' . $fileExtension . '.png',
-			'icon_16' => 'mime-icon-16/' . $fileExtension . '.png',
-			'file_adapter' => 'local',
-			'file_type' => 'default',);
+			'extension'     => $fileExtension,
+			'size'          => filesize($filePath),
+			'icon_32'       => 'mime-icon-32/' . $fileExtension . '.png',
+			'icon_16'       => 'mime-icon-16/' . $fileExtension . '.png',
+			'file_adapter'  => 'local',
+			'file_type'     => 'default',
+		);
 
 		// Detect properties per file type
 		$this->attachStoredFile($filePath);
@@ -101,9 +112,11 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Attach a file stored in the database to a filepath-based file
 	 *
-	 * @param string $filePath
+	 * @param   string  $filePath
 	 *
-	 * @return bool
+	 * @return  bool
+	 *
+	 * @since   3.6
 	 */
 	protected function attachStoredFile($filePath)
 	{
@@ -114,8 +127,8 @@ class MediaModelFile extends JModelLegacy
 		{
 			$this->id = $storedFile->id;
 
-			$this->fileProperties['id'] = $this->id;
-			$this->fileProperties['hash'] = $storedFile->md5sum;
+			$this->fileProperties['id']           = $this->id;
+			$this->fileProperties['hash']         = $storedFile->md5sum;
 			$this->fileProperties['file_adapter'] = $storedFile->adapter;
 
 			// Check for hash to see if this entry needs updating
@@ -131,6 +144,7 @@ class MediaModelFile extends JModelLegacy
 					}
 					catch (Exception $e)
 					{
+						// Do nothing
 					}
 				}
 			}
@@ -144,6 +158,7 @@ class MediaModelFile extends JModelLegacy
 		}
 		catch (Exception $e)
 		{
+			// Do nothing
 		}
 
 		$this->fileProperties['id'] = $this->id;
@@ -154,13 +169,15 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Find a stored file by its filename or path
 	 *
-	 * @param string $filePath
+	 * @param   string  $filePath
 	 *
-	 * @return bool|object
+	 * @return  bool|object
+	 *
+	 * @since   3.6
 	 */
 	protected function getStoredFileByPath($filePath)
 	{
-		$path = str_replace(JPATH_ROOT . '/', '', dirname($filePath));
+		$path     = str_replace(JPATH_ROOT . '/', '', dirname($filePath));
 		$filename = basename($filePath);
 
 		foreach ($this->getStoredFiles($path) as $storedFile)
@@ -177,9 +194,11 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Fetch a list of all the files stored in the database
 	 *
-	 * @param string $folder
+	 * @param   string  $folder
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   3.6
 	 */
 	protected function getStoredFiles($folder = null)
 	{
@@ -197,9 +216,10 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Create a new entry for this file in the database
 	 *
-	 * @throw Exception
+	 * @return  bool|int
+	 * @throw   Exception
 	 *
-	 * @return bool|int
+	 * @since   3.6
 	 */
 	protected function create()
 	{
@@ -208,10 +228,6 @@ class MediaModelFile extends JModelLegacy
 			return false;
 		}
 
-		$user = JFactory::getUser();
-		$date = JFactory::getDate();
-		$table = JTable::getInstance('File', 'MediaTable');
-
 		$path = str_replace(JPATH_ROOT . '/', '', dirname($this->fileProperties['path']));
 		$hash = null;
 
@@ -221,30 +237,34 @@ class MediaModelFile extends JModelLegacy
 		}
 
 		$data = array(
-			'filename' => basename($this->fileProperties['path']),
-			'path' => $path,
-			'md5sum' => $hash,
-			'user_id' => $user->id,
-			'created_by' => $user->id,
-			'created' => $date->toSql(),
-			'adapter' => 'local',
-			'published' => 1,
-			'ordering' => 1,);
+			'filename'   => basename($this->fileProperties['path']),
+			'path'       => $path,
+			'md5sum'     => $hash,
+			'user_id'    => JFactory::getUser()->id,
+			'created_by' => JFactory::getUser()->id,
+			'created'    => JFactory::getDate()->toSql(),
+			'adapter'    => 'local',
+			'published'  => 1,
+			'ordering'   => 1,
+		);
+
+		// Get the table
+		$table = JTable::getInstance('File', 'MediaTable');
 
 		if (!$table->save($data))
 		{
 			throw new RuntimeException($table->getError());
 		}
 
-		$db = JFactory::getDbo();
-
-		return $db->insertid();
+		return JFactory::getDbo()->insertid();
 	}
 
 	/**
 	 * Update the current stored file
 	 *
-	 * @return bool
+	 * @return  bool
+	 *
+	 * @since   3.6
 	 */
 	protected function update()
 	{
@@ -253,10 +273,6 @@ class MediaModelFile extends JModelLegacy
 			return false;
 		}
 
-		$user = JFactory::getUser();
-		$date = JFactory::getDate();
-		$table = JTable::getInstance('File', 'MediaTable');
-
 		$path = str_replace(JPATH_ROOT . '/', '', dirname($this->fileProperties['path']));
 		$hash = null;
 
@@ -266,16 +282,20 @@ class MediaModelFile extends JModelLegacy
 		}
 
 		$data = array(
-			'id' => $this->id,
-			'filename' => basename($this->fileProperties['path']),
-			'path' => $path,
-			'md5sum' => $hash,
-			'user_id' => $user->id,
-			'modified_by' => $user->id,
-			'modified' => $date->toSql(),
-			'adapter' => 'local',
-			'published' => 1,
-			'ordering' => 1,);
+			'id'          => $this->id,
+			'filename'    => basename($this->fileProperties['path']),
+			'path'        => $path,
+			'md5sum'      => $hash,
+			'user_id'     => JFactory::getUser()->id,
+			'modified_by' => JFactory::getUser()->id,
+			'modified'    => JFactory::getDate()->toSql(),
+			'adapter'     => 'local',
+			'published'   => 1,
+			'ordering'    => 1,
+		);
+
+		// Get the table 
+		$table = JTable::getInstance('File', 'MediaTable');
 
 		if (!$table->save($data))
 		{
@@ -288,7 +308,9 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Method to set the current file adapter
 	 *
-	 * @return MediaModelFileAdapterInterfaceAdapter
+	 * @return  MediaModelFileAdapterInterfaceAdapter
+	 *
+	 * @since   3.6
 	 */
 	protected function loadFileAdapter()
 	{
@@ -312,7 +334,9 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Method to detect which file type class to use for a specific $_file
 	 *
-	 * @return MediaModelFileAdapterInterfaceAdapter
+	 * @return  MediaModelFileAdapterInterfaceAdapter
+	 *
+	 * @since   3.6
 	 */
 	protected function loadFileType()
 	{
@@ -346,6 +370,10 @@ class MediaModelFile extends JModelLegacy
 
 	/**
 	 * Merge file type specific properties with the generic file properties
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
 	 */
 	protected function setPropertiesByFileType()
 	{
@@ -358,6 +386,10 @@ class MediaModelFile extends JModelLegacy
 
 	/**
 	 * Merge file type specific properties with the generic file properties
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
 	 */
 	protected function setPropertiesByFileAdapter()
 	{
@@ -375,7 +407,9 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Return the current file adapter object
 	 *
-	 * @return mixed
+	 * @return  mixed
+	 *
+	 * @since   3.6
 	 */
 	public function getFileAdapter()
 	{
@@ -385,10 +419,12 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Set the current file adapter object
 	 *
-	 * @param string $fileAdapter
-	 * @param string $filePath
+	 * @param  string  $fileAdapter
+	 * @param  string  $filePath
 	 *
-	 * @return $this
+	 * @return  $this
+	 *
+	 * @since   3.6
 	 */
 	public function setFileAdapter($fileAdapterName, $filePath = null)
 	{
@@ -402,7 +438,9 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Return the current file type object
 	 *
-	 * @return mixed
+	 * @return  mixed
+	 *
+	 * @since   3.6
 	 */
 	public function getFileType()
 	{
@@ -412,9 +450,11 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Set the current file type object
 	 *
-	 * @param mixed $fileType
+	 * @param   mixed  $fileType
 	 *
-	 * @return $this
+	 * @return  $this
+	 *
+	 * @since   3.6
 	 */
 	public function setFileType($fileType)
 	{
@@ -426,7 +466,9 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Get the file properties
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   3.6
 	 */
 	public function getFileProperties()
 	{
@@ -436,7 +478,11 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Set the file properties
 	 *
-	 * @param array $properties
+	 * @param   array  $properties
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
 	 */
 	public function setFileProperties($properties)
 	{
@@ -446,7 +492,9 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Return th files model
 	 *
-	 * @return MediaModelFiles
+	 * @return  MediaModelFiles
+	 *
+	 * @since   3.6
 	 */
 	public function getFilesModel()
 	{

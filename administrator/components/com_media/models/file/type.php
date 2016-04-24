@@ -14,37 +14,49 @@ require_once __DIR__ . '/type/default.php';
 
 /**
  * Media Component File Type Model
+ *
+ * @since  3.6
  */
 class MediaModelFileType
 {
 	/**
 	 * List of available file type objects
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  3.6
 	 */
 	protected $availableFileTypes = array();
 
 	/**
 	 * List of available file type identifiers
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  3.6
 	 */
-	protected $defaultFileTypeIdentifiers = array('default', 'image', 'pdf', 'video');
+	protected $defaultFileTypeIdentifiers = array(
+		'default',
+		'image',
+		'pdf',
+		'video',
+	);
 
 	/**
 	 * Abstraction of the file type of $_file
 	 *
-	 * @var MediaModelFileTypeInterface
+	 * @var    MediaModelFileTypeInterface
+	 * @since  3.6
 	 */
 	protected $fileType = null;
 
 	/**
 	 * Return a file type object
 	 *
-	 * @param string $filePath
-	 * @param MediaModelFileAdapterInterfaceAdapter $fileAdapter
+	 * @param   string                                 $filePath
+	 * @param   MediaModelFileAdapterInterfaceAdapter  $fileAdapter
 	 *
-	 * @return MediaModelFileTypeInterface
+	 * @return  MediaModelFileTypeInterface
+	 *
+	 * @since   3.6
 	 */
 	public function getFileType($filePath, $fileAdapter)
 	{
@@ -75,7 +87,9 @@ class MediaModelFileType
 	/**
 	 * Method to get the support file types
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   3.6
 	 */
 	protected function getAvailableFileTypes()
 	{
@@ -102,6 +116,10 @@ class MediaModelFileType
 
 	/**
 	 * Modify the list of available file types through the plugin event onMediaBuildFileTypes()
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
 	 */
 	protected function modifyAvailableFileTypes()
 	{
@@ -114,9 +132,11 @@ class MediaModelFileType
 	/**
 	 * Get a file type object based on an identifier string
 	 *
-	 * @param string $identifier
+	 * @param   string  $identifier
 	 *
-	 * @return bool|MediaModelFileTypeInterface
+	 * @return  bool|MediaModelFileTypeInterface
+	 *
+	 * @since  3.6
 	 */
 	protected function getFileTypeObjectFromIdentifier($identifier)
 	{

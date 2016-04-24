@@ -22,21 +22,25 @@ class MediaModelFiles extends JModelLegacy
 	/**
 	 * Lists the files in a folder
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  3.6
 	 */
 	protected $files = array();
 
 	/**
 	 * Folder to search for files
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.6
 	 */
 	protected $currentFolder = '';
 
 	/**
 	 * Get the current folder
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   3.6
 	 */
 	public function getCurrentFolder()
 	{
@@ -46,9 +50,11 @@ class MediaModelFiles extends JModelLegacy
 	/**
 	 * Set the current folder
 	 *
-	 * @param string $folder
+	 * @param   string  $folder
 	 *
-	 * @return MediaModelFiles
+	 * @return  MediaModelFiles
+	 *
+	 * @since   3.6
 	 */
 	public function setCurrentFolder($currentFolder)
 	{
@@ -61,6 +67,8 @@ class MediaModelFiles extends JModelLegacy
 	 * Build browsable list of files with pagination support
 	 *
 	 * @return  array
+	 *
+	 * @since   3.6
 	 */
 	public function getFiles($offset = 0, $filesNo = 0)
 	{
@@ -78,6 +86,8 @@ class MediaModelFiles extends JModelLegacy
 	 * Build browsable list of files
 	 *
 	 * @return  array
+	 *
+	 * @since   3.6
 	 */
 	protected function loadFiles()
 	{
@@ -98,8 +108,8 @@ class MediaModelFiles extends JModelLegacy
 			return $this->files;
 		}
 
-		$fileList = JFolder::files($currentFolder);
-		$fileHashes = array();
+		$fileList    = JFolder::files($currentFolder);
+		$fileHashes  = array();
 		$storedFiles = $this->getStoredFiles($currentFolder);
 
 		// Iterate over the files if they exist
@@ -138,11 +148,15 @@ class MediaModelFiles extends JModelLegacy
 	}
 
 	/**
-	 * @param $file
-	 * @param $currentFolder
-	 * @param $fileHashes
+	 * Load the object from a file
 	 *
-	 * @return JObject
+	 * @param   string  $file
+	 * @param   string  $currentFolder
+	 * @param   string  $fileHashes
+	 *
+	 * @return  JObject
+	 *
+	 * @since   3.6
 	 */
 	protected function loadObjectFromFile($file, $currentFolder, $fileHashes)
 	{
@@ -167,11 +181,15 @@ class MediaModelFiles extends JModelLegacy
 	}
 
 	/**
-	 * @param $storedFile
-	 * @param $currentFolder
-	 * @param $fileHashes
+	 * Load object form stored file
 	 *
-	 * @return bool|JObject
+	 * @param   string  $storedFile
+	 * @param   string  $currentFolder
+	 * @param   string  $fileHashes
+	 *
+	 * @return  bool|JObject
+	 *
+	 * @since   3.6
 	 */
 	public function loadObjectFromStoredFile($storedFile, $currentFolder, $fileHashes)
 	{
@@ -196,9 +214,11 @@ class MediaModelFiles extends JModelLegacy
 	/**
 	 * Return a list of the files stored in the database for a specific folder
 	 *
-	 * @param $folder
+	 * @param   $folder
 	 *
-	 * @return mixed
+	 * @return  mixed
+	 *
+	 * @since   3.6
 	 */
 	public function getStoredFiles($folder)
 	{
@@ -221,9 +241,11 @@ class MediaModelFiles extends JModelLegacy
 	/**
 	 * Check whether this file is browsable in the Media Manager
 	 *
-	 * @param string $file
+	 * @param   string  $file
 	 *
-	 * @return bool
+	 * @return  bool
+	 *
+	 * @since   3.6
 	 */
 	protected function isFileBrowsable($file)
 	{
@@ -250,7 +272,9 @@ class MediaModelFiles extends JModelLegacy
 	/**
 	 * Return the file model
 	 *
-	 * @return MediaModelFile
+	 * @return  MediaModelFile
+	 *
+	 * @since   3.6
 	 */
 	protected function getFileModel()
 	{

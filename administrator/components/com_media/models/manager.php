@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.5
  *
- * @Deprecated 3.6
+ * @deprecated 3.6
  */
 class MediaModelManager extends JModelLegacy
 {

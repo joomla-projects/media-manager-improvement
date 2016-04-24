@@ -11,27 +11,35 @@ defined('_JEXEC') or die;
 
 /**
  * Media Component File Type Interface
+ *
+ * @since  3.6
  */
 interface MediaModelFileTypeInterface
 {
 	/**
 	 * Return the name of this file type
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   3.6
 	 */
 	public function getName();
 
 	/**
 	 * Return a listing of supported file extensions
 	 *
-	 * @return mixed
+	 * @return  mixed
+	 *
+	 * @since   3.6
 	 */
 	public function getExtensions();
 
 	/**
 	 * Return a listing of supported MIME types
 	 *
-	 * @return mixed
+	 * @return  mixed
+	 *
+	 * @since   3.6
 	 */
 	public function getMimeTypes();
 
@@ -39,6 +47,8 @@ interface MediaModelFileTypeInterface
 	 * Return the file properties of a specific file
 	 *
 	 * @return array
+	 *
+	 * @since   3.6
 	 */
 	public function getProperties($filePath);
 }
