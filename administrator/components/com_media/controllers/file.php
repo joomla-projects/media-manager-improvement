@@ -287,8 +287,9 @@ class MediaControllerFile extends JControllerLegacy
 					'CVS',
 					'.DS_Store',
 					'__MACOSX',
-					'index.html'
-					'desktop.ini');
+					'index.html',
+					'desktop.ini',
+				);
 
 				$contents = JFolder::files($object_file->filepath, '.', true, false, $skipList);
 
