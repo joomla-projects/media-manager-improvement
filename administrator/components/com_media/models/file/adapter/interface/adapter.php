@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,20 +13,26 @@ defined('_JEXEC') or die;
  * Media Component File Adapter Interface
  *
  * The purpose of this interface is to guarantee compatibility of different adapters with the new file handling.
+ *
+ * @since  3.6
  */
 interface MediaModelFileAdapterInterfaceAdapter
 {
 	/**
 	 * Return a unique hash identifying this file
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   3.6
 	 */
 	public function getHash();
 
 	/**
 	 * Get the current file path
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   3.6
 	 */
 	public function getFilePath();
 
@@ -35,7 +41,9 @@ interface MediaModelFileAdapterInterfaceAdapter
 	 *
 	 * @param string $filePath
 	 *
-	 * @return $this
+	 * @return  $this
+	 *
+	 * @since   3.6
 	 */
 	public function setFilePath($filePath);
 
@@ -44,7 +52,9 @@ interface MediaModelFileAdapterInterfaceAdapter
 	 *
 	 * @param string $filePath
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   3.6
 	 */
 	public function getMimeType($filePath = null);
 }

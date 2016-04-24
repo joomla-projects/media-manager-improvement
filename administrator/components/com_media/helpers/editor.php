@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,15 +11,19 @@ defined('_JEXEC') or die;
 
 /**
  * Media Manager Editor helper
+ *
+ * @since  3.6
  */
 class MediaHelperEditor
 {
 	/**
 	 * Helper method to load a specific Media Editor plugin from its name
 	 *
-	 * @param $pluginName
+	 * @param   pluginName
 	 *
-	 * @return bool|JPlugin
+	 * @return  bool|JPlugin
+	 *
+	 * @since   3.6
 	 */
 	static public function loadPlugin($pluginName)
 	{
@@ -31,10 +35,11 @@ class MediaHelperEditor
 		}
 
 		$fileName = JPATH_ROOT . '/plugins/media-editor/' . $pluginData->name . '/' . $pluginData->name . '.php';
+
 		include_once $fileName;
 
 		$className = 'PlgMediaEditor' . ucfirst($pluginData->name);
-		$plugin = null;
+		$plugin    = null;
 
 		if (!class_exists($className))
 		{
@@ -42,7 +47,7 @@ class MediaHelperEditor
 		}
 
 		$dispatcher = JEventDispatcher::getInstance();
-		$plugin = new $className($dispatcher, (array) $pluginData);
+		$plugin     = new $className($dispatcher, (array) $pluginData);
 
 		if (!$plugin instanceof JPlugin)
 		{

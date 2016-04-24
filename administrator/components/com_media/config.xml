@@ -7,7 +7,8 @@
 			size="50"
 			default="bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS"
 			label="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_LABEL"
-			description="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_DESC" />
+			description="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_DESC"
+		/>
 
 		<field
 			name="upload_maxsize"
@@ -15,9 +16,13 @@
 			size="50"
 			default="10"
 			label="COM_MEDIA_FIELD_MAXIMUM_SIZE_LABEL"
-			description="COM_MEDIA_FIELD_MAXIMUM_SIZE_DESC" />
+			description="COM_MEDIA_FIELD_MAXIMUM_SIZE_DESC"
+		/>
 
-		<field name="spacer1" type="spacer" class="text"
+		<field
+			name="spacer1"
+			type="spacer"
+			class="text"
 			label="COM_MEDIA_FOLDERS_PATH_LABEL"
 		/>
 
@@ -27,7 +32,8 @@
 			size="50"
 			default="images"
 			label="COM_MEDIA_FIELD_PATH_FILE_FOLDER_LABEL"
-			description="COM_MEDIA_FIELD_PATH_FILE_FOLDER_DESC" />
+			description="COM_MEDIA_FIELD_PATH_FILE_FOLDER_DESC"
+		/>
 
 		<field
 			name="image_path"
@@ -35,7 +41,8 @@
 			size="50"
 			default="images"
 			label="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_LABEL"
-			description="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_DESC" />
+			description="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_DESC"
+		/>
 
 		<field
 			name="restrict_uploads"
@@ -43,7 +50,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_MEDIA_FIELD_RESTRICT_UPLOADS_LABEL"
-			description="COM_MEDIA_FIELD_RESTRICT_UPLOADS_DESC">
+			description="COM_MEDIA_FIELD_RESTRICT_UPLOADS_DESC"
+		>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -54,7 +62,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_MEDIA_FIELD_CHECK_MIME_LABEL"
-			description="COM_MEDIA_FIELD_CHECK_MIME_DESC">
+			description="COM_MEDIA_FIELD_CHECK_MIME_DESC"
+		>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -65,14 +74,16 @@
 			size="50"
 			default="bmp,gif,jpg,png"
 			label="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_LABEL"
-			description="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_DESC" />
+			description="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_DESC"
+		/>
 
 		<field
 			name="ignore_extensions"
 			type="text"
 			size="50"
 			label="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_LABEL"
-			description="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_DESC" />
+			description="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_DESC"
+		/>
 
 		<field
 			name="upload_mime"
@@ -80,7 +91,8 @@
 			size="50"
 			default="image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave-flash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
 			label="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_LABEL"
-			description="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_DESC" />
+			description="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_DESC"
+		/>
 
 		<field
 			name="upload_mime_illegal"
@@ -88,14 +100,14 @@
 			size="50"
 			default="text/html"
 			label="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_LABEL"
-			description="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_DESC" />
+			description="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_DESC"
+		/>
 	</fieldset>
 
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
-		>
+		description="JCONFIG_PERMISSIONS_DESC">
 
 		<field
 			name="rules"
@@ -104,6 +116,7 @@
 			filter="rules"
 			validate="rules"
 			component="com_media"
-			section="component" />
+			section="component"
+		/>
 	</fieldset>
 </config>

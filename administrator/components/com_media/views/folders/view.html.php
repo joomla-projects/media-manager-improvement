@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,42 +12,46 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Media component
  *
- * @since  1.0
+ * @since  3.6
  */
 class MediaViewFolders extends JViewLegacy
 {
 	/**
 	 * Current state object
 	 *
-	 * @var mixed
+	 * @var    mixed
+	 * @since  3.6
 	 */
 	protected $state;
 
 	/**
 	 * List of subfolders
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  3.6
 	 */
 	protected $folders;
 
 	/**
-	 * @var JSession
+	 * @var    JSession
+	 * @since  3.6
 	 */
 	protected $session;
 
 	/**
-	 * @var JConfig
+	 * @var    JConfig
+	 * @since  3.6
 	 */
 	protected $config;
 
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string  $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise a Error object.
 	 *
-	 * @since   1.0
+	 * @since   3.6
 	 */
 	public function display($tpl = null)
 	{
@@ -95,11 +99,11 @@ class MediaViewFolders extends JViewLegacy
 	/**
 	 * Display a folder level
 	 *
-	 * @param   array $folder Array with folder data
+	 * @param   array  $folder Array with folder data
 	 *
 	 * @return  string
 	 *
-	 * @since   1.0
+	 * @since   3.6
 	 */
 	protected function getFolderLevel($folder)
 	{

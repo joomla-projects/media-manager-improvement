@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,8 +28,6 @@ class MediaControllerFile extends JControllerLegacy
 	 */
 	public function upload()
 	{
-		$params = JComponentHelper::getParams('com_media');
-
 		// Check for request forgeries
 		if (!JSession::checkToken('request'))
 		{
@@ -38,13 +36,19 @@ class MediaControllerFile extends JControllerLegacy
 				'message' => JText::_('JINVALID_TOKEN'),
 				'error'   => JText::_('JINVALID_TOKEN')
 			);
+
 			echo json_encode($response);
 
 			return;
 		}
 
+		// The com_config params
+		$params = JComponentHelper::getParams('com_media');
+
 		// Get the user
-		$user  = JFactory::getUser();
+		$user = JFactory::getUser();
+
+		// Add the logger file
 		JLog::addLogger(array('text_file' => 'upload.error.php'), JLog::ALL, array('upload'));
 
 		// Get some data from the request
@@ -64,6 +68,7 @@ class MediaControllerFile extends JControllerLegacy
 				'message' => JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'),
 				'error'   => JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE')
 			);
+
 			echo json_encode($response);
 
 			return;
@@ -108,12 +113,13 @@ class MediaControllerFile extends JControllerLegacy
 				return;
 			}
 
-		// Trigger the onContentBeforeSave event.
-		JPluginHelper::importPlugin('content');
-		$dispatcher  = JEventDispatcher::getInstance();
-		$object_file = new JObject($file);
-		$object_file->filepath = $filepath;
-		$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file, true));
+			// Trigger the onContentBeforeSave event.
+			JPluginHelper::importPlugin('content');
+			$dispatcher  = JEventDispatcher::getInstance();
+			$object_file = new JObject($file);
+			$object_file->filepath = $filepath;
+
+			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file, true));
 
 			if (in_array(false, $result, true))
 			{
@@ -182,6 +188,7 @@ class MediaControllerFile extends JControllerLegacy
 			{
 				// Trigger the onContentAfterSave event.
 				$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file, true));
+
 				JLog::add($folder, JLog::INFO, 'upload');
 
 				$returnUrl = str_replace(JPATH_ROOT, '',  $object_file->filepath);
