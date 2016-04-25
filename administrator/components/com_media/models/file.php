@@ -223,6 +223,9 @@ class MediaModelFile extends JModelLegacy
 	 */
 	protected function create()
 	{
+		$user = JFactory::getUser();
+		$date = JFactory::getDate();
+
 		if (empty($this->fileProperties))
 		{
 			return false;
@@ -240,9 +243,9 @@ class MediaModelFile extends JModelLegacy
 			'filename'   => basename($this->fileProperties['path']),
 			'path'       => $path,
 			'md5sum'     => $hash,
-			'user_id'    => JFactory::getUser()->id,
-			'created_by' => JFactory::getUser()->id,
-			'created'    => JFactory::getDate()->toSql(),
+			'user_id'    => $user->id,
+			'created_by' => $user->id,
+			'created'    => $date->toSql(),
 			'adapter'    => 'local',
 			'published'  => 1,
 			'ordering'   => 1,
@@ -268,6 +271,9 @@ class MediaModelFile extends JModelLegacy
 	 */
 	protected function update()
 	{
+		$user = JFactory::getUser();
+		$date = JFactory::getDate();
+
 		if (empty($this->fileProperties))
 		{
 			return false;
@@ -286,9 +292,9 @@ class MediaModelFile extends JModelLegacy
 			'filename'    => basename($this->fileProperties['path']),
 			'path'        => $path,
 			'md5sum'      => $hash,
-			'user_id'     => JFactory::getUser()->id,
-			'modified_by' => JFactory::getUser()->id,
-			'modified'    => JFactory::getDate()->toSql(),
+			'user_id'     => $user->id,
+			'modified_by' => $user->id,
+			'modified'    => $date->toSql(),
 			'adapter'     => 'local',
 			'published'   => 1,
 			'ordering'    => 1,
