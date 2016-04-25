@@ -30,8 +30,7 @@ JFactory::getDocument()
 	");
 ?>
 <div>
-<?php // @todo: Using Language Constant & JText ?>
-	<h3>Displaying the content of :: /images/<?php echo $folderName; ?> ::</h3>
+	<h3><?php echo JText::sprintf('COM_MEDIA_DISPLAY_CONTENT_OF', '/images/' . $folderName); ?></h3>
 </div>
 <?php if (count($this->files) > 0 || count($this->folders) > 0) : ?>
 	<ul class="manager thumbnails">

@@ -1209,6 +1209,38 @@ INSERT INTO `#__languages` (`lang_id`, `lang_code`, `title`, `title_native`, `se
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `#__media_files``
+--
+CREATE TABLE `#__media_files` (
+  `id` integer NOT NULL AUTO_INCREMENT,
+  `filename` varchar(512) NOT NULL DEFAULT '',
+  `path` varchar(512) NOT NULL DEFAULT '',
+  `md5sum` varchar(32) NOT NULL DEFAULT '',
+  `adapter` varchar(32) NOT NULL DEFAULT 'local',
+  `published` tinyint(1) NOT NULL DEFAULT 0,
+  `checked_out` integer unsigned NOT NULL DEFAULT 0,
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `ordering` integer NOT NULL DEFAULT 0,
+  `params` text NOT NULL DEFAULT '',
+  `user_id` integer NOT NULL DEFAULT 0,
+  `access` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_by_alias` varchar(255) NOT NULL DEFAULT '',
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY  (`id`),
+  KEY `idx_access` (`access`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_state` (`published`),
+  KEY `idx_createdby` (`created_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `#__menu`
 --
 
