@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,20 +11,25 @@ defined('_JEXEC') or die;
 
 /**
  * Media Manager model to abstract file actions
+ *
+ * @since  3.6
  */
 abstract class MediaModelFileAdapterAbstract implements MediaModelFileAdapterInterfaceAdapter
 {
 	/**
 	 * Full path to a file
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.6
 	 */
 	protected $filePath;
 
 	/**
 	 * Get the current file path
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   3.6
 	 */
 	public function getFilePath()
 	{
@@ -36,7 +41,9 @@ abstract class MediaModelFileAdapterAbstract implements MediaModelFileAdapterInt
 	 *
 	 * @param string $filePath
 	 *
-	 * @return $this
+	 * @return  $this
+	 *
+	 * @since   3.6
 	 */
 	public function setFilePath($filePath)
 	{

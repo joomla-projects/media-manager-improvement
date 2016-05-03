@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,13 +13,12 @@ defined('_JEXEC') or die;
 JHtml::_('jquery.framework');
 
 $fileProperties = $this->fileProperties;
-$layoutFile = 'file.' . $fileProperties['file_type'];
-$layout = new JLayoutFile($layoutFile);
-
-$formUrl = 'index.php?option=com_media';
+$layoutFile     = 'file.' . $fileProperties['file_type'];
+$layout         = new JLayoutFile($layoutFile);
+$formUrl        = 'index.php?option=com_media';
 ?>
 <form action="<?php echo $formUrl ?>" method="post" id="adminForm" name="adminForm">
-	<h1><?php echo $fileProperties['name'] ?></h1>
+	<h1><?php echo $fileProperties['name']; ?></h1>
 
 	<div>
 		<?php echo $layout->render($fileProperties); ?>

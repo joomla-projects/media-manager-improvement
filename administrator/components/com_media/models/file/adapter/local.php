@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,51 +11,68 @@ defined('_JEXEC') or die;
 
 /**
  * Media Manager model to abstract the usage of local file actions
+ *
+ * @since  3.6
  */
 class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implements MediaModelFileAdapterInterfaceAdapter, MediaModelFileAdapterInterfaceFlysystem
 {
 	/**
-	 * @var int
+	 * @var    int
+	 * @since  3.6
 	 */
 	const SKIP_LINKS = 0001;
 	/**
-	 * @var int
+	 * @var    int
+	 * @since  3.6
 	 */
 	const DISALLOW_LINKS = 0002;
 
 	/**
-	 * @var array
+	 * An array with the file and folder permissions
+	 *
+	 * @var    array
+	 * @since  3.6
 	 */
 	protected static $permissions = [
 		'file' => [
 			'public' => 0644,
-			'private' => 0600,],
+			'private' => 0600,
+		],
 		'dir' => [
 			'public' => 0755,
-			'private' => 0700,]];
+			'private' => 0700,
+		]
+	];
 
 	/**
-	 * @var string
+	 * @var    string
+	 * @since  3.6
 	 */
 	protected $pathSeparator = DIRECTORY_SEPARATOR;
 
 	/**
-	 * @var array
+	 * @var    array
+	 * @since  3.6
 	 */
 	protected $permissionMap;
 
 	/**
-	 * @var int
+	 * @var    int
+	 * @since  3.6
 	 */
 	protected $writeFlags;
 
 	/**
-	 * @var int
+	 * @var    int
+	 * @since  3.6
 	 */
 	private $linkHandling;
 
 	/**
-	 * @var string path prefix
+	 * Path prefix
+	 *
+	 * @var    string 
+	 * @since  3.6
 	 */
 	protected $pathPrefix;
 
@@ -66,6 +83,8 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	 * @param int    $writeFlags
 	 * @param int    $linkHandling
 	 * @param array  $permissions
+	 *
+	 * @since  3.6
 	 */
 	public function __construct($root, $writeFlags = LOCK_EX, $linkHandling = self::DISALLOW_LINKS, array $permissions = [])
 	{
@@ -79,14 +98,19 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 		}
 
 		$this->setPathPrefix($realRoot);
-		$this->writeFlags = $writeFlags;
+
+		$this->writeFlags   = $writeFlags;
 		$this->linkHandling = $linkHandling;
 	}
 
 	/**
-	 * @param $path
+	 * Read the path
 	 *
-	 * @return array|bool
+	 * @param   $path
+	 *
+	 * @return  array|bool
+	 *
+	 * @since   3.6
 	 */
 	public function read($path)
 	{
@@ -104,10 +128,11 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Write a new file.
 	 *
-	 * @param string $path
-	 * @param string $contents
+	 * @param  string  $path
+	 * @param  string  $contents
 	 *
-	 * @return array|false false on failure file meta data on success
+	 * @return  array|false  false on failure file meta data on success
+	 * @since   3.6
 	 */
 	public function write($path, $contents)
 	{
@@ -119,7 +144,7 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 			return false;
 		}
 
-		$type = 'file';
+		$type   = 'file';
 		$result = compact('contents', 'type', 'size', 'path');
 
 		return $result;
@@ -128,16 +153,18 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Update a file.
 	 *
-	 * @param string $path
-	 * @param string $contents
+	 * @param  string  $path
+	 * @param  string  $contents
 	 *
-	 * @return array|false false on failure file meta data on success
+	 * @return  array|false false on failure file meta data on success
+	 *
+	 * @since   3.6
 	 */
 	public function update($path, $contents)
 	{
 		$location = $this->applyPathPrefix($path);
 		$mimetype = $this->getMimeType($path);
-		$size = file_put_contents($location, $contents, $this->writeFlags);
+		$size     = file_put_contents($location, $contents, $this->writeFlags);
 
 		if ($size === false)
 		{
@@ -150,16 +177,19 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Rename a file.
 	 *
-	 * @param string $path
-	 * @param string $newpath
+	 * @param  string  $path
+	 * @param  string  $newpath
 	 *
-	 * @return bool
+	 * @return  bool
+	 *
+	 * @since   3.6
 	 */
 	public function rename($path, $newpath)
 	{
-		$location = $this->applyPathPrefix($path);
-		$destination = $this->applyPathPrefix($newpath);
+		$location        = $this->applyPathPrefix($path);
+		$destination     = $this->applyPathPrefix($newpath);
 		$parentDirectory = $this->applyPathPrefix(dirname($newpath));
+
 		$this->ensureDirectory($parentDirectory);
 
 		return rename($location, $destination);
@@ -168,15 +198,18 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Copy a file.
 	 *
-	 * @param string $path
-	 * @param string $newpath
+	 * @param  string  $path
+	 * @param  string  $newpath
 	 *
-	 * @return bool
+	 * @return  bool
+	 *
+	 * @since   3.6
 	 */
 	public function copy($path, $newpath)
 	{
-		$location = $this->applyPathPrefix($path);
+		$location    = $this->applyPathPrefix($path);
 		$destination = $this->applyPathPrefix($newpath);
+
 		$this->ensureDirectory(dirname($destination));
 
 		return copy($location, $destination);
@@ -185,9 +218,11 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Delete a file.
 	 *
-	 * @param string $path
+	 * @param   string  $path
 	 *
-	 * @return bool
+	 * @return  bool
+	 *
+	 * @since   3.6
 	 */
 	public function delete($path)
 	{
@@ -199,9 +234,11 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Delete a directory.
 	 *
-	 * @param string $dirname
+	 * @param   string  $dirname
 	 *
-	 * @return bool
+	 * @return  bool
+	 *
+	 * @since   3.6
 	 */
 	public function deleteDir($dirname)
 	{
@@ -235,14 +272,16 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Create a directory.
 	 *
-	 * @param string $dirname directory name
+	 * @param   string  $dirname directory name
 	 *
-	 * @return array|false
+	 * @return  array|false
+	 *
+	 * @since   3.6
 	 */
 	public function createDir($dirname)
 	{
 		$location = $this->applyPathPrefix($dirname);
-		$umask = umask(0);
+		$umask    = umask(0);
 
 		if (!is_dir($location) && !mkdir($location, $this->permissionMap['dir']['public'], true))
 		{
@@ -261,16 +300,18 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Set the visibility for a file.
 	 *
-	 * @param string $path
-	 * @param string $visibility
+	 * @param   string  $path
+	 * @param   string  $visibility
 	 *
-	 * @return array|false file meta data
+	 * @return  array|false file meta data
+	 *
+	 * @since   3.6
 	 */
 	public function setVisibility($path, $visibility)
 	{
 		$location = $this->applyPathPrefix($path);
-		$type = is_dir($location) ? 'dir' : 'file';
-		$success = chmod($location, $this->permissionMap[$type][$visibility]);
+		$type     = is_dir($location) ? 'dir' : 'file';
+		$success  = chmod($location, $this->permissionMap[$type][$visibility]);
 
 		if ($success === false)
 		{
@@ -283,9 +324,11 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Ensure the root directory exists.
 	 *
-	 * @param string $root root directory path
+	 * @param   string  $root  Root directory path
 	 *
-	 * @return string real path to root
+	 * @return  string  Real path to root
+	 *
+	 * @since   3.6
 	 */
 	protected function ensureDirectory($root)
 	{
@@ -300,9 +343,13 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	}
 
 	/**
-	 * @param $path
+	 * Apply the path prefix to a given path
 	 *
-	 * @return mixed
+	 * @param   string  $path
+	 *
+	 * @return  mixed
+	 *
+	 * @since   3.6
 	 */
 	public function applyPathPrefix($path)
 	{
@@ -312,9 +359,11 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Set the path prefix.
 	 *
-	 * @param string $prefix
+	 * @param   string  $prefix
 	 *
-	 * @return self
+	 * @return  voild
+	 *
+	 * @since   3.6
 	 */
 	public function setPathPrefix($prefix)
 	{
@@ -331,7 +380,9 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Get the path prefix.
 	 *
-	 * @return string path prefix
+	 * @return  string  The path prefix
+	 *
+	 * @since   3.6
 	 */
 	public function getPathPrefix()
 	{
@@ -341,9 +392,11 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Remove a path prefix.
 	 *
-	 * @param string $path
+	 * @param   string  $path
 	 *
-	 * @return string path without the prefix
+	 * @return  string  path without the prefix
+	 *
+	 * @since   3.6
 	 */
 	public function removePathPrefix($path)
 	{
@@ -360,7 +413,9 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Return a unique hash identifying this file
 	 *
-	 * @return mixed
+	 * @return  mixed
+	 *
+	 * @since   3.6
 	 */
 	public function getHash()
 	{
@@ -375,9 +430,11 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Detect the MIME type of a specific file
 	 *
-	 * @param string $filePath
+	 * @param   string  $filePath
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   3.6
 	 */
 	public function getMimeType($filePath = null)
 	{

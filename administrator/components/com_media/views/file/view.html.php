@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,9 +20,11 @@ class MediaViewFile extends JViewLegacy
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   3.6
 	 */
 	public function display($tpl = null)
 	{
@@ -67,6 +69,8 @@ class MediaViewFile extends JViewLegacy
 	 * Add the page title and toolbar.
 	 *
 	 * @return  void
+	 *
+	 * @since   3.6
 	 */
 	protected function addToolbar()
 	{
@@ -79,7 +83,7 @@ class MediaViewFile extends JViewLegacy
 		foreach ($plugins as $pluginData)
 		{
 			$pluginName = $pluginData->name;
-			$plugin = MediaHelperEditor::loadPlugin($pluginName);
+			$plugin     = MediaHelperEditor::loadPlugin($pluginName);
 
 			if (method_exists($plugin, 'onMediaEditorAllowed'))
 			{
