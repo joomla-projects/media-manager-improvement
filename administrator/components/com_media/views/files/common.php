@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,27 +12,39 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Media component
  *
- * @since  1.0
+ * @since  3.6
  */
 class MediaViewFilesCommon extends JViewLegacy
 {
 	/**
-	 * @var array
+	 * The folders
+	 *
+	 * @var    array
+	 * @since  3.6
 	 */
 	protected $folders = array();
 
 	/**
-	 * @var array
+	 * The files
+	 *
+	 * @var    array
+	 * @since  3.6
 	 */
 	protected $files = array();
 
 	/**
-	 * @var mixed
+	 * The temp folder
+	 *
+	 * @var    mixed
+	 * @since  3.6
 	 */
 	protected $_tmp_folder;
 
 	/**
-	 * @var mixed
+	 * The temp file
+	 *
+	 * @var    mixed
+	 * @since  3.6
 	 */
 	protected $_tmp_file;
 
@@ -43,7 +55,7 @@ class MediaViewFilesCommon extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   3.6
 	 */
 	public function setFolder($index = 0)
 	{
@@ -60,7 +72,9 @@ class MediaViewFilesCommon extends JViewLegacy
 	/**
 	 * Get the active folder
 	 *
-	 * @return mixed
+	 * @return  mixed  The active folder
+	 *
+	 * @since   3.6
 	 */
 	public function getFolder()
 	{
@@ -74,7 +88,7 @@ class MediaViewFilesCommon extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   3.6
 	 */
 	public function setFolderByName($folderName)
 	{
@@ -95,7 +109,7 @@ class MediaViewFilesCommon extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   3.6
 	 */
 	public function setFile($index = 0)
 	{

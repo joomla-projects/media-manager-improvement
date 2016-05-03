@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,18 +11,24 @@ defined('_JEXEC') or die;
 
 /**
  * Media Component File Type Video Model
+ *
+ * @since  3.6
  */
 class MediaModelFileTypeVideo extends MediaModelFileTypeDefault implements MediaModelFileTypeInterface
 {
 	/**
 	 * Name of this file type
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.6
 	 */
 	protected $name = 'video';
 
 	/**
 	 * File extensions supported by this file type
+	 *
+	 * @var    array
+	 * @since  3.6
 	 */
 	protected $extensions = array(
 		'mp4',
@@ -33,9 +39,11 @@ class MediaModelFileTypeVideo extends MediaModelFileTypeDefault implements Media
 	/**
 	 * Return the file properties of a specific file
 	 *
-	 * @param string $filePath
+	 * @param   string  $filePath
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   3.6
 	 */
 	public function getProperties($filePath)
 	{

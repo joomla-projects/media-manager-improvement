@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,9 @@ require_once JPATH_COMPONENT . '/helpers/editor.php';
 class MediaControllerEditor extends JControllerLegacy
 {
 	/**
-	 *  Proof of pudding for Media Editor plugins
+	 * Proof of pudding for Media Editor plugins
+	 *
+	 * @since  3.6
 	 */
 	public function post()
 	{
@@ -25,20 +27,21 @@ class MediaControllerEditor extends JControllerLegacy
 
 		$app = JFactory::getApplication();
 
-		$file = $app->input->getString('file');
+		$file       = $app->input->getString('file');
 		$pluginName = $app->input->getCmd('plugin');
-		$plugin = MediaHelperEditor::loadPlugin($pluginName);
+		$plugin     = MediaHelperEditor::loadPlugin($pluginName);
 
 		if ($plugin == false)
 		{
 			throw new RuntimeException(JText::_('COM_MEDIA_ERROR_UNKNOWN_PLUGIN'));
 		}
 
-		$filePath = COM_MEDIA_BASE . '/' . $file;
+		$filePath    = COM_MEDIA_BASE . '/' . $file;
 		$redirectUrl = $plugin->onMediaEditorProcess($filePath);
 
-		$layout = new JLayoutFile('editor.close');
+		$layout     = new JLayoutFile('editor.close');
 		$layoutData = array('redirectUrl' => $redirectUrl);
+
 		echo $layout->render($layoutData);
 
 		$app->close();
@@ -47,7 +50,9 @@ class MediaControllerEditor extends JControllerLegacy
 	/**
 	 * Redirect back to the Media Manager
 	 *
-	 * @throws Exception
+	 * @throws  Exception
+	 *
+	 * @since   3.6
 	 */
 	public function cancel()
 	{

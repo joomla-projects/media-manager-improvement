@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,30 +21,35 @@ class MediaModelFileAdapter
 	/**
 	 * List of available file adapter objects (possibly extended by plugins)
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  3.6
 	 */
 	protected $availableFileAdapters = array();
 
 	/**
 	 * List of available file adapter identifiers (made available by this component)
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  3.6
 	 */
 	protected $defaultFileAdapterIdentifiers = array('local');
 
 	/**
 	 * Default file adapter
 	 *
-	 * @var MediaModelFileAdapterInterfaceAdapter
+	 * @var    MediaModelFileAdapterInterfaceAdapter
+	 * @since  3.6
 	 */
 	protected $defaultFileAdapter = 'local';
 
 	/**
 	 * Return the current file adapter object
 	 *
-	 * @param string $adapterName
+	 * @param  string  $adapterName
 	 *
-	 * @return mixed|false
+	 * @return  mixed|false
+	 *
+	 * @since   3.6
 	 */
 	public function getFileAdapter($adapterName)
 	{
@@ -62,7 +67,9 @@ class MediaModelFileAdapter
 	/**
 	 * Method to get the support file adapters
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   3.6
 	 */
 	protected function getAvailableFileAdapters()
 	{
@@ -89,6 +96,10 @@ class MediaModelFileAdapter
 
 	/**
 	 * Modify the list of available file adapters through the plugin event onMediaBuildFileAdapters()
+	 *
+	 * @return  void
+	 *
+	 * @since  3.6
 	 */
 	protected function modifyAvailableFileAdapters()
 	{
@@ -101,9 +112,11 @@ class MediaModelFileAdapter
 	/**
 	 * Get a file adapter object based on an identifier string
 	 *
-	 * @param string $identifier
+	 * @param   string  $identifier
 	 *
-	 * @return bool|MediaModelFileAdapterInterfaceAdapter
+	 * @return  bool|MediaModelFileAdapterInterfaceAdapter
+	 *
+	 * @since   3.6
 	 */
 	protected function getFileAdapterObjectFromIdentifier($identifier)
 	{
