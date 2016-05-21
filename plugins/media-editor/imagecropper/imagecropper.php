@@ -1,16 +1,18 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  MediaEditor.Rename
+ * @subpackage  MediaEditor.Imagecropper
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Class PlgMediaEditorExample
+ * Class PlgMediaEditorImagecropper
+ *
+ * Plugin that can rotate, resize and crop images
  */
 class PlgMediaEditorImagecropper extends JPlugin
 {
@@ -79,19 +81,17 @@ class PlgMediaEditorImagecropper extends JPlugin
 		jimport( 'joomla.filesystem.file' );
 
 		// Get data
-		$input   	= JFactory::getApplication()->input;
+		$input   	= $this->app->input;
 
 		// Get the dir and filename
 		$pathInfo   = pathinfo($fullPath);
 		$fileName	= $pathInfo['basename'];
 		$filePath	= ($pathInfo['dirname'] != '.' ? $pathInfo['dirname'] . '/' : '');
 
-		$baseMediaPath = JPATH_ROOT . '/images/';
-
 		$jsonData = json_decode($input->get('imagecropper-jsondata', '', 'RAW'));
 
 		// Grab the image
-		$image = new JImage($baseMediaPath . $filePath . $fileName);
+		$image = new JImage($filePath . $fileName);
 
 		// Manipulate the image
 		if ($jsonData->scaleY == '-1')
@@ -128,7 +128,7 @@ class PlgMediaEditorImagecropper extends JPlugin
 			$fileName = str_replace(' ', '-', $fileName);
 		}
 
-		$result = $image->toFile($baseMediaPath . $filePath . $fileName);
+		$result = $image->toFile($filePath . $fileName);
 
 		//todo report result to user
 		if ($result)
@@ -143,7 +143,7 @@ class PlgMediaEditorImagecropper extends JPlugin
 		}
 
 		// redirect user to the original image
-		$newUrl = JRoute::_('index.php?option=com_media&view=file&view=file&file=' . $fullPath, false);
+		$newUrl = JRoute::_('index.php?option=com_media&view=file&view=file&file=' . $input->get('file', '', 'RAW'), false);
 
 		return $newUrl;
 	}
