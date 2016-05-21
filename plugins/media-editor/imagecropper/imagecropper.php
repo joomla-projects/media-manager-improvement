@@ -104,7 +104,11 @@ class PlgMediaEditorImagecropper extends JPlugin
 			$image = $image->flip(IMG_FLIP_HORIZONTAL, true);
 		}
 
-		$image = $image->rotate($jsonData->rotate);
+		if ($jsonData->rotate !== 0)
+		{
+			$image = $image->rotate($jsonData->rotate);
+		}
+
 		$image = $image->crop($jsonData->width, $jsonData->height, $jsonData->x, $jsonData->y);
 
 		// resize the image, disabled for now
