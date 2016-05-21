@@ -3,10 +3,6 @@ $inp = JFactory::getApplication()->input;
 $name = $inp->getCmd('name');
 $filePath = $displayData['filePath'];
 ?>
-<link rel="stylesheet" href="/media/plg_media-editor_imagecropper/css/cropper.min.css" type="text/css"/>
-<script src="/media/plg_media-editor_imagecropper/js/cropper.js"></script>
-
-
 <div class="btn-toolbar imagecropper-toolbar">
 
     <div class="btn-group">

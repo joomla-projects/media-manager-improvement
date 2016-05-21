@@ -57,6 +57,9 @@ class PlgMediaEditorImagecropper extends JPlugin
 	 */
 	public function onMediaEditorDisplay($filePath)
 	{
+		JFactory::getDocument()->addScript('/media/plg_media-editor_imagecropper/js/cropper.js');
+		JFactory::getDocument()->addStyleSheet('/media/plg_media-editor_imagecropper/css/cropper.min.css');
+
 		$data = array('filePath' => $filePath);
 		$layout = new JLayoutFile('form', __DIR__ . '/layout');
 		$html = $layout->render($data);
