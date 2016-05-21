@@ -71,13 +71,72 @@ class PlgMediaEditorImagecropper extends JPlugin
 	 *
 	 * @return string
 	 */
-	public function onMediaEditorProcess($filePath)
+	public function onMediaEditorProcess($fullPath)
 	{
-		$newFile = $this->app->input->getFile('toFile');
+		jimport( 'joomla.filesystem.file' );
 
+		// Get data
+		$input   	= JFactory::getApplication()->input;
 
-		// If the redirect below is ommitted, the current page will be refreshed, which will give an error now
-		$newUrl = JRoute::_('index.php?option=com_media&view=file&view=file&file=' . $newFile, false);
+		// Get the dir and filename
+		$pathInfo   = pathinfo($fullPath);
+		$fileName	= $pathInfo['basename'];
+		$filePath	= ($pathInfo['dirname'] != '.' ? $pathInfo['dirname'] . '/' : '');
+
+		$baseMediaPath = JPATH_ROOT . '/images/';
+
+		$jsonData = json_decode($input->get('imagecropper-jsondata', '', 'RAW'));
+
+		// Grab the image
+		$image = new JImage($baseMediaPath . $filePath . $fileName);
+
+		// Manipulate the image
+		if ($jsonData->scaleY == '-1')
+		{
+			$image = $image->flip(IMG_FLIP_VERTICAL, true);
+		}
+
+		if ($jsonData->scaleX == '-1')
+		{
+			$image = $image->flip(IMG_FLIP_HORIZONTAL, true);
+		}
+
+		$image = $image->rotate($jsonData->rotate);
+		$image = $image->crop($jsonData->width, $jsonData->height, $jsonData->x, $jsonData->y);
+
+		// resize the image, disabled for now
+		if ($jsonData->scaleX !== 1 || $jsonData->scaleY !== 1)
+		{
+			$iNewWidth  = $image->getWidth() * $jsonData->scaleX;
+			$iNewHeight = $image->getHeight() * $jsonData->scaleY;
+
+			$image 	= $image->resize($iNewWidth, $iNewHeight);
+		}
+
+		// change filename is save as copy
+		if ($input->get('save_copy') === 'on')
+		{
+			$random   = JUserHelper::genRandomPassword(3);
+			$fileName = JFile::makeSafe($random . '_' . $fileName);
+			$fileName = str_replace(' ', '-', $fileName);
+		}
+
+		$result = $image->toFile($baseMediaPath . $filePath . $fileName);
+
+		//todo report result to user
+		if ($result)
+		{
+			//JLog::add(JText::_('PLG_MEDIA-EDITOR_IMAGECROPPER_SAVE_SUCCESS'), JLog::INFO);
+			//JFactory::getApplication()->enqueueMessage(JText::_('PLG_MEDIA-EDITOR_IMAGECROPPER_SAVE_SUCCESS'), JLog::INFO);
+		}
+		else
+		{
+			//JLog::add(JText::_('PLG_MEDIA-EDITOR_IMAGECROPPER_SAVE_SUCCESS'), JLog::ERROR);
+			//JFactory::getApplication()->enqueueMessage(JText::_('PLG_MEDIA-EDITOR_IMAGECROPPER_SAVE_SUCCESS'), JLog::ERROR);
+		}
+
+		// redirect user to the original image
+		$newUrl = JRoute::_('index.php?option=com_media&view=file&view=file&file=' . $fullPath, false);
 
 		return $newUrl;
 	}
