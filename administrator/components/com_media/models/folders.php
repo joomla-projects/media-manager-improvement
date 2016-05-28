@@ -66,9 +66,14 @@ class MediaModelFolders extends JModelLegacy
 	 */
 	public function setCurrentFolder($currentFolder)
 	{
+		// Simple sanitizing
+		$currentFolder = preg_replace('/^([\/]+)/', '', $currentFolder);
+
+		// Save this folder in the session
 		$session = JFactory::getSession();
 		$session->set('com_media.current_folder', $currentFolder);
 
+		// Set the state
 		$this->setState('current_folder', $currentFolder);
 
 		return $this;
@@ -85,10 +90,18 @@ class MediaModelFolders extends JModelLegacy
 	 */
 	public function getFolders($currentBase = null)
 	{
+		$currentBase = MediaHelperFolder::sanitizePath($currentBase);
+
 		// Get some paths from the request
 		if (empty($currentBase))
 		{
-			$currentBase = COM_MEDIA_BASE . '/' . $this->getState('current_folder');
+			$currentFolder = $this->getState('current_folder');
+			$currentBase = COM_MEDIA_BASE;
+
+			if (!empty($currentFolder))
+			{
+				$currentBase .= '/' . $currentFolder;
+			}
 		}
 
 		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
@@ -131,7 +144,11 @@ class MediaModelFolders extends JModelLegacy
 			}
 		}
 
-		$tree['parent'] = $this->getParent();
+		if ($currentBase !== COM_MEDIA_BASE)
+		{
+			$tree['parent'] = $this->getParent();
+		}
+
 		$tree['data'] = (object) array('name' => JText::_('COM_MEDIA_MEDIA'), 'relative' => '', 'absolute' => $currentBase);
 
 		return $tree;
