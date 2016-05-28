@@ -20,7 +20,7 @@ class MediaViewFile extends JViewLegacy
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise a Error object.
 	 *
@@ -28,7 +28,7 @@ class MediaViewFile extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
+		$app          = JFactory::getApplication();
 		$this->config = JComponentHelper::getParams('com_media');
 
 		if (!$app->isAdmin())
@@ -39,17 +39,17 @@ class MediaViewFile extends JViewLegacy
 		}
 
 		// Check for the right file
-		$filePath = $app->input->getPath('file');
-		$fullPath = JPATH_ROOT . '/images/' . $filePath;
+		$filePath     = $app->input->getPath('file');
+		$fullFilePath = JPATH_ROOT . '/images/' . $filePath;
 
-		if (is_file($fullPath) === false)
+		if (is_file($fullFilePath) === false)
 		{
 			throw new RuntimeException(JText::_('JERROR_FILENOTFOUND' . ': ' . $filePath));
 		}
 
 		// Load the file object
 		$fileModel = $this->getModel('file');
-		$fileModel->loadByPath($fullPath);
+		$fileModel->loadByPath($fullFilePath);
 
 		if ($fileModel->getId() == 0)
 		{
@@ -57,7 +57,7 @@ class MediaViewFile extends JViewLegacy
 		}
 
 		$this->fileProperties = $fileModel->getFileProperties();
-		$this->fileType = $this->fileProperties['file_type'];
+		$this->fileType       = $this->fileProperties['file_type'];
 
 		// Set the toolbar
 		$this->addToolbar();
@@ -66,7 +66,7 @@ class MediaViewFile extends JViewLegacy
 	}
 
 	/**
-	 * Add the page title and toolbar.
+	 * Add things to the toolbar
 	 *
 	 * @return  void
 	 *
@@ -74,11 +74,24 @@ class MediaViewFile extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$plugins = JPluginHelper::getPlugin('media-editor');
-		$toolbar = JToolBar::getInstance('toolbar');
+		$this->addToolbarPluginButtons();
 
 		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
 		JToolbarHelper::cancel('editor.cancel', 'JTOOLBAR_CLOSE');
+
+		// Allow Media Editor plugins to modify the entire toolbar
+		$toolbar = JToolbar::getInstance('toolbar');
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onMediaEditorBeforeRenderToolbar', array(&$toolbar));
+	}
+
+	/**
+	 * Add buttons per Media Editor plugin to the toolbar
+	 */
+	protected function addToolbarPluginButtons()
+	{
+		$toolbar = JToolbar::getInstance('toolbar');
+		$plugins = JPluginHelper::getPlugin('media-editor');
 
 		foreach ($plugins as $pluginData)
 		{
