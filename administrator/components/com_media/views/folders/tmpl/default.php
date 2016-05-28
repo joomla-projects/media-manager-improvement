@@ -27,13 +27,11 @@ if ($lang->isRtl())
 	JHtml::_('stylesheet', 'media/popup-imagemanager_rtl.css', array(), true);
 }
 
-$doc->addScriptDeclaration("
-		var basepath = '" . $params->get('image_path', 'images') . "';
-	");
+$doc->addScriptDeclaration("var basepath = '" . $params->get('image_path', 'images') . "';");
 ?>
 <div class="row-fluid">
 	<!-- Begin Content -->
-	<div class="span2" style="border-right: 1px solid lightgrey; height:100%;">
+	<div class="span2 sidebar" style="border-right: 1px solid lightgrey; height:100%;">
 		<h3 style="padding-left: 10px;"><?php echo JText::_('COM_MEDIA_FOLDERS'); ?> </h3>
 		<div id="tree">
 			<?php echo $this->loadTemplate('folders'); ?>
