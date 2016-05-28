@@ -30,7 +30,11 @@ JFactory::getDocument()
 <div>
 	<h3><?php echo JText::sprintf('COM_MEDIA_DISPLAY_CONTENT_OF', '/images/' . $this->currentFolder); ?></h3>
 </div>
-<?php if (count($this->files) > 0 || count($this->folders) > 0) : ?>
+<?php if (empty($this->files) && empty($this->folders)) : ?>
+	<div id="media-noimages">
+		<div class="alert alert-info"><?php echo JText::_('COM_MEDIA_NO_IMAGES_FOUND'); ?></div>
+	</div>
+<?php else : ?>
 	<ul class="manager thumbnails">
 		<?php if (isset($this->folders['parent'])) : ?>
 			<?php echo $this->loadTemplate('parent'); ?>
@@ -54,10 +58,6 @@ JFactory::getDocument()
 			<?php echo $this->loadTemplate('file'); ?>
 		<?php endfor; ?>
 	</ul>
-<?php else : ?>
-	<div id="media-noimages">
-		<div class="alert alert-info"><?php echo JText::_('COM_MEDIA_NO_IMAGES_FOUND'); ?></div>
-	</div>
 <?php endif; ?>
 
 <script>
