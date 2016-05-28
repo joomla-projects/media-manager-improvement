@@ -108,36 +108,38 @@ class MediaModelFiles extends JModelLegacy
 		$fileHashes  = array();
 		$storedFiles = $this->getStoredFiles($currentFolder);
 
-		// Iterate over the files if they exist
-		if ($fileList !== false)
+		if ($fileList == false)
 		{
-			// Add all files that are physically detected in this folder
-			foreach ($fileList as $file)
+			return $this->files;
+		}
+
+		// Iterate over the files if they exist
+		// Add all files that are physically detected in this folder
+		foreach ($fileList as $file)
+		{
+			// Construct the file object for use in the Media Manager
+			$tmp = $this->loadObjectFromFile($file, $currentFolder, $fileHashes);
+
+			if ($tmp == false)
 			{
-				// Construct the file object for use in the Media Manager
-				$tmp = $this->loadObjectFromFile($file, $currentFolder, $fileHashes);
-
-				if ($tmp == false)
-				{
-					continue;
-				}
-
-				$this->files[] = $tmp;
+				continue;
 			}
 
-			// Add all files that are in the database and are not detected in this folder
-			foreach ($storedFiles as $storedFile)
+			$this->files[] = $tmp;
+		}
+
+		// Add all files that are in the database and are not detected in this folder
+		foreach ($storedFiles as $storedFile)
+		{
+			// Construct the file object for use in the Media Manager
+			$tmp = $this->loadObjectFromStoredFile($storedFile, $currentFolder, $fileHashes);
+
+			if ($tmp == false)
 			{
-				// Construct the file object for use in the Media Manager
-				$tmp = $this->loadObjectFromStoredFile($storedFile, $currentFolder, $fileHashes);
-
-				if ($tmp == false)
-				{
-					continue;
-				}
-
-				$this->files[] = $tmp;
+				continue;
 			}
+
+			$this->files[] = $tmp;
 		}
 
 		return $this->files;
@@ -229,9 +231,7 @@ class MediaModelFiles extends JModelLegacy
 
 		$db->setQuery($query);
 
-		$results = $db->loadObjectList();
-
-		return $results;
+		return $db->loadObjectList();
 	}
 
 	/**
