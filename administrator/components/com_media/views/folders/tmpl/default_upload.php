@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 $sessionToken = $this->session->getName() . '=' . $this->session->getId();
-$formToken = JSession::getFormToken();
-$actionUrl = JUri::base() . 'index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;' . $sessionToken . '&amp;' . $formToken . '=1&amp;format=html';
+$formToken    = JSession::getFormToken();
+$actionUrl    = JUri::base() . 'index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;' . $sessionToken . '&amp;' . $formToken . '=1&amp;format=html';
 ?>
 <form
 	action="<?php echo $actionUrl; ?>"
@@ -21,7 +21,7 @@ $actionUrl = JUri::base() . 'index.php?option=com_media&amp;task=file.upload&amp
 			<label for="upload-file" class="control-label">
 				<?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?>
 			</label>
-			<input type="file" id="upload-file" name="Filedata[]" multiple/>
+			<input type="file" id="upload-file" name="Filedata[]" multiple />
 			<button class="btn btn-primary" id="upload-submit">
 				<span class="icon-upload icon-white"></span>
 				<?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?>
@@ -31,7 +31,7 @@ $actionUrl = JUri::base() . 'index.php?option=com_media&amp;task=file.upload&amp
 			</p>
 		</fieldset>
 		<input class="update-folder" type="hidden" name="folder" id="folder"
-		       value="<?php echo $this->state->folder; ?>"/>
+		       value="<?php echo $this->state->folder; ?>" />
 		<?php $this->session->set('com_media.return_url', 'index.php?option=com_media'); ?>
 	</div>
 </form>

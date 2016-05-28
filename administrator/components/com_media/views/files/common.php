@@ -61,7 +61,7 @@ class MediaViewFilesCommon extends JViewLegacy
 	public function __construct($config = array())
 	{
 		$this->app = JFactory::getApplication();
-		
+
 		return parent::__construct($config);
 	}
 
@@ -79,18 +79,18 @@ class MediaViewFilesCommon extends JViewLegacy
 		// Do not allow cache
 		$this->app->allowCache(false);
 
-		$foldersModel = $this->getFoldersModel();
+		$foldersModel  = $this->getFoldersModel();
 		$currentFolder = $foldersModel->getCurrentFolder();
-		$folders = $foldersModel->getFolders();
+		$folders       = $foldersModel->getFolders();
 
 		$filesModel = $this->getFilesModel();
 		$files      = $filesModel->setFileFilter($this->getFileFilter())->getFiles();
 		$state      = $this->get('state');
 
 		$this->currentFolder = $currentFolder;
-		$this->files    = $files;
-		$this->folders  = $folders;
-		$this->state    = $state;
+		$this->files         = $files;
+		$this->folders       = $folders;
+		$this->state         = $state;
 
 		parent::display($tpl);
 	}
@@ -98,7 +98,7 @@ class MediaViewFilesCommon extends JViewLegacy
 	/**
 	 * Set the active folder
 	 *
-	 * @param   integer  $index  Folder position
+	 * @param   integer $index Folder position
 	 *
 	 * @return  void
 	 *
@@ -131,7 +131,7 @@ class MediaViewFilesCommon extends JViewLegacy
 	/**
 	 * Set the active folder
 	 *
-	 * @param   string  $folderName  Folder name
+	 * @param   string $folderName Folder name
 	 *
 	 * @return  void
 	 *
@@ -152,7 +152,7 @@ class MediaViewFilesCommon extends JViewLegacy
 	/**
 	 * Set the active image
 	 *
-	 * @param   integer  $index  Image position
+	 * @param   integer $index Image position
 	 *
 	 * @return  void
 	 *

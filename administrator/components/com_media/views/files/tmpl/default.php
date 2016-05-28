@@ -61,8 +61,8 @@ JFactory::getDocument()
 <?php endif; ?>
 
 <script>
-	jQuery(document).ready(function ($) {
-		$('a.ajaxInit').each(function (index, value) {
+	jQuery(document).ready(function($) {
+		$('a.ajaxInit').each(function(index, value) {
 			MediaManagerFoldersOnClick(this);
 		});
 	});

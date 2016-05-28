@@ -87,7 +87,7 @@ class MediaModelFolder extends JModelLegacy
 		}
 
 		$currentFolder = $this->getCurrentFolder();
-		$this->files = $this->getFilesModel()->setCurrentFolder($currentFolder)->getFiles();
+		$this->files   = $this->getFilesModel()->setCurrentFolder($currentFolder)->getFiles();
 
 		return $this->files;
 	}
@@ -121,8 +121,8 @@ class MediaModelFolder extends JModelLegacy
 	 */
 	public function getCurrentFolder()
 	{
-		$current = (string) $this->getState('folder');
-		$currentFolder  = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
+		$current       = (string) $this->getState('folder');
+		$currentFolder = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
 
 		return $currentFolder;
 	}

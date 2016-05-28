@@ -38,7 +38,8 @@ class MediaModelFileTypeImage extends MediaModelFileTypeDefault implements Media
 		'odg',
 		'bmp',
 		'jpeg',
-		'ico',);
+		'ico',
+	);
 
 	/**
 	 * MIME types supported by this file type
@@ -53,12 +54,13 @@ class MediaModelFileTypeImage extends MediaModelFileTypeDefault implements Media
 		'image/bmp',
 		'image/xcf',
 		'image/odg',
-		'image/x-windows-bmp',);
+		'image/x-windows-bmp',
+	);
 
 	/**
 	 * Return the file properties of a specific file
 	 *
-	 * @param   string  $filePath
+	 * @param   string $filePath
 	 *
 	 * @return  array
 	 *

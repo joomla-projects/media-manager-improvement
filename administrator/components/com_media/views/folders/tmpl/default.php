@@ -41,7 +41,7 @@ $doc->addScriptDeclaration("var basepath = '" . $params->get('image_path', 'imag
 		<?php if (($user->authorise('core.create', 'com_media')) && $this->require_ftp) : ?>
 			<?php echo $this->loadTemplate('ftp'); ?>
 		<?php endif; ?>
-		
+
 		<?php if ($user->authorise('core.create', 'com_media')): ?>
 			<div id="collapseUpload" class="collapse">
 				<?php echo $this->loadTemplate('upload'); ?>
@@ -53,10 +53,10 @@ $doc->addScriptDeclaration("var basepath = '" . $params->get('image_path', 'imag
 
 		<form action="index.php?option=com_media" name="adminForm" id="mediamanager-form" method="post"
 		      enctype="multipart/form-data">
-			<input type="hidden" name="task" value=""/>
-			<input type="hidden" name="cb1" id="cb1" value="0"/>
+			<input type="hidden" name="task" value="" />
+			<input type="hidden" name="cb1" id="cb1" value="0" />
 			<input class="update-folder" type="hidden" name="folder" id="folder"
-			       value="<?php echo $this->state->folder; ?>"/>
+			       value="<?php echo $this->state->folder; ?>" />
 		</form>
 
 		<form

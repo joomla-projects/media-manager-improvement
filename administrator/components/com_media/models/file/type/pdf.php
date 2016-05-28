@@ -45,7 +45,7 @@ class MediaModelFileTypePdf extends MediaModelFileTypeDefault implements MediaMo
 	/**
 	 * Return the file properties of a specific file
 	 *
-	 * @param  string  $filePath
+	 * @param  string $filePath
 	 *
 	 * @return  array
 	 *

@@ -80,7 +80,7 @@ class MediaViewFile extends JViewLegacy
 		JToolbarHelper::cancel('editor.cancel', 'JTOOLBAR_CLOSE');
 
 		// Allow Media Editor plugins to modify the entire toolbar
-		$toolbar = JToolbar::getInstance('toolbar');
+		$toolbar    = JToolbar::getInstance('toolbar');
 		$dispatcher = JEventDispatcher::getInstance();
 		$dispatcher->trigger('onMediaEditorBeforeRenderToolbar', array(&$toolbar));
 	}

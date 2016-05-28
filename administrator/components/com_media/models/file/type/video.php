@@ -39,7 +39,7 @@ class MediaModelFileTypeVideo extends MediaModelFileTypeDefault implements Media
 	/**
 	 * Return the file properties of a specific file
 	 *
-	 * @param   string  $filePath
+	 * @param   string $filePath
 	 *
 	 * @return  array
 	 *
@@ -47,7 +47,7 @@ class MediaModelFileTypeVideo extends MediaModelFileTypeDefault implements Media
 	 */
 	public function getProperties($filePath)
 	{
-		$properties = array();
+		$properties            = array();
 		$properties['icon_32'] = 'media/mime-icon-32/mp4.png';
 		$properties['icon_16'] = 'media/mime-icon-16/mp4.png';
 
