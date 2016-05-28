@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
+require_once JPATH_ADMINISTRATOR . '/components/com_media/helpers/folder.php';
+
 /**
  * Media Component Folders Model
  *
@@ -28,12 +30,18 @@ class MediaModelFolders extends JModelLegacy
 	protected $folders = array();
 
 	/**
-	 * Folder to search for files
+	 * MediaModelFolders constructor.
 	 *
-	 * @var    string
-	 * @since  3.6
+	 * @param array $config
 	 */
-	protected $currentFolder = '';
+	public function __construct($config = array())
+	{
+		$rt = parent::__construct($config);
+
+		$this->detectCurrentFolder();
+
+		return $rt;
+	}
 
 	/**
 	 * Get the current folder
@@ -44,13 +52,13 @@ class MediaModelFolders extends JModelLegacy
 	 */
 	public function getCurrentFolder()
 	{
-		return $this->currentFolder;
+		return $this->getState('current_folder');
 	}
 
 	/**
 	 * Set the current folder
 	 *
-	 * @param   string  $folder
+	 * @param   string $currentFolder
 	 *
 	 * @return  $this
 	 *
@@ -58,45 +66,36 @@ class MediaModelFolders extends JModelLegacy
 	 */
 	public function setCurrentFolder($currentFolder)
 	{
-		$this->currentFolder = $currentFolder;
+		$session = JFactory::getSession();
+		$session->set('com_media.current_folder', $currentFolder);
+
+		$this->setState('current_folder', $currentFolder);
 
 		return $this;
 	}
 
 	/**
-	 * Return the file model
-	 *
-	 * @return  MediaModelFolder
-	 *
-	 * @since   3.6
-	 */
-	protected function getFolderModel()
-	{
-		return new MediaModelFolder;
-	}
-
-	/**
 	 * Get the folder tree
 	 *
-	 * @param   mixed  $base  Base folder | null for using base media folder
+	 * @param   mixed $base Base folder | null for using base media folder
 	 *
 	 * @return  array
 	 *
 	 * @since   3.6
 	 */
-	public function getFolders($base = null)
+	public function getFolders($currentBase = null)
 	{
 		// Get some paths from the request
-		if (empty($base))
+		if (empty($currentBase))
 		{
-			$base = COM_MEDIA_BASE;
+			$currentBase = COM_MEDIA_BASE . '/' . $this->getState('current_folder');
 		}
 
 		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
 
 		// Get the list of folders
 		jimport('joomla.filesystem.folder');
-		$folders = JFolder::folders($base, '.', true, true);
+		$folders = JFolder::folders($currentBase, '.', true, true);
 
 		$tree = array();
 
@@ -132,16 +131,34 @@ class MediaModelFolders extends JModelLegacy
 			}
 		}
 
-		$tree['data'] = (object) array('name' => JText::_('COM_MEDIA_MEDIA'), 'relative' => '', 'absolute' => $base);
+		$tree['parent'] = $this->getParent();
+		$tree['data'] = (object) array('name' => JText::_('COM_MEDIA_MEDIA'), 'relative' => '', 'absolute' => $currentBase);
 
 		return $tree;
 	}
 
 	/**
+	 * Get the parent folder
+	 */
+	public function getParent()
+	{
+		$currentBase = COM_MEDIA_BASE . '/' . $this->getState('current_folder');
+		$parent = dirname($currentBase);
+
+		if ($parent)
+		{
+			$parent = MediaHelperFolder::sanitizePath($parent);
+			$parent = MediaHelperFolder::fromAbsoluteToRelative($parent);
+		}
+
+		return $parent;
+	}
+
+	/**
 	 * Method to get model state variables
 	 *
-	 * @param   string  $property  Optional parameter name
-	 * @param   mixed   $default   Optional default value
+	 * @param   string $property Optional parameter name
+	 * @param   mixed  $default  Optional default value
 	 *
 	 * @return  object  The property where specified, the state object where omitted
 	 *
@@ -171,14 +188,39 @@ class MediaModelFolders extends JModelLegacy
 	}
 
 	/**
-	 * Return the folder model
+	 * @throws Exception
+	 */
+	protected function detectCurrentFolder()
+	{
+		$app     = JFactory::getApplication();
+		$getData = $app->input->get->getArray();
+
+		if (isset($getData['folder']))
+		{
+			$currentFolder = $app->input->get('folder', '', 'path');
+			$this->setCurrentFolder($currentFolder);
+
+			return;
+		}
+
+		$session       = JFactory::getSession();
+		$currentFolder = $session->get('com_media.current_folder');
+
+		if (!empty($currentFolder))
+		{
+			$this->setCurrentFolder($currentFolder);
+		}
+	}
+
+	/**
+	 * Return the file model
 	 *
-	 * @return  MediaModelFolders
+	 * @return  MediaModelFolder
 	 *
 	 * @since   3.6
 	 */
-	protected function getFoldersModel()
+	protected function getFolderModel()
 	{
-		return new MediaModelFolders;
+		return JModelLegacy::getInstance('folder', 'MediaModel');
 	}
 }

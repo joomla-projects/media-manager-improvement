@@ -28,14 +28,6 @@ class MediaModelFiles extends JModelLegacy
 	protected $files = array();
 
 	/**
-	 * Folder to search for files
-	 *
-	 * @var    string
-	 * @since  3.6
-	 */
-	protected $currentFolder = '';
-
-	/**
 	 * Get the current folder
 	 *
 	 * @return  string
@@ -44,23 +36,7 @@ class MediaModelFiles extends JModelLegacy
 	 */
 	public function getCurrentFolder()
 	{
-		return $this->currentFolder;
-	}
-
-	/**
-	 * Set the current folder
-	 *
-	 * @param   string  $folder
-	 *
-	 * @return  MediaModelFiles
-	 *
-	 * @since   3.6
-	 */
-	public function setCurrentFolder($currentFolder)
-	{
-		$this->currentFolder = $currentFolder;
-
-		return $this;
+		return $this->getFoldersModel()->getCurrentFolder();
 	}
 
 	/**
@@ -96,7 +72,7 @@ class MediaModelFiles extends JModelLegacy
 			return $this->files;
 		}
 
-		$currentFolder = COM_MEDIA_BASE;
+		$currentFolder = COM_MEDIA_BASE . '/' . $this->getCurrentFolder();
 
 		if (!file_exists($currentFolder))
 		{
@@ -270,6 +246,18 @@ class MediaModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * Return the folders model
+	 *
+	 * @return  MediaModelFolders
+	 *
+	 * @since   3.6
+	 */
+	protected function getFoldersModel()
+	{
+		return JModelLegacy::getInstance('folders', 'MediaModel');
+	}
+
+	/**
 	 * Return the file model
 	 *
 	 * @return  MediaModelFile
@@ -278,6 +266,6 @@ class MediaModelFiles extends JModelLegacy
 	 */
 	protected function getFileModel()
 	{
-		return new MediaModelFile;
+		return JModelLegacy::getInstance('file', 'MediaModel');
 	}
 }

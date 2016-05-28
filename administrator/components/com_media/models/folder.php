@@ -136,7 +136,7 @@ class MediaModelFolder extends JModelLegacy
 	 */
 	protected function getFilesModel()
 	{
-		return new MediaModelFiles;
+		return JModelLegacy::getInstance('files', 'MediaModel');
 	}
 
 	/**
@@ -148,6 +148,6 @@ class MediaModelFolder extends JModelLegacy
 	 */
 	protected function getFoldersModel()
 	{
-		return new MediaModelFolders;
+		return JModelLegacy::getInstance('folders', 'MediaModel');
 	}
 }

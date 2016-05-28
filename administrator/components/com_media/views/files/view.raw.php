@@ -21,7 +21,7 @@ class MediaViewFiles extends MediaViewFilesCommon
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise a Error object.
 	 *
@@ -34,15 +34,16 @@ class MediaViewFiles extends MediaViewFilesCommon
 		$app->allowCache(false);
 
 		$foldersModel = JModelLegacy::getInstance('folders', 'MediaModel');
-
+		
+		$currentFolder = $foldersModel->getCurrentFolder();
 		$files   = $this->get('files');
-		$folders = $foldersModel->getFolders(COM_MEDIA_BASE);
+		$folders = $foldersModel->getFolders();
 		$state   = $this->get('state');
 
-		$this->baseURL = COM_MEDIA_BASEURL;
-		$this->files   = $files;
-		$this->folders = $folders;
-		$this->state   = $state;
+		$this->currentFolder = $currentFolder;
+		$this->files    = $files;
+		$this->folders  = $folders;
+		$this->state    = $state;
 
 		parent::display($tpl);
 	}

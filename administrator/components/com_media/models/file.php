@@ -504,6 +504,6 @@ class MediaModelFile extends JModelLegacy
 	 */
 	public function getFilesModel()
 	{
-		return new MediaModelFiles;
+		return JModelLegacy::getInstance('files', 'MediaModel');
 	}
 }

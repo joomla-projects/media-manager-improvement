@@ -50,6 +50,11 @@ class MediaViewFolders extends JViewLegacy
 	protected $user;
 
 	/**
+	 * @var JToolbar
+	 */
+	protected $bar;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
@@ -63,25 +68,23 @@ class MediaViewFolders extends JViewLegacy
 		$this->user = JFactory::getUser();
 		$this->bar  = JToolbar::getInstance('toolbar');
 
-		/*
-		 * Display form for FTP credentials?
-		 * Don't set them here, as there are other functions called before this one if there is any file write operation
-		 */
 		$ftp = !JClientHelper::hasCredentials('ftp');
 
-		$images  = $this->get('images');
-		$folders = $this->get('folders');
-		$state   = $this->get('state');
+		$images        = $this->get('images');
+		$subfolders    = $this->get('folders');
+		$folders       = $this->getModel()->getFolders(COM_MEDIA_BASE);
+		$currentFolder = $this->getModel()->getCurrentFolder();
+		$state         = $this->get('state');
 
-		$this->session     = JFactory::getSession();
-		$this->config      = JComponentHelper::getParams('com_media');
-		$this->state       = $this->get('state');
-		$this->folders     = $this->get('foldersTree');
-		$this->require_ftp = $ftp;
-		$this->baseURL     = COM_MEDIA_BASEURL;
-		$this->images      = $images;
-		$this->folders     = $folders;
-		$this->state       = $state;
+		$this->session        = JFactory::getSession();
+		$this->config         = JComponentHelper::getParams('com_media');
+		$this->state          = $this->get('state');
+		$this->require_ftp    = $ftp;
+		$this->images         = $images;
+		$this->folders        = $folders;
+		$this->current_folder = $currentFolder;
+		$this->subfolders     = $subfolders;
+		$this->state          = $state;
 
 		if ($this->state->folder === "")
 		{

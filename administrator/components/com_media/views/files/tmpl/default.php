@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-$folderName = JFactory::getApplication()->input->get('folder', 'images', 'path');
-
 JHtml::_('stylesheet', 'media/popup-imagelist.css', array(), true);
 
 if (JFactory::getLanguage()->isRtl())
@@ -30,10 +28,14 @@ JFactory::getDocument()
 	");
 ?>
 <div>
-	<h3><?php echo JText::sprintf('COM_MEDIA_DISPLAY_CONTENT_OF', '/images/' . $folderName); ?></h3>
+	<h3><?php echo JText::sprintf('COM_MEDIA_DISPLAY_CONTENT_OF', '/images/' . $this->currentFolder); ?></h3>
 </div>
 <?php if (count($this->files) > 0 || count($this->folders) > 0) : ?>
 	<ul class="manager thumbnails">
+		<?php if (isset($this->folders['parent'])) : ?>
+			<?php echo $this->loadTemplate('parent'); ?>
+		<?php endif; ?>
+
 		<?php if (isset($this->folders['children'])) : ?>
 			<?php foreach ($this->folders['children'] as $folderName => $folderStructure) : ?>
 				<?php $this->setFolderByName($folderName); ?>
@@ -43,7 +45,7 @@ JFactory::getDocument()
 
 		<?php /*for ($i = 0, $n = count($this->folders); $i < $n; $i++) :
 			$this->setFolder($i);
-			// @TODO for Dimitris: Lazyload the layout of each media type (?)
+			// @todo: Lazyload the layout of each media type (?)
 			echo $this->loadTemplate('folder');
 		endfor;*/ ?>
 
@@ -57,3 +59,11 @@ JFactory::getDocument()
 		<div class="alert alert-info"><?php echo JText::_('COM_MEDIA_NO_IMAGES_FOUND'); ?></div>
 	</div>
 <?php endif; ?>
+
+<script>
+	jQuery(document).ready(function ($) {
+		$('a.ajaxInit').each(function (index, value) {
+			MediaManagerFoldersOnClick(this);
+		});
+	});
+</script>
