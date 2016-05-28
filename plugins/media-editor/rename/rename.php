@@ -59,9 +59,8 @@ class PlgMediaEditorRename extends JPlugin
 	{
 		$data   = array('filePath' => $filePath);
 		$layout = new JLayoutFile('form', __DIR__ . '/layout');
-		$html   = $layout->render($data);
 
-		return $html;
+		return $layout->render($data);
 	}
 
 	/**
@@ -89,8 +88,6 @@ class PlgMediaEditorRename extends JPlugin
 		rename($filePath, $newFilePath);
 
 		// Return the new URL
-		$newUrl = JRoute::_('index.php?option=com_media&view=file&view=file&file=' . $newFile, false);
-
-		return $newUrl;
+		return JRoute::_('index.php?option=com_media&view=file&view=file&file=' . $newFile, false);
 	}
 }
