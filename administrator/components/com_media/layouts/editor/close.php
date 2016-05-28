@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+
 ?>
 <script type="text/javascript">
 	<?php if (!empty($displayData['redirectUrl'])) : ?>

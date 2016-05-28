@@ -17,7 +17,7 @@ require_once JPATH_COMPONENT . '/helpers/editor.php';
 class MediaControllerEditor extends JControllerLegacy
 {
 	/**
-	 * Proof of pudding for Media Editor plugins
+	 * Post action that can be picked up upon by Media Editor plugins
 	 *
 	 * @since  3.6
 	 */

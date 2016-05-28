@@ -57,9 +57,9 @@ class PlgMediaEditorRename extends JPlugin
 	 */
 	public function onMediaEditorDisplay($filePath)
 	{
-		$data = array('filePath' => $filePath);
+		$data   = array('filePath' => $filePath);
 		$layout = new JLayoutFile('form', __DIR__ . '/layout');
-		$html = $layout->render($data);
+		$html   = $layout->render($data);
 
 		return $html;
 	}
@@ -69,20 +69,26 @@ class PlgMediaEditorRename extends JPlugin
 	 *
 	 * @param $filePath string
 	 *
-	 * @return string
+	 * @return false|string
 	 */
 	public function onMediaEditorProcess($filePath)
 	{
 		// Calculate the right variables
 		$newFile = $this->app->input->getFile('toFile');
 
-		$folder = dirname($filePath);
+		$folder      = dirname($filePath);
 		$newFilePath = $folder . '/' . $newFile;
+		
+		if ($newFilePath == $filePath)
+		{
+			return false;
+		}
 
 		// Rename the file
+		// @todo: Do this renaming with support for FlySystem?
 		rename($filePath, $newFilePath);
 
-		// If the redirect below is ommitted, the current page will be refreshed, which will give an error now
+		// Return the new URL
 		$newUrl = JRoute::_('index.php?option=com_media&view=file&view=file&file=' . $newFile, false);
 
 		return $newUrl;
