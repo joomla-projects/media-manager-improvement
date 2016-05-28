@@ -185,21 +185,23 @@ class MediaModelFolders extends JModelLegacy
 	{
 		static $set;
 
-		if (!$set)
+		if ($set)
 		{
-			$input = JFactory::getApplication()->input;
-
-			$folder = $input->get('folder', '', 'path');
-			$this->setState('folder', $folder);
-
-			$fieldid = $input->get('fieldid', '');
-			$this->setState('field.id', $fieldid);
-
-			$parent = str_replace("\\", "/", dirname($folder));
-			$parent = ($parent == '.') ? null : $parent;
-			$this->setState('parent', $parent);
-			$set = true;
+			return parent::getState($property, $default);
 		}
+
+		$input = JFactory::getApplication()->input;
+
+		$folder = $input->get('folder', '', 'path');
+		$this->setState('folder', $folder);
+
+		$fieldid = $input->get('fieldid', '');
+		$this->setState('field.id', $fieldid);
+
+		$parent = str_replace("\\", "/", dirname($folder));
+		$parent = ($parent == '.') ? null : $parent;
+		$this->setState('parent', $parent);
+		$set = true;
 
 		return parent::getState($property, $default);
 	}
@@ -223,10 +225,12 @@ class MediaModelFolders extends JModelLegacy
 		$session       = JFactory::getSession();
 		$currentFolder = $session->get('com_media.current_folder');
 
-		if (!empty($currentFolder))
+		if (empty($currentFolder))
 		{
-			$this->setCurrentFolder($currentFolder);
+			return;
 		}
+		
+		$this->setCurrentFolder($currentFolder);
 	}
 
 	/**

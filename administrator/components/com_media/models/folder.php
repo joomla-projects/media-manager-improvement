@@ -57,17 +57,19 @@ class MediaModelFolder extends JModelLegacy
 	{
 		static $set;
 
-		if (!$set)
+		if ($set)
 		{
-			$input  = JFactory::getApplication()->input;
-			$folder = $input->get('folder', '', 'path');
-			$this->setState('folder', $folder);
-
-			$parent = str_replace("\\", "/", dirname($folder));
-			$parent = ($parent == '.') ? null : $parent;
-			$this->setState('parent', $parent);
-			$set = true;
+			return parent::getState($property, $default);
 		}
+
+		$input  = JFactory::getApplication()->input;
+		$folder = $input->get('folder', '', 'path');
+		$this->setState('folder', $folder);
+
+		$parent = str_replace("\\", "/", dirname($folder));
+		$parent = ($parent == '.') ? null : $parent;
+		$this->setState('parent', $parent);
+		$set = true;
 
 		return parent::getState($property, $default);
 	}

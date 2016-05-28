@@ -123,45 +123,47 @@ class MediaModelFile extends JModelLegacy
 		// Attach the database stored file to this detected version
 		$storedFile = $this->getStoredFileByPath($filePath);
 
-		if (!empty($storedFile))
+		if (empty($storedFile))
 		{
-			$this->id = $storedFile->id;
-
-			$this->fileProperties['id']           = $this->id;
-			$this->fileProperties['hash']         = $storedFile->md5sum;
-			$this->fileProperties['file_adapter'] = $storedFile->adapter;
-
-			// Check for hash to see if this entry needs updating
-			if (!empty($this->fileAdapter))
+			try
 			{
-				$this->fileAdapter->setFilePath($this->fileProperties['path']);
-
-				if ($this->fileAdapter->getHash() != $this->fileProperties['hash'])
-				{
-					try
-					{
-						$this->update();
-					}
-					catch (Exception $e)
-					{
-						// Do nothing
-					}
-				}
+				$this->id = $this->create();
 			}
+			catch (Exception $e)
+			{
+				// Do nothing
+			}
+
+			$this->fileProperties['id'] = $this->id;
 
 			return true;
 		}
 
-		try
+		$this->id = $storedFile->id;
+
+		$this->fileProperties['id']           = $this->id;
+		$this->fileProperties['hash']         = $storedFile->md5sum;
+		$this->fileProperties['file_adapter'] = $storedFile->adapter;
+
+		// Check for hash to see if this entry needs updating
+		if (empty($this->fileAdapter))
 		{
-			$this->id = $this->create();
-		}
-		catch (Exception $e)
-		{
-			// Do nothing
+			return true;
 		}
 
-		$this->fileProperties['id'] = $this->id;
+		$this->fileAdapter->setFilePath($this->fileProperties['path']);
+
+		if ($this->fileAdapter->getHash() != $this->fileProperties['hash'])
+		{
+			try
+			{
+				$this->update();
+			}
+			catch (Exception $e)
+			{
+				// Do nothing
+			}
+		}
 
 		return true;
 	}
@@ -399,15 +401,19 @@ class MediaModelFile extends JModelLegacy
 	 */
 	protected function setPropertiesByFileAdapter()
 	{
-		if ($this->fileAdapter)
+		if (!$this->fileAdapter)
 		{
-			$mimeType = $this->fileAdapter->getMimeType($this->fileProperties['path']);
-
-			if (!empty($mimeType))
-			{
-				$this->fileProperties['mime_type'] = $mimeType;
-			}
+			return;
 		}
+
+		$mimeType = $this->fileAdapter->getMimeType($this->fileProperties['path']);
+
+		if (empty($mimeType))
+		{
+			return;
+		}
+		
+		$this->fileProperties['mime_type'] = $mimeType;
 	}
 
 	/**

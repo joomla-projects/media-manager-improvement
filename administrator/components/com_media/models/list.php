@@ -46,17 +46,19 @@ class MediaModelList extends JModelLegacy
 	{
 		static $set;
 
-		if (!$set)
+		if ($set)
 		{
-			$input  = JFactory::getApplication()->input;
-			$folder = $input->get('folder', '', 'path');
-			$this->setState('folder', $folder);
-
-			$parent = str_replace("\\", "/", dirname($folder));
-			$parent = ($parent == '.') ? null : $parent;
-			$this->setState('parent', $parent);
-			$set = true;
+			return parent::getState($property, $default);
 		}
+
+		$input  = JFactory::getApplication()->input;
+		$folder = $input->get('folder', '', 'path');
+		$this->setState('folder', $folder);
+
+		$parent = str_replace("\\", "/", dirname($folder));
+		$parent = ($parent == '.') ? null : $parent;
+		$this->setState('parent', $parent);
+		$set = true;
 
 		return parent::getState($property, $default);
 	}
@@ -104,10 +106,9 @@ class MediaModelList extends JModelLegacy
 	 */
 	public function getCurrentFolder()
 	{
-		$current       = (string) $this->getState('folder');
-		$currentFolder = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
+		$current = (string) $this->getState('folder');
 
-		return $currentFolder;
+		return COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
 	}
 
 	/**
