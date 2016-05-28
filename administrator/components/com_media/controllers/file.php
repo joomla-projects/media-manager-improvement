@@ -53,14 +53,8 @@ class MediaControllerFile extends JControllerLegacy
 		}
 
 		// Set the redirect
-		if ($return)
-		{
-			$this->setRedirect($return . '&folder=' . $this->folder);
-		}
-		else
-		{
-			$this->setRedirect('index.php?option=com_media&folder=' . $this->folder);
-		}
+		$return = $return ?: 'index.php?option=com_media';
+		$this->setRedirect($return . '&folder=' . $this->folder);
 
 		// Authorize the user
 		if (!$this->authoriseUser('create'))

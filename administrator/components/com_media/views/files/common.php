@@ -106,14 +106,14 @@ class MediaViewFilesCommon extends JViewLegacy
 	 */
 	public function setFolder($index = 0)
 	{
-		if (isset($this->folders[$index]))
-		{
-			$this->_tmp_folder = $this->folders[$index];
-		}
-		else
+		if (!isset($this->folders[$index]))
 		{
 			$this->_tmp_folder = new JObject;
+
+			return;
 		}
+
+		$this->_tmp_folder = $this->folders[$index];
 	}
 
 	/**
@@ -139,14 +139,14 @@ class MediaViewFilesCommon extends JViewLegacy
 	 */
 	public function setFolderByName($folderName)
 	{
-		if (isset($this->folders['children'][$folderName]))
-		{
-			$this->_tmp_folder = $this->folders['children'][$folderName];
-		}
-		else
+		if (!isset($this->folders['children'][$folderName]))
 		{
 			$this->_tmp_folder = new JObject;
+
+			return;
 		}
+
+		$this->_tmp_folder = $this->folders['children'][$folderName];
 	}
 
 	/**
@@ -160,14 +160,14 @@ class MediaViewFilesCommon extends JViewLegacy
 	 */
 	public function setFile($index = 0)
 	{
-		if (isset($this->files[$index]))
-		{
-			$this->_tmp_file = $this->files[$index];
-		}
-		else
+		if (!isset($this->files[$index]))
 		{
 			$this->_tmp_file = new JObject;
+
+			return;
 		}
+
+		$this->_tmp_file = $this->files[$index];
 	}
 
 	/**

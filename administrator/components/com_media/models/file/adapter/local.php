@@ -259,11 +259,10 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 			if (is_dir($file))
 			{
 				rmdir($file);
+				continue;
 			}
-			else
-			{
-				unlink($file);
-			}
+
+			unlink($file);
 		}
 
 		return rmdir($location);
@@ -283,18 +282,14 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 		$location = $this->applyPathPrefix($dirname);
 		$umask    = umask(0);
 
-		if (!is_dir($location) && !mkdir($location, $this->permissionMap['dir']['public'], true))
-		{
-			$return = false;
-		}
-		else
-		{
-			$return = ['path' => $dirname, 'type' => 'dir'];
-		}
-
 		umask($umask);
 
-		return $return;
+		if (!is_dir($location) && !mkdir($location, $this->permissionMap['dir']['public'], true))
+		{
+			return false;
+		}
+
+		return ['path' => $dirname, 'type' => 'dir'];
 	}
 
 	/**
