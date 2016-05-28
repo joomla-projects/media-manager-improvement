@@ -106,45 +106,36 @@ class MediaViewFile extends JViewLegacy
 				}
 			}
 
+			$button = (object) array(
+				'label'  => JText::_('PLG_MEDIA-EDITOR_' . strtoupper($pluginName) . '_BUTTON_LABEL'),
+				'icon'   => 'plus',
+				'width'  => 550,
+				'height' => 400,
+				'url'    => JUri::base() . 'index.php?option=com_media&view=editor&tmpl=component'
+					. '&plugin=' . $pluginName . '&file=' . $this->fileProperties['path_relative'],
+			);
+
 			if (method_exists($plugin, 'onMediaEditorButtonLabel'))
 			{
-				$buttonLabel = $plugin->onMediaEditorButtonLabel();
-			}
-			else
-			{
-				$buttonLabel = JText::_('PLG_MEDIA-EDITOR_' . strtoupper($pluginName) . '_BUTTON_LABEL');
+				$button->label = $plugin->onMediaEditorButtonLabel();
 			}
 
 			if (method_exists($plugin, 'onMediaEditorButtonIcon'))
 			{
-				$buttonIcon = $plugin->onMediaEditorButtonIcon();
-			}
-			else
-			{
-				$buttonIcon = 'plus';
+				$button->icon = $plugin->onMediaEditorButtonIcon();
 			}
 
 			if (method_exists($plugin, 'onMediaEditorButtonWidth'))
 			{
-				$buttonWidth = $plugin->onMediaEditorButtonWidth();
-			}
-			else
-			{
-				$buttonWidth = 550;
+				$button->width = $plugin->onMediaEditorButtonWidth();
 			}
 
 			if (method_exists($plugin, 'onMediaEditorButtonHeight'))
 			{
-				$buttonHeight = $plugin->onMediaEditorButtonHeight();
-			}
-			else
-			{
-				$buttonHeight = 400;
+				$button->height = $plugin->onMediaEditorButtonHeight();
 			}
 
-			$buttonUrl = JUri::base() . 'index.php?option=com_media&view=editor&tmpl=component&plugin=' . $pluginName . '&file=' . $this->fileProperties['path_relative'];
-
-			$toolbar->appendButton('Popup', $buttonIcon, $buttonLabel, $buttonUrl, $buttonWidth, $buttonHeight);
+			$toolbar->appendButton('Popup', $button->icon, $button->label, $button->url, $button->width, $button->height);
 		}
 	}
 }
