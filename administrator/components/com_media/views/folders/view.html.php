@@ -45,9 +45,14 @@ class MediaViewFolders extends JViewLegacy
 	protected $config;
 
 	/**
+	 * @var JUser
+	 */
+	protected $user;
+
+	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise a Error object.
 	 *
@@ -55,6 +60,9 @@ class MediaViewFolders extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$this->user = JFactory::getUser();
+		$this->bar  = JToolbar::getInstance('toolbar');
+
 		/*
 		 * Display form for FTP credentials?
 		 * Don't set them here, as there are other functions called before this one if there is any file write operation
@@ -75,14 +83,10 @@ class MediaViewFolders extends JViewLegacy
 		$this->folders     = $folders;
 		$this->state       = $state;
 
-		$user  = JFactory::getUser();
-
 		if ($this->state->folder === "")
 		{
 			$this->state->folder = COM_MEDIA_BASEURL;
 		}
-
-		JToolbarHelper::title(JText::_('COM_MEDIA_FILES'), 'media manager');
 
 		// Set the toolbar
 		$this->addToolbar();
@@ -99,57 +103,79 @@ class MediaViewFolders extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		// Get the toolbar object instance
-		$bar  = JToolbar::getInstance('toolbar');
-		$user = JFactory::getUser();
-
-		// Set the titlebar text
 		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
 
-		// Add an upload button
-		if ($user->authorise('core.create', 'com_media'))
-		{
-			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new JLayoutFile('toolbar.uploadmedia');
-
-			$bar->appendButton('Custom', $layout->render(array()), 'upload');
-			JToolbarHelper::divider();
-		}
-
-		// Add a create folder button
-		if ($user->authorise('core.create', 'com_media'))
-		{
-			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new JLayoutFile('toolbar.newfolder');
-
-			$bar->appendButton('Custom', $layout->render(array()), 'upload');
-			JToolbarHelper::divider();
-		}
-
-		// Add a delete button
-		if ($user->authorise('core.delete', 'com_media'))
-		{
-			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new JLayoutFile('toolbar.deletemedia');
-
-			$bar->appendButton('Custom', $layout->render(array()), 'upload');
-			JToolbarHelper::divider();
-		}
-
-		// Add a preferences button
-		if ($user->authorise('core.admin', 'com_media') || $user->authorise('core.options', 'com_media'))
-		{
-			JToolbarHelper::preferences('com_media');
-			JToolbarHelper::divider();
-		}
+		$this->addToolbarUpload();
+		$this->addToolbarCreateFolder();
+		$this->addToolbarDelete();
+		$this->addToolbarPreferences();
 
 		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
 	}
 
 	/**
+	 * Add an upload button
+	 */
+	protected function addToolbarUpload()
+	{
+		if ($this->user->authorise('core.create', 'com_media'))
+		{
+			// Instantiate a new JLayoutFile instance and render the layout
+			$layout = new JLayoutFile('toolbar.uploadmedia');
+
+			$this->bar->appendButton('Custom', $layout->render(array()), 'upload');
+			JToolbarHelper::divider();
+		}
+	}
+
+	/**
+	 * Add a create folder button
+	 */
+	protected function addToolbarCreateFolder()
+	{
+		if ($this->user->authorise('core.create', 'com_media'))
+		{
+			// Instantiate a new JLayoutFile instance and render the layout
+			$layout = new JLayoutFile('toolbar.newfolder');
+
+			$this->bar->appendButton('Custom', $layout->render(array()), 'upload');
+			JToolbarHelper::divider();
+		}
+	}
+
+	/**
+	 * Add a delete button
+	 */
+	protected function addToolbarDelete()
+	{
+		// Add a delete button
+		if ($this->user->authorise('core.delete', 'com_media'))
+		{
+			// Instantiate a new JLayoutFile instance and render the layout
+			$layout = new JLayoutFile('toolbar.deletemedia');
+
+			$this->bar->appendButton('Custom', $layout->render(array()), 'upload');
+			JToolbarHelper::divider();
+		}
+	}
+
+	/**
+	 * Add a preferences button
+	 */
+	protected function addToolbarPreferences()
+	{        // Add a preferences button
+		if ($this->user->authorise('core.admin', 'com_media') || $this->user->authorise('core.options', 'com_media'))
+		{
+			JToolbarHelper::preferences('com_media');
+			JToolbarHelper::divider();
+		}
+
+	}
+
+	/**
 	 * Display a folder level
 	 *
-	 * @param   array  $folder Array with folder data
+	 * @param   array $folder Array with folder data
 	 *
 	 * @return  string
 	 *
