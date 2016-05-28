@@ -23,14 +23,22 @@ class MediaController extends JControllerLegacy
 	 */
 	public function __construct($config = array())
 	{
-		$rt = parent::__construct($config);
-
+		$this->input = JFactory::getApplication()->input;
 		$viewName = $this->input->get('view');
 
 		if (empty($viewName))
 		{
 			$this->input->set('view', 'folders');
 		}
+
+		if ($viewName == 'images')
+		{
+			$this->input->set('filter', 'image');
+			$this->input->set('view', 'folders');
+		}
+
+		$rt = parent::__construct($config);
+
 
 		return $rt;
 	}

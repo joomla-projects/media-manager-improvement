@@ -49,6 +49,53 @@ class MediaViewFilesCommon extends JViewLegacy
 	protected $_tmp_file;
 
 	/**
+	 * @var JApplicationCms
+	 */
+	protected $app;
+
+	/**
+	 * MediaViewFilesCommon constructor.
+	 *
+	 * @param array $config
+	 */
+	public function __construct($config = array())
+	{
+		$this->app = JFactory::getApplication();
+		
+		return parent::__construct($config);
+	}
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   3.6
+	 */
+	public function display($tpl = null)
+	{
+		// Do not allow cache
+		$this->app->allowCache(false);
+
+		$foldersModel = $this->getFoldersModel();
+		$currentFolder = $foldersModel->getCurrentFolder();
+		$folders = $foldersModel->getFolders();
+
+		$filesModel = $this->getFilesModel();
+		$files      = $filesModel->setFileFilter($this->getFileFilter())->getFiles();
+		$state      = $this->get('state');
+
+		$this->currentFolder = $currentFolder;
+		$this->files    = $files;
+		$this->folders  = $folders;
+		$this->state    = $state;
+
+		parent::display($tpl);
+	}
+
+	/**
 	 * Set the active folder
 	 *
 	 * @param   integer  $index  Folder position
@@ -121,5 +168,29 @@ class MediaViewFilesCommon extends JViewLegacy
 		{
 			$this->_tmp_file = new JObject;
 		}
+	}
+
+	/**
+	 * @return mixed
+	 */
+	protected function getFileFilter()
+	{
+		return $this->app->input->getCmd('filter');
+	}
+
+	/**
+	 * @return MediaModelFolders
+	 */
+	protected function getFoldersModel()
+	{
+		return JModelLegacy::getInstance('folders', 'MediaModel');
+	}
+
+	/**
+	 * @return MediaModelFiles
+	 */
+	protected function getFilesModel()
+	{
+		return JModelLegacy::getInstance('files', 'MediaModel');
 	}
 }

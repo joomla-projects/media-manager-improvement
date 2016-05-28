@@ -29,22 +29,6 @@ class MediaViewFiles extends MediaViewFilesCommon
 	 */
 	public function display($tpl = null)
 	{
-		// Do not allow cache
-		$app = JFactory::getApplication();
-		$app->allowCache(false);
-
-		$foldersModel  = JModelLegacy::getInstance('folders', 'MediaModel');
-		$currentFolder = $foldersModel->getCurrentFolder();
-
-		$files   = $this->get('files');
-		$folders = $foldersModel->getFolders();
-		$state   = $this->get('state');
-
-		$this->currentFolder = $currentFolder;
-		$this->files         = $files;
-		$this->folders       = $folders;
-		$this->state         = $state;
-
 		parent::display($tpl);
 	}
 }

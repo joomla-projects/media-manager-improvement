@@ -20,6 +20,11 @@ require_once __DIR__ . '/file.php';
 class MediaModelFiles extends JModelLegacy
 {
 	/**
+	 * Filter for filtering only image names
+	 */
+	const IMAGE_FILTER = '.(gif|jpg|jpeg|png)';
+	
+	/**
 	 * Lists the files in a folder
 	 *
 	 * @var    array
@@ -59,6 +64,21 @@ class MediaModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * @param null $fileFilter
+	 *
+	 * @return self
+	 */
+	public function setFileFilter($fileFilter = null)
+	{
+		if ($fileFilter == 'image')
+		{
+			$this->setState('file_filter', self::IMAGE_FILTER);
+		}
+		
+		return $this;
+	}
+
+	/**
 	 * Build browsable list of files
 	 *
 	 * @return  array
@@ -84,7 +104,7 @@ class MediaModelFiles extends JModelLegacy
 			return $this->files;
 		}
 
-		$fileList    = JFolder::files($currentFolder);
+		$fileList    = JFolder::files($currentFolder, $this->getState('file_filter'));
 		$fileHashes  = array();
 		$storedFiles = $this->getStoredFiles($currentFolder);
 
