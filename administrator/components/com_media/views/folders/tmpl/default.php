@@ -39,17 +39,16 @@ $doc->addScriptDeclaration("var basepath = '" . $params->get('image_path', 'imag
 	</div>
 	<div class="span10">
 		<?php if (($user->authorise('core.create', 'com_media')) && $this->require_ftp) : ?>
-			<form action="index.php?option=com_media&amp;task=ftpValidate" name="ftpForm" id="ftpForm" method="post">
-				<fieldset title="<?php echo JText::_('COM_MEDIA_DESCFTPTITLE'); ?>">
-					<legend><?php echo JText::_('COM_MEDIA_DESCFTPTITLE'); ?></legend>
-					<?php echo JText::_('COM_MEDIA_DESCFTP'); ?>
-					<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
-					<input type="text" id="username" name="username" size="70" value=""/>
-
-					<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-					<input type="password" id="password" name="password" size="70" value=""/>
-				</fieldset>
-			</form>
+			<?php echo $this->loadTemplate('ftp'); ?>
+		<?php endif; ?>
+		
+		<?php if ($user->authorise('core.create', 'com_media')): ?>
+			<div id="collapseUpload" class="collapse">
+				<?php echo $this->loadTemplate('upload'); ?>
+			</div>
+			<div id="collapseFolder" class="collapse">
+				<?php echo $this->loadTemplate('newfolder'); ?>
+			</div>
 		<?php endif; ?>
 
 		<form action="index.php?option=com_media" name="adminForm" id="mediamanager-form" method="post"
@@ -59,15 +58,6 @@ $doc->addScriptDeclaration("var basepath = '" . $params->get('image_path', 'imag
 			<input class="update-folder" type="hidden" name="folder" id="folder"
 			       value="<?php echo $this->state->folder; ?>"/>
 		</form>
-
-		<?php if ($user->authorise('core.create', 'com_media')): ?>
-			<div id="collapseUpload" class="collapse">
-				<?php echo $this->loadTemplate('upload'); ?>
-			</div>
-			<div id="collapseFolder" class="collapse">
-				<?php echo $this->loadTemplate('newfolder'); ?>
-			</div>
-		<?php endif; ?>
 
 		<form
 			action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index'); ?>"
