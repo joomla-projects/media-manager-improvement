@@ -17,6 +17,25 @@ defined('_JEXEC') or die;
 class MediaController extends JControllerLegacy
 {
 	/**
+	 * MediaController constructor.
+	 *
+	 * @param array $config
+	 */
+	public function __construct($config = array())
+	{
+		$rt = parent::__construct($config);
+
+		$viewName = $this->input->get('view');
+
+		if (empty($viewName))
+		{
+			$this->input->set('view', 'folders');
+		}
+
+		return $rt;
+	}
+
+	/**
 	 * Method to display a view.
 	 *
 	 * @param   boolean $cachable  If true, the view output will be cached
@@ -30,57 +49,7 @@ class MediaController extends JControllerLegacy
 	{
 		JPluginHelper::importPlugin('content');
 
-		$document = JFactory::getDocument();
-		$vType = $document->getType();
-		$vName = $this->input->get('view', 'folders');
-
-		switch ($vName)
-		{
-			case 'editor':
-				$vLayout = 'default';
-				$mName = 'editor';
-
-				break;
-
-			case 'folders':
-
-				$vLayout = $this->input->get('layout', 'default', 'string');
-				$mName = 'folders';
-
-				break;
-
-			case 'file':
-				$vLayout = $this->input->get('layout', 'default', 'string');
-				$mName = 'file';
-
-				break;
-
-			case 'files':
-			default:
-				$vLayout = $this->input->get('layout', 'default', 'string');
-				$mName = 'files';
-
-				break;
-
-		}
-
-		// Get/Create the view
-		$view = $this->getView($mName, $vType, '', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
-
-		// Get/Create the model
-		if ($model = $this->getModel($mName))
-		{
-			// Push the model into the view (as default)
-			$view->setModel($model, true);
-		}
-
-		// Set the layout
-		$view->setLayout($vLayout);
-
-		// Display the view
-		$view->display();
-
-		return $this;
+		return parent::display($cachable, $urlparams);
 	}
 
 	/**

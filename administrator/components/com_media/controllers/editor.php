@@ -56,6 +56,8 @@ class MediaControllerEditor extends JControllerLegacy
 	 */
 	public function cancel()
 	{
+		print_r($_POST);exit;
+
 		$redirectUrl = JRoute::_('index.php?option=com_media');
 
 		$app = JFactory::getApplication();
