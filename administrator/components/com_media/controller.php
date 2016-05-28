@@ -47,6 +47,7 @@ class MediaController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
+		// @todo: Is this needed here?
 		JPluginHelper::importPlugin('content');
 
 		return parent::display($cachable, $urlparams);
