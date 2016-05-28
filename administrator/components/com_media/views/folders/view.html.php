@@ -84,14 +84,66 @@ class MediaViewFolders extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_MEDIA_FILES'), 'media manager');
 
+		// Set the toolbar
+		$this->addToolbar();
+
+		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		// Get the toolbar object instance
+		$bar  = JToolbar::getInstance('toolbar');
+		$user = JFactory::getUser();
+
+		// Set the titlebar text
+		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
+
+		// Add an upload button
+		if ($user->authorise('core.create', 'com_media'))
+		{
+			// Instantiate a new JLayoutFile instance and render the layout
+			$layout = new JLayoutFile('toolbar.uploadmedia');
+
+			$bar->appendButton('Custom', $layout->render(array()), 'upload');
+			JToolbarHelper::divider();
+		}
+
+		// Add a create folder button
+		if ($user->authorise('core.create', 'com_media'))
+		{
+			// Instantiate a new JLayoutFile instance and render the layout
+			$layout = new JLayoutFile('toolbar.newfolder');
+
+			$bar->appendButton('Custom', $layout->render(array()), 'upload');
+			JToolbarHelper::divider();
+		}
+
+		// Add a delete button
+		if ($user->authorise('core.delete', 'com_media'))
+		{
+			// Instantiate a new JLayoutFile instance and render the layout
+			$layout = new JLayoutFile('toolbar.deletemedia');
+
+			$bar->appendButton('Custom', $layout->render(array()), 'upload');
+			JToolbarHelper::divider();
+		}
+
+		// Add a preferences button
 		if ($user->authorise('core.admin', 'com_media') || $user->authorise('core.options', 'com_media'))
 		{
 			JToolbarHelper::preferences('com_media');
+			JToolbarHelper::divider();
 		}
 
-		JToolbarHelper::help('JHELP_COMPONENTS_MEDIA_FILES');
-
-		parent::display($tpl);
+		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
 	}
 
 	/**

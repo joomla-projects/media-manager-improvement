@@ -56,11 +56,11 @@ $doc->addScriptDeclaration("
 		<?php endif; ?>
 
 		<form action="index.php?option=com_media" name="adminForm" id="mediamanager-form" method="post"
-			  enctype="multipart/form-data">
+		      enctype="multipart/form-data">
 			<input type="hidden" name="task" value=""/>
 			<input type="hidden" name="cb1" id="cb1" value="0"/>
 			<input class="update-folder" type="hidden" name="folder" id="folder"
-				   value="<?php echo $this->state->folder; ?>"/>
+			       value="<?php echo $this->state->folder; ?>"/>
 		</form>
 
 		<?php if ($user->authorise('core.create', 'com_media')): ?>
@@ -72,7 +72,7 @@ $doc->addScriptDeclaration("
 					<div id="uploadform">
 						<fieldset id="upload-noflash" class="actions">
 							<label for="upload-file"
-								   class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
+							       class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
 							<input type="file" id="upload-file" name="Filedata[]" multiple/>
 							<button class="btn btn-primary" id="upload-submit"><span
 									class="icon-upload icon-white"></span> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?>
@@ -80,7 +80,7 @@ $doc->addScriptDeclaration("
 							<p class="help-block"><?php echo $this->config->get('upload_maxsize') == '0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></p>
 						</fieldset>
 						<input class="update-folder" type="hidden" name="folder" id="folder"
-							   value="<?php echo $this->state->folder; ?>"/>
+						       value="<?php echo $this->state->folder; ?>"/>
 						<?php $this->session->set('com_media.return_url', 'index.php?option=com_media'); ?>
 					</div>
 				</form>
@@ -93,7 +93,7 @@ $doc->addScriptDeclaration("
 						<input type="text" id="folderpath" readonly="readonly" class="update-folder"/>
 						<input type="text" id="foldername" name="foldername"/>
 						<input class="update-folder" type="hidden" name="folderbase" id="folderbase"
-							   value="<?php echo $this->state->folder; ?>"/>
+						       value="<?php echo $this->state->folder; ?>"/>
 						<button type="submit" class="btn"><span
 								class="icon-folder-open"></span> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?>
 						</button>
