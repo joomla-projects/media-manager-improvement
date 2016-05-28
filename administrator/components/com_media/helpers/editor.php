@@ -36,6 +36,11 @@ class MediaHelperEditor
 
 		$fileName = JPATH_ROOT . '/plugins/media-editor/' . $pluginData->name . '/' . $pluginData->name . '.php';
 
+		if (!file_exists($fileName))
+		{
+			return false;
+		}
+
 		include_once $fileName;
 
 		$className = 'PlgMediaEditor' . ucfirst($pluginData->name);
