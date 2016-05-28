@@ -121,14 +121,16 @@ class MediaViewFolders extends JViewLegacy
 	 */
 	protected function addToolbarUpload()
 	{
-		if ($this->user->authorise('core.create', 'com_media'))
+		if (!$this->user->authorise('core.create', 'com_media'))
 		{
-			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new JLayoutFile('toolbar.uploadmedia');
-
-			$this->bar->appendButton('Custom', $layout->render(array()), 'upload');
-			JToolbarHelper::divider();
+			return;
 		}
+
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('toolbar.uploadmedia');
+
+		$this->bar->appendButton('Custom', $layout->render(array()), 'upload');
+		JToolbarHelper::divider();
 	}
 
 	/**
@@ -136,14 +138,16 @@ class MediaViewFolders extends JViewLegacy
 	 */
 	protected function addToolbarCreateFolder()
 	{
-		if ($this->user->authorise('core.create', 'com_media'))
+		if (!$this->user->authorise('core.create', 'com_media'))
 		{
-			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new JLayoutFile('toolbar.newfolder');
-
-			$this->bar->appendButton('Custom', $layout->render(array()), 'upload');
-			JToolbarHelper::divider();
+			return;
 		}
+
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('toolbar.newfolder');
+
+		$this->bar->appendButton('Custom', $layout->render(array()), 'upload');
+		JToolbarHelper::divider();
 	}
 
 	/**
@@ -152,14 +156,16 @@ class MediaViewFolders extends JViewLegacy
 	protected function addToolbarDelete()
 	{
 		// Add a delete button
-		if ($this->user->authorise('core.delete', 'com_media'))
+		if (!$this->user->authorise('core.delete', 'com_media'))
 		{
-			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new JLayoutFile('toolbar.deletemedia');
-
-			$this->bar->appendButton('Custom', $layout->render(array()), 'upload');
-			JToolbarHelper::divider();
+			return;
 		}
+
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('toolbar.deletemedia');
+
+		$this->bar->appendButton('Custom', $layout->render(array()), 'upload');
+		JToolbarHelper::divider();
 	}
 
 	/**
@@ -167,11 +173,13 @@ class MediaViewFolders extends JViewLegacy
 	 */
 	protected function addToolbarPreferences()
 	{        // Add a preferences button
-		if ($this->user->authorise('core.admin', 'com_media') || $this->user->authorise('core.options', 'com_media'))
+		if (!$this->user->authorise('core.admin', 'com_media') && !$this->user->authorise('core.options', 'com_media'))
 		{
-			JToolbarHelper::preferences('com_media');
-			JToolbarHelper::divider();
+			return;
 		}
+
+		JToolbarHelper::preferences('com_media');
+		JToolbarHelper::divider();
 	}
 
 	/**
@@ -186,15 +194,16 @@ class MediaViewFolders extends JViewLegacy
 	protected function getFolderLevel($folder)
 	{
 		$this->folders_id = null;
-		$txt              = null;
 
-		if (isset($folder['children']) && count($folder['children']))
+		if (empty($folder['children']))
 		{
-			$tmp           = $this->folders;
-			$this->folders = $folder;
-			$txt           = $this->loadTemplate('folders');
-			$this->folders = $tmp;
+			return null;
 		}
+
+		$tmp           = $this->folders;
+		$this->folders = $folder;
+		$txt           = $this->loadTemplate('folders');
+		$this->folders = $tmp;
 
 		return $txt;
 	}
