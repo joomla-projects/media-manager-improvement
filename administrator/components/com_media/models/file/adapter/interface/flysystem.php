@@ -47,8 +47,8 @@ interface MediaModelFileAdapterInterfaceFlysystem
 	/**
 	 * Rename a file.
 	 *
-	 * @param  string  $path
-	 * @param  string  $newpath
+	 * @param  string $path
+	 * @param  string $newpath
 	 *
 	 * @return  bool
 	 *

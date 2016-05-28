@@ -18,9 +18,9 @@ $actionUrl = 'index.php?option=com_media&amp;task=ftpValidate';
 		<legend><?php echo JText::_('COM_MEDIA_DESCFTPTITLE'); ?></legend>
 		<?php echo JText::_('COM_MEDIA_DESCFTP'); ?>
 		<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
-		<input type="text" id="username" name="username" size="70" value=""/>
+		<input type="text" id="username" name="username" size="70" value="" />
 
 		<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-		<input type="password" id="password" name="password" size="70" value=""/>
+		<input type="password" id="password" name="password" size="70" value="" />
 	</fieldset>
 </form>

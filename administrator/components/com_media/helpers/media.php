@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /**
  * Media helper class.
- * 
+ *
  * @since       1.6
  * @deprecated  4.0  Use JHelperMedia instead
  */
@@ -20,11 +20,11 @@ abstract class MediaHelper
 	/**
 	 * Checks if the file is an image
 	 *
-	 * @param   string  $fileName  The filename
+	 * @param   string $fileName The filename
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.5
+	 * @since       1.5
 	 * @deprecated  4.0  Use JHelperMedia::isImage instead
 	 */
 	public static function isImage($fileName)
@@ -38,11 +38,11 @@ abstract class MediaHelper
 	/**
 	 * Gets the file extension for the purpose of using an icon.
 	 *
-	 * @param   string  $fileName  The filename
+	 * @param   string $fileName The filename
 	 *
 	 * @return  string  File extension
 	 *
-	 * @since   1.5
+	 * @since       1.5
 	 * @deprecated  4.0  Use JHelperMedia::getTypeIcon instead
 	 */
 	public static function getTypeIcon($fileName)
@@ -56,12 +56,12 @@ abstract class MediaHelper
 	/**
 	 * Checks if the file can be uploaded
 	 *
-	 * @param   array   $file   File information
-	 * @param   string  $error  An error message to be returned
+	 * @param   array  $file  File information
+	 * @param   string $error An error message to be returned
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.5
+	 * @since       1.5
 	 * @deprecated  4.0  Use JHelperMedia::canUpload instead
 	 */
 	public static function canUpload($file, $error = '')
@@ -75,11 +75,11 @@ abstract class MediaHelper
 	/**
 	 * Method to parse a file size
 	 *
-	 * @param   integer  $size  The file size in bytes
+	 * @param   integer $size The file size in bytes
 	 *
 	 * @return  string  The converted file size
 	 *
-	 * @since   1.6
+	 * @since       1.6
 	 * @deprecated  4.0  Use JHtmlNumber::bytes() instead
 	 */
 	public static function parseSize($size)
@@ -92,13 +92,13 @@ abstract class MediaHelper
 	/**
 	 * Calculate the size of a resized image
 	 *
-	 * @param   integer  $width   Image width
-	 * @param   integer  $height  Image height
-	 * @param   integer  $target  Target size
+	 * @param   integer $width  Image width
+	 * @param   integer $height Image height
+	 * @param   integer $target Target size
 	 *
 	 * @return  array  The new width and height
 	 *
-	 * @since   3.2
+	 * @since       3.2
 	 * @deprecated  4.0  Use JHelperMedia::imageResize instead
 	 */
 	public static function imageResize($width, $height, $target)
@@ -112,11 +112,11 @@ abstract class MediaHelper
 	/**
 	 * Counts the files and directories in a directory that are not php or html files.
 	 *
-	 * @param   string  $dir  Directory name
+	 * @param   string $dir Directory name
 	 *
 	 * @return  array  The number of files and directories in the given directory
 	 *
-	 * @since   1.5
+	 * @since       1.5
 	 * @deprecated  4.0  Use JHelperMedia::countFiles instead
 	 */
 	public static function countFiles($dir)

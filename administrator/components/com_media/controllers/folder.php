@@ -81,7 +81,7 @@ class MediaControllerFolder extends JControllerLegacy
 				continue;
 			}
 
-			$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
+			$fullPath    = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
 			$object_file = new JObject(array('filepath' => $fullPath));
 
 			if (is_file($object_file->filepath))
@@ -102,7 +102,7 @@ class MediaControllerFolder extends JControllerLegacy
 				// Trigger the onContentAfterDelete event.
 				$dispatcher->trigger('onContentAfterDelete', array('com_media.file', &$object_file));
 				$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
-				
+
 				continue;
 			}
 
@@ -153,7 +153,7 @@ class MediaControllerFolder extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$user  = JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$folder      = $this->input->get('foldername', '');
 		$folderCheck = (string) $this->input->get('foldername', null, 'raw');

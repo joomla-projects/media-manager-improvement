@@ -96,7 +96,7 @@ class MediaModelFolders extends JModelLegacy
 		if (empty($currentBase))
 		{
 			$currentFolder = $this->getState('current_folder');
-			$currentBase = COM_MEDIA_BASE;
+			$currentBase   = COM_MEDIA_BASE;
 
 			if (!empty($currentFolder))
 			{
@@ -160,7 +160,7 @@ class MediaModelFolders extends JModelLegacy
 	public function getParent()
 	{
 		$currentBase = COM_MEDIA_BASE . '/' . $this->getState('current_folder');
-		$parent = dirname($currentBase);
+		$parent      = dirname($currentBase);
 
 		if ($parent)
 		{

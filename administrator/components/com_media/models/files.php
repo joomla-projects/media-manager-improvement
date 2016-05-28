@@ -23,7 +23,7 @@ class MediaModelFiles extends JModelLegacy
 	 * Filter for filtering only image names
 	 */
 	const IMAGE_FILTER = '.(gif|jpg|jpeg|png)';
-	
+
 	/**
 	 * Lists the files in a folder
 	 *
@@ -74,7 +74,7 @@ class MediaModelFiles extends JModelLegacy
 		{
 			$this->setState('file_filter', self::IMAGE_FILTER);
 		}
-		
+
 		return $this;
 	}
 
@@ -146,9 +146,9 @@ class MediaModelFiles extends JModelLegacy
 	/**
 	 * Load the object from a file
 	 *
-	 * @param   string  $file
-	 * @param   string  $currentFolder
-	 * @param   string  $fileHashes
+	 * @param   string $file
+	 * @param   string $currentFolder
+	 * @param   string $fileHashes
 	 *
 	 * @return  JObject
 	 *
@@ -170,7 +170,7 @@ class MediaModelFiles extends JModelLegacy
 		// Construct the file object for use in the Media Manager
 		$tmp = new JObject;
 		$tmp->setProperties($fileModel->getFileProperties());
-		$tmpHash = md5($currentFolder . '/' . $file);
+		$tmpHash      = md5($currentFolder . '/' . $file);
 		$fileHashes[] = $tmpHash;
 
 		return $tmp;
@@ -179,9 +179,9 @@ class MediaModelFiles extends JModelLegacy
 	/**
 	 * Load object form stored file
 	 *
-	 * @param   string  $storedFile
-	 * @param   string  $currentFolder
-	 * @param   string  $fileHashes
+	 * @param   string $storedFile
+	 * @param   string $currentFolder
+	 * @param   string $fileHashes
 	 *
 	 * @return  bool|JObject
 	 *
@@ -237,7 +237,7 @@ class MediaModelFiles extends JModelLegacy
 	/**
 	 * Check whether this file is browsable in the Media Manager
 	 *
-	 * @param   string  $file
+	 * @param   string $file
 	 *
 	 * @return  bool
 	 *

@@ -56,8 +56,8 @@ class MediaControllerEditor extends JControllerLegacy
 	 */
 	public function cancel()
 	{
-		$app = JFactory::getApplication();
-		$file = $app->input->get('file', '', 'path');
+		$app    = JFactory::getApplication();
+		$file   = $app->input->get('file', '', 'path');
 		$folder = '';
 
 		if (!empty($file))

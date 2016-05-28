@@ -24,7 +24,7 @@ class MediaController extends JControllerLegacy
 	public function __construct($config = array())
 	{
 		$this->input = JFactory::getApplication()->input;
-		$viewName = $this->input->get('view');
+		$viewName    = $this->input->get('view');
 
 		if (empty($viewName))
 		{
@@ -38,7 +38,6 @@ class MediaController extends JControllerLegacy
 		}
 
 		$rt = parent::__construct($config);
-
 
 		return $rt;
 	}

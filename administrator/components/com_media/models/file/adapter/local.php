@@ -35,13 +35,13 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	 */
 	protected static $permissions = [
 		'file' => [
-			'public' => 0644,
+			'public'  => 0644,
 			'private' => 0600,
 		],
-		'dir' => [
-			'public' => 0755,
+		'dir'  => [
+			'public'  => 0755,
 			'private' => 0700,
-		]
+		],
 	];
 
 	/**
@@ -71,7 +71,7 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Path prefix
 	 *
-	 * @var    string 
+	 * @var    string
 	 * @since  3.6
 	 */
 	protected $pathPrefix;
@@ -90,7 +90,7 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	{
 		// The $permissionMap needs to be set before ensureDirectory() is called.
 		$this->permissionMap = array_replace_recursive(static::$permissions, $permissions);
-		$realRoot = $this->ensureDirectory($root);
+		$realRoot            = $this->ensureDirectory($root);
 
 		if (!is_dir($realRoot) || !is_readable($realRoot))
 		{
@@ -128,8 +128,8 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Write a new file.
 	 *
-	 * @param  string  $path
-	 * @param  string  $contents
+	 * @param  string $path
+	 * @param  string $contents
 	 *
 	 * @return  array|false  false on failure file meta data on success
 	 * @since   3.6
@@ -153,8 +153,8 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Update a file.
 	 *
-	 * @param  string  $path
-	 * @param  string  $contents
+	 * @param  string $path
+	 * @param  string $contents
 	 *
 	 * @return  array|false false on failure file meta data on success
 	 *
@@ -177,8 +177,8 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Rename a file.
 	 *
-	 * @param  string  $path
-	 * @param  string  $newpath
+	 * @param  string $path
+	 * @param  string $newpath
 	 *
 	 * @return  bool
 	 *
@@ -198,8 +198,8 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Copy a file.
 	 *
-	 * @param  string  $path
-	 * @param  string  $newpath
+	 * @param  string $path
+	 * @param  string $newpath
 	 *
 	 * @return  bool
 	 *
@@ -218,7 +218,7 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Delete a file.
 	 *
-	 * @param   string  $path
+	 * @param   string $path
 	 *
 	 * @return  bool
 	 *
@@ -234,7 +234,7 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Delete a directory.
 	 *
-	 * @param   string  $dirname
+	 * @param   string $dirname
 	 *
 	 * @return  bool
 	 *
@@ -272,7 +272,7 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Create a directory.
 	 *
-	 * @param   string  $dirname directory name
+	 * @param   string $dirname directory name
 	 *
 	 * @return  array|false
 	 *
@@ -300,8 +300,8 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Set the visibility for a file.
 	 *
-	 * @param   string  $path
-	 * @param   string  $visibility
+	 * @param   string $path
+	 * @param   string $visibility
 	 *
 	 * @return  array|false file meta data
 	 *
@@ -324,7 +324,7 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Ensure the root directory exists.
 	 *
-	 * @param   string  $root  Root directory path
+	 * @param   string $root Root directory path
 	 *
 	 * @return  string  Real path to root
 	 *
@@ -345,7 +345,7 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Apply the path prefix to a given path
 	 *
-	 * @param   string  $path
+	 * @param   string $path
 	 *
 	 * @return  mixed
 	 *
@@ -359,7 +359,7 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Set the path prefix.
 	 *
-	 * @param   string  $prefix
+	 * @param   string $prefix
 	 *
 	 * @return  voild
 	 *
@@ -392,7 +392,7 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Remove a path prefix.
 	 *
-	 * @param   string  $path
+	 * @param   string $path
 	 *
 	 * @return  string  path without the prefix
 	 *
@@ -430,7 +430,7 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 	/**
 	 * Detect the MIME type of a specific file
 	 *
-	 * @param   string  $filePath
+	 * @param   string $filePath
 	 *
 	 * @return  string
 	 *

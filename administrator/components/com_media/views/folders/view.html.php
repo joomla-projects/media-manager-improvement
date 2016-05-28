@@ -172,7 +172,6 @@ class MediaViewFolders extends JViewLegacy
 			JToolbarHelper::preferences('com_media');
 			JToolbarHelper::divider();
 		}
-
 	}
 
 	/**

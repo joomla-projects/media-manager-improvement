@@ -45,7 +45,7 @@ class MediaModelFileAdapter
 	/**
 	 * Return the current file adapter object
 	 *
-	 * @param  string  $adapterName
+	 * @param  string $adapterName
 	 *
 	 * @return  mixed|false
 	 *
@@ -112,7 +112,7 @@ class MediaModelFileAdapter
 	/**
 	 * Get a file adapter object based on an identifier string
 	 *
-	 * @param   string  $identifier
+	 * @param   string $identifier
 	 *
 	 * @return  bool|MediaModelFileAdapterInterfaceAdapter
 	 *
@@ -135,7 +135,7 @@ class MediaModelFileAdapter
 		include_once $identifierFile;
 
 		$fileAdapterClass = 'MediaModelFileAdapter' . ucfirst($identifier);
-		$fileType = new $fileAdapterClass(JPATH_ROOT);
+		$fileType         = new $fileAdapterClass(JPATH_ROOT);
 
 		return $fileType;
 	}

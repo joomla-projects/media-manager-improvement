@@ -51,8 +51,8 @@ class MediaModelFileType
 	/**
 	 * Return a file type object
 	 *
-	 * @param   string                                 $filePath
-	 * @param   MediaModelFileAdapterInterfaceAdapter  $fileAdapter
+	 * @param   string                                $filePath
+	 * @param   MediaModelFileAdapterInterfaceAdapter $fileAdapter
 	 *
 	 * @return  MediaModelFileTypeInterface
 	 *
@@ -132,7 +132,7 @@ class MediaModelFileType
 	/**
 	 * Get a file type object based on an identifier string
 	 *
-	 * @param   string  $identifier
+	 * @param   string $identifier
 	 *
 	 * @return  bool|MediaModelFileTypeInterface
 	 *

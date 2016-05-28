@@ -13,7 +13,7 @@ $file      = $displayData['file'];
 $imagePath = JURI::root() . 'media/media/images/' . $file->icon_32;
 ?>
 <?php echo JHtml::_('image', $imagePath, JText::sprintf('COM_MEDIA_IMAGE_TITLE', $file->title, JHtml::_('number.bytes', $file->size)), array(
-	'width' => 32,
+	'width'  => 32,
 	'height' => 32,
 )); ?>
 <!--

@@ -69,7 +69,7 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Load a new file model by path
 	 *
-	 * @param  string  $filePath
+	 * @param  string $filePath
 	 *
 	 * @return  bool
 	 *
@@ -83,7 +83,7 @@ class MediaModelFile extends JModelLegacy
 		}
 
 		$fileExtension = strtolower(JFile::getExt($filePath));
-		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', JPATH_ROOT . '/images/');
+		$mediaBase     = str_replace(DIRECTORY_SEPARATOR, '/', JPATH_ROOT . '/images/');
 
 		// Base file properties
 		$this->fileProperties = array(
@@ -112,7 +112,7 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Attach a file stored in the database to a filepath-based file
 	 *
-	 * @param   string  $filePath
+	 * @param   string $filePath
 	 *
 	 * @return  bool
 	 *
@@ -169,7 +169,7 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Find a stored file by its filename or path
 	 *
-	 * @param   string  $filePath
+	 * @param   string $filePath
 	 *
 	 * @return  bool|object
 	 *
@@ -194,7 +194,7 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Fetch a list of all the files stored in the database
 	 *
-	 * @param   string  $folder
+	 * @param   string $folder
 	 *
 	 * @return  array
 	 *
@@ -330,7 +330,7 @@ class MediaModelFile extends JModelLegacy
 			return false;
 		}
 
-		$adapterFactory = new MediaModelFileAdapter;
+		$adapterFactory    = new MediaModelFileAdapter;
 		$this->fileAdapter = $adapterFactory->getFileAdapter($this->fileProperties['file_adapter']);
 		$this->fileAdapter->setFilePath($this->fileProperties['path']);
 
@@ -361,7 +361,7 @@ class MediaModelFile extends JModelLegacy
 			$this->loadFileAdapter();
 		}
 
-		$typeFactory = new MediaModelFileType;
+		$typeFactory    = new MediaModelFileType;
 		$this->fileType = $typeFactory->getFileType($this->fileProperties['path'], $this->fileAdapter);
 
 		if (!$this->fileType instanceof MediaModelFileTypeInterface)
@@ -385,7 +385,7 @@ class MediaModelFile extends JModelLegacy
 	{
 		if ($this->fileType)
 		{
-			$properties = $this->fileType->getProperties($this->fileProperties['path']);
+			$properties           = $this->fileType->getProperties($this->fileProperties['path']);
 			$this->fileProperties = array_merge($this->fileProperties, $properties);
 		}
 	}
@@ -425,8 +425,8 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Set the current file adapter object
 	 *
-	 * @param  string  $fileAdapter
-	 * @param  string  $filePath
+	 * @param  string $fileAdapter
+	 * @param  string $filePath
 	 *
 	 * @return  $this
 	 *
@@ -434,7 +434,7 @@ class MediaModelFile extends JModelLegacy
 	 */
 	public function setFileAdapter($fileAdapterName, $filePath = null)
 	{
-		$adapterFactory = new MediaModelFileAdapter;
+		$adapterFactory    = new MediaModelFileAdapter;
 		$this->fileAdapter = $adapterFactory->getFileAdapter($fileAdapterName);
 		$this->fileAdapter->setFilePath($filePath);
 
@@ -456,7 +456,7 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Set the current file type object
 	 *
-	 * @param   mixed  $fileType
+	 * @param   mixed $fileType
 	 *
 	 * @return  $this
 	 *
@@ -484,7 +484,7 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Set the file properties
 	 *
-	 * @param   array  $properties
+	 * @param   array $properties
 	 *
 	 * @return  void
 	 *

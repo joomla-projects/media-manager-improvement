@@ -77,7 +77,7 @@ class MediaModelFileTypeDefault implements MediaModelFileTypeInterface
 	/**
 	 * Return the file properties of a specific file
 	 *
-	 * @param  string  $filePath
+	 * @param  string $filePath
 	 *
 	 * @return  array
 	 *

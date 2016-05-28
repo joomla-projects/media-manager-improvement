@@ -25,19 +25,20 @@ class MediaHelperFolder
 	{
 		// Forbid usage of ".." anyway
 		$path = str_replace('..', '', $path);
-		
+
 		// Don't do this for relative paths
-		if (!is_dir($path)) {
+		if (!is_dir($path))
+		{
 			return $path;
 		}
-		
+
 		$path = realpath($path);
 
 		if (stristr($path, COM_MEDIA_BASE) == false)
 		{
 			return COM_MEDIA_BASE;
 		}
-		
+
 		return $path;
 	}
 
@@ -51,7 +52,7 @@ class MediaHelperFolder
 		$path = self::sanitizePath($path);
 		$path = str_replace(COM_MEDIA_BASE, '', $path);
 		$path = preg_replace('/^\//', '', $path);
-		
+
 		return $path;
 	}
 }
