@@ -128,7 +128,7 @@ class MediaControllerFolder extends JControllerLegacy
 		// File name is of zero length (null)
 		if (!strlen($folder))
 		{
-			$this->setWarning(JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'));
+			$this->setWarning(JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_EMPTY'));
 
 			return false;
 		}
