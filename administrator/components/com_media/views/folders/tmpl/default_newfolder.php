@@ -17,9 +17,9 @@ $currentFolder = $this->state->folder;
 	action="<?php echo $actionUrl ?>"
 	name="folderForm" id="folderForm" class="form-inline" method="post">
 	<div class="path">
-		<input type="text" id="folderpath" readonly="readonly" class="update-folder" />
-		<input type="text" id="foldername" name="foldername" />
-		<input class="update-folder" type="hidden" name="folderbase" id="folderbase"
+		<input type="text" id="new-folder-path" readonly="readonly" class="update-folder" value="<?php echo $currentFolder; ?>" />
+		<input type="text" id="new-folder-name" name="foldername" />
+		<input class="update-folder" type="hidden" name="new-folder-base" id="new-folder-base"
 		       value="<?php echo $currentFolder; ?>" />
 		<button type="submit" class="btn">
 			<span class="icon-folder-open"></span>

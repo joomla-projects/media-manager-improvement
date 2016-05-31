@@ -21,8 +21,8 @@
          * @return  void
          */
         initialize: function () {
-            this.input_new_folder_path = $('#folderpath');
-            this.input_new_folder_name = $('#foldername');
+            this.input_new_folder_path = $('#new-folder-path');
+            this.input_new_folder_name = $('#new-folder-name');
             this.viewstyle = 'thumbs';
 
             this.updatepaths = $('input.update-folder');

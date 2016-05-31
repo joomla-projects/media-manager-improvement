@@ -70,25 +70,22 @@ class MediaControllerFolder extends JControllerLegacy
 
 		$ret = true;
 
-		JPluginHelper::importPlugin('content');
-		$dispatcher = JEventDispatcher::getInstance();
-
 		foreach ($paths as $path)
 		{
 			if ($path !== JFile::makeSafe($path))
 			{
-				$dirname = htmlspecialchars($path, ENT_COMPAT, 'UTF-8');
-				$this->setWarning(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_WARNDIRNAME', substr($dirname, strlen(COM_MEDIA_BASE))));
+				$dirName = htmlspecialchars($path, ENT_COMPAT, 'UTF-8');
+				$this->setWarning(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_WARNDIRNAME', substr($dirName, strlen(COM_MEDIA_BASE))));
 
 				continue;
 			}
 
 			$fullPath    = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
-			$object_file = new JObject(array('filepath' => $fullPath));
+			$fileObject = new JObject(array('filepath' => $fullPath));
 
-			if (is_file($object_file->filepath))
+			if (is_file($fileObject->filepath))
 			{
-				if (!$deleted = $this->deleteFile($object_file, $dispatcher))
+				if (!$deleted = $this->deleteFile($fileObject))
 				{
 					$ret &= $deleted;
 				}
@@ -96,9 +93,9 @@ class MediaControllerFolder extends JControllerLegacy
 				continue;
 			}
 
-			if (is_dir($object_file->filepath))
+			if (is_dir($fileObject->filepath))
 			{
-				if ($deleted = $this->deleteFolder($object_file, $dispatcher))
+				if ($deleted = $this->deleteFolder($fileObject))
 				{
 					$ret &= $deleted;
 				}
@@ -122,23 +119,23 @@ class MediaControllerFolder extends JControllerLegacy
 
 		$user = JFactory::getUser();
 
-		$folder      = $this->input->get('foldername', '');
-		$folderCheck = (string) $this->input->get('foldername', null, 'raw');
-		$parent      = $this->input->get('folderbase', '', 'path');
+		$folder      = $this->input->get('new-folder-name', '');
+		$folderCheck = (string) $this->input->get('new-folder-name', null, 'raw');
+		$parent      = $this->input->get('new-folder-base', '', 'path');
 
 		$this->setRedirect('index.php?option=com_media&folder=' . $parent . '&tmpl=' . $this->input->get('tmpl', 'index'));
 
+		// File name is of zero length (null)
 		if (!strlen($folder))
 		{
-			// File name is of zero length (null).
 			$this->setWarning(JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'));
 
 			return false;
 		}
 
+		// User is not authorised to create
 		if (!$user->authorise('core.create', 'com_media'))
 		{
-			// User is not authorised to create
 			$this->setWarning(JText::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'));
 
 			return false;
@@ -165,28 +162,18 @@ class MediaControllerFolder extends JControllerLegacy
 		}
 
 		// Trigger the onContentBeforeSave event.
-		$object_file = new JObject(array('filepath' => $path));
-		JPluginHelper::importPlugin('content');
-		$dispatcher = JEventDispatcher::getInstance();
-		$result     = $dispatcher->trigger('onContentBeforeSave', array('com_media.folder', &$object_file, true));
+		$fileObject = new JObject(array('filepath' => $path));
+		$result      = $this->triggerEvent('onContentBeforeSave', array('com_media.folder', &$fileObject, true));
 
 		if (in_array(false, $result, true))
 		{
 			// There are some errors in the plugins
-			$this->setWarning(JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br />', $errors)));
+			$this->setWarning(JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $fileObject->getErrors()), implode('<br />', $errors)));
 
 			return false;
 		}
 
-		if (JFolder::create($object_file->filepath))
-		{
-			$data = "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>";
-			JFile::write($object_file->filepath . "/index.html", $data);
-
-			// Trigger the onContentAfterSave event.
-			$dispatcher->trigger('onContentAfterSave', array('com_media.folder', &$object_file, true));
-			$this->setMessage(JText::sprintf('COM_MEDIA_CREATE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
-		}
+		$this->createIndexFileInFolder($fileObject);
 
 		$this->input->set('folder', ($parent) ? $parent . '/' . $folder : $folder);
 
@@ -194,29 +181,66 @@ class MediaControllerFolder extends JControllerLegacy
 	}
 
 	/**
+	 * Create an index.html file in the folder
+	 *
+	 * @param object $folder
+	 *
+	 * @return bool
+	 */
+	private function createIndexFileInFolder($folder)
+	{
+		if (!JFolder::create($folder->filepath))
+		{
+			return false;
+		}
+
+		$data = "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>";
+		JFile::write($folder->filepath . "/index.html", $data);
+
+		// Trigger the onContentAfterSave event.
+		$this->triggerEvent('onContentAfterSave', array('com_media.folder', &$folder, true));
+		$this->setMessage(JText::sprintf('COM_MEDIA_CREATE_COMPLETE', substr($folder->filepath, strlen(COM_MEDIA_BASE))));
+
+		return true;
+	}
+
+	/**
+	 * Triggers the specified event
+	 *
+	 * @param string $eventName
+	 * @param array  $eventArguments
+	 */
+	private function triggerEvent($eventName, $eventArguments)
+	{
+		JPluginHelper::importPlugin('content');
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger($eventName, $eventArguments);
+	}
+
+	/**
 	 * Deletes file
 	 *
 	 * @return  boolean
 	 */
-	private function deleteFile(&$object_file, &$dispatcher)
+	private function deleteFile(&$objectFile)
 	{
 		// Trigger the onContentBeforeDelete event.
-		$result = $dispatcher->trigger('onContentBeforeDelete', array('com_media.file', &$object_file));
+		$result = $this->triggerEvent('onContentBeforeDelete', array('com_media.file', &$objectFile));
 
 		if (in_array(false, $result, true))
 		{
 			// There are some errors in the plugins
-			$errors = $object_file->getErrors();
+			$errors = $objectFile->getErrors();
 			$this->setWarning(JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
 
 			return false;
 		}
 
-		$ret = JFile::delete($object_file->filepath);
+		$ret = JFile::delete($objectFile->filepath);
 
 		// Trigger the onContentAfterDelete event.
-		$dispatcher->trigger('onContentAfterDelete', array('com_media.file', &$object_file));
-		$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
+		$this->triggerEvent('onContentAfterDelete', array('com_media.file', &$objectFile));
+		$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($objectFile->filepath, strlen(COM_MEDIA_BASE))));
 
 		return $ret;
 	}
@@ -226,7 +250,7 @@ class MediaControllerFolder extends JControllerLegacy
 	 *
 	 * @return  boolean
 	 */
-	private function deleteFolder(&$object_file, &$dispatcher)
+	private function deleteFolder(&$fileObject)
 	{
 		$skipList = array(
 			'.svn',
@@ -237,39 +261,41 @@ class MediaControllerFolder extends JControllerLegacy
 			'desktop.ini',
 		);
 
-		$contents = JFolder::files($object_file->filepath, '.', true, false, $skipList);
+		$contents = JFolder::files($fileObject->filepath, '.', true, false, $skipList);
 
 		if (!empty($contents))
 		{
 			// This makes no sense...
-			$folderPath = substr($object_file->filepath, strlen(COM_MEDIA_BASE));
+			$folderPath = substr($fileObject->filepath, strlen(COM_MEDIA_BASE));
 			$this->setWarning(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_NOT_EMPTY', $folderPath));
 
 			return false;
 		}
 
 		// Trigger the onContentBeforeDelete event.
-		$result = $dispatcher->trigger('onContentBeforeDelete', array('com_media.folder', &$object_file));
+		$result = $this->triggerEvent('onContentBeforeDelete', array('com_media.folder', &$fileObject));
 
 		if (in_array(false, $result, true))
 		{
 			// There are some errors in the plugins
-			$errors = $object_file->getErrors();
+			$errors = $fileObject->getErrors();
 			$this->setWarning(JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
 
 			return false;
 		}
 
-		$ret = JFolder::delete($object_file->filepath);
+		$ret = JFolder::delete($fileObject->filepath);
 
 		// Trigger the onContentAfterDelete event.
-		$dispatcher->trigger('onContentAfterDelete', array('com_media.folder', &$object_file));
-		$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
+		$this->triggerEvent('onContentAfterDelete', array('com_media.folder', &$fileObject));
+		$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($fileObject->filepath, strlen(COM_MEDIA_BASE))));
 
 		return $ret;
 	}
 
 	/**
+	 * Generate a warning
+	 *
 	 * @param $warning
 	 */
 	protected function setWarning($warning)
