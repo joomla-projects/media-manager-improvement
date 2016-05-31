@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
+// @todo: Refactor this class
+
 /**
  * Folder Media Controller
  *
@@ -58,7 +60,7 @@ class MediaControllerFolder extends JControllerLegacy
 		if (!$user->authorise('core.delete', 'com_media'))
 		{
 			// User is not authorised to delete
-			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+			$this->setWarning(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
 			return false;
 		}
@@ -76,7 +78,7 @@ class MediaControllerFolder extends JControllerLegacy
 			if ($path !== JFile::makeSafe($path))
 			{
 				$dirname = htmlspecialchars($path, ENT_COMPAT, 'UTF-8');
-				JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_WARNDIRNAME', substr($dirname, strlen(COM_MEDIA_BASE))));
+				$this->setWarning(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_WARNDIRNAME', substr($dirname, strlen(COM_MEDIA_BASE))));
 
 				continue;
 			}
@@ -129,7 +131,7 @@ class MediaControllerFolder extends JControllerLegacy
 		if (!strlen($folder))
 		{
 			// File name is of zero length (null).
-			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'));
+			$this->setWarning(JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'));
 
 			return false;
 		}
@@ -137,7 +139,7 @@ class MediaControllerFolder extends JControllerLegacy
 		if (!$user->authorise('core.create', 'com_media'))
 		{
 			// User is not authorised to create
-			JError::raiseWarning(403, JText::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'));
+			$this->setWarning(JText::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'));
 
 			return false;
 		}
@@ -171,7 +173,7 @@ class MediaControllerFolder extends JControllerLegacy
 		if (in_array(false, $result, true))
 		{
 			// There are some errors in the plugins
-			JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br />', $errors)));
+			$this->setWarning(JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br />', $errors)));
 
 			return false;
 		}
@@ -205,7 +207,7 @@ class MediaControllerFolder extends JControllerLegacy
 		{
 			// There are some errors in the plugins
 			$errors = $object_file->getErrors();
-			JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
+			$this->setWarning(JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
 
 			return false;
 		}
@@ -241,7 +243,7 @@ class MediaControllerFolder extends JControllerLegacy
 		{
 			// This makes no sense...
 			$folderPath = substr($object_file->filepath, strlen(COM_MEDIA_BASE));
-			JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_NOT_EMPTY', $folderPath));
+			$this->setWarning(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_NOT_EMPTY', $folderPath));
 
 			return false;
 		}
@@ -253,7 +255,7 @@ class MediaControllerFolder extends JControllerLegacy
 		{
 			// There are some errors in the plugins
 			$errors = $object_file->getErrors();
-			JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
+			$this->setWarning(JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
 
 			return false;
 		}
@@ -265,5 +267,13 @@ class MediaControllerFolder extends JControllerLegacy
 		$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
 
 		return $ret;
+	}
+
+	/**
+	 * @param $warning
+	 */
+	protected function setWarning($warning)
+	{
+		JError::raiseWarning(100, $warning);
 	}
 }
