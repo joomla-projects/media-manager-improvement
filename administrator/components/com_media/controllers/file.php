@@ -127,8 +127,6 @@ class MediaControllerFile extends JControllerLegacy
 
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
-		JPluginHelper::importPlugin('content');
-		$dispatcher = JEventDispatcher::getInstance();
 
 		foreach ($files as &$file)
 		{
@@ -144,7 +142,7 @@ class MediaControllerFile extends JControllerLegacy
 			// Trigger the onContentBeforeSave event.
 			$fileObject = new JObject($file);
 
-			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$fileObject, true));
+			$result = $this->triggerEvent('onContentBeforeSave', array('com_media.file', &$fileObject, true));
 
 			// There are some errors in the plugins
 			if (in_array(false, $result, true))
@@ -163,7 +161,7 @@ class MediaControllerFile extends JControllerLegacy
 			}
 
 			// Trigger the onContentAfterSave event.
-			$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$fileObject, true));
+			$this->triggerEvent('onContentAfterSave', array('com_media.file', &$fileObject, true));
 
 			$this->setMessage(JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', substr($fileObject->filepath, strlen(COM_MEDIA_BASE))));
 		}
@@ -187,7 +185,7 @@ class MediaControllerFile extends JControllerLegacy
 		// User is not authorised
 		if (!$user->authorise('core.' . strtolower($action), 'com_media'))
 		{
-			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_' . strtoupper($action) . '_NOT_PERMITTED'));
+			$this->setWarning(JText::_('JLIB_APPLICATION_ERROR_' . strtoupper($action) . '_NOT_PERMITTED'));
 
 			return false;
 		}
