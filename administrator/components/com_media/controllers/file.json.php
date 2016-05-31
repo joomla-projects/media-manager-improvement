@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
+// @todo: Refactor this class
+
 /**
  * File Media Controller
  *

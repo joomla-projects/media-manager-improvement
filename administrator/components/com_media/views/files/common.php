@@ -61,6 +61,7 @@ class MediaViewFilesCommon extends JViewLegacy
 	public function __construct($config = array())
 	{
 		$this->app = JFactory::getApplication();
+		$this->user = JFactory::getUser();
 
 		return parent::__construct($config);
 	}

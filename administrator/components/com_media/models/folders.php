@@ -119,7 +119,13 @@ class MediaModelFolders extends JModelLegacy
 			$relative = str_replace($mediaBase, '', $folder);
 			$absolute = $folder;
 			$path     = explode('/', $relative);
-			$node     = (object) array('name' => $name, 'relative' => $relative, 'absolute' => $absolute);
+			$node     = (object) array(
+				'name'     => $name,
+				'subfolders' => 0, // @todo: Add actual count here
+				'subfiles' => 0, // @todo: Add actual count here
+				'relative' => $relative,
+				'absolute' => $absolute
+			);
 			$tmp      = &$tree;
 
 			for ($i = 0, $n = count($path); $i < $n; $i++)
@@ -149,7 +155,10 @@ class MediaModelFolders extends JModelLegacy
 			$tree['parent'] = $this->getParent();
 		}
 
-		$tree['data'] = (object) array('name' => JText::_('COM_MEDIA_MEDIA'), 'relative' => '', 'absolute' => $currentBase);
+		$tree['data'] = (object) array('name'     => JText::_('COM_MEDIA_MEDIA'),
+		                               'relative' => '',
+		                               'absolute' => $currentBase
+		);
 
 		return $tree;
 	}
@@ -229,7 +238,7 @@ class MediaModelFolders extends JModelLegacy
 		{
 			return;
 		}
-		
+
 		$this->setCurrentFolder($currentFolder);
 	}
 
