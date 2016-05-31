@@ -71,12 +71,17 @@ class MediaModelFile extends JModelLegacy
 	 *
 	 * @param  string $filePath
 	 *
-	 * @return  bool
+	 * @return  self
 	 *
 	 * @since   3.6
 	 */
 	public function loadByPath($filePath)
 	{
+		if (strstr($filePath, COM_MEDIA_BASE) == false)
+		{
+			$filePath = COM_MEDIA_BASE . '/' . $filePath;
+		}
+
 		if (JFile::exists($filePath) == false)
 		{
 			return false;
@@ -108,7 +113,7 @@ class MediaModelFile extends JModelLegacy
 		$this->setPropertiesByFileType();
 		$this->setPropertiesByFileAdapter();
 
-		return true;
+		return $this;
 	}
 
 	/**
@@ -273,7 +278,7 @@ class MediaModelFile extends JModelLegacy
 	 *
 	 * @since   3.6
 	 */
-	protected function update()
+	public function update()
 	{
 		$user = JFactory::getUser();
 		$date = JFactory::getDate();
@@ -313,6 +318,53 @@ class MediaModelFile extends JModelLegacy
 		}
 
 		return $this->id;
+	}
+
+	/**
+	 * Delete a file
+	 *
+	 * @return bool
+	 * @throws Exception
+	 */
+	public function delete()
+	{
+		if (empty($this->fileProperties))
+		{
+			return false;
+		}
+
+		$fileName = $this->fileProperties['name'];
+		$filePath = $this->fileProperties['path'];
+		
+		if ($fileName !== JFile::makeSafe($fileName))
+		{
+			// Filename is not safe
+			$filename = htmlspecialchars($fileName, ENT_COMPAT, 'UTF-8');
+			throw new Exception(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FILE_WARNFILENAME', substr($filename, strlen(COM_MEDIA_BASE))));
+		}
+
+		if (!is_file($filePath))
+		{
+			return false;
+		}
+
+		// Trigger the onContentBeforeDelete event
+		$fileObject = new JObject(array('filepath' => $filePath));
+		$result = $this->triggerEvent('onContentBeforeDelete', array('com_media.file', &$fileObject));
+
+		if (in_array(false, $result, true))
+		{
+			// There are some errors in the plugins
+			$errors = $fileObject->getErrors();
+			throw new Exception(JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
+		}
+
+		$rt = JFile::delete($fileObject->filepath);
+
+		// Trigger the onContentAfterDelete event.
+		$this->triggerEvent('onContentAfterDelete', array('com_media.file', &$fileObject));
+
+		return $rt;
 	}
 
 	/**
@@ -416,6 +468,19 @@ class MediaModelFile extends JModelLegacy
 		}
 		
 		$this->fileProperties['mime_type'] = $mimeType;
+	}
+
+	/**
+	 * Triggers the specified event
+	 *
+	 * @param string $eventName
+	 * @param array  $eventArguments
+	 */
+	private function triggerEvent($eventName, $eventArguments)
+	{
+		JPluginHelper::importPlugin('content');
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger($eventName, $eventArguments);
 	}
 
 	/**

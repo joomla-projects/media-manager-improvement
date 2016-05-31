@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $input         = JFactory::getApplication()->input;
 $actionUrl     = 'index.php?option=com_media&amp;task=folder.create&amp;tmpl=' . $input->getCmd('tmpl', 'index');
-$currentFolder = $this->state->folder;
+$currentFolder = $this->current_folder;
 ?>
 <form
 	action="<?php echo $actionUrl ?>"

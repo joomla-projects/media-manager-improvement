@@ -39,6 +39,16 @@ class MediaControllerFolder extends JControllerLegacy
 		$paths  = $this->input->get('rm', array(), 'array');
 		$folder = $this->input->get('folder', '', 'path');
 
+		foreach ($paths as $pathIndex => $path)
+		{
+			$paths[$pathIndex] = basename($path);
+		}
+
+		if (empty($folder))
+		{
+			$folder = $this->getFoldersModel()->getCurrentFolder();
+		}
+
 		$redirect = 'index.php?option=com_media&folder=' . $folder;
 
 		if ($tmpl == 'component')
@@ -122,6 +132,11 @@ class MediaControllerFolder extends JControllerLegacy
 		$folder      = $this->input->get('new-folder-name', '');
 		$folderCheck = (string) $this->input->get('new-folder-name', null, 'raw');
 		$parent      = $this->input->get('new-folder-base', '', 'path');
+
+		if (empty($parent))
+		{
+			$parent = $this->getFoldersModel()->getCurrentFolder();
+		}
 
 		$this->setRedirect('index.php?option=com_media&folder=' . $parent . '&tmpl=' . $this->input->get('tmpl', 'index'));
 
@@ -298,8 +313,38 @@ class MediaControllerFolder extends JControllerLegacy
 	 *
 	 * @param $warning
 	 */
-	protected function setWarning($warning)
+	private function setWarning($warning)
 	{
 		JError::raiseWarning(100, $warning);
+	}
+	
+	/**
+	 * Return the folder model
+	 *
+	 * @return  MediaModelFolder
+	 */
+	private function getFolderModel()
+	{
+		return JModelLegacy::getInstance('folder', 'MediaModel');
+	}
+
+	/**
+	 * Return the file model
+	 *
+	 * @return  MediaModelFile
+	 */
+	private function getFileModel()
+	{
+		return JModelLegacy::getInstance('file', 'MediaModel');
+	}
+
+	/**
+	 * Return the folders model
+	 *
+	 * @return  MediaModelFolders
+	 */
+	private function getFoldersModel()
+	{
+		return JModelLegacy::getInstance('folders', 'MediaModel');
 	}
 }

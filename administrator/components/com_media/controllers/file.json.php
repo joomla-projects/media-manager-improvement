@@ -54,7 +54,7 @@ class MediaControllerFile extends JControllerLegacy
 		JLog::addLogger(array('text_file' => 'upload.error.php'), JLog::ALL, array('upload'));
 
 		// Get some data from the request
-		$file   = $this->input->files->get('Filedata', '', 'array');
+		$file   = $this->input->files->get('files', '', 'array');
 		$folder = $this->input->get('folder', '', 'path');
 
 		// Instantiate the media helper
