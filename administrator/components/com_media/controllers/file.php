@@ -12,12 +12,14 @@ defined('_JEXEC') or die;
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/controller.php';
+
 /**
  * Media File Controller
  *
  * @since  1.5
  */
-class MediaControllerFile extends JControllerLegacy
+class MediaControllerFile extends MediaController
 {
 	/**
 	 * The folder we are uploading into
@@ -127,14 +129,12 @@ class MediaControllerFile extends JControllerLegacy
 
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
+		$mediaHelper = new JHelperMedia;
 
 		foreach ($files as &$file)
 		{
-			// The request is valid
-			$err = null;
-
 			// The file can't be uploaded
-			if (!MediaHelper::canUpload($file, $err))
+			if (!$mediaHelper->canUpload($file))
 			{
 				return false;
 			}
@@ -252,75 +252,9 @@ class MediaControllerFile extends JControllerLegacy
 
 		foreach ($paths as $path)
 		{
-			$fileObject = $this->getFileModel()->loadByPath($path);
-
-			if (!$fileObject)
-			{
-				continue;
-			}
-
-			if ($fileObject->delete())
-			{
-				$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', basename($path)));
-				continue;
-			}
-
-			$this->setWarning(JText::_('COM_MEDIA_ERROR_UNABLE_TO_DELETE') . basename($path));
+			$this->deletePath($path);
 		}
 		
 		return true;
-	}
-
-	/**
-	 * Triggers the specified event
-	 *
-	 * @param string $eventName
-	 * @param array  $eventArguments
-	 */
-	private function triggerEvent($eventName, $eventArguments)
-	{
-		JPluginHelper::importPlugin('content');
-		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger($eventName, $eventArguments);
-	}
-	
-	/**
-	 * Generate a warning
-	 *
-	 * @param $warning
-	 */
-	private function setWarning($warning)
-	{
-		JError::raiseWarning(100, $warning);
-	}
-
-	/**
-	 * Return the folder model
-	 *
-	 * @return  MediaModelFolder
-	 */
-	private function getFolderModel()
-	{
-		return JModelLegacy::getInstance('folder', 'MediaModel');
-	}
-
-	/**
-	 * Return the file model
-	 *
-	 * @return  MediaModelFile
-	 */
-	private function getFileModel()
-	{
-		return JModelLegacy::getInstance('file', 'MediaModel');
-	}
-
-	/**
-	 * Return the folders model
-	 *
-	 * @return  MediaModelFolders
-	 */
-	private function getFoldersModel()
-	{
-		return JModelLegacy::getInstance('folders', 'MediaModel');
 	}
 }

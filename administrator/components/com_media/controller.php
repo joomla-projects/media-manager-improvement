@@ -72,4 +72,120 @@ class MediaController extends JControllerLegacy
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
 	}
+
+	/**
+	 * Delete a path - either a file or a folder
+	 *
+	 * @param $path
+	 *
+	 * @return bool
+	 * @throws Exception
+	 */
+	protected function deletePath($path)
+	{
+		$fileObject = $this->getFileModel()
+			->loadByPath($path);
+
+		if ($fileObject instanceof MediaModelFile)
+		{
+			try
+			{
+				if ($fileObject->delete())
+				{
+					$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', basename($path)));
+
+					return true;
+				}
+			}
+			catch (Exception $e)
+			{
+				$this->setWarning($e->getMessage());
+			}
+
+			$this->setWarning(JText::_('COM_MEDIA_ERROR_UNABLE_TO_DELETE') . basename($path));
+
+			return false;
+		}
+
+		$folderObject = $this->getFolderModel()
+			->loadByPath($path);
+
+		if ($folderObject instanceof MediaModelFolder)
+		{
+			try
+			{
+				if ($folderObject->delete())
+				{
+					$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', basename($path)));
+
+					return true;
+				}
+			}
+			catch (Exception $e)
+			{
+				$this->setWarning($e->getMessage());
+			}
+
+			$this->setWarning(JText::_('COM_MEDIA_ERROR_UNABLE_TO_DELETE') . basename($path));
+
+			return false;
+		}
+
+		$this->setWarning(JText::_('COM_MEDIA_ERROR_BAD_REQUEST'));
+
+		return false;
+	}
+
+	/**
+	 * Triggers the specified event
+	 *
+	 * @param string $eventName
+	 * @param array  $eventArguments
+	 */
+	protected function triggerEvent($eventName, $eventArguments)
+	{
+		JPluginHelper::importPlugin('content');
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger($eventName, $eventArguments);
+	}
+
+	/**
+	 * Generate a warning
+	 *
+	 * @param $warning
+	 */
+	protected function setWarning($warning)
+	{
+		JError::raiseWarning(100, $warning);
+	}
+
+	/**
+	 * Return the folder model
+	 *
+	 * @return  MediaModelFolder
+	 */
+	protected function getFolderModel()
+	{
+		return JModelLegacy::getInstance('folder', 'MediaModel');
+	}
+
+	/**
+	 * Return the file model
+	 *
+	 * @return  MediaModelFile
+	 */
+	protected function getFileModel()
+	{
+		return JModelLegacy::getInstance('file', 'MediaModel');
+	}
+
+	/**
+	 * Return the folders model
+	 *
+	 * @return  MediaModelFolders
+	 */
+	protected function getFoldersModel()
+	{
+		return JModelLegacy::getInstance('folders', 'MediaModel');
+	}
 }

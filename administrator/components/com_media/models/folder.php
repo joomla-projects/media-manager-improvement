@@ -17,15 +17,28 @@ jimport('joomla.filesystem.file');
  *
  * @since  3.6
  */
-class MediaModelFolder extends JModelLegacy
+class MediaModelFolder
 {
 	/**
-	 * Identifier
+	 * Folder name
 	 *
-	 * @var    int
-	 * @since  3.6
+	 * @var null
 	 */
-	protected $id = null;
+	protected $name = null;
+
+	/**
+	 * Relative folder path
+	 *
+	 * @var null
+	 */
+	protected $path = null;
+
+	/**
+	 * Absolute folder path
+	 *
+	 * @var null
+	 */
+	protected $full_path = null;
 
 	/**
 	 * Lists the files in a folder
@@ -44,34 +57,120 @@ class MediaModelFolder extends JModelLegacy
 	protected $folders = array();
 
 	/**
-	 * Method to get model state variables
+	 * List of folders that should not be touched
 	 *
-	 * @param   string $property Optional parameter name
-	 * @param   mixed  $default  Optional default value
-	 *
-	 * @return  object  The property where specified, the state object where omitted
-	 *
-	 * @since   3.6
+	 * @var array
 	 */
-	public function getState($property = null, $default = null)
-	{
-		static $set;
+	protected $skipList = array(
+		'.svn',
+		'.git',
+		'.gitignore',
+		'CVS',
+		'.DS_Store',
+		'__MACOSX',
+		'index.html',
+		'desktop.ini',
+	);
 
-		if ($set)
+	/**
+	 * Load a specific folder
+	 *
+	 * @param $path
+	 *
+	 * @return MediaModelFolder
+	 *
+	 * @throws InvalidArgumentException
+	 */
+	public function load($path)
+	{
+		if (empty($path))
 		{
-			return parent::getState($property, $default);
+			throw new InvalidArgumentException(JText::_('COM_MEDIA_ERROR_WARNFILENAME'));
 		}
 
-		$input  = JFactory::getApplication()->input;
-		$folder = $input->get('folder', '', 'path');
-		$this->setState('folder', $folder);
+		$full_path = realpath(COM_MEDIA_BASE . '/' . $path);
 
-		$parent = str_replace("\\", "/", dirname($folder));
-		$parent = ($parent == '.') ? null : $parent;
-		$this->setState('parent', $parent);
-		$set = true;
+		if (!is_dir($full_path))
+		{
+			throw new InvalidArgumentException(JText::_('COM_MEDIA_ERROR_WARNFILENAME'));
+		}
 
-		return parent::getState($property, $default);
+		$this->path      = $path;
+		$this->full_path = $full_path;
+
+		return $this;
+	}
+
+	/**
+	 * Load a specific folder
+	 *
+	 * @param $path
+	 *
+	 * @return MediaModelFolder
+	 *
+	 * @throws InvalidArgumentException
+	 */
+	public function loadByPath($path)
+	{
+		return $this->load($path);
+	}
+
+	/**
+	 * Create a new path
+	 */
+	public function create($path)
+	{
+		$this->path = $path;
+
+		$this->checkNameSafe();
+
+		$full_path = COM_MEDIA_BASE . '/' . $path;
+
+		if (is_dir($full_path))
+		{
+			// @todo: Add to language pack
+			throw new Exception(JText::sprintf('COM_MEDIA_ERROR_FOLDER_ALREADY_EXISTS'));
+		}
+
+		JFolder::create($full_path);
+		
+		return $this->load($this->path);
+	}
+	
+	/**
+	 * Method to delete an object
+	 *
+	 * @return bool
+	 * @throws Exception
+	 */
+	public function delete()
+	{
+		$this->checkNameSafe();
+
+		$contents = JFolder::files($this->full_path, '.', true, false, $this->skipList);
+
+		if (!empty($contents))
+		{
+			throw new Exception(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_NOT_EMPTY', $this->path));
+		}
+
+		// Trigger the onContentBeforeDelete event
+		$folderObject = new JObject(array('filepath' => $this->full_path));
+		$result       = $this->triggerEvent('onContentBeforeDelete', array('com_media.folder', &$folderObject));
+
+		if (in_array(false, $result, true))
+		{
+			// There are some errors in the plugins
+			$errors = $folderObject->getErrors();
+			throw new Exception(JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
+		}
+
+		$rt = JFolder::delete($this->full_path);
+
+		// Trigger the onContentAfterDelete event.
+		$this->triggerEvent('onContentAfterDelete', array('com_media.folder', &$folderObject));
+
+		return $rt;
 	}
 
 	/**
@@ -89,7 +188,9 @@ class MediaModelFolder extends JModelLegacy
 		}
 
 		$currentFolder = $this->getCurrentFolder();
-		$this->files   = $this->getFilesModel()->setCurrentFolder($currentFolder)->getFiles();
+		$this->files   = $this->getFilesModel()
+			->setCurrentFolder($currentFolder)
+			->getFiles();
 
 		return $this->files;
 	}
@@ -109,7 +210,9 @@ class MediaModelFolder extends JModelLegacy
 		}
 
 		$currentFolder = $this->getCurrentFolder();
-		$this->folders = $this->getFoldersModel()->setCurrentFolder($currentFolder)->getFolders();
+		$this->folders = $this->getFoldersModel()
+			->setCurrentFolder($currentFolder)
+			->getFolders();
 
 		return $this->folders;
 	}
@@ -127,6 +230,38 @@ class MediaModelFolder extends JModelLegacy
 		$currentFolder = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
 
 		return $currentFolder;
+	}
+
+	/**
+	 * Triggers the specified event
+	 *
+	 * @param string $eventName
+	 * @param array  $eventArguments
+	 *
+	 * @return mixed
+	 */
+	protected function triggerEvent($eventName, $eventArguments)
+	{
+		JPluginHelper::importPlugin('content');
+		$dispatcher = JEventDispatcher::getInstance();
+
+		return $dispatcher->trigger($eventName, $eventArguments);
+	}
+	
+	/**
+	 * @throws Exception
+	 */
+	protected function checkNameSafe()
+	{
+		$basePath = basename($this->path);
+
+		if ($basePath !== JFile::makeSafe($basePath))
+		{
+			// Filename is not safe
+			$folderName = htmlspecialchars($this->path, ENT_COMPAT, 'UTF-8');
+			// @todo: Change error text
+			throw new Exception(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FILE_WARNFILENAME', $folderName));
+		}
 	}
 
 	/**

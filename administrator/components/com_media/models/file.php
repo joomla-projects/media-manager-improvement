@@ -230,7 +230,7 @@ class MediaModelFile extends JModelLegacy
 	 *
 	 * @since   3.6
 	 */
-	protected function create()
+	public function create()
 	{
 		$user = JFactory::getUser();
 		$date = JFactory::getDate();
@@ -368,6 +368,91 @@ class MediaModelFile extends JModelLegacy
 	}
 
 	/**
+	 * Return the current file adapter object
+	 *
+	 * @return  mixed
+	 *
+	 * @since   3.6
+	 */
+	public function getFileAdapter()
+	{
+		return $this->fileAdapter;
+	}
+
+	/**
+	 * Set the current file adapter object
+	 *
+	 * @param  string $fileAdapter
+	 * @param  string $filePath
+	 *
+	 * @return  $this
+	 *
+	 * @since   3.6
+	 */
+	public function setFileAdapter($fileAdapterName, $filePath = null)
+	{
+		$adapterFactory    = new MediaModelFileAdapter;
+		$this->fileAdapter = $adapterFactory->getFileAdapter($fileAdapterName);
+		$this->fileAdapter->setFilePath($filePath);
+
+		return $this;
+	}
+
+	/**
+	 * Return the current file type object
+	 *
+	 * @return  mixed
+	 *
+	 * @since   3.6
+	 */
+	public function getFileType()
+	{
+		return $this->fileType;
+	}
+
+	/**
+	 * Set the current file type object
+	 *
+	 * @param   mixed $fileType
+	 *
+	 * @return  $this
+	 *
+	 * @since   3.6
+	 */
+	public function setFileType($fileType)
+	{
+		$this->fileType = $fileType;
+
+		return $this;
+	}
+
+	/**
+	 * Get the file properties
+	 *
+	 * @return  array
+	 *
+	 * @since   3.6
+	 */
+	public function getFileProperties()
+	{
+		return $this->fileProperties;
+	}
+
+	/**
+	 * Set the file properties
+	 *
+	 * @param   array $properties
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 */
+	public function setFileProperties($properties)
+	{
+		$this->fileProperties = $properties;
+	}
+
+	/**
 	 * Method to set the current file adapter
 	 *
 	 * @return  MediaModelFileAdapterInterfaceAdapter
@@ -466,7 +551,7 @@ class MediaModelFile extends JModelLegacy
 		{
 			return;
 		}
-		
+
 		$this->fileProperties['mime_type'] = $mimeType;
 	}
 
@@ -482,92 +567,7 @@ class MediaModelFile extends JModelLegacy
 		$dispatcher = JEventDispatcher::getInstance();
 		$dispatcher->trigger($eventName, $eventArguments);
 	}
-
-	/**
-	 * Return the current file adapter object
-	 *
-	 * @return  mixed
-	 *
-	 * @since   3.6
-	 */
-	public function getFileAdapter()
-	{
-		return $this->fileAdapter;
-	}
-
-	/**
-	 * Set the current file adapter object
-	 *
-	 * @param  string $fileAdapter
-	 * @param  string $filePath
-	 *
-	 * @return  $this
-	 *
-	 * @since   3.6
-	 */
-	public function setFileAdapter($fileAdapterName, $filePath = null)
-	{
-		$adapterFactory    = new MediaModelFileAdapter;
-		$this->fileAdapter = $adapterFactory->getFileAdapter($fileAdapterName);
-		$this->fileAdapter->setFilePath($filePath);
-
-		return $this;
-	}
-
-	/**
-	 * Return the current file type object
-	 *
-	 * @return  mixed
-	 *
-	 * @since   3.6
-	 */
-	public function getFileType()
-	{
-		return $this->fileType;
-	}
-
-	/**
-	 * Set the current file type object
-	 *
-	 * @param   mixed $fileType
-	 *
-	 * @return  $this
-	 *
-	 * @since   3.6
-	 */
-	public function setFileType($fileType)
-	{
-		$this->fileType = $fileType;
-
-		return $this;
-	}
-
-	/**
-	 * Get the file properties
-	 *
-	 * @return  array
-	 *
-	 * @since   3.6
-	 */
-	public function getFileProperties()
-	{
-		return $this->fileProperties;
-	}
-
-	/**
-	 * Set the file properties
-	 *
-	 * @param   array $properties
-	 *
-	 * @return  void
-	 *
-	 * @since   3.6
-	 */
-	public function setFileProperties($properties)
-	{
-		$this->fileProperties = $properties;
-	}
-
+	
 	/**
 	 * Return th files model
 	 *
@@ -575,7 +575,7 @@ class MediaModelFile extends JModelLegacy
 	 *
 	 * @since   3.6
 	 */
-	public function getFilesModel()
+	protected function getFilesModel()
 	{
 		return JModelLegacy::getInstance('files', 'MediaModel');
 	}
