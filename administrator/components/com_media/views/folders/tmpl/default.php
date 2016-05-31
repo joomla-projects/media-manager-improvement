@@ -20,6 +20,7 @@ $doc    = JFactory::getDocument();
 // Include jQuery
 JHtml::_('jquery.framework');
 JHtml::_('script', 'media/folders.js', false, true, false, false, true);
+JHtml::_('script', 'media/mediamanager.js', false, true, false, false, true);
 JHtml::_('stylesheet', 'media/popup-imagemanager.css', array(), true);
 
 if ($lang->isRtl())
@@ -53,15 +54,11 @@ $doc->addScriptDeclaration("var basepath = '" . $params->get('image_path', 'imag
 
 		<form action="index.php?option=com_media" name="adminForm" id="mediamanager-form" method="post"
 		      enctype="multipart/form-data">
-			<input type="hidden" name="task" value="" />
-			<input type="hidden" name="cb1" id="cb1" value="0" />
+			<input type="hidden" name="task" value=""/>
+			<input type="hidden" name="cb1" id="cb1" value="0"/>
 			<input class="update-folder" type="hidden" name="folder" id="folder"
-			       value="<?php echo $this->state->folder; ?>" />
-		</form>
-
-		<form
-			action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index'); ?>"
-			name="folderForm" id="folderForm" method="post">
+			       value="<?php echo $this->state->folder; ?>"/>
+			<?php echo JHtml::_('form.token'); ?>
 
 			<div id="filesview">
 				<?php echo JHtml::_('form.token'); ?>
