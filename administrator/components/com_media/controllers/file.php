@@ -205,6 +205,13 @@ class MediaControllerFile extends JControllerLegacy
 		$tmpl   = $this->input->get('tmpl');
 		$paths  = $this->input->get('rm', array(), 'array');
 		$folder = $this->input->get('folder', '', 'path');
+		$file = $this->input->get('file', '', 'path');
+
+		if (!empty($file))
+		{
+			$folder = dirname($file);
+			$paths[] = basename($file);
+		}
 
 		$redirect = 'index.php?option=com_media&folder=' . $folder;
 

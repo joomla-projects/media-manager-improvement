@@ -18,6 +18,22 @@ require_once JPATH_COMPONENT . '/helpers/editor.php';
 class MediaViewFile extends JViewLegacy
 {
 	/**
+	 * @var    JConfig
+	 * @since  3.6
+	 */
+	protected $config;
+
+	/**
+	 * @var JUser
+	 */
+	protected $user;
+
+	/**
+	 * @var JToolbar
+	 */
+	protected $bar;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
@@ -30,6 +46,8 @@ class MediaViewFile extends JViewLegacy
 	{
 		$app          = JFactory::getApplication();
 		$this->config = JComponentHelper::getParams('com_media');
+		$this->user   = JFactory::getUser();
+		$this->bar    = JToolbar::getInstance('toolbar');
 
 		if (!$app->isAdmin())
 		{
@@ -75,6 +93,7 @@ class MediaViewFile extends JViewLegacy
 	protected function addToolbar()
 	{
 		$this->addToolbarPluginButtons();
+		$this->addToolbarDelete();
 
 		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
 		JToolbarHelper::cancel('editor.cancel', 'JTOOLBAR_CLOSE');
@@ -83,6 +102,21 @@ class MediaViewFile extends JViewLegacy
 		$toolbar    = JToolbar::getInstance('toolbar');
 		$dispatcher = JEventDispatcher::getInstance();
 		$dispatcher->trigger('onMediaEditorBeforeRenderToolbar', array(&$toolbar));
+	}
+
+	/**
+	 * Add a delete button
+	 */
+	protected function addToolbarDelete()
+	{
+		// Add a delete button
+		if (!$this->user->authorise('core.delete', 'com_media'))
+		{
+			return;
+		}
+
+		JToolbarHelper::custom('file.delete', 'delete', 'delete', 'JACTION_DELETE', false);
+		JToolbarHelper::divider();
 	}
 
 	/**
@@ -111,8 +145,7 @@ class MediaViewFile extends JViewLegacy
 				'icon'   => 'plus',
 				'width'  => 550,
 				'height' => 400,
-				'url'    => JUri::base() . 'index.php?option=com_media&view=editor&tmpl=component'
-					. '&plugin=' . $pluginName . '&file=' . $this->fileProperties['path_relative'],
+				'url'    => JUri::base() . 'index.php?option=com_media&view=editor&tmpl=component' . '&plugin=' . $pluginName . '&file=' . $this->fileProperties['path_relative'],
 			);
 
 			if (method_exists($plugin, 'onMediaEditorButtonLabel'))

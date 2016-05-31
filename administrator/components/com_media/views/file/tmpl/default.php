@@ -54,6 +54,7 @@ $formUrl        = 'index.php?option=com_media';
 	</div>
 
 	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="view" value="file" />
 	<input type="hidden" name="file" value="<?php echo $fileProperties['path_relative']; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
