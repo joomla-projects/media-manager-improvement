@@ -62,6 +62,8 @@ class PlgMediaEditorImagecropper extends JPlugin
 		JFactory::getDocument()->addScript('/media/plg_media-editor_imagecropper/js/cropper.js');
 		JFactory::getDocument()->addStyleSheet('/media/plg_media-editor_imagecropper/css/cropper.min.css');
 
+		//todo: allow for setup of cropper parameters
+
 		$data = array('filePath' => $filePath);
 		$layout = new JLayoutFile('form', __DIR__ . '/layout');
 		$html = $layout->render($data);
@@ -87,6 +89,9 @@ class PlgMediaEditorImagecropper extends JPlugin
 		$pathInfo   = pathinfo($fullPath);
 		$fileName	= $pathInfo['basename'];
 		$filePath	= ($pathInfo['dirname'] != '.' ? $pathInfo['dirname'] . '/' : '');
+
+        $mediaPath  = pathinfo($input->get('file', '', 'RAW'));
+        $mediaPath  = ($mediaPath['dirname'] != '.' ? $mediaPath['dirname'] . '/' : '');
 
 		$jsonData = json_decode($input->get('imagecropper-jsondata', '', 'RAW'));
 
@@ -142,8 +147,8 @@ class PlgMediaEditorImagecropper extends JPlugin
 			//JFactory::getApplication()->enqueueMessage(JText::_('PLG_MEDIA-EDITOR_IMAGECROPPER_SAVE_SUCCESS'), JLog::ERROR);
 		}
 
-		// redirect user to the original image
-		$newUrl = JRoute::_('index.php?option=com_media&view=file&view=file&file=' . $input->get('file', '', 'RAW'), false);
+		// redirect user to the image
+		$newUrl = JRoute::_('index.php?option=com_media&view=file&view=file&file=' . $mediaPath . $fileName, false);
 
 		return $newUrl;
 	}
