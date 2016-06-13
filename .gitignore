@@ -5,11 +5,6 @@
 .DS_Store
 .idea
 
-# Vagrant #
-/Vagrantfile
-/puphpet
-/.gitattributes
-
 # Local System Files (i.e. cache, logs, etc.) #
 /administrator/cache
 /cache
