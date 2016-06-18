@@ -69,6 +69,7 @@ class MediaViewFile extends JViewLegacy
 		$fileModel = $this->getModel('file');
 		$fileModel->loadByPath($fullFilePath);
 
+		// @todo: Do not throw new file that does not exist yet in database, instead generate db entry
 		if ($fileModel->getId() == 0)
 		{
 			throw new RuntimeException(JText::_('COM_MEDIA_ERROR_NO_FILE_IN_DB'));

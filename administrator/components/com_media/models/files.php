@@ -155,6 +155,7 @@ class MediaModelFiles extends JModelLegacy
 	 * @return  JObject
 	 *
 	 * @since   3.6
+	 * @todo: Refactor usage of $fileHashes to be internal variable
 	 */
 	protected function loadObjectFromFile($file, $currentFolder, $fileHashes)
 	{
