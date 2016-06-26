@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Class PlgMediaEditorExample
+ * Class PlgMediaEditorRename
  */
 class PlgMediaEditorRename extends JPlugin
 {
