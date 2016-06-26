@@ -17,8 +17,6 @@ require_once __DIR__ . '/files.php';
 
 /**
  * Media Component File Model
- *
- * @since  3.6
  */
 class MediaModelFile extends JModelLegacy
 {
@@ -26,7 +24,6 @@ class MediaModelFile extends JModelLegacy
 	 * Numerical database identifier for this file
 	 *
 	 * @var    int
-	 * @since  3.6
 	 */
 	protected $id = null;
 
@@ -34,7 +31,6 @@ class MediaModelFile extends JModelLegacy
 	 * Properties of a file
 	 *
 	 * @var    array
-	 * @since  3.6
 	 */
 	protected $fileProperties = array();
 
@@ -42,7 +38,6 @@ class MediaModelFile extends JModelLegacy
 	 * File type object
 	 *
 	 * @var    MediaModelFileTypeInterface
-	 * @since  3.6
 	 */
 	protected $fileType = null;
 
@@ -50,7 +45,6 @@ class MediaModelFile extends JModelLegacy
 	 * File adapter object
 	 *
 	 * @var    MediaModelFileAdapterInterfaceAdapter
-	 * @since  3.6
 	 */
 	protected $fileAdapter = null;
 
@@ -58,8 +52,6 @@ class MediaModelFile extends JModelLegacy
 	 * Return the database identifier
 	 *
 	 * @return  int
-	 *
-	 * @since   3.6
 	 */
 	public function getId()
 	{
@@ -72,8 +64,6 @@ class MediaModelFile extends JModelLegacy
 	 * @param  string $filePath
 	 *
 	 * @return  self
-	 *
-	 * @since   3.6
 	 */
 	public function loadByPath($filePath)
 	{
@@ -122,8 +112,6 @@ class MediaModelFile extends JModelLegacy
 	 * @param   string $filePath
 	 *
 	 * @return  bool
-	 *
-	 * @since   3.6
 	 */
 	protected function attachStoredFile($filePath)
 	{
@@ -181,8 +169,6 @@ class MediaModelFile extends JModelLegacy
 	 * @param   string $filePath
 	 *
 	 * @return  bool|object
-	 *
-	 * @since   3.6
 	 */
 	protected function getStoredFileByPath($filePath)
 	{
@@ -206,8 +192,6 @@ class MediaModelFile extends JModelLegacy
 	 * @param   string $folder
 	 *
 	 * @return  array
-	 *
-	 * @since   3.6
 	 */
 	protected function getStoredFiles($folder = null)
 	{
@@ -226,9 +210,7 @@ class MediaModelFile extends JModelLegacy
 	 * Create a new entry for this file in the database
 	 *
 	 * @return  bool|int
-	 * @throw   Exception
-	 *
-	 * @since   3.6
+	 * @throw   RuntimeException
 	 */
 	public function create()
 	{
@@ -275,8 +257,6 @@ class MediaModelFile extends JModelLegacy
 	 * Update the current stored file
 	 *
 	 * @return  bool
-	 *
-	 * @since   3.6
 	 */
 	public function update()
 	{
@@ -324,7 +304,7 @@ class MediaModelFile extends JModelLegacy
 	 * Delete a file
 	 *
 	 * @return bool
-	 * @throws Exception
+	 * @throws RuntimeException
 	 */
 	public function delete()
 	{
@@ -340,7 +320,7 @@ class MediaModelFile extends JModelLegacy
 		{
 			// Filename is not safe
 			$filename = htmlspecialchars($fileName, ENT_COMPAT, 'UTF-8');
-			throw new Exception(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FILE_WARNFILENAME', substr($filename, strlen(COM_MEDIA_BASE))));
+			throw new RuntimeException(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FILE_WARNFILENAME', substr($filename, strlen(COM_MEDIA_BASE))));
 		}
 
 		if (!is_file($filePath))
@@ -371,8 +351,6 @@ class MediaModelFile extends JModelLegacy
 	 * Return the current file adapter object
 	 *
 	 * @return  mixed
-	 *
-	 * @since   3.6
 	 */
 	public function getFileAdapter()
 	{
@@ -386,8 +364,6 @@ class MediaModelFile extends JModelLegacy
 	 * @param  string $filePath
 	 *
 	 * @return  $this
-	 *
-	 * @since   3.6
 	 */
 	public function setFileAdapter($fileAdapterName, $filePath = null)
 	{
@@ -402,8 +378,6 @@ class MediaModelFile extends JModelLegacy
 	 * Return the current file type object
 	 *
 	 * @return  mixed
-	 *
-	 * @since   3.6
 	 */
 	public function getFileType()
 	{
@@ -416,8 +390,6 @@ class MediaModelFile extends JModelLegacy
 	 * @param   mixed $fileType
 	 *
 	 * @return  $this
-	 *
-	 * @since   3.6
 	 */
 	public function setFileType($fileType)
 	{
@@ -430,8 +402,6 @@ class MediaModelFile extends JModelLegacy
 	 * Get the file properties
 	 *
 	 * @return  array
-	 *
-	 * @since   3.6
 	 */
 	public function getFileProperties()
 	{
@@ -444,8 +414,6 @@ class MediaModelFile extends JModelLegacy
 	 * @param   array $properties
 	 *
 	 * @return  void
-	 *
-	 * @since   3.6
 	 */
 	public function setFileProperties($properties)
 	{
@@ -456,8 +424,6 @@ class MediaModelFile extends JModelLegacy
 	 * Method to set the current file adapter
 	 *
 	 * @return  MediaModelFileAdapterInterfaceAdapter
-	 *
-	 * @since   3.6
 	 */
 	protected function loadFileAdapter()
 	{
@@ -482,8 +448,6 @@ class MediaModelFile extends JModelLegacy
 	 * Method to detect which file type class to use for a specific $_file
 	 *
 	 * @return  MediaModelFileAdapterInterfaceAdapter
-	 *
-	 * @since   3.6
 	 */
 	protected function loadFileType()
 	{
@@ -519,8 +483,6 @@ class MediaModelFile extends JModelLegacy
 	 * Merge file type specific properties with the generic file properties
 	 *
 	 * @return  void
-	 *
-	 * @since   3.6
 	 */
 	protected function setPropertiesByFileType()
 	{
@@ -535,8 +497,6 @@ class MediaModelFile extends JModelLegacy
 	 * Merge file type specific properties with the generic file properties
 	 *
 	 * @return  void
-	 *
-	 * @since   3.6
 	 */
 	protected function setPropertiesByFileAdapter()
 	{
@@ -572,8 +532,6 @@ class MediaModelFile extends JModelLegacy
 	 * Return th files model
 	 *
 	 * @return  MediaModelFiles
-	 *
-	 * @since   3.6
 	 */
 	protected function getFilesModel()
 	{

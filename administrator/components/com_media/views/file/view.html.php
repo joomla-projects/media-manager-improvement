@@ -90,7 +90,7 @@ class MediaViewFile extends JViewLegacy
      */
     private function getFileModel($fullFilePath)
     {
-        // Load the file object
+        /** @var MediaModelFile $fileModel */
         $fileModel = $this->getModel('file');
         $fileModel->loadByPath($fullFilePath);
 
