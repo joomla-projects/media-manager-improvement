@@ -80,17 +80,24 @@ class PlgMediaEditorRename extends JPlugin
 
 		$folder      = dirname($filePath);
 		$newFilePath = $folder . '/' . $newFile;
-		
+
 		if ($newFilePath == $filePath)
 		{
 			return false;
 		}
+        
+        if (file_exists($newFilePath))
+        {
+            throw new InvalidArgumentException(JText::_('COM_MEDIA_ERROR_FILE_EXISTS'));
+        }
 
 		// Rename the file
 		// @todo: Do this renaming with support for FlySystem?
 		rename($filePath, $newFilePath);
 
+        $returnPath = str_replace(COM_MEDIA_BASE, '', $newFilePath);
+
 		// Return the new URL
-		return JRoute::_('index.php?option=com_media&view=file&view=file&file=' . $newFile, false);
+		return JRoute::_('index.php?option=com_media&view=file&view=file&file=' . $returnPath, false);
 	}
 }
