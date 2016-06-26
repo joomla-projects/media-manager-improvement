@@ -154,7 +154,7 @@ class MediaViewFile extends JViewLegacy
             }
 
             $button = $this->getButtonFromPlugin($pluginName, $plugin);
-            $toolbar->appendButton('Popup', $button->icon, $button->label, $button->url, $button->width, $button->height);
+            $toolbar->appendButton('Popup', $pluginName, $button->label, $button->url, $button->width, $button->height, 0, 0, null, $button->label);
         }
     }
 
@@ -171,7 +171,6 @@ class MediaViewFile extends JViewLegacy
         $button = (object)array(
             'label' => JText::_('PLG_MEDIA-EDITOR_' . strtoupper($pluginName) . '_BUTTON_LABEL'),
             'icon' => 'plus',
-            'class' => $pluginName,
             'width' => 550,
             'height' => 400,
             'url' => JUri::base() . 'index.php?option=com_media&view=editor&tmpl=component' . '&plugin=' . $pluginName . '&file=' . $this->fileProperties['path_relative'],

@@ -47,6 +47,9 @@ class PlgMediaEditorImagecropper extends JPlugin
 	 */
 	public function onMediaEditorButtonLabel()
 	{
+        $doc = JFactory::getDocument();
+        $doc->addStyleDeclaration('.icon-imagecropper:before { content: "\2a"; }');
+
 		return JText::_('PLG_MEDIA-EDITOR_IMAGECROPPER_BUTTON_LABEL');
 	}
 

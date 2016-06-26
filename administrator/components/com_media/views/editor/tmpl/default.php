@@ -13,5 +13,5 @@ defined('_JEXEC') or die;
 <form class="form-horizontal form-validate" name="mediaEditorForm" id="mediaEditorForm" method="post" action="<?php echo $this->postUrl; ?>">
 	<?php echo $this->pluginHtml; ?>
 	<input type="hidden" name="file" value="<?php echo $this->filePath; ?>" />
-	<?php echo JHTML::_('form.token'); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>
