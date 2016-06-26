@@ -16,7 +16,3 @@ $imagePath = JURI::root() . 'media/media/images/' . $file->icon_32;
 	'width'  => 32,
 	'height' => 32,
 )); ?>
-<!--
-@todo: Debugging info. Remove when ready:
-<?php print_r($file); ?>
--->
