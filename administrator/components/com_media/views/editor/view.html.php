@@ -18,43 +18,58 @@ require_once JPATH_COMPONENT . '/helpers/editor.php';
  */
 class MediaViewEditor extends JViewLegacy
 {
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
-	 *
-	 * @since   3.6
-	 */
-	public function display($tpl = null)
-	{
-		$app = JFactory::getApplication();
+    /**
+     * @var JApplicationCms
+     */
+    protected $app;
 
-		$filePath   = $app->input->getPath('file');
-		$pluginName = $app->input->getCmd('plugin');
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  mixed  A string if successful, otherwise a Error object.
+     *
+     * @since   3.6
+     */
+    public function display($tpl = null)
+    {
+        $this->app = JFactory::getApplication();
 
-		if (empty($pluginName))
-		{
-			throw new RuntimeException(JText::_('COM_MEDIA_ERROR_UNKNOWN_PLUGIN'));
-		}
+        $filePath = $this->app->input->getPath('file');
+        $pluginName = $this->app->input->getCmd('plugin');
+        $plugin = $this->getPluginByName($pluginName);
 
-		$plugin = MediaHelperEditor::loadPlugin($pluginName);
+        $this->postUrl = 'index.php?option=com_media&task=editor.post&plugin=' . $pluginName;
+        $this->pluginHtml = $plugin->onMediaEditorDisplay($filePath);
+        $this->filePath = $filePath;
 
-		if ($plugin == false)
-		{
-			throw new RuntimeException(JText::_('COM_MEDIA_ERROR_UNKNOWN_PLUGIN'));
-		}
+        parent::display($tpl);
+    }
 
-		if (method_exists($plugin, 'onMediaEditorDisplay') == false)
-		{
-			throw new RuntimeException(JText::_('COM_MEDIA_ERROR_UNKNOWN_PLUGIN'));
-		}
+    /**
+     * Return the Media Editor plugin by name
+     *
+     * @param string $pluginName
+     *
+     * @return JPlugin
+     */
+    private function getPluginByName($pluginName)
+    {
+        if (empty($pluginName)) {
+            throw new RuntimeException(JText::_('COM_MEDIA_ERROR_UNKNOWN_PLUGIN'));
+        }
 
-		$this->postUrl    = 'index.php?option=com_media&task=editor.post&plugin=' . $pluginName;
-		$this->pluginHtml = $plugin->onMediaEditorDisplay($filePath);
-		$this->filePath   = $filePath;
+        $plugin = MediaHelperEditor::loadPlugin($pluginName);
 
-		parent::display($tpl);
-	}
+        if ($plugin == false) {
+            throw new RuntimeException(JText::_('COM_MEDIA_ERROR_UNKNOWN_PLUGIN'));
+        }
+
+        if (method_exists($plugin, 'onMediaEditorDisplay') == false) {
+            throw new RuntimeException(JText::_('COM_MEDIA_ERROR_UNKNOWN_PLUGIN'));
+        }
+
+        return $plugin;
+    }
 }
