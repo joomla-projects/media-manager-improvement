@@ -37,7 +37,7 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$file, &
 		   href="index.php?option=com_media&view=file&file=<?php echo $file->path_relative; ?>"
 			<?php /* href="javascript:ImageManager.populateFields('<?php echo $file->path_relative; ?>')" */ ?>
            title="<?php echo $file->name; ?>">
-			<div class="height-50">
+			<div class="height-50 draggable-file" data-path="<?php echo $file->path_relative ?>">
 				<?php $layoutFile = 'file.thumb_' . $file->file_type; ?>
 				<?php $layout = new JLayoutFile($layoutFile); ?>
 				<?php echo $layout->render(array('file' => $file)); ?>

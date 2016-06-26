@@ -13,7 +13,7 @@ $parent = $this->folders['parent'];
 ?>
 <li class="imgOutline thumbnail height-80 width-80 center">
 	<a href="#" data-href="<?php echo $parent; ?>" class="ajaxInit" title="<?php echo $parent; ?>">
-		<div class="height-50">
+		<div class="height-50 draggable-folder" data-path="<?php echo $parent; ?>">
 			<span class="icon-arrow-up-2"></span>
 		</div>
 		<div class="small">

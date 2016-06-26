@@ -22,6 +22,9 @@ JHtml::_('jquery.framework');
 JHtml::_('script', 'media/folders.js', false, true, false, false, true);
 JHtml::_('script', 'media/mediamanager.js', false, true, false, false, true);
 JHtml::_('stylesheet', 'media/popup-imagemanager.css', array(), true);
+JHtml::_('jquery.ui');
+JHtml::_('script', 'media/jui/js/jquery.ui.draggable.js');
+JHtml::_('script', 'media/jui/js/jquery.ui.droppable.js');
 
 if ($lang->isRtl()) {
     JHtml::_('stylesheet', 'media/popup-imagemanager_rtl.css', array(), true);

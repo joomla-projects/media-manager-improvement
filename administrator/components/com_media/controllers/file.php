@@ -257,4 +257,78 @@ class MediaControllerFile extends MediaController
 		
 		return true;
 	}
+
+    /**
+     * Move a specified file to a folder
+     */
+    public function move()
+    {
+        // @todo: Enable this check
+        //JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+
+        $file   = $this->input->getPath('file');
+        $folder   = $this->input->getPath('folder');
+
+        $absoluteFile = COM_MEDIA_BASE . '/' . $file;
+        $absoluteFolder = COM_MEDIA_BASE . '/' . $folder;
+
+        try {
+            $this->moveFile($absoluteFile, $absoluteFolder);
+        } catch(Exception $e)
+        {
+            // @todo: Set notifications
+        }
+
+        $this->setRedirect('index.php?option=com_media&view=folders&folder=' . $folder);
+    }
+
+    /**
+     * @param $file
+     * @param $folder
+     *
+     * @return bool
+     */
+    protected function moveFile($file, $folder)
+    {
+        // @todo: Move this function to a model class ($file->move($folder))
+        // @todo: Wrap all filesystem calls
+
+        if (!is_file($file))
+        {
+            // @todo: Exception because file does not exist
+            return false;
+        }
+
+        if (!is_dir($folder))
+        {
+            // @todo: Exception because destination folder does not exist
+            return false;
+        }
+
+        $newFile = $folder . '/' . basename($file);
+
+        if (is_file($newFile))
+        {
+            // @todo: Exception because destination file already exists
+            return false;
+        }
+
+        $rt = copy($file, $newFile);
+
+        if ($rt == false || !is_file($newFile))
+        {
+            // @todo: Exception because copy failed
+            return false;
+        }
+
+        $rt = unlink($file);
+
+        if ($rt == false || is_file($file))
+        {
+            // @todo: Exception because original file is still there
+            return false;
+        }
+
+        return true;
+    }
 }

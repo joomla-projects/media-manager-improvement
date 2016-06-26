@@ -31,7 +31,7 @@ $folderData = $folder['data'];
 	<?php endif; ?>
 	<a href="#" data-href="<?php echo $folderData->relative; ?>" class="ajaxInit"
 	   title="<?php echo $folderData->relative; ?>">
-		<div class="height-50">
+		<div class="height-50 draggable-folder" data-path="<?php echo $folderData->relative; ?>">
 			<span class="icon-folder-2"></span>
 		</div>
 		<div class="small">
