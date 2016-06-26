@@ -17,159 +17,182 @@ require_once JPATH_COMPONENT . '/helpers/editor.php';
  */
 class MediaViewFile extends JViewLegacy
 {
-	/**
-	 * @var    JConfig
-	 * @since  3.6
-	 */
-	protected $config;
+    /**
+     * @var    JConfig
+     */
+    protected $config;
 
-	/**
-	 * @var JUser
-	 */
-	protected $user;
+    /**
+     * @var JUser
+     */
+    protected $user;
 
-	/**
-	 * @var JToolbar
-	 */
-	protected $bar;
+    /**
+     * @var JToolbar
+     */
+    protected $bar;
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
-	 *
-	 * @since   3.6
-	 */
-	public function display($tpl = null)
-	{
-		$app          = JFactory::getApplication();
-		$this->config = JComponentHelper::getParams('com_media');
-		$this->user   = JFactory::getUser();
-		$this->bar    = JToolbar::getInstance('toolbar');
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  mixed  A string if successful, otherwise a Error object.
+     */
+    public function display($tpl = null)
+    {
+        $app = JFactory::getApplication();
+        $this->config = JComponentHelper::getParams('com_media');
+        $this->user = JFactory::getUser();
+        $this->bar = JToolbar::getInstance('toolbar');
 
-		if (!$app->isAdmin())
-		{
-			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+        if (!$app->isAdmin()) {
+            $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 
-			return;
-		}
+            return;
+        }
 
-		// Check for the right file
-		$filePath     = $app->input->getPath('file');
-		$fullFilePath = JPATH_ROOT . '/images/' . $filePath;
+        $filePath = $app->input->getPath('file');
+        $fullFilePath = $this->getFullFilePath($filePath);
+        $fileModel = $this->getFileModel($fullFilePath);
+        $this->fileProperties = $fileModel->getFileProperties();
+        $this->fileType = $this->fileProperties['file_type'];
 
-		if (is_file($fullFilePath) === false)
-		{
-			throw new RuntimeException(JText::_('JERROR_FILENOTFOUND' . ': ' . $filePath));
-		}
+        // Set the toolbar
+        $this->addToolbar();
 
-		// Load the file object
-		$fileModel = $this->getModel('file');
-		$fileModel->loadByPath($fullFilePath);
+        parent::display($tpl);
+    }
 
-		// @todo: Do not throw new file that does not exist yet in database, instead generate db entry
-		if ($fileModel->getId() == 0)
-		{
-			throw new RuntimeException(JText::_('COM_MEDIA_ERROR_NO_FILE_IN_DB'));
-		}
+    /**
+     * @param $filePath
+     *
+     * @return string
+     */
+    private function getFullFilePath($filePath)
+    {
+        // Check for the right file
+        $fullFilePath = JPATH_ROOT . '/images/' . $filePath;
 
-		$this->fileProperties = $fileModel->getFileProperties();
-		$this->fileType       = $this->fileProperties['file_type'];
+        if (is_file($fullFilePath) === false) {
+            throw new RuntimeException(JText::_('JERROR_FILENOTFOUND' . ': ' . $filePath));
+        }
 
-		// Set the toolbar
-		$this->addToolbar();
+        return $fullFilePath;
+    }
 
-		parent::display($tpl);
-	}
+    /**
+     * Return an instance of the file model
+     *
+     * @param $fullFilePath
+     *
+     * @return MediaModelFile
+     */
+    private function getFileModel($fullFilePath)
+    {
+        // Load the file object
+        $fileModel = $this->getModel('file');
+        $fileModel->loadByPath($fullFilePath);
 
-	/**
-	 * Add things to the toolbar
-	 *
-	 * @return  void
-	 *
-	 * @since   3.6
-	 */
-	protected function addToolbar()
-	{
-		$this->addToolbarPluginButtons();
-		$this->addToolbarDelete();
+        // @todo: Do not throw new file that does not exist yet in database, instead generate db entry
+        if ($fileModel->getId() == 0) {
+            throw new RuntimeException(JText::_('COM_MEDIA_ERROR_NO_FILE_IN_DB'));
+        }
 
-		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
-		JToolbarHelper::cancel('editor.cancel', 'JTOOLBAR_CLOSE');
+        return $fileModel;
+    }
 
-		// Allow Media Editor plugins to modify the entire toolbar
-		$toolbar    = JToolbar::getInstance('toolbar');
-		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger('onMediaEditorBeforeRenderToolbar', array(&$toolbar));
-	}
+    /**
+     * Add things to the toolbar
+     *
+     * @return  void
+     */
+    private function addToolbar()
+    {
+        $this->addToolbarPluginButtons();
+        $this->addToolbarDelete();
 
-	/**
-	 * Add a delete button
-	 */
-	protected function addToolbarDelete()
-	{
-		// Add a delete button
-		if (!$this->user->authorise('core.delete', 'com_media'))
-		{
-			return;
-		}
+        JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
+        JToolbarHelper::cancel('editor.cancel', 'JTOOLBAR_CLOSE');
 
-		JToolbarHelper::custom('file.delete', 'delete', 'delete', 'JACTION_DELETE', false);
-		JToolbarHelper::divider();
-	}
+        // Allow Media Editor plugins to modify the entire toolbar
+        $toolbar = JToolbar::getInstance('toolbar');
+        $dispatcher = JEventDispatcher::getInstance();
+        $dispatcher->trigger('onMediaEditorBeforeRenderToolbar', array(&$toolbar));
+    }
 
-	/**
-	 * Add buttons per Media Editor plugin to the toolbar
-	 */
-	protected function addToolbarPluginButtons()
-	{
-		$toolbar = JToolbar::getInstance('toolbar');
-		$plugins = JPluginHelper::getPlugin('media-editor');
+    /**
+     * Add a delete button
+     */
+    private function addToolbarDelete()
+    {
+        // Add a delete button
+        if (!$this->user->authorise('core.delete', 'com_media')) {
+            return;
+        }
 
-		foreach ($plugins as $pluginData)
-		{
-			$pluginName = $pluginData->name;
-			$plugin     = MediaHelperEditor::loadPlugin($pluginName);
+        JToolbarHelper::custom('file.delete', 'delete', 'delete', 'JACTION_DELETE', false);
+        JToolbarHelper::divider();
+    }
 
-			if (method_exists($plugin, 'onMediaEditorAllowed'))
-			{
-				if ($plugin->onMediaEditorAllowed($this->fileType) == false)
-				{
-					continue;
-				}
-			}
+    /**
+     * Add buttons per Media Editor plugin to the toolbar
+     */
+    private function addToolbarPluginButtons()
+    {
+        $toolbar = JToolbar::getInstance('toolbar');
+        $plugins = JPluginHelper::getPlugin('media-editor');
 
-			$button = (object) array(
-				'label'  => JText::_('PLG_MEDIA-EDITOR_' . strtoupper($pluginName) . '_BUTTON_LABEL'),
-				'icon'   => 'plus',
-				'width'  => 550,
-				'height' => 400,
-				'url'    => JUri::base() . 'index.php?option=com_media&view=editor&tmpl=component' . '&plugin=' . $pluginName . '&file=' . $this->fileProperties['path_relative'],
-			);
+        foreach ($plugins as $pluginData) {
+            $pluginName = $pluginData->name;
+            $plugin = MediaHelperEditor::loadPlugin($pluginName);
 
-			if (method_exists($plugin, 'onMediaEditorButtonLabel'))
-			{
-				$button->label = $plugin->onMediaEditorButtonLabel();
-			}
+            if (method_exists($plugin, 'onMediaEditorAllowed')) {
+                if ($plugin->onMediaEditorAllowed($this->fileType) == false) {
+                    continue;
+                }
+            }
 
-			if (method_exists($plugin, 'onMediaEditorButtonIcon'))
-			{
-				$button->icon = $plugin->onMediaEditorButtonIcon();
-			}
+            $button = $this->getButtonFromPlugin($pluginName, $plugin);
+            $toolbar->appendButton('Popup', $button->icon, $button->label, $button->url, $button->width, $button->height);
+        }
+    }
 
-			if (method_exists($plugin, 'onMediaEditorButtonWidth'))
-			{
-				$button->width = $plugin->onMediaEditorButtonWidth();
-			}
+    /**
+     * Generate a button for this plugin
+     *
+     * @param string $pluginName
+     * @param JPlugin $plugin
+     *
+     * @return object
+     */
+    private function getButtonFromPlugin($pluginName, $plugin)
+    {
+        $button = (object)array(
+            'label' => JText::_('PLG_MEDIA-EDITOR_' . strtoupper($pluginName) . '_BUTTON_LABEL'),
+            'icon' => 'plus',
+            'class' => $pluginName,
+            'width' => 550,
+            'height' => 400,
+            'url' => JUri::base() . 'index.php?option=com_media&view=editor&tmpl=component' . '&plugin=' . $pluginName . '&file=' . $this->fileProperties['path_relative'],
+        );
 
-			if (method_exists($plugin, 'onMediaEditorButtonHeight'))
-			{
-				$button->height = $plugin->onMediaEditorButtonHeight();
-			}
+        if (method_exists($plugin, 'onMediaEditorButtonLabel')) {
+            $button->label = $plugin->onMediaEditorButtonLabel();
+        }
 
-			$toolbar->appendButton('Popup', $button->icon, $button->label, $button->url, $button->width, $button->height);
-		}
-	}
+        if (method_exists($plugin, 'onMediaEditorButtonIcon')) {
+            $button->icon = $plugin->onMediaEditorButtonIcon();
+        }
+
+        if (method_exists($plugin, 'onMediaEditorButtonWidth')) {
+            $button->width = $plugin->onMediaEditorButtonWidth();
+        }
+
+        if (method_exists($plugin, 'onMediaEditorButtonHeight')) {
+            $button->height = $plugin->onMediaEditorButtonHeight();
+        }
+
+        return $button;
+    }
 }
