@@ -123,16 +123,18 @@ class MediaModelFile extends JModelLegacy
 			try
 			{
 				$this->id = $this->create();
+                $storedFile = $this->getStoredFileByPath($filePath);
 			}
 			catch (Exception $e)
 			{
 				// Do nothing
 			}
-
-			$this->fileProperties['id'] = $this->id;
-
-			return true;
 		}
+
+        if (empty($storedFile))
+        {
+            throw new RuntimeException(JText::_('COM_MEDIA_ERROR_NO_FILE_IN_DB'));
+        }
 
 		$this->id = $storedFile->id;
 
@@ -244,11 +246,7 @@ class MediaModelFile extends JModelLegacy
 
 		// Get the table
 		$table = JTable::getInstance('File', 'MediaTable');
-
-		if (!$table->save($data))
-		{
-			throw new RuntimeException($table->getError());
-		}
+        $table->save($data);
 
 		return JFactory::getDbo()->insertid();
 	}
