@@ -21,7 +21,7 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$file, &
 ?>
 	<li class="imgOutline thumbnail height-80 width-80 center" style="position:relative;">
 		<?php if ($this->user->authorise('core.delete', 'com_media')): ?>
-			<div class="tasks-right" style="position:absolute; right:0;">
+			<div class="tasks-right" style="position:absolute; right:0; margin-right:2px;">
 				<a class="delete-item" target="_top"
 				   href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;rm[]=<?php echo $file->path_relative; ?>"
 				   rel="<?php echo $file->path_relative; ?>">
@@ -29,7 +29,7 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$file, &
                       title="<?php echo JHtml::tooltipText('JACTION_DELETE'); ?>"></span>
 				</a>
 			</div>
-			<div class="tasks-left" style="position:absolute; left:0;">
+			<div class="tasks-left" style="position:absolute; left:0; margin-left:5px;">
 				<input type="checkbox" name="rm[]" value="<?php echo $file->name; ?>"/>
 			</div>
 		<?php endif; ?>
@@ -37,7 +37,7 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$file, &
 		   href="index.php?option=com_media&view=file&file=<?php echo $file->path_relative; ?>"
 			<?php /* href="javascript:ImageManager.populateFields('<?php echo $file->path_relative; ?>')" */ ?>
            title="<?php echo $file->name; ?>">
-			<div class="thumbnail height-50">
+			<div class="height-50">
 				<?php $layoutFile = 'file.thumb_' . $file->file_type; ?>
 				<?php $layout = new JLayoutFile($layoutFile); ?>
 				<?php echo $layout->render(array('file' => $file)); ?>

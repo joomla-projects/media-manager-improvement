@@ -17,7 +17,7 @@ $folderData = $folder['data'];
 ?>
 <li class="imgOutline thumbnail height-80 width-80 center" style="position:relative;">
 	<?php if ($this->user->authorise('core.delete', 'com_media')): ?>
-		<div class="tasks-right" style="position:absolute; right:0;">
+		<div class="tasks-right" style="position:absolute; right:0; margin-right:2px;">
 			<a class="delete-item" target="_top"
 			   href="index.php?option=com_media&amp;task=folder.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;rm[]=<?php echo $folderData->relative; ?>"
 			   rel="<?php echo $folderData->relative; ?>' :: <?php echo $folderData->subfiles + $folderData->subfolders; ?>">
@@ -25,7 +25,7 @@ $folderData = $folder['data'];
                       title="<?php echo JHtml::tooltipText('JACTION_DELETE'); ?>"></span>
 			</a>
 		</div>
-		<div class="tasks-left" style="position:absolute; left:0;">
+		<div class="tasks-left" style="position:absolute; left:0; margin-left:5px;">
 			<input type="checkbox" name="rm[]" value="<?php echo $folderData->name; ?>"/>
 		</div>
 	<?php endif; ?>
