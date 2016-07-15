@@ -5,8 +5,7 @@
 ALTER TABLE `#__media_files` ADD COLUMN `version` int(10) unsigned NOT NULL DEFAULT 1 AFTER `publish_down`;
 ALTER TABLE `#__media_files` ADD COLUMN `catid` int(10) unsigned NOT NULL DEFAULT 0  AFTER `version`;
 ALTER TABLE `#__media_files` ADD COLUMN `hits` INT(10) unsigned NOT NULL DEFAULT 0 AFTER `catid`;
-ALTER TABLE `#__media_files` ADD COLUMN `metadata` text NOT NULL AFTER `hits`;
-ALTER TABLE `#__media_files` ADD COLUMN `language` char(7) NOT NULL COMMENT 'The language code for the media file.' AFTER `metadata`;
+ALTER TABLE `#__media_files` ADD COLUMN `language` char(7) NOT NULL COMMENT 'The language code for the media file.' AFTER `hits`;
 
 ALTER TABLE `#__media_files` ADD KEY `idx_catid` (`catid`);
 ALTER TABLE `#__media_files` ADD KEY `idx_language` (`language`);

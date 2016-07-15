@@ -1238,7 +1238,6 @@ CREATE TABLE `#__media_files` (
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `catid` int(10) unsigned NOT NULL DEFAULT 0,
   `hits` int(10) unsigned NOT NULL DEFAULT 0,
-  `metadata` text NOT NULL,
   `language` char(7) NOT NULL COMMENT 'The language code for the media file.',
   PRIMARY KEY  (`id`),
   KEY `idx_access` (`access`),
