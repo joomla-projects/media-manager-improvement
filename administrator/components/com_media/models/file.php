@@ -140,7 +140,7 @@ class MediaModelFile extends JModelLegacy
 			try
 			{
 				$this->id   = $this->create();
-				$this->storedFiles = null;
+				$this->resetStoredFiles();
 				$storedFile = $this->getStoredFileByPath($filePath);
 			}
 			catch (Exception $e)
@@ -209,6 +209,16 @@ class MediaModelFile extends JModelLegacy
 	}
 
 	/**
+	 * Reset the listing of files stored in the database
+	 *
+	 * @since 3.7.0
+	 */
+	protected function resetStoredFiles()
+	{
+		$this->storedFiles = null;
+	}
+
+	/**
 	 * Fetch a list of all the files stored in the database
 	 *
 	 * @param   string $folder
@@ -218,7 +228,7 @@ class MediaModelFile extends JModelLegacy
 	 */
 	protected function getStoredFiles($folder = null)
 	{
-		if (isset($this->storedFiles[$folder]))
+		if (!isset($this->storedFiles[$folder]))
 		{
 			$this->storedFiles[$folder] = $this->getFilesModel()
 				->getStoredFiles($folder);
