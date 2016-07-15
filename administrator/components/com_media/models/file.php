@@ -140,6 +140,7 @@ class MediaModelFile extends JModelLegacy
 			try
 			{
 				$this->id   = $this->create();
+				$this->storedFiles = null;
 				$storedFile = $this->getStoredFileByPath($filePath);
 			}
 			catch (Exception $e)
@@ -381,7 +382,7 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Set the current file adapter object
 	 *
-	 * @param  string $fileAdapter
+	 * @param  string $fileAdapterName
 	 * @param  string $filePath
 	 *
 	 * @return  $this
