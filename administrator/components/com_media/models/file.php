@@ -74,7 +74,7 @@ class MediaModelFile extends JModelLegacy
 
 		if (JFile::exists($filePath) == false)
 		{
-			return false;
+			return $this;
 		}
 
 		$filePath = realpath($filePath);
