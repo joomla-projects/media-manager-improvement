@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,6 +14,9 @@ include_once __DIR__ . '/handler/array.php';
  * @package     Joomla.UnitTest
  * @subpackage  Session
  * @since       3.4
+ *
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  */
 class JSessionTest extends TestCase
 {

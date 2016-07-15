@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -591,6 +591,9 @@ class JModelListTest extends TestCaseDatabase
 				'start' => 0
 			)
 		);
+
+		// We've set the state manually, populateState call will overwrite it.
+		TestReflection::setValue($this->object, '__state_set', true);
 
 		$this->assertEquals($expected, $method->invoke($this->object));
 	}

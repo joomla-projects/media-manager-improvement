@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,6 +63,14 @@ $loggeduser = JFactory::getUser();
 			<select name="filter_group_id" id="filter_group_id">
 				<option value=""><?php echo JText::_('COM_USERS_FILTER_USERGROUP');?></option>
 				<?php echo JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'));?>
+			</select>
+
+			<label class="selectlabel" for="filter_lastvisitrange">
+				<?php echo JText::_('COM_USERS_OPTION_FILTER_LAST_VISIT_DATE'); ?>
+			</label>
+			<select name="filter_lastvisitrange" id="filter_lastvisitrange" >
+				<option value=""><?php echo JText::_('COM_USERS_OPTION_FILTER_LAST_VISIT_DATE');?></option>
+				<?php echo JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.lastvisitrange'));?>
 			</select>
 
 			<label class="selectlabel" for="filter_range">

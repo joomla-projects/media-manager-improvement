@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,12 +19,12 @@ jQuery(function() {
         });
 
         var activateTab = function(href) {
-            var $el = $('a[data-toggle="tab"]a[href*=' + href + ']');
+            var $el = $('a[data-toggle="tab"]a[href*="' + href + '"]');
             $el.tab('show');
         };
 
         var hasTab = function(href){
-            return $('a[data-toggle="tab"]a[href*=' + href + ']').length;
+            return $('a[data-toggle="tab"]a[href*="' + href + '"]').length;
         };
 
         if (localStorage.getItem('tab-href')) {

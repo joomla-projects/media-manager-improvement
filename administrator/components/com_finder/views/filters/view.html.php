@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,11 +28,11 @@ class FinderViewFilters extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Load the view data.
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->total = $this->get('Total');
-		$this->state = $this->get('State');
-		$this->filterForm = $this->get('FilterForm');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->total         = $this->get('Total');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		FinderHelper::addSubmenu('filters');
@@ -78,6 +78,7 @@ class FinderViewFilters extends JViewLegacy
 		{
 			JToolbarHelper::publishList('filters.publish');
 			JToolbarHelper::unpublishList('filters.unpublish');
+			JToolbarHelper::checkin('filters.checkin');
 			JToolbarHelper::divider();
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,8 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 			<?php if ($params->get('show_title')) : ?>
 				<h2 itemprop="name">
-					<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
+					<?php if ($params->get('link_titles') &&
+						($params->get('access-view') || $params->get('show_noauth', '0') == '1')): ?>
 						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>" itemprop="url">
 						<?php echo $this->escape($displayData->title); ?></a>
 					<?php else : ?>

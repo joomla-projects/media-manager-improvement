@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ jimport('joomla.filesystem.path');
  * Tar format adapter for the JArchive class
  *
  * This class is inspired from and draws heavily in code and concept from the Compress package of
- * The Horde Project <http://www.horde.org>
+ * The Horde Project <https://www.horde.org>
  *
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>

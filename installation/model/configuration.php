@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -137,7 +137,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('feed_limit', 10);
 		$registry->set('feed_email', 'none');
 
-		$registry->set('log_path', JPATH_ROOT . '/logs');
+		$registry->set('log_path', JPATH_ADMINISTRATOR . '/logs');
 		$registry->set('tmp_path', JPATH_ROOT . '/tmp');
 
 		// Session setting.
