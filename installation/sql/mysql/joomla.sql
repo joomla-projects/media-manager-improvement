@@ -1228,7 +1228,7 @@ CREATE TABLE `#__media_files` (
   `ordering` integer NOT NULL DEFAULT 0,
   `params` text NOT NULL DEFAULT '',
   `user_id` integer NOT NULL DEFAULT 0,
-  `access` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `access` int(10) unsigned NOT NULL DEFAULT 0,
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by` int(10) unsigned NOT NULL DEFAULT 0,
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
@@ -1236,10 +1236,16 @@ CREATE TABLE `#__media_files` (
   `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `catid` int(10) unsigned NOT NULL DEFAULT 0,
+  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `metadata` text NOT NULL,
+  `language` char(7) NOT NULL COMMENT 'The language code for the media file.',
   PRIMARY KEY  (`id`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
   KEY `idx_state` (`published`),
+  KEY `idx_catid` (`catid`),
+  KEY `idx_language` (`language`),
   KEY `idx_createdby` (`created_by`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
 
