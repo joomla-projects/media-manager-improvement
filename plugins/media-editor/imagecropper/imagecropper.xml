@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.5" type="plugin" group="media-editor" method="upgrade">
-    <name>plg_media-editor_imagecropper</name>
+    <name>PLG_MEDIA-EDITOR_IMAGECROPPER</name>
     <version>0.0.1</version>
     <creationDate>December 2015</creationDate>
     <author>Joomla! Project</author>

@@ -61,4 +61,4 @@ if (isset($params['width']))
 	$iframeAttributes['width'] = $params['width'];
 }
 ?>
-<iframe <?php echo JArrayHelper::toString($iframeAttributes); ?>></iframe>
+<iframe <?php echo Joomla\Utilities\ArrayHelper::toString($iframeAttributes); ?>></iframe>
