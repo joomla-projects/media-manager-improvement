@@ -75,11 +75,6 @@ class PlgSystemLanguageFilter extends JPlugin
 					unset($this->sefs[$language->sef]);
 				}
 			}
-
-			$this->app->setLanguageFilter(true);
-
-			// Detect browser feature.
-			$this->app->setDetectBrowser($this->params->get('detect_browser', '1') == '1');
 		}
 	}
 
@@ -382,6 +377,13 @@ class PlgSystemLanguageFilter extends JPlugin
 					$lang_code = $this->default_lang;
 				}
 			}
+
+			// Don't cache the redirect in browser.
+			$this->app->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+			$this->app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+			$this->app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+			$this->app->setHeader('Pragma', 'no-cache');
+			$this->app->sendHeaders();
 
 			if ($this->mode_sef)
 			{
