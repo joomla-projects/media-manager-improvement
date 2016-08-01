@@ -169,6 +169,10 @@ class PlgMediaEditorImagecropper extends JPlugin
 
 		$result = $image->toFile($filePath . $fileName);
 
+		/** @var MediaModelFile $model */
+		$model = JModelLegacy::getInstance('File', 'MediaModel');
+		$model->loadByPath($filePath . $fileName);
+
 		//todo report result to user
 		if ($result)
 		{

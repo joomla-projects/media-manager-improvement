@@ -177,7 +177,7 @@ class MediaModelFile extends JModelLegacy
 		$path     = str_replace(JPATH_ROOT . '/', '', dirname($filePath));
 		$filename = basename($filePath);
 
-		foreach ($this->getStoredFiles($path) as $storedFile)
+		foreach ($this->getStoredFiles($path, true) as $storedFile)
 		{
 			if ($storedFile->filename == $filename && $storedFile->path == $path)
 			{
@@ -191,15 +191,18 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Fetch a list of all the files stored in the database
 	 *
-	 * @param   string $folder
+	 * @param   string  $folder  The folder to load the files for
+	 * @param   bool    $reload  Set if the list of files should be reloaded
 	 *
-	 * @return  array
+	 * @return  array  List of files in a given folder
+	 *
+	 * @since   3.7
 	 */
-	protected function getStoredFiles($folder = null)
+	protected function getStoredFiles($folder = null, $reload = false)
 	{
 		static $files = array();
 
-		if (empty($files[$folder]))
+		if ($reload || empty($files[$folder]))
 		{
 			$files[$folder] = $this->getFilesModel()
 				->getStoredFiles($folder);
@@ -248,7 +251,7 @@ class MediaModelFile extends JModelLegacy
 		$table = JTable::getInstance('File', 'MediaTable');
         $table->save($data);
 
-		return JFactory::getDbo()->insertid();
+		return $table->id;
 	}
 
 	/**
