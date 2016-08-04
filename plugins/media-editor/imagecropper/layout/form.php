@@ -6,27 +6,27 @@ $filePath = $displayData['filePath'];
 <div class="btn-toolbar imagecropper-toolbar">
 
     <div class="btn-group">
-        <button type="button" class="btn" data-method="rotate" data-option="-90" title="<?php echo JText::_('PLG_IMAGECROPPER_ROTATE_LEFT'); ?> -90°"><?php echo JText::_('PLG_IMAGECROPPER_ROTATE_LEFT'); ?> -90°</button>
-        <button type="button" class="btn" data-method="rotate" data-option="-45">-45°</button>
-        <button type="button" class="btn" data-method="rotate" data-option="-30">-30°</button>
-        <button type="button" class="btn" data-method="rotate" data-option="-15">-15°</button>
+        <button type="button" class="btn" data-method="rotate" data-option="-90" title="<?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_ROTATE_LEFT'); ?> -90&deg;"><?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_ROTATE_LEFT'); ?> -90&deg;</button>
+        <button type="button" class="btn" data-method="rotate" data-option="-45">-45&deg;</button>
+        <button type="button" class="btn" data-method="rotate" data-option="-30">-30&deg;</button>
+        <button type="button" class="btn" data-method="rotate" data-option="-15">-15&deg;</button>
     </div>
 
     <div class="btn-group">
-        <button type="button" class="btn" data-method="rotate" data-option="90" title="Rotate 90°"><?php echo JText::_('PLG_IMAGECROPPER_ROTATE_RIGHT'); ?> 90°</button>
-        <button type="button" class="btn" data-method="rotate" data-option="45">45°</button>
-        <button type="button" class="btn" data-method="rotate" data-option="30">30°</button>
-        <button type="button" class="btn" data-method="rotate" data-option="15">15°</button>
+        <button type="button" class="btn" data-method="rotate" data-option="90" title="<?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_ROTATE_RIGHT'); ?> 90&deg;"><?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_ROTATE_RIGHT'); ?> 90&deg;</button>
+        <button type="button" class="btn" data-method="rotate" data-option="45">45&deg;</button>
+        <button type="button" class="btn" data-method="rotate" data-option="30">30&deg;</button>
+        <button type="button" class="btn" data-method="rotate" data-option="15">15&deg;</button>
     </div>
 
     <div class="btn-group">
-        <button type="button" class="btn" data-method="scaleX" title="<?php echo JText::_('PLG_IMAGECROPPER_FLIP_HORIZONTAL'); ?>"><?php echo JText::_('PLG_IMAGECROPPER_FLIP_HORIZONTAL'); ?></button>
-        <button type="button" class="btn" data-method="scaleY" title="<?php echo JText::_('PLG_IMAGECROPPER_FLIP_VERTICAL'); ?>"><?php echo JText::_('PLG_IMAGECROPPER_FLIP_VERTICAL'); ?></button>
+        <button type="button" class="btn" data-method="scaleX" title="<?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_FLIP_HORIZONTAL'); ?>"><?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_FLIP_HORIZONTAL'); ?></button>
+        <button type="button" class="btn" data-method="scaleY" title="<?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_FLIP_VERTICAL'); ?>"><?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_FLIP_VERTICAL'); ?></button>
     </div>
 
 	<div class="btn-group">
-		<button type="button" class="btn" data-method="zoom-in" title="<?php echo JText::_('PLG_IMAGECROPPER_ZOOM_IN'); ?>"><?php echo JText::_('PLG_IMAGECROPPER_ZOOM_IN'); ?></button>
-		<button type="button" class="btn" data-method="zoom-out" title="<?php echo JText::_('PLG_IMAGECROPPER_ZOOM_OUT'); ?>"><?php echo JText::_('PLG_IMAGECROPPER_ZOOM_OUT'); ?></button>
+		<button type="button" class="btn" data-method="zoom-in" title="<?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_ZOOM_IN'); ?>"><?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_ZOOM_IN'); ?></button>
+		<button type="button" class="btn" data-method="zoom-out" title="<?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_ZOOM_OUT'); ?>"><?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_ZOOM_OUT'); ?></button>
 	</div>
 
 </div>
@@ -35,8 +35,8 @@ $filePath = $displayData['filePath'];
     <?php echo JHtml::_('image', COM_MEDIA_BASEURL . '/' . $filePath, '', 'id="media-image"'); ?>
 </div>
 <br />
-<input type="checkbox" name="save_copy" id="save_copy" checked="checked"/> <label for="save_copy"><?php echo JText::_('PLG_IMAGECROPPER_SAVE_COPY') ?></label>
-<input type="submit" class="btn" value="<?php echo JText::_('PLG_IMAGECROPPER_FIELD_SUBMIT'); ?>" />
+<input type="checkbox" name="save_copy" id="save_copy" checked="checked"/> <label for="save_copy"><?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_SAVE_COPY') ?></label>
+<input type="submit" class="btn" value="<?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_FIELD_SUBMIT'); ?>" />
 <input type="hidden" name="imagecropper-jsondata" value="" id="imagecropper-jsondata" />
 
 <script type="text/javascript">

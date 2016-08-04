@@ -72,7 +72,7 @@ class PlgMediaEditorImagecropper extends JPlugin
         $doc = JFactory::getDocument();
         $doc->addStyleDeclaration('.icon-imagecropper:before { content: "\2a"; }');
 
-		return JText::_('PLG_IMAGECROPPER_BUTTON_LABEL');
+		return JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_BUTTON_LABEL');
 	}
 
 	/**
@@ -176,13 +176,13 @@ class PlgMediaEditorImagecropper extends JPlugin
 		//todo report result to user
 		if ($result)
 		{
-			//JLog::add(JText::_('PLG_MEDIA-EDITOR_IMAGECROPPER_SAVE_SUCCESS'), JLog::INFO);
-			//JFactory::getApplication()->enqueueMessage(JText::_('PLG_MEDIA-EDITOR_IMAGECROPPER_SAVE_SUCCESS'), JLog::INFO);
+			//JLog::add(JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_SAVE_SUCCESS'), JLog::INFO);
+			//JFactory::getApplication()->enqueueMessage(JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_SAVE_SUCCESS'), JLog::INFO);
 		}
 		else
 		{
-			//JLog::add(JText::_('PLG_MEDIA-EDITOR_IMAGECROPPER_SAVE_SUCCESS'), JLog::ERROR);
-			//JFactory::getApplication()->enqueueMessage(JText::_('PLG_MEDIA-EDITOR_IMAGECROPPER_SAVE_SUCCESS'), JLog::ERROR);
+			//JLog::add(JText::_('PLG_MEDIA-EDITOR_IMAGECROPPER_SAVE_FAILURE'), JLog::ERROR);
+			//JFactory::getApplication()->enqueueMessage(JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_SAVE_FAILURE'), JLog::ERROR);
 		}
 
 		// redirect user to the image
