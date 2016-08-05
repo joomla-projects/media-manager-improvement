@@ -2,6 +2,17 @@
 $inp = JFactory::getApplication()->input;
 $name = $inp->getCmd('name');
 $filePath = $displayData['filePath'];
+
+JHtml::_('jquery.framework');
+JHtml::_('script', 'plg_media-editor_imagecropper/cropper.js', false, true, false, false, true);
+JHtml::_('script', 'plg_media-editor_imagecropper/cropper-init.min.js', false, true, false, false, true);
+JHtml::_('stylesheet', 'plg_media-editor_imagecropper/cropper.css', array(), true);
+
+// TODO get any data-* values and build the options
+// eg:   if (typeof image.getAttribute("data-some-attribute") != "undefined") {
+//           option1 = image.getAttribute("data-some-attribute");
+//       }
+// This way no inline script will be injected in the page
 ?>
 <div class="btn-toolbar imagecropper-toolbar">
 
@@ -32,60 +43,9 @@ $filePath = $displayData['filePath'];
 </div>
 
 <div class="cropper-bg">
-    <?php echo JHtml::_('image', COM_MEDIA_BASEURL . '/' . $filePath, '', 'id="media-image"'); ?>
+    <?php echo JHtml::_('image', COM_MEDIA_BASEURL . '/' . $filePath, '', 'id="joomla-media-image-cropper" data-some-attribute="some value"'); ?>
 </div>
 <br />
 <input type="checkbox" name="save_copy" id="save_copy" checked="checked"/> <label for="save_copy"><?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_SAVE_COPY') ?></label>
 <input type="submit" class="btn" value="<?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_FIELD_SUBMIT'); ?>" />
 <input type="hidden" name="imagecropper-jsondata" value="" id="imagecropper-jsondata" />
-
-<script type="text/javascript">
-    jQuery(function ($) {
-        var image = document.getElementById('media-image');
-        var cropper = new Cropper(image, {
-            aspectRatio: 16 / 9,
-            crop: function (e) {
-                var oDetails = e.detail;
-                var json = [
-                    '{"x":' + oDetails.x,
-                    '"y":' + oDetails.y,
-                    '"height":' + oDetails.height,
-                    '"width":' + oDetails.width,
-                    '"rotate":' + oDetails.rotate,
-                    '"scaleX":' + oDetails.scaleX,
-                    '"scaleY":' + oDetails.scaleY + '}'
-                ].join();
-
-                $('#imagecropper-jsondata').val(json);
-            }
-        });
-
-        $('.btn-toolbar button').click(function() {
-	        var action = $(this).data('method');
-
-	        switch (action) {
-		        case 'zoom-in':
-			        cropper.zoom(0.1);
-			        break;
-
-		        case 'zoom-out':
-			        cropper.zoom(-0.1);
-			        break;
-
-		        case 'rotate':
-			        cropper.rotate($(this).data('option'));
-			        break;
-
-		        case 'scaleX':
-			        cropper.scaleX(-cropper.getData().scaleX || -1);
-			        break;
-
-		        case 'scaleY':
-			        cropper.scaleY(-cropper.getData().scaleY || -1);
-			        break;
-
-		        // No default
-	        }
-        });
-    });
-</script>

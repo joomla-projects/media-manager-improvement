@@ -69,8 +69,7 @@ class PlgMediaEditorImagecropper extends JPlugin
 	 */
 	public function onMediaEditorButtonLabel()
 	{
-        $doc = JFactory::getDocument();
-        $doc->addStyleDeclaration('.icon-imagecropper:before { content: "\2a"; }');
+        JFactory::getDocument()->addStyleDeclaration('.icon-imagecropper:before { content: "\2a"; }');
 
 		return JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_BUTTON_LABEL');
 	}
@@ -88,11 +87,6 @@ class PlgMediaEditorImagecropper extends JPlugin
 	 */
 	public function onMediaEditorDisplay($filePath)
 	{
-		JHtml::_('script', 'plg_media-editor_imagecropper/cropper.js', false, true);
-		JHtml::_('stylesheet', 'plg_media-editor_imagecropper/cropper.css', array(), true);
-
-		//todo: allow for setup of cropper parameters
-
 		$data = array('filePath' => $filePath);
 		$layout = new JLayoutFile('form', __DIR__ . '/layout');
 
@@ -113,6 +107,7 @@ class PlgMediaEditorImagecropper extends JPlugin
 	 */
 	public function onMediaEditorProcess($fullPath)
 	{
+		// WTF is this? Just save the ALREADY processed image
 		jimport('joomla.filesystem.file');
 
 		// Get data
