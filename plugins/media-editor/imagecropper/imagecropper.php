@@ -121,64 +121,64 @@ class PlgMediaEditorImagecropper extends JPlugin
         $mediaPath  = pathinfo($input->get('file', '', 'RAW'));
         $mediaPath  = ($mediaPath['dirname'] !== '.' ? $mediaPath['dirname'] . '/' : '');
 
-		$jsonData = json_decode($input->get('imagecropper-jsondata', '', 'RAW'));
-
-		// Grab the image
-		$image = new JImage($filePath . $fileName);
-
-		// Manipulate the image
-		if ($jsonData->scaleY === '-1')
-		{
-			$image = $image->flip(IMG_FLIP_VERTICAL, true);
-		}
-
-		if ($jsonData->scaleX === '-1')
-		{
-			$image = $image->flip(IMG_FLIP_HORIZONTAL, true);
-		}
-
-		if ($jsonData->rotate !== 0)
-		{
-			$image = $image->rotate($jsonData->rotate);
-		}
-
-		/** @var JImage $image */
-		$image = $image->crop($jsonData->width, $jsonData->height, $jsonData->x, $jsonData->y);
-
-		// Resize the image, disabled for now
-		if ($jsonData->scaleX !== 1 || $jsonData->scaleY !== 1)
-		{
-			$iNewWidth  = $image->getWidth() * $jsonData->scaleX;
-			$iNewHeight = $image->getHeight() * $jsonData->scaleY;
-
-			$image 	= $image->resize($iNewWidth, $iNewHeight);
-		}
-
-		// Change filename is save as copy
-		if ($input->get('save_copy') === 'on')
-		{
-			$random   = JUserHelper::genRandomPassword(3);
-			$fileName = JFile::makeSafe($random . '_' . $fileName);
-			$fileName = str_replace(' ', '-', $fileName);
-		}
-
-		$result = $image->toFile($filePath . $fileName);
-
-		/** @var MediaModelFile $model */
-		$model = JModelLegacy::getInstance('File', 'MediaModel');
-		$model->loadByPath($filePath . $fileName);
-
-		//todo report result to user
-		if ($result)
-		{
-			//JLog::add(JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_SAVE_SUCCESS'), JLog::INFO);
-			//JFactory::getApplication()->enqueueMessage(JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_SAVE_SUCCESS'), JLog::INFO);
-		}
-		else
-		{
-			//JLog::add(JText::_('PLG_MEDIA-EDITOR_IMAGECROPPER_SAVE_FAILURE'), JLog::ERROR);
-			//JFactory::getApplication()->enqueueMessage(JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_SAVE_FAILURE'), JLog::ERROR);
-		}
+//		$jsonData = json_decode($input->get('imagecropper-jsondata', '', 'RAW'));
+//
+//		// Grab the image
+//		$image = new JImage($filePath . $fileName);
+//
+//		// Manipulate the image
+//		if ($jsonData->scaleY === '-1')
+//		{
+//			$image = $image->flip(IMG_FLIP_VERTICAL, true);
+//		}
+//
+//		if ($jsonData->scaleX === '-1')
+//		{
+//			$image = $image->flip(IMG_FLIP_HORIZONTAL, true);
+//		}
+//
+//		if ($jsonData->rotate !== 0)
+//		{
+//			$image = $image->rotate($jsonData->rotate);
+//		}
+//
+//		/** @var JImage $image */
+//		$image = $image->crop($jsonData->width, $jsonData->height, $jsonData->x, $jsonData->y);
+//
+//		// Resize the image, disabled for now
+//		if ($jsonData->scaleX !== 1 || $jsonData->scaleY !== 1)
+//		{
+//			$iNewWidth  = $image->getWidth() * $jsonData->scaleX;
+//			$iNewHeight = $image->getHeight() * $jsonData->scaleY;
+//
+//			$image 	= $image->resize($iNewWidth, $iNewHeight);
+//		}
+//
+//		// Change filename is save as copy
+//		if ($input->get('save_copy') === 'on')
+//		{
+//			$random   = JUserHelper::genRandomPassword(3);
+//			$fileName = JFile::makeSafe($random . '_' . $fileName);
+//			$fileName = str_replace(' ', '-', $fileName);
+//		}
+//
+//		$result = $image->toFile($filePath . $fileName);
+//
+//		/** @var MediaModelFile $model */
+//		$model = JModelLegacy::getInstance('File', 'MediaModel');
+//		$model->loadByPath($filePath . $fileName);
+//
+//		//todo report result to user
+//		if ($result)
+//		{
+//			//JLog::add(JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_SAVE_SUCCESS'), JLog::INFO);
+//			//JFactory::getApplication()->enqueueMessage(JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_SAVE_SUCCESS'), JLog::INFO);
+//		}
+//		else
+//		{
+//			//JLog::add(JText::_('PLG_MEDIA-EDITOR_IMAGECROPPER_SAVE_FAILURE'), JLog::ERROR);
+//			//JFactory::getApplication()->enqueueMessage(JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_SAVE_FAILURE'), JLog::ERROR);
+//		}
 
 		// redirect user to the image
 		$newUrl = JRoute::_('index.php?option=com_media&view=file&view=file&file=' . $mediaPath . $fileName, false);

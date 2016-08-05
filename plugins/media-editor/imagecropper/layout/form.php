@@ -1,7 +1,16 @@
 <?php
-$inp = JFactory::getApplication()->input;
-$name = $inp->getCmd('name');
-$filePath = $displayData['filePath'];
+$name       = JFactory::getApplication()->input->getCmd('name');
+
+$filePath   = $displayData['filePath'];
+$path_parts = pathinfo($filePath);
+$folder     =$path_parts['dirname'];
+
+$session    = JFactory::getSession();
+$uploadUrl  = JUri::base() . 'index.php?option=com_media&task=file.upload&tmpl=component&allowovewrite=true&folder='
+    . $folder . '&'
+    . $session->getName() . '=' . $session->getId()
+    . '&' . JSession::getFormToken() . '=1'
+    . '&asset=image&format=json';
 
 JHtml::_('jquery.framework');
 JHtml::_('script', 'plg_media-editor_imagecropper/cropper.js', false, true, false, false, true);
@@ -43,7 +52,7 @@ JHtml::_('stylesheet', 'plg_media-editor_imagecropper/cropper.css', array(), tru
 </div>
 
 <div class="cropper-bg">
-    <?php echo JHtml::_('image', COM_MEDIA_BASEURL . '/' . $filePath, '', 'id="joomla-media-image-cropper" data-some-attribute="some value"'); ?>
+    <?php echo JHtml::_('image', COM_MEDIA_BASEURL . '/' . $filePath, '', 'id="joomla-media-image-cropper" data-some-attribute="some value" data-url="'. $uploadUrl . '"'); ?>
 </div>
 <br />
 <input type="checkbox" name="save_copy" id="save_copy" checked="checked"/> <label for="save_copy"><?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_SAVE_COPY') ?></label>
