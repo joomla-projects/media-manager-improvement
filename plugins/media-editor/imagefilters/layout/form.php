@@ -8,100 +8,47 @@ JFactory::getDocument()->addScript('/media/plg_media-editor_imagefilters/js/cama
 JFactory::getDocument()->addStyleSheet('/media/plg_media-editor_imagefilters/css/caman.css');
 
 $image = COM_MEDIA_BASEURL . '/' . $filePath;
+
+$path_parts = pathinfo($filePath);
+$folder     =$path_parts['dirname'];
+
+$session    = JFactory::getSession();
+$uploadUrl  = JUri::base() . 'index.php?option=com_media&task=file.upload&tmpl=component&allowovewrite=true&folder='
+    . $folder . '&'
+    . $session->getName() . '=' . $session->getId()
+    . '&' . JSession::getFormToken() . '=1'
+    . '&asset=image&format=json';
 ?>
-<script type="text/javascript">
-
-    var jFilter = Caman("#example", '<?php echo $image; ?>', function () {
-             this.brightness(5);
-             this.render();
-         });
-
-</script>
-
 <div class="btn-toolbar imagefilters-toolbar">
 
-    <img id="test-image" src="<?php echo $image; ?>" class="hidden"/>
-    <canvas id="example" style="left:auto; right:auto;"></canvas>
 
-    <div id="PresetFilters" class="span12" >
+    <span id="joomla-media-image-filters" src="<?php echo $image; ?>" class="hidden" <?php echo 'data-url="'. $uploadUrl . '"'; ?>></span>
+    <canvas id="filter-canvas" style="left:auto; right:auto;"></canvas>
+
+    <div class="preset-filters" class="span12" >
         <h3>Presets (Instagram)</h3>
-        <a class="btn btn-primary" data-preset="vintage" onclick="return jFilter.render(function() {
-      jFilter.vintage();
-      return;
-    })">Vintage</a>
-        <a class="btn btn-primary" data-preset="lomo" onclick="return jFilter.render(function() {
-      jFilter.clarity();
-      return;
-    })">Lomo</a>
-        <a class="btn btn-primary" data-preset="clarity" onclick="return jFilter.render(function() {
-      jFilter.vintage();
-      return;
-    })">Clarity</a>
-        <a class="btn btn-primary" data-preset="sinCity" onclick="return jFilter.render(function() {
-      jFilter.sinCity();
-      return;
-    })">Sin City</a>
-        <a class="btn btn-primary" data-preset="sunrise" onclick="return jFilter.render(function() {
-      jFilter.crossProcess();
-      return;
-    })">Sunrise</a>
-        <a class="btn btn-primary" data-preset="crossProcess" onclick="return jFilter.render(function() {
-      jFilter.vintage();
-      return;
-    })">Cross Process</a>
-        <a class="btn btn-primary" data-preset="orangePeel" onclick="return jFilter.render(function() {
-      jFilter.orangePeel();
-      return;
-    })">Orange Peel</a>
-        <a class="btn btn-primary" data-preset="love" onclick="return jFilter.render(function() {
-      jFilter.love();
-      return;
-    })">Love</a>
-        <a class="btn btn-primary" data-preset="grungy" onclick="return jFilter.render(function() {
-      jFilter.grungy();
-      return;
-    })">Grungy</a>
-        <a class="btn btn-primary" data-preset="jarques" onclick="return jFilter.render(function() {
-      jFilter.jarques();
-      return;
-    })">Jarques</a>
-        <a class="btn btn-primary" data-preset="pinhole" onclick="return jFilter.render(function() {
-      jFilter.pinhole();
-      return;
-    })">Pinhole</a>
-        <a class="btn btn-primary" data-preset="oldBoot" onclick="return jFilter.render(function() {
-      jFilter.oldBoot();
-      return;
-    })">Old Boot</a>
-        <a class="btn btn-primary" data-preset="glowingSun" onclick="return jFilter.render(function() {
-      jFilter.glowingSun();
-      return;
-    })">Glowing Sun</a>
-        <a class="btn btn-primary" data-preset="hazyDays" onclick="return jFilter.render(function() {
-      jFilter.hazyDays();
-      return;
-    })">Hazy Days</a>
-        <a class="btn btn-primary" data-preset="herMajesty" onclick="return jFilter.render(function() {
-      jFilter.herMajesty();
-      return;
-    })">Her Majesty</a>
-        <a class="btn btn-primary" data-preset="nostalgia" onclick="return jFilter.render(function() {
-      jFilter.nostalgia();
-      return;
-    })">Nostalgia</a>
-        <a class="btn btn-primary" data-preset="hemingway" onclick="return jFilter.render(function() {
-      jFilter.hemingway();
-      return;
-    })">Hemingway</a>
-        <a class="btn btn-primary" data-preset="concentrate" onclick="jFilter.render(function() {
-      jFilter.concentrate();
-    })">Concentrate</a>
+        <a class="btn btn-primary" data-preset="vintage">Vintage</a>
+        <a class="btn btn-primary" data-preset="lomo">Lomo</a>
+        <a class="btn btn-primary" data-preset="clarity">Clarity</a>
+        <a class="btn btn-primary" data-preset="sinCity">Sin City</a>
+        <a class="btn btn-primary" data-preset="sunrise">Sunrise</a>
+        <a class="btn btn-primary" data-preset="crossProcess">Cross Process</a>
+        <a class="btn btn-primary" data-preset="orangePeel">Orange Peel</a>
+        <a class="btn btn-primary" data-preset="love">Love</a>
+        <a class="btn btn-primary" data-preset="grungy">Grungy</a>
+        <a class="btn btn-primary" data-preset="jarques">Jarques</a>
+        <a class="btn btn-primary" data-preset="pinhole">Pinhole</a>
+        <a class="btn btn-primary" data-preset="oldBoot">Old Boot</a>
+        <a class="btn btn-primary" data-preset="glowingSun">Glowing Sun</a>
+        <a class="btn btn-primary" data-preset="hazyDays">Hazy Days</a>
+        <a class="btn btn-primary" data-preset="herMajesty">Her Majesty</a>
+        <a class="btn btn-primary" data-preset="nostalgia">Nostalgia</a>
+        <a class="btn btn-primary" data-preset="hemingway">Hemingway</a>
+        <a class="btn btn-primary" data-preset="concentrate">Concentrate</a>
 
-        <a class="btn btn-primary" data-preset="concentrate" onclick="
-      jFilter.render(function() {
-         jFilter.reset();
-    })
-">Reset</a>
+        <a class="btn btn-warning" data-preset="reset">Reset</a>
+
+        <a class="btn btn-success" data-preset="save">Save changes</a>
     </div>
 
     <div id="Filters" class="hidden">
