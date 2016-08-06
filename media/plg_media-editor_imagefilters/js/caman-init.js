@@ -14,7 +14,7 @@
             // This way no inline script will be injected in the page
 
             /**
-             * Initialiaze Cropper
+             * Initialiaze canvas manipulation (caman)
              */
             Caman("#filter-canvas", imageUrl, function () {
                 this.render();
@@ -130,6 +130,8 @@ console.log(file);
 
                     for (var k = 0; k < sliders.length; k++) {
                         var tmpName = sliders[k].getAttribute("data-filter");
+                        var parentTmpDiv = sliders[k].parentNode;
+                        parentTmpDiv.querySelector('.range-value').innerHTML = sliders[k].value;
                         window.SliderValues[tmpName] = parseInt(sliders[k].value);
                     }
                     var action = event.currentTarget.getAttribute("data-filter");
