@@ -95,6 +95,8 @@
       });
     }
 
+    window.cropperBoxDim = {};
+
     // We are using jQuery only to add a click event to the buttons and the dom ready? We are doing it wrong!!
     jQuery('.btn-toolbar button').click(function (event) {
       console.log(event.currentTarget);
@@ -126,7 +128,7 @@
 
         default:
         case 'crop':
-          cropper.crop();
+          cropper.getCroppedCanvas();
           doTheUpload();
           break;
       }
