@@ -47,10 +47,9 @@ class PlgMediaEditorImagefilters extends JPlugin
 	 */
 	public function onMediaEditorButtonLabel()
 	{
-        $doc = JFactory::getDocument();
-        $doc->addStyleDeclaration('.icon-imagecropper:before { content: "\2a"; }');
+		JFactory::getDocument()->addStyleDeclaration('.icon-imagefilters:before { content: "\2a"; }');
 
-		return JText::_('PLG_MEDIA-EDITOR_IMAGEFILTERS_BUTTON_LABEL');
+		return JText::_('imagefilters'); //PLG_MEDIA-EDITOR_IMAGEFILTERS_BUTTON_LABEL
 	}
 
 	/**
@@ -80,5 +79,9 @@ class PlgMediaEditorImagefilters extends JPlugin
 	 */
 	public function onMediaEditorProcess($fullPath)
 	{
+		$returnPath = str_replace(COM_MEDIA_BASE, '', $fullPath);
+
+		// Return the new URL
+		return JRoute::_('index.php?option=com_media&view=file&view=file&file=' . $returnPath, false);
 	}
 }

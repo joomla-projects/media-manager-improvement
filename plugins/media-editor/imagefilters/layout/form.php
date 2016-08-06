@@ -136,3 +136,4 @@ $uploadUrl  = JUri::base() . 'index.php?option=com_media&task=file.upload&tmpl=c
     </div>
 </div>
 
+<input type="submit" class="hidden" />

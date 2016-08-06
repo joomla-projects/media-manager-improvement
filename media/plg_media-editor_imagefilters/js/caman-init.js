@@ -1,19 +1,20 @@
 !function() {
   document.addEventListener("DOMContentLoaded", function() {
-    var image = document.getElementById('joomla-media-image-filters');
-    window.imageUrl = image.getAttribute("src");
-    window.postUrl  = image.getAttribute("data-url");
+    var image = document.getElementById('joomla-media-image-filters');      // The image node
+    window.imageUrl = image.getAttribute("src");                            // The image Url
+    window.postUrl  = image.getAttribute("data-url");                       // The upload Url
+    window.submitInput = document.querySelectorAll('input[type="submit"]'); // The hidden submit input
 
     // TODO get any data-* values and build the options
     // eg:   if (typeof image.getAttribute("data-some-attribute") != "undefined") {
     //           option1 = image.getAttribute("data-some-attribute");
     //       }
     // This way no inline script will be injected in the page
+
     /**
      * Initialiaze Cropper
      */
     Caman("#filter-canvas", imageUrl, function () {
-      this.brightness(5);
       this.render();
     });
 
@@ -28,11 +29,13 @@
         if (xhr.status == 200) {
           if (resp.status == '0') {
 console.log('Upload success');
+            submitInput[0].click();
             //close the modal
           }
 
           if (resp.status == '1') {
 console.log('Upload success');
+            submitInput[0].click();
             //close the modal
           }
         } else {
