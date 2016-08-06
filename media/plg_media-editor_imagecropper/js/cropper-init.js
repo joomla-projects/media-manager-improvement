@@ -34,9 +34,6 @@
     var UploadFile = function(fd) {
       var xhr = new XMLHttpRequest();
       xhr.open("POST", postUrl, true);
-      //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      // xhr.setRequestHeader('Content-Type', 'application/json');
-
 
       // No progress bar here
       // xhr.upload.onprogress = function(e) {
@@ -104,32 +101,34 @@
 
       var action  = event.currentTarget.getAttribute("data-method");
       var option  = event.currentTarget.getAttribute("data-option");
+      var option2  = event.currentTarget.getAttribute("data-second-option");
 
       switch (action) {
-        case 'zoom-in':
-          cropper.zoom(0.1);
-          break;
-
-        case 'zoom-out':
-          cropper.zoom(-0.1);
+        case 'zoom':
+          cropper.zoom(option);
           break;
 
         case 'rotate':
           cropper.rotate(option);
-          doTheUpload();
           break;
 
         case 'scaleX':
           cropper.scaleX(-cropper.getData().scaleX || -1);
-          doTheUpload();
           break;
 
         case 'scaleY':
           cropper.scaleY(-cropper.getData().scaleY || -1);
-          doTheUpload();
           break;
 
-          // No default
+        case 'move':
+          cropper.move(option, option2);
+          break;
+
+        default:
+        case 'crop':
+          cropper.crop();
+          doTheUpload();
+          break;
       }
     });
   });

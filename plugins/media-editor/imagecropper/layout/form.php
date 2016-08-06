@@ -45,9 +45,20 @@ JHtml::_('stylesheet', 'plg_media-editor_imagecropper/cropper.css', array(), tru
     </div>
 
 	<div class="btn-group">
-		<button type="button" class="btn" data-method="zoom-in" title="<?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_ZOOM_IN'); ?>"><?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_ZOOM_IN'); ?></button>
-		<button type="button" class="btn" data-method="zoom-out" title="<?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_ZOOM_OUT'); ?>"><?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_ZOOM_OUT'); ?></button>
+		<button type="button" class="btn" data-method="zoom" data-option="0.1" title="<?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_ZOOM_IN'); ?>"><?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_ZOOM_IN'); ?></button>
+		<button type="button" class="btn" data-method="zoom" data-option="-0.1" title="<?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_ZOOM_OUT'); ?>"><?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_ZOOM_OUT'); ?></button>
 	</div>
+
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary" data-method="move" data-option="-10" data-second-option="0" title="Move Left">Move Left</button>
+        <button type="button" class="btn btn-primary" data-method="move" data-option="10" data-second-option="0" title="Move Right">Move Right</button>
+        <button type="button" class="btn btn-primary" data-method="move" data-option="0" data-second-option="-10" title="Move Up">Move Up</button>
+        <button type="button" class="btn btn-primary" data-method="move" data-option="0" data-second-option="10" title="Move Down">Move Down</button>
+    </div>
+
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary" data-method="crop" title="Crop">Crop</button>
+    </div>
 
 </div>
 
@@ -56,5 +67,4 @@ JHtml::_('stylesheet', 'plg_media-editor_imagecropper/cropper.css', array(), tru
 </div>
 <br />
 <input type="checkbox" name="save_copy" id="save_copy" checked="checked"/> <label for="save_copy"><?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_SAVE_COPY') ?></label>
-<input type="submit" class="btn" value="<?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_FIELD_SUBMIT'); ?>" />
 <input type="hidden" name="imagecropper-jsondata" value="" id="imagecropper-jsondata" />
