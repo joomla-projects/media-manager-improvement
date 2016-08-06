@@ -93,49 +93,87 @@ console.log(file);
       // });
     };
 
-    window.cropperBoxDim = {};
+    var registerClick = function(element) {
+      element.addEventListener('click', function (event) {
+        var action = event.currentTarget.getAttribute("data-preset");
 
-    // We are using jQuery only to add a click event to the buttons and the dom ready? We are doing it wrong!!
-    jQuery('.preset-filters a').click(function (event) {
-      console.log(event.currentTarget);
+        switch (action) {
+          case 'vintage':
+          case 'lomo':
+          case 'clarity':
+          case 'sinCity':
+          case 'sunrise':
+          case 'crossProcess':
+          case 'orangePeel':
+          case 'love':
+          case 'grungy':
+          case 'jarques':
+          case 'pinhole':
+          case 'oldBoot':
+          case 'glowingSun':
+          case 'hazyDays':
+          case 'herMajesty':
+          case 'nostalgia':
+          case 'hemingway':
+          case 'concentrate':
+            Caman("#filter-canvas", function () {
+              this[action]().render();
+            });
+            break;
 
-      var action  = event.currentTarget.getAttribute("data-preset");
+          default:
+          case 'reset':
+            Caman("#filter-canvas", function () {
+              this.reset();
+            });
+            break;
 
-      switch (action) {
-        case 'vintage':
-        case 'lomo':
-        case 'clarity':
-        case 'sinCity':
-        case 'sunrise':
-        case 'crossProcess':
-        case 'orangePeel':
-        case 'love':
-        case 'grungy':
-        case 'jarques':
-        case 'pinhole':
-        case 'oldBoot':
-        case 'glowingSun':
-        case 'hazyDays':
-        case 'herMajesty':
-        case 'nostalgia':
-        case 'hemingway':
-        case 'concentrate':
-          Caman("#filter-canvas", function () {
-            this[action]().render();
-          });
-          break;
+          case 'save':
+            doTheUpload();
+            break;
+        }
+      });
+    };
 
-        default:
-        case 'reset':
-          Caman("#filter-canvas", function () {
-            this.reset();
-          });
-          break;
 
-        case 'save':
-          doTheUpload();
-          break;
+      var registerChange = function(element) {
+        element.addEventListener('change', function (event) {
+          var action = event.currentTarget.getAttribute("data-filter");
+          var value  = +this.value;
+              //+event.currentTarget.getAttribute("value");
+          console.log(action);
+          switch (action) {
+            case 'brightness':
+            case 'contrast':
+            case 'saturation':
+            case 'vibrance':
+            case 'exposure':
+            case 'hue':
+            case 'sepia':
+            case 'gamma':
+            case 'noise':
+            case 'clip':
+            case 'sharpen':
+            case 'tiltShift':
+              Caman("#filter-canvas", function () {
+                this[action](value).render();
+              });
+              break;
+          }
+        });
+      };
+
+
+      var inputs = document.querySelectorAll('input[type="range"]');
+    console.log(inputs);
+      for (var i = 0; i<inputs.length; i++) {
+        registerChange(inputs[i]);
       }
-    });
+
+      var buttons = document.querySelectorAll('.btn');
+console.log(buttons);
+      for (var j = 0; j<buttons.length; j++) {
+        registerClick(buttons[j]);
+      }
   });
 }();
