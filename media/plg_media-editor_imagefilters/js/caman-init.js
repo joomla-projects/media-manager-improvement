@@ -5,6 +5,7 @@
             window.imageUrl = image.getAttribute("data-src");                       // The image Url
             window.postUrl = image.getAttribute("data-url");                        // The upload Url
             window.submitInput = document.querySelectorAll('input[type="submit"]'); // The hidden submit input
+            window.SliderValues = {};
 
             // TODO get any data-* values and build the options
             // eg:   if (typeof image.getAttribute("data-some-attribute") != "undefined") {
@@ -104,6 +105,12 @@ console.log(file);
                         case 'reset':
                             Caman("#filter-canvas", function () {
                                 this.reset();
+
+                                // Reset the sliders
+                                var sliders = document.querySelectorAll('input[type="range"]');
+                                for (var k = 0; k < sliders.length; k++) {
+                                    sliders[k].value = 0;
+                                }
                             });
                             break;
 
@@ -117,8 +124,15 @@ console.log(file);
 
             var registerChange = function (element) {
                 element.addEventListener('change', function (event) {
+                    // Get all the current values from all the sliders
+                    var parentDiv = event.currentTarget.parentNode.parentNode.parentNode.parentNode,
+                        sliders = parentDiv.querySelectorAll('input[type="range"]');
+
+                    for (var k = 0; k < sliders.length; k++) {
+                        var tmpName = sliders[k].getAttribute("data-filter");
+                        window.SliderValues[tmpName] = parseInt(sliders[k].value);
+                    }
                     var action = event.currentTarget.getAttribute("data-filter");
-                    var value = +this.value;
 console.log(action);
                     switch (action) {
                         case 'brightness':
@@ -134,7 +148,20 @@ console.log(action);
                         case 'sharpen':
                         case 'tiltShift':
                             Caman("#filter-canvas", function () {
-                                this[action](value).render();
+                                this.reset();
+                                (SliderValues.brightness != 0) ? this.brightness(SliderValues.brightness) : '';
+                                (SliderValues.contrast != 0) ? this.contrast(SliderValues.contrast) : '';
+                                (SliderValues.saturation != 0) ? this.saturation(SliderValues.saturation) : '';
+                                (SliderValues.vibrance != 0) ? this.vibrance(SliderValues.vibrance) : '';
+                                (SliderValues.exposure != 0) ? this.exposure(SliderValues.exposure) : '';
+                                (SliderValues.hue =! 0) ? this.hue(SliderValues.hue) : '';
+                                (SliderValues.sepia != 0) ? this.sepia(SliderValues.sepia) : '';
+                                (SliderValues.gamma != 0) ? this.gamma(SliderValues.gamma) : '';
+                                (SliderValues.noise != 0) ? this.noise(SliderValues.noise) : '';
+                                (SliderValues.clip != 0) ? this.clip(SliderValues.clip) : '';
+                                (SliderValues.sharpen != 0) ? this.sharpen(SliderValues.sharpen) : '';
+                                (SliderValues.tiltShift != 0) ? this.tiltShift(SliderValues.tiltShift) : '';
+                                this.render();
                             });
                             break;
                     }
