@@ -1,10 +1,9 @@
 !function() {
-  // We are using jQuery only to add a click event to the buttons and the dom ready? We are doing it wrong!!
-  jQuery(document).ready(function() {
-
+  document.addEventListener("DOMContentLoaded", function() {
     var image = document.getElementById('joomla-media-image-filters');
     window.imageUrl = image.getAttribute("src");
     window.postUrl  = image.getAttribute("data-url");
+
     // TODO get any data-* values and build the options
     // eg:   if (typeof image.getAttribute("data-some-attribute") != "undefined") {
     //           option1 = image.getAttribute("data-some-attribute");
@@ -23,74 +22,50 @@
       var xhr = new XMLHttpRequest();
       xhr.open("POST", postUrl, true);
 
-      // No progress bar here
-      // xhr.upload.onprogress = function(e) {
-      //   var percentComplete = (e.loaded / e.total) * 100;
-      //   jQuery('.bar').width(percentComplete + '%');
-      // };
-
-      // removeProgessBar = function(){
-      //   setTimeout(function(){
-      //     jQuery('#jloader').remove();
-      //     editor.contentAreaContainer.style.borderWidth = '';
-      //   }, 200);
-      // };
-
       xhr.onload = function() {
         var resp = JSON.parse(xhr.responseText);
 
         if (xhr.status == 200) {
           if (resp.status == '0') {
-            // removeProgessBar();
-
-            console.log('Upload success');
+console.log('Upload success');
             //close the modal
           }
 
           if (resp.status == '1') {
-            // removeProgessBar();
-            console.log('Upload success');
+console.log('Upload success');
             //close the modal
-
-
-            // Create the image tag
-            // var newNode = tinyMCE.activeEditor.getDoc().createElement ('img');
-            // newNode.src= setCustomDir + resp.location;
-            // tinyMCE.activeEditor.execCommand('mceInsertContent', false, newNode.outerHTML);
           }
         } else {
-          console.log('No Upload');
+console.log('No Upload');
           //close the modal
         }
       };
 
       xhr.onerror = function() {
-        console.log('Upload Error');
+console.log('Upload Error');
         //close the modal
       };
       xhr.send(fd);
-    }
+    };
 
     // Upload cropped image to server
     var doTheUpload = function() {
-      var canvas = document.getElementById("filter-canvas");
-      var newImg = canvas.toDataURL("image/jpeg");
+      var canvas = document.getElementById("filter-canvas"),
+          newImg = canvas.toDataURL("image/jpeg"),
+          blobBin = atob(newImg.split(',')[1]),
+          array = [];
 
-      var blobBin = atob(newImg.split(',')[1]);
-      var array = [];
       for(var i = 0; i < blobBin.length; i++) {
         array.push(blobBin.charCodeAt(i));
       }
-      var file = new Blob([new Uint8Array(array)], {type: 'image/png'});
 
-      var imgFileName = imageUrl.split('/').pop();
-
-        var fd = new FormData();
+      var file = new Blob([new Uint8Array(array)], {type: 'image/png'}),
+          imgFileName = imageUrl.split('/').pop(),
+          fd = new FormData();
 console.log(file);
-        fd.append('files', file, imgFileName);
 
+        fd.append('files', file, imgFileName);
         UploadFile(fd);
-      // });
     };
 
     var registerClick = function(element) {
@@ -140,8 +115,7 @@ console.log(file);
         element.addEventListener('change', function (event) {
           var action = event.currentTarget.getAttribute("data-filter");
           var value  = +this.value;
-              //+event.currentTarget.getAttribute("value");
-          console.log(action);
+console.log(action);
           switch (action) {
             case 'brightness':
             case 'contrast':
@@ -165,7 +139,7 @@ console.log(file);
 
 
       var inputs = document.querySelectorAll('input[type="range"]');
-    console.log(inputs);
+console.log(inputs);
       for (var i = 0; i<inputs.length; i++) {
         registerChange(inputs[i]);
       }

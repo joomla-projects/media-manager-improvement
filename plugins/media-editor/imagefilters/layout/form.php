@@ -2,10 +2,11 @@
 $name = JFactory::getApplication()->input->getCmd('name');
 $filePath = $displayData['filePath'];
 
-JHtml::_('jquery.framework');
-JFactory::getDocument()->addScript('/media/plg_media-editor_imagefilters/js/caman.full.min.js');
-JFactory::getDocument()->addScript('/media/plg_media-editor_imagefilters/js/caman-init.js');
-JFactory::getDocument()->addStyleSheet('/media/plg_media-editor_imagefilters/css/caman.css');
+//JHtml::_('jquery.framework');
+// IE8-9 need a polyfill to work with this plugin, also if that polyfill is loaded we don't need jQuery
+JHtml::_('script', 'plg_media-editor_imagefilters/caman.full.min.js', false, true, false, false, true);
+JHtml::_('script', 'plg_media-editor_imagefilters/caman-init.js', false, true, false, false, true);
+JHtml::_('stylesheet', 'plg_media-editor_imagefilters/caman.css', array(), true);
 
 $image = COM_MEDIA_BASEURL . '/' . $filePath;
 
@@ -128,7 +129,7 @@ $uploadUrl  = JUri::base() . 'index.php?option=com_media&task=file.upload&tmpl=c
         </div>
     </div>
 
-    <div class="span-12 panel">
+    <div class="preset-filters span-12 panel">
         <a class="btn btn-warning" data-preset="reset">Reset</a>
 
         <a class="btn btn-success" data-preset="save">Save changes</a>
