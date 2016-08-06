@@ -1,7 +1,7 @@
 !function() {
   document.addEventListener("DOMContentLoaded", function() {
     var image = document.getElementById('joomla-media-image-filters');      // The image node
-    window.imageUrl = image.getAttribute("src");                            // The image Url
+    window.imageUrl = image.getAttribute("data-src");                            // The image Url
     window.postUrl  = image.getAttribute("data-url");                       // The upload Url
     window.submitInput = document.querySelectorAll('input[type="submit"]'); // The hidden submit input
 

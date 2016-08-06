@@ -1,47 +1,5 @@
 .preset-filters a {
-	margin-left: 10px;
+	margin-right: 10px;
 	margin-bottom: 20px;
 	display: inline-block
 }
-
-#Filters {
-	margin: 10px 0
-}
-
-#Filters .Filter {
-	float: left;
-	width: 300px
-}
-
-#Filters .Filter > div {
-	padding: 5px 10px
-}
-
-#Filters .Filter .FilterName {
-	float: left
-}
-
-#Filters .Filter .FilterName p {
-	margin: 0
-}
-
-#Filters .Filter .FilterSetting {
-	float: right
-}
-
-#Filters .Filter .FilterSetting input[type="range"] {
-	-webkit-appearance: none !important;
-	width: 150px;
-	background-color: #434341;
-	height: 1px;
-	vertical-align: 1px
-}
-
-#Filters .Filter .FilterSetting input[type="range"]::-webkit-slider-thumb {
-	-webkit-appearance: none !important;
-	height: 12px;
-	width: 15px;
-	background-color: #368ad2;
-	cursor: pointer
-}
-
