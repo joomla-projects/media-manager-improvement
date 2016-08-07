@@ -12,16 +12,21 @@ $uploadUrl  = JUri::base() . 'index.php?option=com_media&task=file.upload&tmpl=c
     . '&' . JSession::getFormToken() . '=1'
     . '&asset=image&format=json';
 
-JHtml::_('jquery.framework');
-JHtml::_('script', 'plg_media-editor_imagecropper/cropper.js', false, true, false, false, true);
-JHtml::_('script', 'plg_media-editor_imagecropper/cropper-init.min.js', false, true, false, false, true);
+// TODO: add conditionally a polyfill for IE (8/9)
+
+JHtml::_('script', 'plg_media-editor_imagecropper/canvas-to-blob.min.js', false, true, false, false, true);
+JHtml::_('script', 'plg_media-editor_imagecropper/cropper.min.js', false, true, false, false, true);
+JHtml::_('script', 'plg_media-editor_imagecropper/cropper-init.js', false, true, false, false, true);
 JHtml::_('stylesheet', 'plg_media-editor_imagecropper/cropper.css', array(), true);
 
-// TODO get any data-* values and build the options
-// eg:   if (typeof image.getAttribute("data-some-attribute") != "undefined") {
-//           option1 = image.getAttribute("data-some-attribute");
-//       }
-// This way no inline script will be injected in the page
+/**
+ * Declare any data that needs to be passed in javascript
+ * with data-*, then collect them in javascript with like:
+ *    if (typeof image.getAttribute("data-some-attribute") != "undefined") {
+ *        option1 = image.getAttribute("data-some-attribute");
+      }
+ *  This way no inline script and we seperate PHP/JS nicely
+ */
 ?>
 <div class="btn-toolbar imagecropper-toolbar">
 
@@ -66,5 +71,9 @@ JHtml::_('stylesheet', 'plg_media-editor_imagecropper/cropper.css', array(), tru
     <?php echo JHtml::_('image', COM_MEDIA_BASEURL . '/' . $filePath, '', 'id="joomla-media-image-cropper" data-some-attribute="some value" data-url="'. $uploadUrl . '"'); ?>
 </div>
 <br />
+<!-- @TODO: Implement this with javascript, eg parse the old filename and then add a number at the end
+            or something similar, maybe ajax call to see if that filename already exists
 <input type="checkbox" name="save_copy" id="save_copy" checked="checked"/> <label for="save_copy"><?php echo JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_SAVE_COPY') ?></label>
+-->
 <input type="hidden" name="imagecropper-jsondata" value="" id="imagecropper-jsondata" />
+<input type="submit" class="hidden" />

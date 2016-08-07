@@ -1,137 +1,125 @@
 !function() {
-  // We are using jQuery only to add a click event to the buttons and the dom ready? We are doing it wrong!!
-  jQuery(document).ready(function() {
+  "use strict";
 
-    var image = document.getElementById('joomla-media-image-cropper');
-    window.imageUrl = image.getAttribute("src");
-    window.postUrl  = image.getAttribute("data-url");
-    // TODO get any data-* values and build the options
-    // eg:   if (typeof image.getAttribute("data-some-attribute") != "undefined") {
-    //           option1 = image.getAttribute("data-some-attribute");
-    //       }
-    // This way no inline script will be injected in the page
-    /**
-     * Initialiaze Cropper
-     */
-    var cropper = new Cropper(image, {
-      aspectRatio: 16 / 9,
-      crop       : function (e) {
+  document.onreadystatechange = function () {
+    if (document.readyState == "interactive") {
+      var image = document.getElementById('joomla-media-image-cropper');      // The image node
+      window.imageUrl = image.getAttribute("src");                            // The image Url
+      window.postUrl = image.getAttribute("data-url");                        // The upload Url
+      window.submitInput = document.querySelectorAll('input[type="submit"]'); // The hidden submit input
+      window.cropperBoxDim = {};
 
-        var json = [{
-          "x"     : e.detail.x,
-          "y"     : e.detail.y,
-          "height": e.detail.height,
-          "width" : e.detail.width,
-          "rotate": e.detail.rotate,
-          "scaleX": e.detail.scaleX,
-          "scaleY": e.detail.scaleY
-        }];
+      // TODO get any data-* values and build the options
+      // eg:   if (typeof image.getAttribute("data-some-attribute") != "undefined") {
+      //           option1 = image.getAttribute("data-some-attribute");
+      //       }
 
-        document.getElementById('imagecropper-jsondata').value = json;
-      }
-    });
-    // The upload logic copy paste from tinymce jdrag and drop
-    var UploadFile = function(fd) {
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", postUrl, true);
+      /**
+       * Initialiaze Cropper
+       */
+      var cropper = new Cropper(image, {
+        // aspectRatio: 16 / 9,
+        crop       : function (e) {
 
-      // No progress bar here
-      // xhr.upload.onprogress = function(e) {
-      //   var percentComplete = (e.loaded / e.total) * 100;
-      //   jQuery('.bar').width(percentComplete + '%');
-      // };
+          var json = [{
+            "x"     : e.detail.x,
+            "y"     : e.detail.y,
+            "height": e.detail.height,
+            "width" : e.detail.width,
+            "rotate": e.detail.rotate,
+            "scaleX": e.detail.scaleX,
+            "scaleY": e.detail.scaleY
+          }];
 
-      // removeProgessBar = function(){
-      //   setTimeout(function(){
-      //     jQuery('#jloader').remove();
-      //     editor.contentAreaContainer.style.borderWidth = '';
-      //   }, 200);
-      // };
-
-      xhr.onload = function() {
-        var resp = JSON.parse(xhr.responseText);
-
-        if (xhr.status == 200) {
-          if (resp.status == '0') {
-            // removeProgessBar();
-
-            console.log('Upload success');
-            //close the modal
-          }
-
-          if (resp.status == '1') {
-            // removeProgessBar();
-            console.log('Upload success');
-            //close the modal
-
-
-            // Create the image tag
-            // var newNode = tinyMCE.activeEditor.getDoc().createElement ('img');
-            // newNode.src= setCustomDir + resp.location;
-            // tinyMCE.activeEditor.execCommand('mceInsertContent', false, newNode.outerHTML);
-          }
-        } else {
-          console.log('No Upload');
-          //close the modal
+          document.getElementById('imagecropper-jsondata').value = json;
         }
-      };
-
-      xhr.onerror = function() {
-        console.log('Upload Error');
-        //close the modal
-      };
-      xhr.send(fd);
-    }
-
-    // Upload cropped image to server
-    var doTheUpload = function() {
-      cropper.getCroppedCanvas().toBlob(function (blob) {
-        var imgFileName = imageUrl.split('/').pop();
-        var fd = new FormData();
-
-        fd.append('files', blob, imgFileName);
-
-        UploadFile(fd);
       });
-    }
+      console.log(cropper);
+      // The upload logic copy paste from tinymce jdrag and drop
+      var UploadFile = function (fd) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", postUrl, true);
 
-    window.cropperBoxDim = {};
+        xhr.onload = function () {
+          var resp = JSON.parse(xhr.responseText);
 
-    // We are using jQuery only to add a click event to the buttons and the dom ready? We are doing it wrong!!
-    jQuery('.btn-toolbar button').click(function (event) {
-      console.log(event.currentTarget);
+          if (xhr.status == 200) {
+            if (resp.status == '0') {
+              submitInput[0].click();
+              // console.log('Upload success');
+            }
 
-      var action  = event.currentTarget.getAttribute("data-method");
-      var option  = event.currentTarget.getAttribute("data-option");
-      var option2  = event.currentTarget.getAttribute("data-second-option");
+            if (resp.status == '1') {
+              submitInput[0].click();
+              // console.log('Upload success');
+            }
+          } else {
+            // console.log('No Upload');
+          }
+        };
 
-      switch (action) {
-        case 'zoom':
-          cropper.zoom(option);
-          break;
+        xhr.onerror = function () {
+          // console.log('Upload Error');
+        };
+        xhr.send(fd);
+      };
 
-        case 'rotate':
-          cropper.rotate(option);
-          break;
+      // Upload cropped image to server
+      var doTheUpload = function () {
+        console.log(cropper.getCroppedCanvas());
+        cropper.getCroppedCanvas().toBlob(function (blob) {
+          var imgFileName = imageUrl.split('/').pop();
+          var fd = new FormData();
 
-        case 'scaleX':
-          cropper.scaleX(-cropper.getData().scaleX || -1);
-          break;
+          fd.append('files', blob, imgFileName);
 
-        case 'scaleY':
-          cropper.scaleY(-cropper.getData().scaleY || -1);
-          break;
+          UploadFile(fd);
+        });
+      };
 
-        case 'move':
-          cropper.move(option, option2);
-          break;
+      var registerClick = function (element) {
+        element.addEventListener('click', function (event) {
 
-        default:
-        case 'crop':
-          cropper.getCroppedCanvas();
-          doTheUpload();
-          break;
+          var action = event.currentTarget.getAttribute("data-method");
+          var option = event.currentTarget.getAttribute("data-option");
+          var option2 = event.currentTarget.getAttribute("data-second-option");
+
+          switch (action) {
+            case 'zoom':
+              cropper.zoom(option);
+              break;
+
+            case 'rotate':
+              cropper.rotate(option);
+              break;
+
+            case 'scaleX':
+              cropper.scaleX(-cropper.getData().scaleX || -1);
+              break;
+
+            case 'scaleY':
+              cropper.scaleY(-cropper.getData().scaleY || -1);
+              break;
+
+            case 'move':
+              cropper.move(option, option2);
+              break;
+
+            default:
+            case 'crop':
+              console.log(cropper.getCroppedCanvas());
+              //cropper.getCroppedCanvas();
+              doTheUpload();
+              break;
+          }
+        });
+      };
+
+      var buttons = document.querySelectorAll('.btn');
+
+      for (var j = 0; j < buttons.length; j++) {
+        registerClick(buttons[j]);
       }
-    });
-  });
+    }
+  }
 }();
