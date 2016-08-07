@@ -110,6 +110,10 @@ console.log(file);
                                 var sliders = document.querySelectorAll('input[type="range"]');
                                 for (var k = 0; k < sliders.length; k++) {
                                     sliders[k].value = 0;
+                                    var tmpName = sliders[k].getAttribute("data-filter");
+                                    var parentTmpDiv = sliders[k].parentNode;
+                                    parentTmpDiv.querySelector('.range-value').innerHTML = sliders[k].value;
+                                    window.SliderValues[tmpName] = parseInt(sliders[k].value);
                                 }
                             });
                             break;
