@@ -6,7 +6,7 @@ $path_parts = pathinfo($filePath);
 $folder     =$path_parts['dirname'];
 
 $session    = JFactory::getSession();
-$uploadUrl  = JUri::base() . 'index.php?option=com_media&task=file.upload&tmpl=component&allowovewrite=true&folder='
+$uploadUrl  = JUri::base() . 'index.php?option=com_media&task=file.upload&tmpl=component&allowoverwrite=true&folder='
     . $folder . '&'
     . $session->getName() . '=' . $session->getId()
     . '&' . JSession::getFormToken() . '=1'
