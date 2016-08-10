@@ -56,6 +56,7 @@ class MediaControllerFile extends JControllerLegacy
 		// Get some data from the request
 		$file   = $this->input->files->get('files', '', 'array');
 		$folder = $this->input->get('folder', '', 'path');
+		$canOverwrite = $this->input->getBool('allowovewrite', false);
 
 		// Instantiate the media helper
 		$mediaHelper = new JHelperMedia;
@@ -150,7 +151,7 @@ class MediaControllerFile extends JControllerLegacy
 			return;
 		}
 
-		if (JFile::exists($object_file->filepath))
+		if (JFile::exists($object_file->filepath) && !$canOverwrite)
 		{
 			// File exists
 			JLog::add('File exists: ' . $object_file->filepath . ' by user_id ' . $user->id, JLog::INFO, 'upload');
