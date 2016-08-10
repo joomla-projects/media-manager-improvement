@@ -56,7 +56,7 @@ class MediaControllerFile extends JControllerLegacy
 		// Get some data from the request
 		$file   = $this->input->files->get('files', '', 'array');
 		$folder = $this->input->get('folder', '', 'path');
-		$canOverwrite = $this->input->getBool('allowovewrite', false);
+		$canOverwrite = $this->input->getBool('allowoverwrite', false);
 
 		// Instantiate the media helper
 		$mediaHelper = new JHelperMedia;

@@ -45,8 +45,7 @@ class PlgMediaEditorRename extends JPlugin
 	 */
 	public function onMediaEditorButtonLabel()
 	{
-        $doc = JFactory::getDocument();
-        $doc->addStyleDeclaration('.icon-rename:before { content: "\2a"; }');
+		JFactory::getDocument()->addStyleDeclaration('.icon-rename:before { content: "\2b"; }');
 
 		return JText::_('PLG_MEDIA-EDITOR_RENAME_BUTTON_LABEL');
 	}

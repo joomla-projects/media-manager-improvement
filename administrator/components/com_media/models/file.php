@@ -278,7 +278,7 @@ class MediaModelFile extends JModelLegacy
 		$table = JTable::getInstance('File', 'MediaTable');
 		$table->save($data);
 
-		return JFactory::getDbo()->insertid();
+		return $table->id;
 	}
 
 	/**
