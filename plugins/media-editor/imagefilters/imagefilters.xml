@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.5" type="plugin" group="media-editor" method="upgrade">
+    <name>plg_media-editor_imagefilters</name>
+    <version>0.0.1</version>
+    <creationDate>August 2016</creationDate>
+    <author>Joomla! Project</author>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <copyright>dgt41</copyright>
+    <license>GPL</license>
+    <description>PLG_MEDIA-EDITOR_IMAGEFILTERS_XML_DESCRIPTION</description>
+
+    <files>
+        <filename plugin="imagefilters">imagefilters.php</filename>
+        <folder>layout</folder>
+    </files>
+
+    <languages>
+        <language tag="en-GB">en-GB.plg_media-editor_imagefilters.ini</language>
+        <language tag="en-GB">en-GB.plg_media-editor_imagefilters.sys.ini</language>
+    </languages>
+</extension>
