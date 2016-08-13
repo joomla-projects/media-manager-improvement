@@ -164,6 +164,33 @@ class MediaController extends JControllerLegacy
 	}
 
 	/**
+	 * Helper function to create a Media Manager URL
+	 *
+	 * @return string
+	 *
+	 * @since 3.6
+	 */
+	protected function getMediaUrl()
+	{
+		$tmpl   = $this->input->getCmd('tmpl');
+		$format = $this->input->getCmd('format');
+
+		$url = 'index.php?option=com_media';
+
+		if (!empty($tmpl))
+		{
+			$url .= '&tmpl=' . $tmpl;
+		}
+
+		if (!empty($format))
+		{
+			$url .= '&format=' . $format;
+		}
+
+		return $url;
+	}
+
+	/**
 	 * Return the folder model
 	 *
 	 * @return  MediaModelFolder

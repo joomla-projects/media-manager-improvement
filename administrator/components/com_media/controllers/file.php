@@ -47,7 +47,7 @@ class MediaControllerFile extends MediaController
 		$return = JFactory::getSession()->get('com_media.return_url');
 
 		$this->folder = $this->input->get('folder', '', 'path');
-		
+
 		if (empty($this->folder))
 		{
 			$this->folder = $this->getFoldersModel()->getCurrentFolder();
@@ -208,11 +208,11 @@ class MediaControllerFile extends MediaController
 		$tmpl   = $this->input->get('tmpl');
 		$paths  = $this->input->get('rm', array(), 'array');
 		$folder = $this->input->get('folder', '', 'path');
-		$file = $this->input->get('file', '', 'path');
+		$file   = $this->input->get('file', '', 'path');
 
 		if (!empty($file))
 		{
-			$folder = dirname($file);
+			$folder  = dirname($file);
 			$paths[] = basename($file);
 		}
 
@@ -235,7 +235,7 @@ class MediaControllerFile extends MediaController
 		if (empty($paths))
 		{
 			$this->setWarning(JText::_('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FILES_EMPTY'));
-			
+
 			return false;
 		}
 
@@ -254,81 +254,90 @@ class MediaControllerFile extends MediaController
 		{
 			$this->deletePath($path);
 		}
-		
+
 		return true;
 	}
 
-    /**
-     * Move a specified file to a folder
-     */
-    public function move()
-    {
-        // @todo: Enable this check
-        //JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+	/**
+	 * Move a specified file to a folder
+	 *
+	 * @since 3.7
+	 */
+	public function move()
+	{
+		// @todo: Enable this check
+		//JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
-        $file   = $this->input->getPath('file');
-        $folder   = $this->input->getPath('folder');
+		$file   = $this->input->getPath('file');
+		$folder = $this->input->getPath('folder');
 
-        $absoluteFile = COM_MEDIA_BASE . '/' . $file;
-        $absoluteFolder = COM_MEDIA_BASE . '/' . $folder;
+		$absoluteFile   = COM_MEDIA_BASE . '/' . $file;
+		$absoluteFolder = COM_MEDIA_BASE . '/' . $folder;
 
-        try {
-            $this->moveFile($absoluteFile, $absoluteFolder);
-        } catch(Exception $e)
-        {
-            // @todo: Set notifications
-        }
+		try
+		{
+			$this->moveFile($absoluteFile, $absoluteFolder);
+		}
+		catch (Exception $e)
+		{
+			// @todo: Set notifications
+		}
 
-        $this->setRedirect('index.php?option=com_media&view=folders&folder=' . $folder);
-    }
+		$url = $this->getMediaUrl() . '&view=folders&folder=' . $folder;
+		$redirectUrl = JRoute::_($url);
 
-    /**
-     * @param $file
-     * @param $folder
-     *
-     * @return bool
-     */
-    protected function moveFile($file, $folder)
-    {
-        // @todo: Move this function to a model class ($file->move($folder))
-        // @todo: Wrap all filesystem calls
+		$this->setRedirect($redirectUrl);
+	}
 
-        if (!is_file($file))
-        {
-            // @todo: Exception because file does not exist
-            return false;
-        }
+	/**
+	 * @param $file
+	 * @param $folder
+	 *
+	 * @return bool
+	 *
+	 * @since 3.7
+	 */
+	protected function moveFile($file, $folder)
+	{
+		// @todo: Move this function to a model class ($file->move($folder))
+		// @todo: Wrap all filesystem calls
 
-        if (!is_dir($folder))
-        {
-            // @todo: Exception because destination folder does not exist
-            return false;
-        }
+		if (!is_file($file))
+		{
+			// @todo: Exception because file does not exist
+			return false;
+		}
 
-        $newFile = $folder . '/' . basename($file);
+		if (!is_dir($folder))
+		{
+			// @todo: Exception because destination folder does not exist
+			return false;
+		}
 
-        if (is_file($newFile))
-        {
-            // @todo: Exception because destination file already exists
-            return false;
-        }
+		$newFile = $folder . '/' . basename($file);
 
-        $rt = copy($file, $newFile);
+		if (is_file($newFile))
+		{
+			// @todo: Exception because destination file already exists
+			return false;
+		}
 
-        if ($rt == false || !is_file($newFile))
-        {
-            // @todo: Exception because copy failed
-            return false;
-        }
+		$rt = copy($file, $newFile);
 
-        $rt = unlink($file);
+		if ($rt == false || !is_file($newFile))
+		{
+			// @todo: Exception because copy failed
+			return false;
+		}
 
-        if ($rt == false || is_file($file))
-        {
-            // @todo: Exception because original file is still there
-            return false;
-        }
+		$rt = unlink($file);
 
-        return true;
-    }
+		if ($rt == false || is_file($file))
+		{
+			// @todo: Exception because original file is still there
+			return false;
+		}
+
+		return true;
+	}
 }

@@ -14,7 +14,7 @@ require_once JPATH_COMPONENT . '/helpers/editor.php';
 /**
  * Media Manager Editor Controller
  */
-class MediaControllerEditor extends JControllerLegacy
+class MediaControllerEditor extends MediaController
 {
 	/**
 	 * Post action that can be picked up upon by Media Editor plugins
@@ -63,17 +63,8 @@ class MediaControllerEditor extends JControllerLegacy
 			$folder = dirname($file);
 		}
 
-		$url = 'index.php?option=com_media&view=folders&folder=' . $folder;
-
-		if ($this->input->getCmd('tmpl') !== '')
-		{
-			$url .= $this->input->getCmd('tmpl');
-		}
-
+		$url         = $this->getMediaUrl() . '&view=folders&folder=' . $folder;
 		$redirectUrl = JRoute::_($url);
-
-		$app = JFactory::getApplication();
-		$app->redirect($redirectUrl);
-		$app->close();
+		$this->setRedirect($redirectUrl);
 	}
 }

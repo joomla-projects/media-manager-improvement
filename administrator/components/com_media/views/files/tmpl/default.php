@@ -61,6 +61,9 @@ JFactory::getDocument()
 <?php endif; ?>
 
 <script>
+	var tmplFromRequest = '<?php echo JFactory::getApplication()->input->getCmd('tmpl'); ?>';
+	var formatFromRequest = '<?php echo JFactory::getApplication()->input->getCmd('format'); ?>';
+
 	// @todo: Move these JavaScript calls to separate JS file
 	jQuery(document).ready(function ($) {
 		$('a.ajaxInit').each(function (index, value) {
@@ -119,7 +122,14 @@ JFactory::getDocument()
 		filePath = draggable.attr('data-path');
 		folderPath = droppable.attr('data-path');
 
-		url = 'index.php?option=com_media&task=file.move&file=' + filePath + '&folder=' + folderPath;
+		url = 'index.php?option=com_media&task=file.move';
+
+		if (tmplFromRequest !== '') {
+			url = url + '&tmpl=' + tmplFromRequest;
+		}
+
+		url = url + '&file=' + filePath + '&folder=' + folderPath;
+
 		window.location.href = url;
 	}
 </script>
