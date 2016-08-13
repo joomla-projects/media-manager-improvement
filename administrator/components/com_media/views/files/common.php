@@ -93,7 +93,7 @@ class MediaViewFilesCommon extends JViewLegacy
 		$this->folders       = $folders;
 		$this->state         = $state;
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
