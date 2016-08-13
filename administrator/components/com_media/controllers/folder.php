@@ -173,6 +173,7 @@ class MediaControllerFolder extends MediaController
 	 * @param object $folder
 	 *
 	 * @return bool
+	 * @since 3.7
 	 */
 	private function createIndexFileInFolder($folder)
 	{

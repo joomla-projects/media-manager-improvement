@@ -20,6 +20,7 @@ class MediaController extends JControllerLegacy
 	 * MediaController constructor.
 	 *
 	 * @param array $config
+	 * @since 3.7
 	 */
 	public function __construct($config = array())
 	{
@@ -80,6 +81,7 @@ class MediaController extends JControllerLegacy
 	 *
 	 * @return bool
 	 * @throws Exception
+	 * @since 3.7
 	 */
 	protected function deletePath($path)
 	{
@@ -141,6 +143,7 @@ class MediaController extends JControllerLegacy
 	 *
 	 * @param string $eventName
 	 * @param array  $eventArguments
+	 * @since 3.7
 	 */
 	protected function triggerEvent($eventName, $eventArguments)
 	{
@@ -153,6 +156,7 @@ class MediaController extends JControllerLegacy
 	 * Generate a warning
 	 *
 	 * @param $warning
+	 * @since 3.7
 	 */
 	protected function setWarning($warning)
 	{
@@ -163,6 +167,7 @@ class MediaController extends JControllerLegacy
 	 * Return the folder model
 	 *
 	 * @return  MediaModelFolder
+	 * @since 3.7
 	 */
 	protected function getFolderModel()
 	{
@@ -173,6 +178,7 @@ class MediaController extends JControllerLegacy
 	 * Return the file model
 	 *
 	 * @return  MediaModelFile
+	 * @since 3.7
 	 */
 	protected function getFileModel()
 	{
@@ -183,6 +189,7 @@ class MediaController extends JControllerLegacy
 	 * Return the folders model
 	 *
 	 * @return  MediaModelFolders
+	 * @since 3.7
 	 */
 	protected function getFoldersModel()
 	{
