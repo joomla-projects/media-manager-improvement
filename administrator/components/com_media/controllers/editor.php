@@ -25,10 +25,8 @@ class MediaControllerEditor extends JControllerLegacy
 	{
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app = JFactory::getApplication();
-
-		$file       = $app->input->getString('file');
-		$pluginName = $app->input->getCmd('plugin');
+		$file       = $this->input->getString('file');
+		$pluginName = $this->input->getCmd('plugin');
 		$plugin     = MediaHelperEditor::loadPlugin($pluginName);
 
 		if ($plugin == false)
@@ -44,6 +42,7 @@ class MediaControllerEditor extends JControllerLegacy
 
 		echo $layout->render($layoutData);
 
+		$app = JFactory::getApplication();
 		$app->close();
 	}
 
@@ -56,8 +55,7 @@ class MediaControllerEditor extends JControllerLegacy
 	 */
 	public function cancel()
 	{
-		$app    = JFactory::getApplication();
-		$file   = $app->input->get('file', '', 'path');
+		$file   = $this->input->get('file', '', 'path');
 		$folder = '';
 
 		if (!empty($file))
@@ -65,8 +63,16 @@ class MediaControllerEditor extends JControllerLegacy
 			$folder = dirname($file);
 		}
 
-		$redirectUrl = JRoute::_('index.php?option=com_media&view=folders&folder=' . $folder);
+		$url = 'index.php?option=com_media&view=folders&folder=' . $folder;
 
+		if ($this->input->getCmd('tmpl') !== '')
+		{
+			$url .= $this->input->getCmd('tmpl');
+		}
+
+		$redirectUrl = JRoute::_($url);
+
+		$app = JFactory::getApplication();
 		$app->redirect($redirectUrl);
 		$app->close();
 	}
