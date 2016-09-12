@@ -443,8 +443,58 @@ class MediaModelFileAdapterLocal extends MediaModelFileAdapterAbstract implement
 			return null;
 		}
 
+		$mimeType = $this->getMimeTypeByContentType($this->filePath);
+
+		if (!empty($mimeType))
+		{
+			return $mimeType;
+		}
+
+		$mimeType = $this->getMimeTypeByFinfo($this->filePath);
+
+		if (!empty($mimeType))
+		{
+			return $mimeType;
+		}
+	}
+
+	/**
+	 * Detect the MIME type using the mime_content_type() function
+	 *
+	 * @param $filePath
+	 *
+	 * @return mixed|false
+	 *
+	 * @since 3.6
+	 */
+	protected function getMimeTypeByContentType($filePath)
+	{
+		if (function_exists('mime_content_type'))
+		{
+			return false;
+		}
+
+		return mime_content_type($filePath);
+	}
+
+	/**
+	 * Detect the MIME type using the finfo module
+	 *
+	 * @param $filePath
+	 *
+	 * @return mixed|false
+	 *
+	 * @since 3.6
+	 */
+	protected function getMimeTypeByFinfo($filePath)
+	{
+		if (function_exists('finfo_open') === false || function_exists('finfo_file') === false)
+		{
+			return false;
+		}
+
 		$fileInfo = finfo_open(FILEINFO_MIME_TYPE);
 
-		return finfo_file($fileInfo, $this->filePath);
+		return finfo_file($fileInfo, $filePath);
 	}
 }
