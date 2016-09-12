@@ -117,6 +117,6 @@ class PlgMediaEditorImagecropper extends JPlugin
 		$returnPath = str_replace(COM_MEDIA_BASE, '', $fullPath);
 
 		// Return the new URL
-		return JRoute::_('index.php?option=com_media&view=file&view=file&file=' . $returnPath, false);
+		return JRoute::_('index.php?option=com_media&view=file&file=' . $returnPath, false);
 	}
 }
