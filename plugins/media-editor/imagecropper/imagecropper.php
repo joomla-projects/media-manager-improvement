@@ -24,13 +24,19 @@ class PlgMediaEditorImagecropper extends JPlugin
 	 * @var    JApplicationAdministrator
 	 * @since  3.7.0
 	 */
-	 protected $app;
+	protected $app;
+
+	/**
+	 * @var JDocument
+	 * @since version
+	 */
+	protected $doc;
 
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   object &$subject   The object to observe
+	 * @param   array  $config     An optional associative array of configuration settings.
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
 	 *
@@ -42,6 +48,7 @@ class PlgMediaEditorImagecropper extends JPlugin
 	{
 		// Auto-load the language
 		$this->autoloadLanguage = true;
+		$this->doc = JFactory::getDocument();
 
 		parent::__construct($subject, $config);
 	}
@@ -69,7 +76,7 @@ class PlgMediaEditorImagecropper extends JPlugin
 	 */
 	public function onMediaEditorButtonLabel()
 	{
-        JFactory::getDocument()->addStyleDeclaration('.icon-imagecropper:before { content: "\2a"; }');
+		$this->doc->addStyleDeclaration('.icon-imagecropper:before { content: "\2a"; }');
 
 		return JText::_('PLG_MEDIA_EDITOR_IMAGECROPPER_BUTTON_LABEL');
 	}
@@ -77,7 +84,7 @@ class PlgMediaEditorImagecropper extends JPlugin
 	/**
 	 * Method to return the HTML shown in a modal popup within the Media Manager
 	 *
-	 * @param   string  $filePath The path of the image.
+	 * @param   string $filePath The path of the image.
 	 *
 	 * @return  string  HTML data
 	 *
@@ -96,7 +103,7 @@ class PlgMediaEditorImagecropper extends JPlugin
 	/**
 	 * Method to process the given file
 	 *
-	 * @param  string  $fullPath  The full path to the image.
+	 * @param  string $fullPath The full path to the image.
 	 *
 	 * @return string
 	 *
