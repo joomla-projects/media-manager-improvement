@@ -12,4 +12,4 @@ defined('_JEXEC') or die;
 $lang = JFactory::getLanguage();
 ?>
 
-<img src="<?php echo $mediaFile->getFileRoute(); ?>" alt="<?php echo $mediaFile->title(); ?>" title="<?php echo $mediaFile->title(); ?>" />
+<img src="<?php echo $mediaFile->getFileRoute(); ?>" alt="<?php echo $mediaFile->title; ?>" title="<?php echo $mediaFile->title; ?>" />
