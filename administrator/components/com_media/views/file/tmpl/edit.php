@@ -96,6 +96,224 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<div class="row-fluid">
 			<div class="span9">
 				<fieldset class="adminform">
+					<div class="container">
+						<div class="row-fluid">
+							<div class="span1">
+								<ul id="myTab" class="nav nav-pills">
+									<li class="active">
+										<a href="#dimensions" data-toggle="tab" class="hasTooltip" data-placement="right" title="Dimensions">
+											<span class="icon-flag"></span>
+										</a>
+									</li>
+									<li class="">
+										<a href="#filter" data-toggle="tab" class="hasTooltip" data-placement="right" title="Filter">
+											<span class="icon-pencil-2"></span>
+										</a>
+									</li>
+									<li class="">
+										<a href="#effects" data-toggle="tab" class="hasTooltip" data-placement="right" title="Effects">
+											<span class="icon-home"></span>
+										</a>
+									</li>
+									<li class="">
+										<a href="#presets" data-toggle="tab" class="hasTooltip" data-placement="right" title="Presets">
+											<span class="icon-tag"></span>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="span3">
+								<div id="myTabContent" class="tab-content">
+									<div class="tab-pane fade active in" id="dimensions">
+										<table class="table">
+											<thead>
+											<tbody>
+											<tr>
+												<td>
+													<p>
+														<input class="span4" type="text" placeholder="800px"> x
+														<input class="span4" type="text" placeholder="600px">
+													<p>
+
+														<select>
+															<option>No Preset</option>
+															<option>Crop1x1 and Greyscale</option>
+															<option>Brightness 50</option>
+														</select>
+
+												</td>
+											</tr>
+
+											<tr>
+												<td>
+													<p>
+														<input class="span4" type="text" placeholder="2800px"> x
+														<input class="span4" type="text" placeholder="2600px">
+													<p>
+
+														<select>
+															<option>No Preset</option>
+															<option>Crop1x1 and Greyscale</option>
+															<option>Brightness 50</option>
+														</select>
+
+												</td>
+											</tr>
+
+											<tr>
+												<td>
+													<p>
+														<input class="span4" type="text" placeholder="3800px"> x
+														<input class="span4" type="text" placeholder="3600px">
+													<p>
+
+														<select>
+															<option>No Preset</option>
+															<option>Crop1x1 and Greyscale</option>
+															<option>Brightness 50</option>
+														</select>
+
+												</td>
+											</tr>
+
+
+											</tbody>
+										</table>
+
+										<button class="btn" type="button"><i class="icon-white icon-plus"></i></button>
+										<button class="btn" type="button"><i class="icon-white icon-minus"></i></button>
+
+									</div>
+									<div class="tab-pane fade" id="filter">
+										<div class="accordion" id="accordion2">
+											<div class="accordion-group">
+												<div class="accordion-heading">
+													<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+														<i class="icon-move"></i> Crop
+													</a>
+												</div>
+												<div id="collapseOne" class="accordion-body collapse in">
+													<div class="accordion-inner">
+														<p><input type="text" placeholder="Type something…"></p>
+														<p>
+															<button class="btn" type="button"><i class="icon-white icon-ok"></i></button>
+															<button class="btn" type="button"><i class="icon-white icon-remove"></i></button>
+														</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+													<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+														<i class="icon-move"></i> Resize
+													</a>
+												</div>
+												<div id="collapseTwo" class="accordion-body collapse">
+													<div class="accordion-inner">
+														<p><input type="text" placeholder="Type something…"></p>
+														<p>
+															<button class="btn" type="button"><i class="icon-white icon-ok"></i></button>
+															<button class="btn" type="button"><i class="icon-white icon-remove"></i></button>
+														</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+													<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+														<i class="icon-move"></i> Rotate
+													</a>
+												</div>
+												<div id="collapseThree" class="accordion-body collapse">
+													<div class="accordion-inner">
+														<p><input type="text" placeholder="Type something…"></p>
+														<p>
+															<button class="btn" type="button"><i class="icon-white icon-ok"></i></button>
+															<button class="btn" type="button"><i class="icon-white icon-remove"></i></button>
+														</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane fade" id="effects">
+										<div class="accordion" id="accordion3">
+											<div class="accordion-group">
+												<div class="accordion-heading">
+													<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseOne">
+														<i class="icon-move"></i> Contrast
+													</a>
+												</div>
+												<div id="collapseOne" class="accordion-body collapse in">
+													<div class="accordion-inner">
+														<p><input type="text" placeholder="Type something…"></p>
+														<p>
+															<button class="btn" type="button"><i class="icon-white icon-ok"></i></button>
+															<button class="btn" type="button"><i class="icon-white icon-remove"></i></button>
+														</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+													<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseTwo">
+														<i class="icon-move"></i> Brightness
+													</a>
+												</div>
+												<div id="collapseTwo" class="accordion-body collapse">
+													<div class="accordion-inner">
+														<p><input type="text" placeholder="Type something…"></p>
+														<p>
+															<button class="btn" type="button"><i class="icon-white icon-ok"></i></button>
+															<button class="btn" type="button"><i class="icon-white icon-remove"></i></button>
+														</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+													<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseThree">
+														<i class="icon-move"></i> Saturation
+													</a>
+												</div>
+												<div id="collapseThree" class="accordion-body collapse">
+													<div class="accordion-inner">
+														<p><input type="text" placeholder="Type something…"></p>
+														<p>
+															<button class="btn" type="button"><i class="icon-white icon-ok"></i></button>
+															<button class="btn" type="button"><i class="icon-white icon-remove"></i></button>
+														</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane fade" id="presets">
+										<table class="table">
+											<thead>
+											<tbody>
+											<tr>
+												<td>
+													<p>MyPreset1</p>
+													<ul class="nav nav-tabs nav-stacked">
+														<li>Contrast(50)</li>
+														<li>Crop(20,20)</li>
+														<li>Rotate(90)</li>
+													</ul>
+
+													<button class="btn" type="button"><i class="icon-white icon-plus"></i></button>
+												</td>
+												ac	</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<div class="span8">
+								<img src="http://placehold.it/500x300">
+							</div>
+						</div>
+					</div>
 					<?php echo $this->form->getInput('filetext'); ?>
 				</fieldset>
 			</div>
@@ -133,7 +351,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_MEDIA_FIELDSET_RULES')); ?>
-				<?php echo $this->form->getInput('rules'); ?>
+			<?php echo $this->form->getInput('rules'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
