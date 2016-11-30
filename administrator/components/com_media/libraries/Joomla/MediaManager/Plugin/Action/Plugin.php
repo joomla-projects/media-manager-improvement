@@ -8,7 +8,7 @@ defined('_JEXEC') or die;
 require_once __DIR__ . '/PluginInterface.php';
 
 /**
- * Plugin Interface for the Media Type Plugins (E.g. Image, PDF)
+ * Abstract class for the Media Manage Effects (E.g. Crop, Rotate, Convert)
  *
  * @since   __DEPLOY_VERSION__
  */
