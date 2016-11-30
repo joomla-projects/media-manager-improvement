@@ -72,7 +72,7 @@ class PlgMediaTypeImage extends Joomla\MediaManager\Plugin\MediaType\Plugin
 	 *
 	 * @return   array  Associative Array (Key => Value) pair of informations
 	 *
-	 * @since   __DEPLOY_VERSION__2
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getProperties($mediaFile)
 	{
