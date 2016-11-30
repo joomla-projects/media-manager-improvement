@@ -35,6 +35,18 @@ class MediaController extends JControllerLegacy
 
 		switch ($vName)
 		{
+			case 'file':
+				$vLayout = $this->input->get('layout', 'default', 'string');
+				$mName   = 'file';
+
+				break;
+
+			case 'files':
+				$vLayout = $this->input->get('layout', 'default', 'string');
+				$mName   = 'files';
+
+				break;
+
 			case 'images':
 				$vLayout = $this->input->get('layout', 'default', 'string');
 				$mName   = 'manager';

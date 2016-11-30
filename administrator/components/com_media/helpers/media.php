@@ -11,12 +11,48 @@ defined('_JEXEC') or die;
 
 /**
  * Media helper class.
- * 
+ *
  * @since       1.6
- * @deprecated  4.0  Use JHelperMedia instead
  */
-abstract class MediaHelper
+class MediaHelper extends JHelperContent
 {
+	/**
+	 * Configure the Linkbar.
+	 *
+	 * @param   string  $vName  The name of the active view.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	public static function addSubmenu($vName)
+	{
+		JHtmlSidebar::addEntry(
+			JText::_('COM_MEDIA_SUBMENU_FILES'),
+			'index.php?option=com_media&view=files',
+			$vName == 'files'
+		);
+		JHtmlSidebar::addEntry(
+			JText::_('COM_MEDIA_SUBMENU_CATEGORIES'),
+			'index.php?option=com_categories&extension=com_content',
+			$vName == 'categories'
+		);
+
+		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_media')->get('custom_fields_enable', '1'))
+		{
+			JHtmlSidebar::addEntry(
+					JText::_('JGLOBAL_FIELDS'),
+					'index.php?option=com_fields&context=com_media.file',
+					$vName == 'fields.article'
+					);
+			JHtmlSidebar::addEntry(
+					JText::_('JGLOBAL_FIELD_GROUPS'),
+					'index.php?option=com_categories&extension=com_media.file.fields',
+					$vName == 'categories.article'
+					);
+		}
+	}
+
 	/**
 	 * Checks if the file is an image
 	 *

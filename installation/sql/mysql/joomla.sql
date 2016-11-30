@@ -1282,6 +1282,53 @@ INSERT INTO `#__languages` (`lang_id`, `lang_code`, `title`, `title_native`, `se
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `#__content`
+--
+
+CREATE TABLE IF NOT EXISTS `#__media_files` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `introtext` mediumtext NOT NULL,
+  `fulltext` mediumtext NOT NULL,
+  `state` tinyint(3) NOT NULL DEFAULT 0,
+  `catid` int(10) unsigned NOT NULL DEFAULT 0,
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_by_alias` varchar(255) NOT NULL DEFAULT '',
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `images` text NOT NULL,
+  `urls` text NOT NULL,
+  `attribs` varchar(5120) NOT NULL,
+  `version` int(10) unsigned NOT NULL DEFAULT 1,
+  `ordering` int(11) NOT NULL DEFAULT 0,
+  `metakey` text NOT NULL,
+  `metadesc` text NOT NULL,
+  `access` int(10) unsigned NOT NULL DEFAULT 0,
+  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `metadata` text NOT NULL,
+  `featured` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT 'Set if file is featured.',
+  `language` char(7) NOT NULL COMMENT 'The language code for the file.',
+  `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
+  PRIMARY KEY (`id`),
+  KEY `idx_access` (`access`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_state` (`state`),
+  KEY `idx_catid` (`catid`),
+  KEY `idx_createdby` (`created_by`),
+  KEY `idx_featured_catid` (`featured`,`catid`),
+  KEY `idx_language` (`language`),
+  KEY `idx_xreference` (`xreference`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `#__menu`
 --
 
