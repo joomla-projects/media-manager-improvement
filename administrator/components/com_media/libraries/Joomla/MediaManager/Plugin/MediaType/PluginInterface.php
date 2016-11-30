@@ -49,8 +49,8 @@ interface PluginInterface
 	/**
 	 * Get an Array of File extensions for this Plugin
 	 *
-	 * @return  array (List on)
-	 *$fileExt, $filePath
+	 * @return  array  List of supported files
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getMediaExtensions();
