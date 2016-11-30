@@ -1,6 +1,6 @@
 <?php
 
-namespace Joomla\MediaManager\Plugin\MediaType;
+namespace Joomla\MediaManager;
 
 defined('_JEXEC') or die;
 
@@ -44,17 +44,14 @@ class MediaFile extends \MediaTableFile
 			// @todo add slug
 			return JRoute::_('index.php?option=com_media&task=file.show&format=raw');
 		}
-		else
+
+		// @todo add md5 check
+		$path = JPATH_ROOT . \JPath::clean($this->path . '/' . $this->filename);
+
+		if (!\JFile::exists($path))
 		{
-			// @todo add md5 check
-			$path = JPATH_ROOT . \JPath::clean($this->path . '/' . $this->filename);
-
-			if (!\JFile::exists($path))
-			{
-				\JFile::copy($this->getFilePath(), $path);
-			}
-			return $path;
+			\JFile::copy($this->getFilePath(), $path);
 		}
-
+		return $path;
 	}
 }
