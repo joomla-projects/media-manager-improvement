@@ -45,7 +45,6 @@ class MediaModelFiles extends JModelList
 				'ordering', 'a.ordering',
 				'featured', 'a.featured',
 				'language', 'a.language',
-				'hits', 'a.hits',
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
 				'published', 'a.published',
@@ -174,7 +173,7 @@ class MediaModelFiles extends JModelList
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
-					', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.ordering, a.featured, a.language, a.hits' .
+					', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.ordering, a.featured, a.language' .
 					', a.publish_up, a.publish_down'
 			)
 		);

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @subpackage  com_media
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -36,20 +36,20 @@ $editoroptions = isset($params->show_publishing_options);
 if (!$editoroptions)
 {
 	$params->show_publishing_options = '1';
-	$params->show_article_options = '1';
+	$params->show_file_options = '1';
 	$params->show_urls_images_backend = '0';
 	$params->show_urls_images_frontend = '0';
 }
 
-// Check if the article uses configuration settings besides global. If so, use them.
+// Check if the file uses configuration settings besides global. If so, use them.
 if (isset($this->item->attribs['show_publishing_options']) && $this->item->attribs['show_publishing_options'] != '')
 {
 	$params->show_publishing_options = $this->item->attribs['show_publishing_options'];
 }
 
-if (isset($this->item->attribs['show_article_options']) && $this->item->attribs['show_article_options'] != '')
+if (isset($this->item->attribs['show_file_options']) && $this->item->attribs['show_file_options'] != '')
 {
-	$params->show_article_options = $this->item->attribs['show_article_options'];
+	$params->show_file_options = $this->item->attribs['show_file_options'];
 }
 
 if (isset($this->item->attribs['show_urls_images_frontend']) && $this->item->attribs['show_urls_images_frontend'] != '')
@@ -65,16 +65,15 @@ if (isset($this->item->attribs['show_urls_images_backend']) && $this->item->attr
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
 	{
-		if (task == "article.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
+		if (task == "file.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
 		{
 			jQuery("#permissions-sliders select").attr("disabled", "disabled");
-			' . $this->form->getField('articletext')->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
 
 			// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
-			if (task !== "article.apply")
+			if (task !== "file.apply")
 			{
-				window.parent.jQuery("#articleEdit' . (int) $this->item->id . 'Modal").modal("hide");
+				window.parent.jQuery("#fileEdit' . (int) $this->item->id . 'Modal").modal("hide");
 			}
 		}
 	};
@@ -86,18 +85,18 @@ $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_content&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_media&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_MEDIA_FILE_CONTENT')); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<fieldset class="adminform">
-					<?php echo $this->form->getInput('articletext'); ?>
+					<?php echo $this->form->getInput('filetext'); ?>
 				</fieldset>
 			</div>
 			<div class="span3">
@@ -106,31 +105,12 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php // Do not show the images and links options if the edit form is configured not to. ?>
-		<?php if ($params->show_urls_images_backend == 1) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES')); ?>
-			<div class="row-fluid form-horizontal-desktop">
-				<div class="span6">
-					<?php echo $this->form->renderField('images'); ?>
-					<?php foreach ($this->form->getGroup('images') as $field) : ?>
-						<?php echo $field->renderField(); ?>
-					<?php endforeach; ?>
-				</div>
-				<div class="span6">
-					<?php foreach ($this->form->getGroup('urls') as $field) : ?>
-						<?php echo $field->renderField(); ?>
-					<?php endforeach; ?>
-				</div>
-			</div>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php endif; ?>
-
-		<?php $this->show_options = $params->show_article_options; ?>
+		<?php $this->show_options = $params->show_file_options; ?>
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
 		<?php if ($params->show_publishing_options == 1) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_CONTENT_FIELDSET_PUBLISHING')); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 			<div class="row-fluid form-horizontal-desktop">
 				<div class="span6">
 					<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -152,13 +132,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php endif; ?>
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG')); ?>
-			<?php echo $this->form->renderFieldset('editorConfig'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php endif; ?>
-
-		<?php if ($this->canDo->get('core.admin')) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_CONTENT_FIELDSET_RULES')); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_MEDIA_FIELDSET_RULES')); ?>
 				<?php echo $this->form->getInput('rules'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>

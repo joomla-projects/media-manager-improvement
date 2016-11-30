@@ -31,7 +31,7 @@ class MediaController extends JControllerLegacy
 		JPluginHelper::importPlugin('content');
 
 		$vType    = JFactory::getDocument()->getType();
-		$vName    = $this->input->get('view', 'media');
+		$vName    = $this->input->get('view', 'files');
 
 		switch ($vName)
 		{

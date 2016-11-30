@@ -34,7 +34,7 @@ class MediaHelper extends JHelperContent
 		);
 		JHtmlSidebar::addEntry(
 			JText::_('COM_MEDIA_SUBMENU_CATEGORIES'),
-			'index.php?option=com_categories&extension=com_content',
+			'index.php?option=com_categories&extension=com_media',
 			$vName == 'categories'
 		);
 

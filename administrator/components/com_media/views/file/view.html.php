@@ -60,7 +60,7 @@ class MediaViewFile extends JViewLegacy
 			// TODO: This is really dogy - should change this one day.
 			$eName = JFactory::getApplication()->input->getCmd('e_name');
 			$eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
-			$this->document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
+			$this->document->setTitle(JText::_('COM_MEDIA_PAGEBREAK_DOC_TITLE'));
 			$this->eName = &$eName;
 
 			return parent::display($tpl);
@@ -69,7 +69,7 @@ class MediaViewFile extends JViewLegacy
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = JHelperMedia::getActions('com_media', 'file', $this->item->id);
+		$this->canDo = MediaHelper::getActions('com_media', 'file', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -117,7 +117,7 @@ class MediaViewFile extends JViewLegacy
 		$canDo = $this->canDo;
 
 		JToolbarHelper::title(
-			JText::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
+			JText::_('COM_MEDIA_PAGE_' . ($checkedOut ? 'VIEW_FILE' : ($isNew ? 'ADD_FILE' : 'EDIT_FILE'))),
 			'pencil-2 file-add'
 		);
 
@@ -162,6 +162,6 @@ class MediaViewFile extends JViewLegacy
 		}
 
 		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');
+		JToolbarHelper::help('JHELP_CONTENT_FILE_MANAGER_EDIT');
 	}
 }

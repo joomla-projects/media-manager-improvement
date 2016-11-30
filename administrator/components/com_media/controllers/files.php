@@ -87,11 +87,11 @@ class ContentControllerFiles extends JControllerAdmin
 
 			if ($value == 1)
 			{
-				$message = JText::plural('COM_CONTENT_N_ITEMS_FEATURED', count($ids));
+				$message = JText::plural('COM_MEDIA_N_ITEMS_FEATURED', count($ids));
 			}
 			else
 			{
-				$message = JText::plural('COM_CONTENT_N_ITEMS_UNFEATURED', count($ids));
+				$message = JText::plural('COM_MEDIA_N_ITEMS_UNFEATURED', count($ids));
 			}
 		}
 

@@ -151,7 +151,7 @@ class MediaViewFiles extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_CONTENT_ARTICLES_TITLE'), 'stack file');
+		JToolbarHelper::title(JText::_('COM_MEDIA_FILES_TITLE'), 'stack file');
 
 		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_media', 'core.create'))) > 0)
 		{
@@ -201,7 +201,7 @@ class MediaViewFiles extends JViewLegacy
 			JToolbarHelper::preferences('com_media');
 		}
 
-		JToolbarHelper::help('JHELP_CONTENT_ARTICLE_MANAGER');
+		JToolbarHelper::help('JHELP_CONTENT_FILE_MANAGER');
 	}
 
 	/**

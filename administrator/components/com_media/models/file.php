@@ -19,7 +19,7 @@ JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_media/
  *
  * @since  1.6
  */
-class ContentModelFile extends JModelAdmin
+class MediaModelFile extends JModelAdmin
 {
 	/**
 	 * The prefix to use with controller messages.
@@ -574,7 +574,7 @@ class ContentModelFile extends JModelAdmin
 
 				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
 				{
-					$msg = JText::_('COM_CONTENT_SAVE_WARNING');
+					$msg = JText::_('COM_MEDIA_SAVE_WARNING');
 				}
 
 				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
@@ -616,7 +616,7 @@ class ContentModelFile extends JModelAdmin
 
 		if (empty($pks))
 		{
-			$this->setError(JText::_('COM_CONTENT_NO_ITEM_SELECTED'));
+			$this->setError(JText::_('COM_MEDIA_NO_ITEM_SELECTED'));
 
 			return false;
 		}
@@ -735,7 +735,7 @@ class ContentModelFile extends JModelAdmin
 				$fields->addAttribute('name', 'associations');
 				$fieldset = $fields->addChild('fieldset');
 				$fieldset->addAttribute('name', 'item_associations');
-				$fieldset->addAttribute('description', 'COM_CONTENT_ITEM_ASSOCIATIONS_FIELDSET_DESC');
+				$fieldset->addAttribute('description', 'COM_MEDIA_ITEM_ASSOCIATIONS_FIELDSET_DESC');
 
 				foreach ($languages as $language)
 				{
