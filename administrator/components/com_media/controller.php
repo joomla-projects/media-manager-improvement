@@ -36,12 +36,16 @@ class MediaController extends JControllerLegacy
 		switch ($vName)
 		{
 			case 'file':
+				// @todo remove me!!
+				JFactory::getApplication()->enqueueMessage('This is NOT fanilized and will be improved by UX!', 'error');
 				$vLayout = $this->input->get('layout', 'default', 'string');
 				$mName   = 'file';
 
 				break;
 
 			case 'files':
+				// @todo remove me!!
+				JFactory::getApplication()->enqueueMessage('This is NOT fanilized and will be improved by UX!', 'error');
 				$vLayout = $this->input->get('layout', 'default', 'string');
 				$mName   = 'files';
 
