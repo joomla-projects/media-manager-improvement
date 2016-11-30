@@ -272,20 +272,6 @@ class MediaModelFile extends JModelAdmin
 			$registry = new Registry($item->attribs);
 			$item->attribs = $registry->toArray();
 
-			// Convert the metadata field to an array.
-			$registry = new Registry($item->metadata);
-			$item->metadata = $registry->toArray();
-
-			// Convert the images field to an array.
-			$registry = new Registry($item->images);
-			$item->images = $registry->toArray();
-
-			// Convert the urls field to an array.
-			$registry = new Registry($item->urls);
-			$item->urls = $registry->toArray();
-
-			$item->filetext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
-
 			if (!empty($item->id))
 			{
 				$item->tags = new JHelperTags;
