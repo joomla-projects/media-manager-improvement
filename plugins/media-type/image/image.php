@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+// @todo Move to autoloader
+require_once JPATH_ADMINISTRATOR . '/components/com_media/libraries/Joomla/MediaManager/Plugin/MediaType/Plugin.php';
+
 /**
  * Media file type image support
  *
@@ -31,7 +34,7 @@ class PlgMediaTypeImage extends Joomla\MediaManager\Plugin\MediaType\Plugin
 	 * @var     array
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected $extensions = array(
+	protected static $extensions = array(
 		'jpg',
 		'png',
 		'gif',
@@ -51,7 +54,7 @@ class PlgMediaTypeImage extends Joomla\MediaManager\Plugin\MediaType\Plugin
 	public function render($mediaFile)
 	{
 		// Only activate for files we support
-		if (!in_array($mediaFile->getFileExtension(), $this->extensions))
+		if (!in_array($mediaFile->getFileExtension(), self::$extensions))
 		{
 			return '';
 		}
@@ -77,5 +80,18 @@ class PlgMediaTypeImage extends Joomla\MediaManager\Plugin\MediaType\Plugin
 	public function getProperties($mediaFile)
 	{
 		// TODO: Implement getProperties() method.
+		return array();
+	}
+
+	/**
+	 * Get media extensions
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getMediaExtensions()
+	{
+		return self::$extensions;
 	}
 }
