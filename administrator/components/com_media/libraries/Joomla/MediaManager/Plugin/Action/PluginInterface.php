@@ -30,6 +30,17 @@ interface PluginInterface
 	public function getCssClass();
 
 	/**
+	 * Get the controls
+	 *
+ 	 * @param   \Joomla\MediaManager\MediaFile  $mediaFile  The media file object
+	 *
+	 * @return   string
+	 *
+	 * @since    __DEPLOY_VERSION__
+	 */
+	public function getControls($mediaFile);
+
+	/**
 	 * Process the image - it's in the task of the plugin to save the
 	 * changed image
 	 *

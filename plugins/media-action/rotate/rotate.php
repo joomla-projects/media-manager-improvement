@@ -42,7 +42,6 @@ class PlgMediaActionRotate extends Joomla\MediaManager\Plugin\Action\Plugin
 		'jpeg'
 	);
 
-
 	/**
 	 * Get the Plugin Title
 	 *
@@ -65,6 +64,20 @@ class PlgMediaActionRotate extends Joomla\MediaManager\Plugin\Action\Plugin
 	public function getCssClass()
 	{
 		return 'icon-media-rotate';
+	}
+
+	/**
+	 * Get the controls to render in the backend
+	 *
+	 * @param   \Joomla\MediaManager\MediaFile  $mediaFile  The media file object
+	 *
+	 * @return   string  HTML to render
+	 *
+	 * @since    __DEPLOY_VERSION__
+	 */
+	public function getControls($mediaFile)
+	{
+		// TODO: Implement getControls() method.
 	}
 
 	/**
