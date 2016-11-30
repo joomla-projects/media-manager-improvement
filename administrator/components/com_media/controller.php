@@ -31,10 +31,26 @@ class MediaController extends JControllerLegacy
 		JPluginHelper::importPlugin('content');
 
 		$vType    = JFactory::getDocument()->getType();
-		$vName    = $this->input->get('view', 'media');
+		$vName    = $this->input->get('view', 'files');
 
 		switch ($vName)
 		{
+			case 'file':
+				// @todo remove me!!
+				JFactory::getApplication()->enqueueMessage('This is NOT fanilized and will be improved by UX!', 'error');
+				$vLayout = $this->input->get('layout', 'default', 'string');
+				$mName   = 'file';
+
+				break;
+
+			case 'files':
+				// @todo remove me!!
+				JFactory::getApplication()->enqueueMessage('This is NOT fanilized and will be improved by UX!', 'error');
+				$vLayout = $this->input->get('layout', 'default', 'string');
+				$mName   = 'files';
+
+				break;
+
 			case 'images':
 				$vLayout = $this->input->get('layout', 'default', 'string');
 				$mName   = 'manager';

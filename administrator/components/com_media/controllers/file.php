@@ -9,22 +9,139 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
+use Joomla\Utilities\ArrayHelper;
 
 /**
- * Media File Controller
+ * The file controller
  *
- * @since  1.5
+ * @since  1.6
  */
-class MediaControllerFile extends JControllerLegacy
+class MediaControllerFile extends JControllerForm
 {
+
 	/**
 	 * The folder we are uploading into
 	 *
 	 * @var   string
 	 */
 	protected $folder = '';
+
+	/**
+	 * Class constructor.
+	 *
+	 * @param   array  $config  A named array of configuration variables.
+	 *
+	 * @since   1.6
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+
+		// An file edit form can come from the files or featured view.
+		// Adjust the redirect view on the value of 'return' in the request.
+		if ($this->input->get('return') == 'featured')
+		{
+			$this->view_list = 'featured';
+			$this->view_item = 'file&return=featured';
+		}
+	}
+
+	/**
+	 * Method override to check if you can add a new record.
+	 *
+	 * @param   array  $data  An array of input data.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.6
+	 */
+	protected function allowAdd($data = array())
+	{
+		$categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
+		$allow = null;
+
+		if ($categoryId)
+		{
+			// If the category has been passed in the data or URL check it.
+			$allow = JFactory::getUser()->authorise('core.create', 'com_media.category.' . $categoryId);
+		}
+
+		if ($allow === null)
+		{
+			// In the absense of better information, revert to the component permissions.
+			return parent::allowAdd();
+		}
+
+		return $allow;
+	}
+
+	/**
+	 * Method override to check if you can edit an existing record.
+	 *
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.6
+	 */
+	protected function allowEdit($data = array(), $key = 'id')
+	{
+		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+		$user = JFactory::getUser();
+
+		// Zero record (id:0), return component edit permission by calling parent controller method
+		if (!$recordId)
+		{
+			return parent::allowEdit($data, $key);
+		}
+
+		// Check edit on the record asset (explicit or inherited)
+		if ($user->authorise('core.edit', 'com_media.file.' . $recordId))
+		{
+			return true;
+		}
+
+		// Check edit own on the record asset (explicit or inherited)
+		if ($user->authorise('core.edit.own', 'com_media.file.' . $recordId))
+		{
+			// Existing record already has an owner, get it
+			$record = $this->getModel()->getItem($recordId);
+
+			if (empty($record))
+			{
+				return false;
+			}
+
+			// Grant if current user is owner of the record
+			return $user->id == $record->created_by;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Method to run batch operations.
+	 *
+	 * @param   object  $model  The model.
+	 *
+	 * @return  boolean   True if successful, false otherwise and internal error is set.
+	 *
+	 * @since   1.6
+	 */
+	public function batch($model = null)
+	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Set the model
+		/** @var ContentModelFile $model */
+		$model = $this->getModel('File', '', array());
+
+		// Preset the redirect
+		$this->setRedirect(JRoute::_('index.php?option=com_media&view=files' . $this->getRedirectToListAppend(), false));
+
+		return parent::batch($model);
+	}
 
 	/**
 	 * Upload one or more files
@@ -80,7 +197,7 @@ class MediaControllerFile extends JControllerLegacy
 
 		// Check for the total size of post back data.
 		if (($postMaxSize > 0 && $contentLength > $postMaxSize)
-			|| ($memoryLimit != -1 && $contentLength > $memoryLimit))
+				|| ($memoryLimit != -1 && $contentLength > $memoryLimit))
 		{
 			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNUPLOADTOOLARGE'));
 
@@ -98,8 +215,8 @@ class MediaControllerFile extends JControllerLegacy
 			$file['filepath'] = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $file['name'])));
 
 			if (($file['error'] == 1)
-				|| ($uploadMaxSize > 0 && $file['size'] > $uploadMaxSize)
-				|| ($uploadMaxFileSize > 0 && $file['size'] > $uploadMaxFileSize))
+					|| ($uploadMaxSize > 0 && $file['size'] > $uploadMaxSize)
+					|| ($uploadMaxFileSize > 0 && $file['size'] > $uploadMaxFileSize))
 			{
 				// File size exceed either 'upload_max_filesize' or 'upload_maxsize'.
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields" >
+		<field name="id"  type="text" class="readonly" label="JGLOBAL_FIELD_ID_LABEL"
+			description ="JGLOBAL_FIELD_ID_DESC" size="10" default="0"
+			readonly="true" />
+		<field name="uuid"  type="text" class="readonly" label="COM_MEDIA_FIELD_UUID_LABEL"
+			description ="COM_MEDIA_FIELD_UUID_DESC" size="10" default="0"
+			readonly="true" />
+
+		<field name="asset_id" type="hidden" filter="unset" />
+
+		<field name="title" type="text" label="JGLOBAL_TITLE"
+			description="JFIELD_TITLE_DESC"
+			class="input-xxlarge input-large-text"
+			size="40"
+			required="true" />
+
+		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+			size="40" />
+
+		<field name="filename" type="text" label="COM_MEDIA_FIELD_FILENAME_LABEL"
+			description="COM_MEDIA_FIELD_FILENAME_DESC"
+			size="40" />
+
+		<field name="path" type="text" label="COM_MEDIA_FIELD_PATH_LABEL"
+			description="COM_MEDIA_FIELD_PATH_DESC"
+			size="40" />
+
+		<field name="md5sum" type="text" label="COM_MEDIA_FIELD_MD5_LABEL"
+			description="COM_MEDIA_FIELD_MD5_DESC"
+			size="40" />
+
+		<field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			class="span12"
+			maxlength="255"
+			size="45" />
+
+		<field name="state" type="list" label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC" class="chzn-color-state"
+			filter="intval" size="1" default="1"
+		>
+			<option value="1">
+				JPUBLISHED</option>
+			<option value="0">
+				JUNPUBLISHED</option>
+			<option value="2">
+				JARCHIVED</option>
+			<option value="-2">
+				JTRASHED</option>
+		</field>
+
+		<field name="catid"
+			   type="categoryedit"
+			label="JCATEGORY"
+			   description="JFIELD_CATEGORY_DESC"
+			required="true"
+			   default=""
+		>
+		</field>
+
+		<field name="tags"
+			type="tag"
+			label="JTAG"
+			description="JTAG_DESC"
+			class="span12"
+			multiple="true"
+		>
+		</field>
+
+		<field
+			name="buttonspacer"
+			description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
+			type="spacer" />
+
+		<field name="created" type="calendar" label="JGLOBAL_FIELD_CREATED_LABEL"
+			description="JGLOBAL_FIELD_CREATED_DESC"
+			translateformat="true"
+			   weeknumbers="true"
+			showtime="true"
+			size="22"
+			filter="user_utc" />
+
+		<field name="created_by" type="user"
+			label="JGLOBAL_FIELD_CREATED_BY_LABEL" description="JGLOBAL_FIELD_CREATED_BY_DESC" />
+
+		<field name="created_by_alias" type="text"
+			label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL" description="JGLOBAL_FIELD_CREATED_BY_ALIAS_DESC"
+			size="20" />
+
+		<field name="modified" type="calendar" class="readonly"
+			label="JGLOBAL_FIELD_MODIFIED_LABEL" description="JGLOBAL_FIELD_MODIFIED_DESC"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			readonly="true"
+			filter="user_utc" />
+
+		<field name="modified_by" type="user"
+		label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+		class="readonly"
+		readonly="true"
+		filter="unset"
+		 />
+
+		<field name="checked_out" type="hidden" filter="unset" />
+
+		<field name="checked_out_time" type="hidden" filter="unset" />
+
+		<field name="publish_up"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
+			description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
+			format="%Y-%m-%d %H:%M:%S" size="22"
+			filter="user_utc" />
+
+		<field name="publish_down" type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL" description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc" />
+
+		<field name="version" type="text" class="readonly"
+			label="COM_MEDIA_FIELD_VERSION_LABEL" size="6" description="COM_MEDIA_FIELD_VERSION_DESC"
+			readonly="true" filter="unset" />
+
+		<field name="ordering" type="text" label="JFIELD_ORDERING_LABEL"
+			description="JFIELD_ORDERING_DESC" size="6"
+			default="0" />
+
+		<field name="metakey" type="textarea"
+			label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC"
+			rows="3" cols="30" />
+
+		<field name="metadesc" type="textarea"
+			label="JFIELD_META_DESCRIPTION_LABEL" description="JFIELD_META_DESCRIPTION_DESC"
+			rows="3" cols="30" />
+
+		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC" size="1" />
+
+		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
+			description="JGLOBAL_FIELD_LANGUAGE_DESC"
+		>
+			<option value="*">JALL</option>
+		</field>
+
+		<field name="featured" type="radio"
+			class="btn-group btn-group-yesno"
+			label="JFEATURED"
+			description="JGLOBAL_FIELD_FEATURED_DESC"
+			default="0"
+		>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="rules" type="rules" label="JFIELD_RULES_LABEL"
+			translate_label="false" filter="rules"
+			component="com_content" section="article" validate="rules"
+		/>
+
+	</fieldset>
+</form>
