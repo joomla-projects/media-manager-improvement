@@ -16,7 +16,7 @@ interface PluginInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getTitle();
 
@@ -25,7 +25,7 @@ interface PluginInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getCssClass();
 
@@ -33,9 +33,11 @@ interface PluginInterface
 	 * Process the image - it's in the task of the plugin to save the
 	 * changed image
 	 *
+	 * @param   \Joomla\MediaManager\MediaFile  $mediaFile  The media file object
+	 *
 	 * @return  bool  True if changes are made
 	 *
-	 * @since   __DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function process($mediaFile);
 }

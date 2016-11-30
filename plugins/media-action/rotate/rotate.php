@@ -48,7 +48,7 @@ class PlgMediaActionRotate extends Joomla\MediaManager\Plugin\Action\Plugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getTitle()
 	{
@@ -60,7 +60,7 @@ class PlgMediaActionRotate extends Joomla\MediaManager\Plugin\Action\Plugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getCssClass()
 	{
@@ -73,7 +73,7 @@ class PlgMediaActionRotate extends Joomla\MediaManager\Plugin\Action\Plugin
 	 *
 	 * @return  boolean  True if changes are made
 	 *
-	 * @since   __DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function process($mediaFile)
 	{
