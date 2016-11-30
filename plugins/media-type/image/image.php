@@ -26,6 +26,20 @@ class PlgMediaTypeImage extends Joomla\MediaManager\Plugin\MediaType\Plugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Supported extensions by plugin
+	 *
+	 * @var     array
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $extensions = array(
+		'jpg',
+		'png',
+		'gif',
+		'bmp',
+		'jpeg'
+	);
+
+	/**
 	 * Render the Layout
 	 *
 	 * @param   \Joomla\MediaManager\MediaFile  $mediaFile  The media file
@@ -36,14 +50,27 @@ class PlgMediaTypeImage extends Joomla\MediaManager\Plugin\MediaType\Plugin
 	 */
 	public function render($mediaFile)
 	{
-		// TODO: Implement render() method.
-		return '<img src="' . $mediaFile->getFileRoute() . '" alt="' . $mediaFile->title . '" title="" />';
+		// Only activate for files we support
+		if (!in_array($mediaFile->getFileExtension(), $this->extensions))
+		{
+			return '';
+		}
+
+		// Get the path for the layout file
+		$path = JPluginHelper::getLayoutPath('media-type', 'image');
+
+		// Render the image
+		ob_start();
+		include $path;
+		$html = ob_get_clean();
+
+		return $html;
 	}
 
 	/**
 	 * @param \Joomla\MediaManager\MediaFile $mediaFile
 	 *
-	 * @return   array  Associtive Array (Key => Value) pair of informations
+	 * @return   array  Associative Array (Key => Value) pair of informations
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
