@@ -28,6 +28,11 @@ $params = JComponentHelper::getParams('com_media');
 // Load the helper class
 JLoader::register('MediaHelper', JPATH_ADMINISTRATOR . '/components/com_media/helpers/media.php');
 
+
+// @todo Autoloader
+require_once JPATH_ADMINISTRATOR . '/components/com_media/tables/file.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_media/libraries/Joomla/MediaManager/MediaFile.php';
+
 // Set the path definitions
 $popup_upload = $input->get('pop_up', null);
 $path         = 'file_path';

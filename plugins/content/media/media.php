@@ -10,7 +10,8 @@
 defined('_JEXEC') or die;
 
 // @todo Remove -> Sample Data for testing
-class TestMedia {
+class TestMedia
+{
 	public function getFileExtension()
 	{
 		return 'jpg';
@@ -104,7 +105,7 @@ class PlgContentMedia extends JPlugin
 		foreach ($plugins as $plugin)
 		{
 			// Load Plugin @todo improve
-			include_once JPATH_BASE . '/plugins/media-type/' . $plugin->name . '/' . $plugin->name . '.php';
+			include_once JPATH_ROOT . '/plugins/media-type/' . $plugin->name . '/' . $plugin->name . '.php';
 			$className = 'PlgMediaType' . ucfirst($plugin->name);
 
 			$supportedExtensions = call_user_func($className . '::getMediaExtensions');

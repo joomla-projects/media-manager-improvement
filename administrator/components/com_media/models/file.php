@@ -266,7 +266,12 @@ class MediaModelFile extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		if ($item = parent::getItem($pk))
+		$item = new \Joomla\MediaManager\MediaFile(JFactory::getDbo());
+
+		// @todo fix pk
+		$item->load(JFactory::getApplication()->input->getInt('id', 0));
+
+		if ($item->id)
 		{
 			// Convert the params field to an array.
 			$registry = new Registry($item->attribs);

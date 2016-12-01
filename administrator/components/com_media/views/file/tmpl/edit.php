@@ -124,66 +124,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							</div>
 							<div class="span3">
 								<div id="myTabContent" class="tab-content">
-									<div class="tab-pane fade active in" id="dimensions">
-										<table class="table">
-											<thead>
-											<tbody>
-											<tr>
-												<td>
-													<p>
-														<input class="span4" type="text" placeholder="800px"> x
-														<input class="span4" type="text" placeholder="600px">
-													<p>
-
-														<select>
-															<option>No Preset</option>
-															<option>Crop1x1 and Greyscale</option>
-															<option>Brightness 50</option>
-														</select>
-
-												</td>
-											</tr>
-
-											<tr>
-												<td>
-													<p>
-														<input class="span4" type="text" placeholder="2800px"> x
-														<input class="span4" type="text" placeholder="2600px">
-													<p>
-
-														<select>
-															<option>No Preset</option>
-															<option>Crop1x1 and Greyscale</option>
-															<option>Brightness 50</option>
-														</select>
-
-												</td>
-											</tr>
-
-											<tr>
-												<td>
-													<p>
-														<input class="span4" type="text" placeholder="3800px"> x
-														<input class="span4" type="text" placeholder="3600px">
-													<p>
-
-														<select>
-															<option>No Preset</option>
-															<option>Crop1x1 and Greyscale</option>
-															<option>Brightness 50</option>
-														</select>
-
-												</td>
-											</tr>
-
-
-											</tbody>
-										</table>
-
-										<button class="btn" type="button"><i class="icon-white icon-plus"></i></button>
-										<button class="btn" type="button"><i class="icon-white icon-minus"></i></button>
-
-									</div>
 									<div class="tab-pane fade" id="filter">
 										<div class="accordion" id="accordion2">
 											<div class="accordion-group">

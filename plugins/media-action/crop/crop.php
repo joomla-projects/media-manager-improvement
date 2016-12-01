@@ -13,11 +13,11 @@ defined('_JEXEC') or die;
 require_once JPATH_ADMINISTRATOR . '/components/com_media/libraries/Joomla/MediaManager/Plugin/Action/Plugin.php';
 
 /**
- * Media Manager Rotate Action
+ * Crop Action
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgMediaActionRotate extends Joomla\MediaManager\Plugin\Action\Plugin
+class PlgMediaActionCrop extends Joomla\MediaManager\Plugin\Action\Plugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -51,7 +51,7 @@ class PlgMediaActionRotate extends Joomla\MediaManager\Plugin\Action\Plugin
 	 */
 	public function getTitle()
 	{
-		return JText::_('PLG_MEDIA-ACTION_ROTATE');
+		return JText::_('PLG_MEDIA-ACTION_CROP');
 	}
 
 	/**
@@ -75,7 +75,7 @@ class PlgMediaActionRotate extends Joomla\MediaManager\Plugin\Action\Plugin
 	 */
 	public function getCssClass()
 	{
-		return 'icon-media-rotate';
+		return 'icon-media-crop';
 	}
 
 	/**

@@ -84,7 +84,7 @@ class PlgMediaTypeImage extends Joomla\MediaManager\Plugin\MediaType\Plugin
 	}
 
 	/**
-	 * Get media extensions
+	 * Get supported media extensions for this plugin
 	 *
 	 * @return  array
 	 *
