@@ -203,8 +203,6 @@ class MediaTableFile extends JTable
 			$this->publish_down = $temp;
 		}
 
-		$this->md5sum = md5_file($this->filepath);
-
 		return true;
 	}
 

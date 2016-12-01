@@ -791,7 +791,7 @@ class MediaModelFile extends JModelAdmin
 		$obj = new JObject($file);
 		$obj->title    = $file['name'];
 		$obj->catid    = $category->id;
-		$obj->uuid     = JCrypt::genRandomBytes(24);
+		$obj->uuid     = md5(JCrypt::genRandomBytes(24));
 		$obj->filename = $file['name'];
 		$obj->path     = $category->path;
 		$obj->state    = 1;
@@ -804,6 +804,8 @@ class MediaModelFile extends JModelAdmin
 
 			return false;
 		}
+
+		$obj->md5sum = md5_file($obj->filepath);
 
 		return $this->save((array)$obj);
 	}
