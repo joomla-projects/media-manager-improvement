@@ -59,6 +59,7 @@
 			   description="JFIELD_CATEGORY_DESC"
 			required="true"
 			   default=""
+			extension="com_media"
 		>
 		</field>
 

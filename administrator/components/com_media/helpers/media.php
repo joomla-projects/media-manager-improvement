@@ -27,11 +27,21 @@ class MediaHelper extends JHelperContent
 	 */
 	public static function addSubmenu($vName)
 	{
-		JHtmlSidebar::addEntry(
-			JText::_('COM_MEDIA_SUBMENU_FILES'),
-			'index.php?option=com_media&view=files',
-			$vName == 'files'
-		);
+		$filter = JFactory::getApplication()->input->get('filter', array(), 'array');
+
+		if ($filter && key_exists('category_id', $filter))
+		{
+			$filter = $filter['category_id'];
+		}
+		foreach (JCategories::getInstance('Media')->get('root')->getChildren(true) as $category)
+		{
+			JHtmlSidebar::addEntry(
+				str_repeat('-', $category->level -1) . ' ' . $category->title,
+				'index.php?option=com_media&view=files&filter[category_id]=' . $category->id,
+				$vName == 'files' && $filter == $category->id
+			);
+		}
+
 		JHtmlSidebar::addEntry(
 			JText::_('COM_MEDIA_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_media',
