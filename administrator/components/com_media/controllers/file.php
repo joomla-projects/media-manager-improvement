@@ -222,7 +222,7 @@ class MediaControllerFile extends JControllerForm
 				return false;
 			}
 
-			if (false && JFile::exists($file['filepath']))
+			if (JFile::exists($file['filepath']))
 			{
 				// A file with this name already exists
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_FILE_EXISTS'));

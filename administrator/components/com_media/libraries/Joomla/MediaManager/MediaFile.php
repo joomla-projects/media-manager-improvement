@@ -39,10 +39,13 @@ class MediaFile extends \MediaTableFile
 	 */
 	public function getFileRoute()
 	{
+		// @todo will be removed when ACL is implemented
+		return 'images/' . $this->path . '/' . $this->filename;
+
 		if ($this->access)
 		{
 			// @todo add slug
-			return JRoute::_('index.php?option=com_media&task=file.show&format=raw');
+			return \JRoute::_('index.php?option=com_media&task=file.show&format=raw');
 		}
 
 		// @todo add md5 check

@@ -1,4 +1,7 @@
 <?php
+
+use Joomla\MediaManager\MediaFile;
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Content.finder
@@ -9,21 +12,9 @@
 
 defined('_JEXEC') or die;
 
-// @todo Remove -> Sample Data for testing
-class TestMedia
-{
-	public function getFileExtension()
-	{
-		return 'jpg';
-	}
-
-	public function getFileRoute()
-	{
-		return 'images/powered_by.png';
-	}
-
-	public $title = 'Test Title';
-}
+// @todo register on the Joomla class loader
+require_once JPATH_ADMINISTRATOR . '/components/com_media/tables/file.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_media/libraries/Joomla/MediaManager/MediaFile.php';
 
 /**
  * Media Manager Plugin
@@ -89,7 +80,8 @@ class PlgContentMedia extends JPlugin
 	 */
 	protected function getReplacement($mediaId)
 	{
-		$mediaFile = new TestMedia(); //MediaFile::load($mediaId);
+		$mediaFile = new MediaFile(JFactory::getDbo());
+		$mediaFile->load($mediaId);
 
 		if (!$mediaFile)
 		{
