@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.file');
+
 /**
  * View to edit an file.
  *
@@ -70,6 +72,9 @@ class MediaViewFile extends JViewLegacy
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 		$this->canDo = MediaHelper::getActions('com_media', 'file', $this->item->id);
+
+		// Plugins
+		$this->plugins = $this->getPlugins();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -163,5 +168,36 @@ class MediaViewFile extends JViewLegacy
 
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_CONTENT_FILE_MANAGER_EDIT');
+	}
+
+	/**
+	 * Load the available action plugins
+	 *
+	 * @return  array of Actions
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getPlugins()
+	{
+		$allPlugins = JPluginHelper::getPlugin('media-action');
+		$extension  = $this->item->getFileExtension();
+		$plugins    = array();
+
+		foreach ($allPlugins as $option)
+		{
+			// Load Plugin @todo improve
+			include_once JPATH_ROOT . '/plugins/media-action/' . $option->name . '/' . $option->name . '.php';
+			$className = 'PlgMediaAction' . ucfirst($option->name);
+
+			$supportedExtensions = call_user_func($className . '::getMediaExtensions');
+
+			if (in_array($extension, $supportedExtensions))
+			{
+				// Instantiate Plugin
+				$plugins[] = new $className();
+			}
+		}
+
+		return $plugins;
 	}
 }

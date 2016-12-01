@@ -21,6 +21,15 @@ interface PluginInterface
 	public function getTitle();
 
 	/**
+	 * Get the Plugin Category String
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getCategory();
+
+	/**
 	 * Get the Plugin Icon Class (CSS)
 	 *
 	 * @return  string
@@ -34,9 +43,9 @@ interface PluginInterface
 	 *
  	 * @param   \Joomla\MediaManager\MediaFile  $mediaFile  The media file object
 	 *
-	 * @return   string
+	 * @return  string
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getControls($mediaFile);
 

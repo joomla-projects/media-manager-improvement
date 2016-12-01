@@ -13,11 +13,11 @@ defined('_JEXEC') or die;
 require_once JPATH_ADMINISTRATOR . '/components/com_media/libraries/Joomla/MediaManager/Plugin/Action/Plugin.php';
 
 /**
- * Media Manager Rotate Action
+ * Convert images and other supported files to PDF
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgMediaActionRotate extends Joomla\MediaManager\Plugin\Action\Plugin
+class PlgMediaActionConvertpdf extends Joomla\MediaManager\Plugin\Action\Plugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -51,7 +51,7 @@ class PlgMediaActionRotate extends Joomla\MediaManager\Plugin\Action\Plugin
 	 */
 	public function getTitle()
 	{
-		return JText::_('PLG_MEDIA-ACTION_ROTATE');
+		return JText::_('PLG_MEDIA-ACTION_CROP');
 	}
 
 	/**
@@ -63,7 +63,7 @@ class PlgMediaActionRotate extends Joomla\MediaManager\Plugin\Action\Plugin
 	 */
 	public function getCategory()
 	{
-		return JText::_('PLG_MEDIA-ACTION_EDIT');
+		return JText::_('PLG_MEDIA-ACTION_CONVERT');
 	}
 
 	/**
@@ -75,7 +75,7 @@ class PlgMediaActionRotate extends Joomla\MediaManager\Plugin\Action\Plugin
 	 */
 	public function getCssClass()
 	{
-		return 'icon-media-rotate';
+		return 'icon-media-crop';
 	}
 
 	/**
@@ -95,6 +95,8 @@ class PlgMediaActionRotate extends Joomla\MediaManager\Plugin\Action\Plugin
 	/**
 	 * Process the image - it's in the task of the plugin to save the
 	 * changed image
+	 *
+	 * @param   \Joomla\MediaManager\MediaFile  $mediaFile  The media file object
 	 *
 	 * @return  boolean  True if changes are made
 	 *

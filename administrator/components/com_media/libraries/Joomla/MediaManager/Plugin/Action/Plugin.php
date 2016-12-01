@@ -12,6 +12,6 @@ require_once __DIR__ . '/PluginInterface.php';
  *
  * @since   __DEPLOY_VERSION__
  */
-abstract class Plugin extends \JPlugin  implements PluginInterface
+abstract class Plugin implements PluginInterface
 {
 }
