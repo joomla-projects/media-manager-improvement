@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
-JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_media/helpers/media.php');
+JLoader::register('MediaHelper', JPATH_ADMINISTRATOR . '/components/com_media/helpers/media.php');
 
 /**
  * Item Model for an File.
@@ -556,7 +556,7 @@ class MediaModelFile extends JModelAdmin
 					$data['alias'] = JFilterOutput::stringURLSafe($data['title']);
 				}
 
-				$table = JTable::getInstance('Content', 'JTable');
+				$table = JTable::getInstance('File', 'MediaTable');
 
 				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
 				{
@@ -769,6 +769,43 @@ class MediaModelFile extends JModelAdmin
 	public function hit()
 	{
 		return;
+	}
+
+	/**
+	 *
+	 * @param  array   $file  The file
+	 * @return  boolean
+	 */
+	public function upload($file, $category)
+	{
+		// The request is valid
+		$err = null;
+
+		if (!MediaHelper::canUpload($file, $err))
+		{
+			// The file can't be uploaded
+
+			return false;
+		}
+
+		$obj = new JObject($file);
+		$obj->title    = $file['name'];
+		$obj->catid    = $category->id;
+		$obj->uuid     = JCrypt::genRandomBytes(24);
+		$obj->filename = $file['name'];
+		$obj->path     = $category->path;
+		$obj->state    = 1;
+		$obj->language = '*';
+
+		if (!JFile::upload($obj->tmp_name, $obj->filepath))
+		{
+			// Error in upload
+			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'));
+
+			return false;
+		}
+
+		return $this->save((array)$obj);
 	}
 
 	/**

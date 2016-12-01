@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ContentControllerFiles extends JControllerAdmin
+class MediaControllerFiles extends JControllerAdmin
 {
 	/**
 	 * Constructor.

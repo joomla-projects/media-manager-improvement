@@ -27,7 +27,8 @@ class MediaHelper extends JHelperContent
 	 */
 	public static function addSubmenu($vName)
 	{
-		$filter = JFactory::getApplication()->input->get('filter', array(), 'array');
+		$app = JFactory::getApplication();
+		$filter = $app->input->get('filter', array('category_id' => $app->getUserState('com_media.files.filter.category_id')), 'array');
 
 		if ($filter && key_exists('category_id', $filter))
 		{

@@ -18,14 +18,6 @@ use Joomla\Utilities\ArrayHelper;
  */
 class MediaControllerFile extends JControllerForm
 {
-
-	/**
-	 * The folder we are uploading into
-	 *
-	 * @var   string
-	 */
-	protected $folder = '';
-
 	/**
 	 * Class constructor.
 	 *
@@ -157,9 +149,9 @@ class MediaControllerFile extends JControllerForm
 		$params = JComponentHelper::getParams('com_media');
 
 		// Get some data from the request
-		$files        = $this->input->files->get('Filedata', '', 'array');
-		$return       = JFactory::getSession()->get('com_media.return_url');
-		$this->folder = $this->input->get('folder', '', 'path');
+		$files    = $this->input->files->get('Filedata', '', 'array');
+		$return   = JFactory::getSession()->get('com_media.return_url');
+		$category = JCategories::getInstance('Media')->get($this->input->getInt('category'));
 
 		// Don't redirect to an external URL.
 		if (!JUri::isInternal($return))
@@ -170,11 +162,17 @@ class MediaControllerFile extends JControllerForm
 		// Set the redirect
 		if ($return)
 		{
-			$this->setRedirect($return . '&folder=' . $this->folder);
+			$this->setRedirect($return . '&filter[category_id]=' . $category->id);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_media&folder=' . $this->folder);
+			$this->setRedirect('index.php?option=com_media&filter[category_id]=' . $category->id);
+		}
+
+		if ($category == null || $category->id == 'root')
+		{
+			$this->setMessage(JText::_('COM_MEDIA_ERROR_UPLOAD_NO_CATEGORY'), 'error');
+			return false;
 		}
 
 		// Authorize the user
@@ -212,7 +210,7 @@ class MediaControllerFile extends JControllerForm
 		{
 			$file['name']     = JFile::makeSafe($file['name']);
 			$file['name']     = str_replace(' ', '-', $file['name']);
-			$file['filepath'] = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $file['name'])));
+			$file['filepath'] = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $category->path, $file['name'])));
 
 			if (($file['error'] == 1)
 					|| ($uploadMaxSize > 0 && $file['size'] > $uploadMaxSize)
@@ -224,7 +222,7 @@ class MediaControllerFile extends JControllerForm
 				return false;
 			}
 
-			if (JFile::exists($file['filepath']))
+			if (false && JFile::exists($file['filepath']))
 			{
 				// A file with this name already exists
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_FILE_EXISTS'));
@@ -248,39 +246,8 @@ class MediaControllerFile extends JControllerForm
 
 		foreach ($files as &$file)
 		{
-			// The request is valid
-			$err = null;
-
-			if (!MediaHelper::canUpload($file, $err))
-			{
-				// The file can't be uploaded
-
-				return false;
-			}
-
-			// Trigger the onContentBeforeSave event.
-			$object_file = new JObject($file);
-			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file, true));
-
-			if (in_array(false, $result, true))
-			{
-				// There are some errors in the plugins
-				JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br />', $errors)));
-
-				return false;
-			}
-
-			if (!JFile::upload($object_file->tmp_name, $object_file->filepath))
-			{
-				// Error in upload
-				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'));
-
-				return false;
-			}
-
-			// Trigger the onContentAfterSave event.
-			$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file, true));
-			$this->setMessage(JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
+			$this->getModel('File', 'MediaModel')->upload($file, $category);
+			$this->setMessage(JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', substr($file['filepath'], strlen(COM_MEDIA_BASE))));
 		}
 
 		return true;
