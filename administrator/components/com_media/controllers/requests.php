@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 class MediaControllerRequests extends JControllerLegacy
 {
 	/**
-	 * Called by the plugin through java
+	 * Called by the plugin through JavaScript
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
