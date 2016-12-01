@@ -47,6 +47,22 @@ class MediaViewFile extends JViewLegacy
 	protected $canDo;
 
 	/**
+	 * The plugins available for this media type
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $plugins = array();
+
+	/**
+	 * The plugin categories available for this media type
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pluginCategories = array();
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -74,7 +90,7 @@ class MediaViewFile extends JViewLegacy
 		$this->canDo = MediaHelper::getActions('com_media', 'file', $this->item->id);
 
 		// Plugins
-		$this->plugins = $this->getPlugins();
+		$this->loadPlugins();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -173,15 +189,12 @@ class MediaViewFile extends JViewLegacy
 	/**
 	 * Load the available action plugins
 	 *
-	 * @return  array of Actions
-	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getPlugins()
+	protected function loadPlugins()
 	{
-		$allPlugins = JPluginHelper::getPlugin('media-action');
-		$extension  = $this->item->getFileExtension();
-		$plugins    = array();
+		$allPlugins    = JPluginHelper::getPlugin('media-action');
+		$extension     = $this->item->getFileExtension();
 
 		foreach ($allPlugins as $option)
 		{
@@ -194,10 +207,16 @@ class MediaViewFile extends JViewLegacy
 			if (in_array($extension, $supportedExtensions))
 			{
 				// Instantiate Plugin
-				$plugins[] = new $className();
+				/** @var \Joomla\MediaManager\Plugin\Action\Plugin $plugin */
+				$plugin = new $className();
+
+				$this->pluginCategories[] = $plugin->getCategory();
+				$this->plugins[]          = $plugin;
 			}
 		}
 
-		return $plugins;
+		// @todo move
+		$this->pluginCategories = array_unique($this->pluginCategories);
+		sort($this->pluginCategories);
 	}
 }

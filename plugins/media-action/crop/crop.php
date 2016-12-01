@@ -89,7 +89,8 @@ class PlgMediaActionCrop extends Joomla\MediaManager\Plugin\Action\Plugin
 	 */
 	public function getControls($mediaFile)
 	{
-		// TODO: Implement getControls() method.
+		// @todo Move to jlayout, load JS lib and make actually working!
+		return '<p><input type="text" name="crop_size" id="crop_size" placeholder="Sample input for Crop" /></p>';
 	}
 
 	/**

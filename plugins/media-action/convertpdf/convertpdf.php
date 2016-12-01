@@ -51,7 +51,7 @@ class PlgMediaActionConvertpdf extends Joomla\MediaManager\Plugin\Action\Plugin
 	 */
 	public function getTitle()
 	{
-		return JText::_('PLG_MEDIA-ACTION_CROP');
+		return JText::_('PLG_MEDIA-ACTION_CONVERT');
 	}
 
 	/**
@@ -89,7 +89,9 @@ class PlgMediaActionConvertpdf extends Joomla\MediaManager\Plugin\Action\Plugin
 	 */
 	public function getControls($mediaFile)
 	{
-		// TODO: Implement getControls() method.
+		// @todo Move to jlayout, load JS lib and make it actually useful!
+		return '<p><input type="number" min="0" max="100" name="pdf_quality" id="pdf_quality" placeholder="PDF Quality" /></p>';
+
 	}
 
 	/**
