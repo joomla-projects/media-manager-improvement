@@ -89,7 +89,8 @@ class PlgMediaActionRotate extends Joomla\MediaManager\Plugin\Action\Plugin
 	 */
 	public function getControls($mediaFile)
 	{
-		// TODO: Implement getControls() method.
+		// @todo Move to jlayout, load JS lib and make it actually useful!
+		return '<p><input type="number" min="0" max="360" name="rotate_degree" id="rotate_degree" placeholder="Rotate degree" /></p>';
 	}
 
 	/**

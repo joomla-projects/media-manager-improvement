@@ -100,154 +100,81 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 						<div class="row-fluid">
 							<div class="span1">
 								<ul id="myTab" class="nav nav-pills">
-									<li class="active">
-										<a href="#dimensions" data-toggle="tab" class="hasTooltip" data-placement="right" title="Dimensions">
-											<span class="icon-flag"></span>
-										</a>
-									</li>
-									<li class="">
-										<a href="#filter" data-toggle="tab" class="hasTooltip" data-placement="right" title="Filter">
-											<span class="icon-pencil-2"></span>
-										</a>
-									</li>
-									<li class="">
-										<a href="#effects" data-toggle="tab" class="hasTooltip" data-placement="right" title="Effects">
-											<span class="icon-home"></span>
-										</a>
-									</li>
-									<li class="">
-										<a href="#presets" data-toggle="tab" class="hasTooltip" data-placement="right" title="Presets">
-											<span class="icon-tag"></span>
-										</a>
-									</li>
+									<?php foreach ($this->pluginCategories as $i => $category) : ?>
+										<?php $alias = JApplicationHelper::stringURLSafe($category); ?>
+										<li<?php echo ($i == 0) ? ' class="active"' : ''; ?>>
+											<a href="#tab<?php echo $alias; ?>"
+											   data-toggle="tab" class="hasTooltip" data-placement="right"
+											   title="<?php echo $category; ?>">
+												<span class="icon-<?php echo $alias; ?>">DO</span>
+											</a>
+										</li>
+									<?php endforeach; ?>
 								</ul>
 							</div>
+
 							<div class="span3">
-								<div id="myTabContent" class="tab-content">
-									<div class="tab-pane fade" id="filter">
-										<div class="accordion" id="accordion2">
-											<div class="accordion-group">
-												<div class="accordion-heading">
-													<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-														<i class="icon-move"></i> Crop
-													</a>
-												</div>
-												<div id="collapseOne" class="accordion-body collapse in">
-													<div class="accordion-inner">
-														<p><input type="text" placeholder="Type something…"></p>
-														<p>
-															<button class="btn" type="button"><i class="icon-white icon-ok"></i></button>
-															<button class="btn" type="button"><i class="icon-white icon-remove"></i></button>
-														</p>
+								<div class="tab-content">
+								<?php foreach ($this->pluginCategories as $i => $category) : ?>
+									<?php $alias = JApplicationHelper::stringURLSafe($category); ?>
+										<div class="tab-pane <?php echo ($i == 0) ? ' active' : ''; ?>"
+										     id="tab<?php echo $alias; ?>">
+											<div class="accordion" id="accordion<?php echo $alias; ?>">
+												<?php foreach ($this->plugins as $plugin) : ?>
+													<?php
+													// @todo improve - fix
+													if ($plugin->getCategory() != $category)
+													{
+														continue;
+													}
+													?>
+													<div class="accordion-group">
+														<div class="accordion-heading">
+															<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+																<i class="icon-<?php echo $plugin->getCssClass(); ?>"></i> <?php echo $plugin->getTitle(); ?>
+															</a>
+														</div>
+														<div id="collapseOne" class="accordion-body collapse in">
+															<div class="accordion-inner">
+																<div class="plugin-content">
+																	<?php
+																		echo $plugin->getControls($this->item);
+																	?>
+																</div>
+																<div class="plugin-controls">
+																	<button class="btn" type="button"><i class="icon-white icon-ok"></i></button>
+																	<button class="btn" type="button"><i class="icon-white icon-remove"></i></button>
+																</div>
+															</div>
+														</div>
 													</div>
-												</div>
-											</div>
-											<div class="accordion-group">
-												<div class="accordion-heading">
-													<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-														<i class="icon-move"></i> Resize
-													</a>
-												</div>
-												<div id="collapseTwo" class="accordion-body collapse">
-													<div class="accordion-inner">
-														<p><input type="text" placeholder="Type something…"></p>
-														<p>
-															<button class="btn" type="button"><i class="icon-white icon-ok"></i></button>
-															<button class="btn" type="button"><i class="icon-white icon-remove"></i></button>
-														</p>
-													</div>
-												</div>
-											</div>
-											<div class="accordion-group">
-												<div class="accordion-heading">
-													<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
-														<i class="icon-move"></i> Rotate
-													</a>
-												</div>
-												<div id="collapseThree" class="accordion-body collapse">
-													<div class="accordion-inner">
-														<p><input type="text" placeholder="Type something…"></p>
-														<p>
-															<button class="btn" type="button"><i class="icon-white icon-ok"></i></button>
-															<button class="btn" type="button"><i class="icon-white icon-remove"></i></button>
-														</p>
-													</div>
-												</div>
+												<?php endforeach; ?>
 											</div>
 										</div>
-									</div>
-									<div class="tab-pane fade" id="effects">
-										<div class="accordion" id="accordion3">
-											<div class="accordion-group">
-												<div class="accordion-heading">
-													<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseOne">
-														<i class="icon-move"></i> Contrast
-													</a>
-												</div>
-												<div id="collapseOne" class="accordion-body collapse in">
-													<div class="accordion-inner">
-														<p><input type="text" placeholder="Type something…"></p>
-														<p>
-															<button class="btn" type="button"><i class="icon-white icon-ok"></i></button>
-															<button class="btn" type="button"><i class="icon-white icon-remove"></i></button>
-														</p>
-													</div>
-												</div>
-											</div>
-											<div class="accordion-group">
-												<div class="accordion-heading">
-													<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseTwo">
-														<i class="icon-move"></i> Brightness
-													</a>
-												</div>
-												<div id="collapseTwo" class="accordion-body collapse">
-													<div class="accordion-inner">
-														<p><input type="text" placeholder="Type something…"></p>
-														<p>
-															<button class="btn" type="button"><i class="icon-white icon-ok"></i></button>
-															<button class="btn" type="button"><i class="icon-white icon-remove"></i></button>
-														</p>
-													</div>
-												</div>
-											</div>
-											<div class="accordion-group">
-												<div class="accordion-heading">
-													<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseThree">
-														<i class="icon-move"></i> Saturation
-													</a>
-												</div>
-												<div id="collapseThree" class="accordion-body collapse">
-													<div class="accordion-inner">
-														<p><input type="text" placeholder="Type something…"></p>
-														<p>
-															<button class="btn" type="button"><i class="icon-white icon-ok"></i></button>
-															<button class="btn" type="button"><i class="icon-white icon-remove"></i></button>
-														</p>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
+								<?php endforeach; ?>
+
 									<div class="tab-pane fade" id="presets">
 										<table class="table">
 											<thead>
 											<tbody>
-											<tr>
-												<td>
-													<p>MyPreset1</p>
-													<ul class="nav nav-tabs nav-stacked">
-														<li>Contrast(50)</li>
-														<li>Crop(20,20)</li>
-														<li>Rotate(90)</li>
-													</ul>
+												<tr>
+													<td>
+														<p>MyPreset1</p>
+														<ul class="nav nav-tabs nav-stacked">
+															<li>Contrast(50)</li>
+															<li>Crop(20,20)</li>
+															<li>Rotate(90)</li>
+														</ul>
 
-													<button class="btn" type="button"><i class="icon-white icon-plus"></i></button>
-												</td>
-												ac	</tr>
+														<button class="btn" type="button"><i class="icon-white icon-plus"></i></button>
+													</td>
+												</tr>
 											</tbody>
 										</table>
 									</div>
-								</div>
+
+									</div><!-- Tab content -->
+
 							</div>
 							<div class="span8">
 								<img src="http://placehold.it/500x300">
