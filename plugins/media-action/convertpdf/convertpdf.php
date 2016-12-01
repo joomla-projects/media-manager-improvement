@@ -91,6 +91,7 @@ class PlgMediaActionConvertpdf extends Joomla\MediaManager\Plugin\Action\Plugin
 	{
 		// @todo Move to jlayout, load JS lib and make it actually useful!
 		return '<p><input type="number" min="0" max="100" name="pdf_quality" id="pdf_quality" placeholder="PDF Quality" /></p>';
+
 	}
 
 	/**

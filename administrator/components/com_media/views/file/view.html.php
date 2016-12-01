@@ -215,7 +215,7 @@ class MediaViewFile extends JViewLegacy
 			}
 		}
 
-		// @todo mgetContentove
+		// @todo move
 		$this->pluginCategories = array_unique($this->pluginCategories);
 		sort($this->pluginCategories);
 	}
