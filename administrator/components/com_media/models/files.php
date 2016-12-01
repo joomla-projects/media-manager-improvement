@@ -106,6 +106,20 @@ class MediaModelFiles extends JModelList
 		$this->setState('filter.published', $published);
 
 		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+		if (!$categoryId || $categoryId == 'root')
+		{
+			$categoryId = JCategories::getInstance('Media')->get('roo')->getChildren();
+
+			if ($categoryId)
+			{
+				$categoryId = $categoryId[0]->id;
+				$app->setUserState($this->context . '.filter.category_id', $categoryId);
+			}
+			else
+			{
+				$categoryId = 0;
+			}
+		}
 		$this->setState('filter.category_id', $categoryId);
 
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');

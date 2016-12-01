@@ -89,10 +89,15 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div class="form-horizontal">
+	<div class="form-inline form-inline-header">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_MEDIA_FILE_CONTENT')); ?>
+		<?php echo $this->form->renderField('uuid'); ?>
+		<?php echo $this->form->renderField('filename'); ?>
+		<?php echo $this->form->renderField('path'); ?>
+		<?php echo $this->form->renderField('md5sum'); ?>
+		<hr/>
 		<div class="row-fluid">
 			<div class="span9">
 				<fieldset class="adminform">
@@ -250,11 +255,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 								</div>
 							</div>
 							<div class="span8">
-								<img src="http://placehold.it/500x300">
+								<img src="<?php echo JUri::root() . 'images/' . $this->item->path . '/' . $this->item->filename; ?>">
 							</div>
 						</div>
 					</div>
-					<?php echo $this->form->getInput('filetext'); ?>
 				</fieldset>
 			</div>
 			<div class="span3">

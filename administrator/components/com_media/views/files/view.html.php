@@ -74,11 +74,6 @@ class MediaViewFiles extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		if ($this->getLayout() !== 'modal')
-		{
-			MediaHelper::addSubmenu('files');
-		}
-
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
@@ -86,6 +81,11 @@ class MediaViewFiles extends JViewLegacy
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->vote          = JPluginHelper::isEnabled('media', 'vote');
+
+		if ($this->getLayout() !== 'modal')
+		{
+			MediaHelper::addSubmenu('files');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -153,10 +153,7 @@ class MediaViewFiles extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_MEDIA_FILES_TITLE'), 'stack file');
 
-		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_media', 'core.create'))) > 0)
-		{
-			JToolbarHelper::addNew('file.add');
-		}
+		$this->canUpload = $canDo->get('core.create') || (count($user->getAuthorisedCategories('com_media', 'core.create'))) > 0;
 
 		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own')))
 		{

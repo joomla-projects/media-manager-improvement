@@ -32,7 +32,6 @@ if ($saveOrder)
 $assoc = JLanguageAssociations::isEnabled();
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_media&view=files'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -41,10 +40,9 @@ $assoc = JLanguageAssociations::isEnabled();
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif;?>
-		<?php
-		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
-		?>
+		<?php echo $this->loadTemplate('upload') . '<hr/>'; ?>
+		<form action="<?php echo JRoute::_('index.php?option=com_media&view=files'); ?>" method="post" name="adminForm" id="adminForm">
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
@@ -241,5 +239,5 @@ $assoc = JLanguageAssociations::isEnabled();
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>
+		</form>
 	</div>
-</form>
