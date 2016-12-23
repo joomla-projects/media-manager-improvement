@@ -26,7 +26,7 @@ if (!$user->authorise('core.manage', 'com_media') && (!$asset || (!$user->author
 	throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 }
 
-// Show the new media manager for browsers that do support ECMAScript 2015
+// Show the new media manager for browsers that do support ECMAScript 5
 $client = JFactory::getApplication()->client;
 
 if ($client->browser == WebClient::IE && $client->version <= 8)
