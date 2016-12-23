@@ -22,7 +22,7 @@ class MediaController extends JControllerLegacy
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
