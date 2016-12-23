@@ -55,7 +55,5 @@ if ($client->browser == WebClient::IE && $client->version <= 8)
 
 	return $controller->redirect();
 }
-else
-{
-	// TODO instantiate the new media manager here
-}
+
+// TODO instantiate the new media manager here
