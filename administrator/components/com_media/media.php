@@ -28,7 +28,7 @@ if (!$user->authorise('core.manage', 'com_media') && (!$asset || (!$user->author
 
 // Show the new media manager for browsers that do support ECMAScript 2015
 $client = JFactory::getApplication()->client;
-if ($client->browser == WebClient::IE || $client->version > 8)
+if ($client->browser != WebClient::IE || $client->version > 8)
 {
 	// TODO instantiate the new media manager here
 }
