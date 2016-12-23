@@ -27,7 +27,8 @@ if (!$user->authorise('core.manage', 'com_media') && (!$asset || (!$user->author
 }
 
 // Show the new media manager for browsers that do support ECMAScript 5
-$client = JFactory::getApplication()->client;
+$client   = JFactory::getApplication()->client;
+$basePath = JPATH_COMPONENT_ADMINISTRATOR;
 
 if ($client->browser == WebClient::IE && $client->version <= 8)
 {
@@ -50,10 +51,10 @@ if ($client->browser == WebClient::IE && $client->version <= 8)
 	define('COM_MEDIA_BASE', JPATH_ROOT . '/' . $params->get($path, 'images'));
 	define('COM_MEDIA_BASEURL', JUri::root() . $params->get($path, 'images'));
 
-	$controller = JControllerLegacy::getInstance('Media', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR . '/legacy'));
-	$controller->execute($input->get('task'));
-
-	return $controller->redirect();
+	$basePath .= '/legacy';
 }
 
-// TODO instantiate the new media manager here
+$controller = JControllerLegacy::getInstance('Media', array('base_path' => $basePath));
+$controller->execute($input->get('task'));
+
+$controller->redirect();
