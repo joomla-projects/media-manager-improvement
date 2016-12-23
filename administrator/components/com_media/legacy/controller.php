@@ -64,7 +64,7 @@ class MediaController extends JControllerLegacy
 		}
 
 		// Get/Create the view
-		$view = $this->getView($vName, $vType, '', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
+		$view = $this->getView($vName, $vType, '', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR . '/legacy'));
 
 		// Get/Create the model
 		if ($model = $this->getModel($mName))
