@@ -18,18 +18,18 @@ $author = $input->get('author');
 
 // Access check.
 if (!$user->authorise('core.manage', 'com_media') && (!$asset || (!$user->authorise('core.edit', $asset)
-			&& !$user->authorise('core.create', $asset)
-			&& count($user->getAuthorisedCategories($asset, 'core.create')) == 0)
+		&& !$user->authorise('core.create', $asset)
+		&& count($user->getAuthorisedCategories($asset, 'core.create')) == 0)
 		&& !($user->id == $author && $user->authorise('core.edit.own', $asset)))
 )
 {
 	throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 }
 
-// Show the new media manager for browsers that do support ECMAScript 5
 $client   = JFactory::getApplication()->client;
 $basePath = JPATH_COMPONENT_ADMINISTRATOR;
 
+// Show the old media manager for browsers that do not support ECMAScript 5
 if ($client->browser == WebClient::IE && $client->version <= 8)
 {
 	// Load the helper class
@@ -56,5 +56,4 @@ if ($client->browser == WebClient::IE && $client->version <= 8)
 
 $controller = JControllerLegacy::getInstance('Media', array('base_path' => $basePath));
 $controller->execute($input->get('task'));
-
 $controller->redirect();
