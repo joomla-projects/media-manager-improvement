@@ -18,7 +18,7 @@ class MediaViewMedia extends JViewLegacy
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
@@ -36,7 +36,9 @@ class MediaViewMedia extends JViewLegacy
 	}
 
 	/**
-	 * Prepare the document
+	 * Prepare the document.
+	 *
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -51,7 +53,9 @@ class MediaViewMedia extends JViewLegacy
 	}
 
 	/**
-	 * Prepare the toolbar
+	 * Prepare the toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
