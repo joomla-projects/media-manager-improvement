@@ -3,7 +3,7 @@ Joomla! CMS™
 
 Build Status
 ---------------------
-Travis-CI: [![Build Status](https://travis-ci.org/joomla-projects/media-manager-improvement.svg?branch=staging)](https://travis-ci.org/joomla-projects/media-manager-improvement)
+Travis-CI: [![Build Status](https://travis-ci.org/joomla-projects/media-manager-improvement.svg?branch=milestone1)](https://travis-ci.org/joomla-projects/media-manager-improvement)
 
 What is this?
 ---------------------
