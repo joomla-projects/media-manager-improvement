@@ -79,7 +79,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			$obj            = new stdClass;
 			$obj->type      = 'file';
 			$obj->name      = basename($path);
-			$obj->path      = pathinfo($path, PATHINFO_DIRNAME);
+			$obj->path      = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_BASENAME);
 			$obj->extension = JFile::getExt($obj->name);
 			$obj->size      = filesize($this->rootPath . $path);
 
@@ -95,7 +95,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			$obj       = new stdClass;
 			$obj->type = 'dir';
 			$obj->name = $folder;
-			$obj->path = $path;
+			$obj->path = pathinfo($folder, PATHINFO_DIRNAME) . '/' . pathinfo($folder, PATHINFO_BASENAME);
 
 			$data[]    = $obj;
 		}
@@ -106,7 +106,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			$obj            = new stdClass;
 			$obj->type      = 'file';
 			$obj->name      = $file;
-			$obj->path      = $path;
+			$obj->path      = pathinfo($file, PATHINFO_DIRNAME) . '/' . pathinfo($file, PATHINFO_BASENAME);
 			$obj->extension = JFile::getExt($file);
 			$obj->size      = filesize($this->rootPath . $path);
 
