@@ -115,18 +115,23 @@ class PlgMediaActionRotate extends MediaAction
 	}
 
 	/**
-	 * Process the image - it's in the task of the plugin to save the
+	 * Process the media file - it's in the task of the plugin to save the
 	 * changed image
 	 *
-	 * @param   string  $filePath  The media file object
-	 * @param   array   $options   Array of plugin options
+	 * @param   Resource  $resource  The media resource (Image etc)
+	 * @param   array     $options   Array of plugin options
 	 *
-	 * @return  bool
+	 * @return  Resource  The manipulated file
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function process($filePath, $options = array())
+	public function process($resource, $options = array())
 	{
-		return true;
+		$rotate = $options['degree'];
+
+		// @todo Transparency, error handling etc
+		$resource = imagerotate($resource, $rotate, imageColorAllocateAlpha($resource, 0, 0, 0, 127));
+
+		return $resource;
 	}
 }
