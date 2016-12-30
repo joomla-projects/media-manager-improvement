@@ -28,13 +28,13 @@
 </script>
 <style>
     /** TODO: move styles to dedicated css file **/
-    .media-browser ul {
+    ul.media-browser-items {
         margin: 0;
         padding: 0;
         list-style: none;
     }
 
-    .media-browser ul li {
+    ul.media-browser-items li {
         display: inline-block;
         float: left;
         width: 100px;

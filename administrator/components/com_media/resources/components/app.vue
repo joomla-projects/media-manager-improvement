@@ -5,7 +5,9 @@
                 <media-tree :tree="tree" :dir="dir"></media-tree>
             </div>
             <div class="span9 media-browser">
-                <media-browser :content="content"></media-browser>
+                <media-breadcrumb :dir="dir"></media-breadcrumb>
+                <media-browser :content="content" v-if="!isLoading"></media-browser>
+                <div v-else>Loading...</div>
             </div>
         </div>
     </div>
@@ -16,6 +18,8 @@
         name: 'media-app',
         data() {
             return {
+                // A global is loading flag
+                isLoading: false,
                 // The current selected directory
                 dir: '/',
                 // The content of the selected directory
@@ -23,20 +27,25 @@
                 // The tree structure
                 tree: {path: '/', children: []},
                 // The api base url
-                baseUrl: 'https://api.github.com/repos/joomla/joomla-cms/contents'
+                baseUrl: '/administrator/index.php?option=com_media&task=api.files&format=json'
             }
         },
         methods: {
-            getContent() {
-                let url = this.baseUrl + this.dir;
-                jQuery.getJSON(url, (content) => {
+            getContents() {
+                this.isLoading = true;
+                let url = this.baseUrl + '&path=' + this.dir;
+                jQuery.getJSON(url, (response) => {
+                    // Get the contents from the data attribute
+                    let content = response.data;
                     // Update the current directory content
                     this.content = content;
                     // Find the directory node by path and update its children
                     this._updateLeafByPath(this.tree, this.dir, content);
                 }).error(() => {
                     alert("Error loading directory content.");
-                })
+                }).always(() => {
+                    this.isLoading = false;
+                });
             },
             // TODO move to a mixin
             _updateLeafByPath(obj, path, data) {
@@ -65,11 +74,11 @@
         },
         mounted() {
             // Load the tree data
-            this.getContent();
+            this.getContents();
         },
         watch: {
             dir: function () {
-                this.getContent();
+                this.getContents();
             }
         }
     }

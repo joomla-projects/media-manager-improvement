@@ -1,6 +1,9 @@
 <template>
-    <div @click="toggleSelection()">
-
+    <div>
+        dir
+        <small>
+            {{ item.name }}
+        </small>
     </div>
 </template>
 
