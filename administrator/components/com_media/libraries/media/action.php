@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Abstract class for the Media Manage Effects (E.g. Crop, Rotate, Convert)
  *
- * @since   __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 abstract class MediaAction implements MediaActionInterface
 {

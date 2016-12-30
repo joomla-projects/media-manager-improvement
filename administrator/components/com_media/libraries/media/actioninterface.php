@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Plugin Interface for the Media Action Plugins (E.g. Crop, Rotate)
  *
- * @since   __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 interface MediaActionInterface
 {
@@ -64,7 +64,7 @@ interface MediaActionInterface
 	 * Get the HTML of the plugin controls
 	 *
 	 * @param   string  $filePath  The media file
-	 * @param   array   $options    Array of plugin options
+	 * @param   array   $options   Array of plugin options
 	 *
 	 * @return  string  HTML to render the plugin
 	 *
@@ -76,8 +76,8 @@ interface MediaActionInterface
 	 * Process the image - it's in the task of the plugin to save the
 	 * changed image
 	 *
-	 * @param   string  $filePath   The media file object
-	 * @param   array   $options    Array of plugin options
+	 * @param   string  $filePath  The media file object
+	 * @param   array   $options   Array of plugin options
 	 *
 	 * @return  bool
 	 *

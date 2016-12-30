@@ -102,7 +102,7 @@ class PlgMediaActionRotate extends MediaAction
 	 * Get the controls
 	 *
 	 * @param   string  $filePath  The media file
-	 * @param   array   $options    Array of plugin options
+	 * @param   array   $options   Array of plugin options
 	 *
 	 * @return  string  HTML to render the plugin
 	 *
@@ -118,8 +118,8 @@ class PlgMediaActionRotate extends MediaAction
 	 * Process the image - it's in the task of the plugin to save the
 	 * changed image
 	 *
-	 * @param   string  $filePath   The media file object
-	 * @param   array   $options    Array of plugin options
+	 * @param   string  $filePath  The media file object
+	 * @param   array   $options   Array of plugin options
 	 *
 	 * @return  bool
 	 *
