@@ -3,7 +3,7 @@ import App from "./components/app.vue";
 import Tree from "./components/tree/tree.vue";
 import TreeItem from "./components/tree/item.vue";
 import Browser from "./components/browser/browser.vue";
-import BrowserItem from "./components/browser/item.vue";
+import BrowserItem from "./components/browser/items/item";
 import Event from "./app/Event";
 
 // Media Manager namespace
