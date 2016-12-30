@@ -61,19 +61,23 @@ JHtml::_('formbehavior.chosen', 'select');
 														</a>
 													</div>
 													<div id="collapseOne" class="accordion-body collapse in">
-														<div class="accordion-inner">
-															<div class="plugin-content">
-																<?php
-																echo $plugin->getControls($this->file);
-																?>
+														<form>
+															<div class="accordion-inner">
+																<div class="plugin-content">
+																	<?php
+																	echo $plugin->getControls($this->file);
+																	?>
+
+																	<input type="hidden" name="plugin" value="<?php echo $plugin->getName(); ?>">
+																</div>
+																<div class="plugin-controls">
+																	<button class="btn btn-apply" type="button"><i
+																				class="icon-white icon-ok"></i></button>
+																	<button class="btn btn-cancel" type="button"><i
+																				class="icon-white icon-remove"></i></button>
+																</div>
 															</div>
-															<div class="plugin-controls">
-																<button class="btn" type="button"><i
-																			class="icon-white icon-ok"></i></button>
-																<button class="btn" type="button"><i
-																			class="icon-white icon-remove"></i></button>
-															</div>
-														</div>
+														</form>
 													</div>
 												</div>
 											<?php endforeach; ?>
@@ -94,3 +98,23 @@ JHtml::_('formbehavior.chosen', 'select');
 	</div>
 
 </div>
+
+<script>
+	// Just for prototype
+    (function ($) {
+        var url = 'index.php?option=com_media&format=json&task=action.preview&file=<?php echo $this->file ?>';
+
+        $('.btn-apply').click(function () {
+            var formData = $(this).parents('form').first().serialize();
+
+            console.log(formData);
+
+            $.ajax(url, {
+                method: 'post',
+	            data: formData
+            }).success(function(data){
+               $('#file').attr('src', 'data:image/png;base64,' + data);
+            });
+        })
+    }(jQuery));
+</script>

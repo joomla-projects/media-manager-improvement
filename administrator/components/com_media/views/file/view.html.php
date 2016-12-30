@@ -84,9 +84,11 @@ class MediaViewFile extends JViewLegacy
 	/**
 	 * Load the available action plugins
 	 *
+	 * @param   string  $fileExtension  File Extension
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function loadPlugins($extension)
+	protected function loadPlugins($fileExtension)
 	{
 		$allPlugins    = JPluginHelper::getPlugin('media-action');
 
@@ -106,7 +108,7 @@ class MediaViewFile extends JViewLegacy
 				continue;
 			}
 
-			if (in_array($extension, $supportedExtensions))
+			if (in_array($fileExtension, $supportedExtensions))
 			{
 				/** @var MediaAction $plugin */
 				$plugin = new $className($option->name);

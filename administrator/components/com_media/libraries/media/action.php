@@ -35,7 +35,7 @@ abstract class MediaAction implements MediaActionInterface
 	/**
 	 * Constructor
 	 *
-	 * @param   string  $pluginName  The plugin name
+	 * @param   string  $name  The plugin name
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -73,5 +73,15 @@ abstract class MediaAction implements MediaActionInterface
 		}
 
 		return $lang->load($name, $basePath, null, false, true);
+	}
+
+	/**
+	 * Get the plugin name
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getName()
+	{
+		return $this->name;
 	}
 }
