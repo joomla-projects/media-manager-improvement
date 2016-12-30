@@ -52,15 +52,25 @@ interface MediaActionInterface
 	public function isBatchProcessable();
 
 	/**
-	 * Get the controls
+	 * List of media file extensions (like jpg) where the plugin is usable
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getMediaFileExtensions();
+
+	/**
+	 * Get the HTML of the plugin controls
 	 *
 	 * @param   string  $filePath  The media file
+	 * @param   array   $options    Array of plugin options
 	 *
 	 * @return  string  HTML to render the plugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getControls($filePath);
+	public function getControls($filePath, $options = array());
 
 	/**
 	 * Process the image - it's in the task of the plugin to save the
