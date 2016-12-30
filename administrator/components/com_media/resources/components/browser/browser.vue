@@ -42,4 +42,9 @@
         margin-bottom: 9px;
         margin-right: 9px;
     }
+    .media-browser-icon {
+        font-size: 32px;
+        margin: 15px 0;
+        text-align: center;
+    }
 </style>

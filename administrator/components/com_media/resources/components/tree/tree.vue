@@ -27,3 +27,8 @@
         }
     }
 </script>
+<style>
+    ul.media-tree {
+        list-style: none;
+    }
+</style>
