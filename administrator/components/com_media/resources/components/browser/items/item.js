@@ -24,15 +24,12 @@ export default {
             return File;
         }
 
-        return createElement('li',
-            {
+        return createElement('li', {
                 'class': 'media-browser-item'
             }, [
-                createElement(
-                    itemType(),
-                    context.data,
-                    context.children
-                )
+                createElement(itemType(), {
+                    props: context.props
+                })
             ]
         );
     }
