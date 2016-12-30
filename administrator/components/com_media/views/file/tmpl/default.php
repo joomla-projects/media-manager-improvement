@@ -68,13 +68,15 @@ JHtml::_('formbehavior.chosen', 'select');
 																	echo $plugin->getControls($this->file);
 																	?>
 
-																	<input type="hidden" name="plugin" value="<?php echo $plugin->getName(); ?>">
+																	<input type="hidden" name="plugin"
+																	       value="<?php echo $plugin->getName(); ?>">
 																</div>
 																<div class="plugin-controls">
 																	<button class="btn btn-apply" type="button"><i
 																				class="icon-white icon-ok"></i></button>
 																	<button class="btn btn-cancel" type="button"><i
-																				class="icon-white icon-remove"></i></button>
+																				class="icon-white icon-remove"></i>
+																	</button>
 																</div>
 															</div>
 														</form>
@@ -89,7 +91,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						</div>
 						<div class="span8">
 							<?php // @todo fileextension ?>
-							<img src="<?php echo JUri::root() . $this->file ?>" id="file" />
+							<img src="<?php echo JUri::root() . $this->file ?>" id="file"/>
 						</div>
 					</div>
 				</div>
@@ -100,7 +102,7 @@ JHtml::_('formbehavior.chosen', 'select');
 </div>
 
 <script>
-	// Just for prototype
+    // Just for prototype
     (function ($) {
         var url = 'index.php?option=com_media&format=json&task=action.preview&file=<?php echo $this->file ?>';
 
@@ -111,9 +113,9 @@ JHtml::_('formbehavior.chosen', 'select');
 
             $.ajax(url, {
                 method: 'post',
-	            data: formData
-            }).success(function(data){
-               $('#file').attr('src', 'data:image/png;base64,' + data);
+                data: formData
+            }).success(function (data) {
+                $('#file').attr('src', 'data:image/png;base64,' + data);
             });
         })
     }(jQuery));

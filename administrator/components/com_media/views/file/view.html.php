@@ -86,6 +86,8 @@ class MediaViewFile extends JViewLegacy
 	 *
 	 * @param   string  $fileExtension  File Extension
 	 *
+	 * @return  void
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function loadPlugins($fileExtension)

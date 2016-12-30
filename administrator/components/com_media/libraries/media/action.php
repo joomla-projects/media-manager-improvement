@@ -78,6 +78,8 @@ abstract class MediaAction implements MediaActionInterface
 	/**
 	 * Get the plugin name
 	 *
+	 * @return  string  Name of the Plugin
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getName()

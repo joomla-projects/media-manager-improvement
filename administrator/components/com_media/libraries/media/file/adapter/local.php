@@ -146,14 +146,4 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			throw new Exception('Delete not possible!');
 		}
 	}
-
-	public function process($path)
-	{
-		if (is_file($this->rootPath . $path))
-		{
-			throw new Exception('Process not possible');
-		}
-
-
-	}
 }

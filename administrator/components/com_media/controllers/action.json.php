@@ -14,17 +14,54 @@ defined('_JEXEC') or die;
  *
  * This is NO public api controller, it is internal for the com_media component only!
  *
- * @todo JUST FOR Prototyping!! Move into api.json or whatever
+ * @todo JUST FOR Prototyping!! Move into api.json or whatever and optimize
  *
  * @since  __DEPLOY_VERSION__
  */
 class MediaControllerAction extends JControllerLegacy
 {
+	/**
+	 * Process the image
+	 *
+	 * @return   string  base64 decoded image
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function process()
 	{
-		$this->sendResponse('bla');
+		$input  = JFactory::getApplication()->input;
+
+		$plugin  = $input->getString('plugin');
+		$file    = JPATH_ROOT . '/' . $input->getString('file');
+		$options = $input->post->getArray();
+
+		$plugin = JPluginHelper::getPlugin('media-action', $plugin);
+
+		// Load Plugin @todo improve
+		include_once JPATH_ROOT . '/plugins/media-action/' . $plugin->name . '/' . $plugin->name . '.php';
+		$className = 'PlgMediaAction' . ucfirst($plugin->name);
+
+		/** @var MediaAction $pluginObj */
+		$pluginObj = new $className($plugin->name);
+
+		$image = imagecreatefrompng($file);
+
+		$image = $pluginObj->process($image, $options);
+
+		imagepng($image, $file);
+
+		imagedestroy($image);
+
+		$this->sendResponse(array('success' => 'true'));
 	}
 
+	/**
+	 * Preview the changes
+	 *
+	 * @return   string  base64 decoded image
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function preview()
 	{
 		$input  = JFactory::getApplication()->input;
