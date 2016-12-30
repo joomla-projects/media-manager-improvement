@@ -46,11 +46,16 @@ class MediaControllerAction extends JControllerLegacy
 
 		$image = $pluginObj->process($image, $options);
 
-		header('Content-type: image/png');
+		ob_start();
 		imagepng($image);
+		$contents = ob_get_contents();
+		ob_end_clean();
+
+		echo base64_encode($contents);
+
 		imagedestroy($image);
 
-		exit(1);
+		JFactory::getApplication()->close();
 	}
 
 	/**
