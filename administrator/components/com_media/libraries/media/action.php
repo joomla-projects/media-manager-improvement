@@ -16,4 +16,62 @@ defined('_JEXEC') or die;
  */
 abstract class MediaAction implements MediaActionInterface
 {
+	/**
+	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 *
+	 * @var     boolean
+	 * @since   __DEPLOY_VERSION_
+	 */
+	protected $autoloadLanguage = false;
+
+	/**
+	 * The Plugin Name
+	 *
+	 * @var     string
+	 * @since   __DEPLOY_VERSION_
+	 */
+	protected $name;
+
+	/**
+	 * Constructor
+	 *
+	 * @param   string  $pluginName  The plugin name
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct($name)
+	{
+		$this->name = $name;
+
+		// Load the language files if needed.
+		if ($this->autoloadLanguage)
+		{
+			$this->loadLanguage($name);
+		}
+	}
+
+	/**
+	 * Loads the plugin language file
+	 *
+	 * @param   string  $name      The plugin for which a language file should be loaded
+	 * @param   string  $basePath  The basepath to use
+	 *
+	 * @return  boolean  True, if the file has successfully loaded.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function loadLanguage($name, $basePath = JPATH_ADMINISTRATOR)
+	{
+		$name = strtolower('plg_media-action_' . $name);
+
+		$lang = JFactory::getLanguage();
+
+		// If language already loaded, don't load it again.
+		if ($lang->getPaths($name))
+		{
+			return true;
+		}
+
+		return $lang->load($name, $basePath, null, false, true);
+	}
 }
