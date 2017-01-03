@@ -78,6 +78,8 @@ class MediaViewFile extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_MEDIA_EDIT'), 'images mediamanager');
 
 		// @todo buttons
+		JToolbarHelper::apply('file.apply');
+		JToolbarHelper::save('file.save');
 	}
 
 

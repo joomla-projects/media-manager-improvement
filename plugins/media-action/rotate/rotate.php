@@ -110,8 +110,9 @@ class PlgMediaActionRotate extends MediaAction
 	 */
 	public function getControls($filePath, $options = array())
 	{
-		// @todo Move to jlayout, load JS lib etc
-		return '<p><input type="range" min="0" max="360" name="degree" id="degree" placeholder="" value="0" /></p>';
+		$layout = new JLayoutFile('controls', __DIR__ . '/layouts');
+
+		return $layout->render(array($filePath, $options));
 	}
 
 	/**
