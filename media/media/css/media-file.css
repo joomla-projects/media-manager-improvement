@@ -3,7 +3,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-.icon-plg-media-action-edit, .icon-plg-media-action-filter {
+.icon-plg-media-action-edit, .icon-plg-media-action-filter, .icon-plg-media-action-crop {
     content: "l";
     font-family: "IcoMoon";
     cursor: pointer;
@@ -15,6 +15,6 @@
     width: 14px;
 }
 
-input[type=range] {
+input[type=range], input {
     max-width: 100%;
 }
