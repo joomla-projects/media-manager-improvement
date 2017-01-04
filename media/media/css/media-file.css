@@ -14,3 +14,7 @@
     margin-right: 3.25px;
     width: 14px;
 }
+
+input[type=range] {
+    max-width: 100%;
+}

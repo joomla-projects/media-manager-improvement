@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 		<i class="btn btn-rotate icon-undo-2" data-degree="45"></i>
 	</p>
 	<p>
-		<input type="range" min="-360" max="360" name="degree" id="degree" placeholder="" value="0" style="width: 100%"/>
+		<input type="range" min="-360" max="360" name="degree" id="degree" value="0" />
 	</p>
 </div>
 
