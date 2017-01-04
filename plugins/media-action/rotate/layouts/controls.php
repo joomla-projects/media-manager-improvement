@@ -26,8 +26,10 @@ defined('_JEXEC') or die;
 	(function ($) {
 		$('.btn-rotate').click(function(e){
 			var degree = $(this).attr('data-degree');
+			var $degree = $('#degree');
+			var current = $degree.val();
 
-			$('#degree').val(degree);
+			$degree.val((parseInt(degree) + parseInt(current)) % 360);
 
 			// Just for demo
 			$(this).parents('form').first().find('.btn-apply').click();
