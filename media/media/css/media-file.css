@@ -1,0 +1,16 @@
+/**
+ * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+.icon-plg-media-action-edit {
+    content: "l";
+    font-family: "IcoMoon";
+    cursor: pointer;
+    display: inline-block;
+    font-size: 13px;
+    height: 14px;
+    line-height: 14px;
+    margin-right: 3.25px;
+    width: 14px;
+}

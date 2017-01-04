@@ -83,7 +83,7 @@ class PlgMediaActionRotate extends MediaAction
 	 */
 	public function getIconClass()
 	{
-		return 'icon-media-rotate';
+		return 'unblock';
 	}
 
 	/**

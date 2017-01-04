@@ -15,6 +15,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
+
+JHtml::_('stylesheet', 'media/media-file.css', array('version' => 'auto', 'relative' => true));
 ?>
 <div class="form-inline form-inline-header">
 
@@ -31,7 +33,7 @@ JHtml::_('formbehavior.chosen', 'select');
 										<a href="#tab<?php echo $alias; ?>"
 										   data-toggle="tab" class="hasTooltip" data-placement="right"
 										   title="<?php echo $category; ?>">
-											<span class="icon-<?php echo $alias; ?>">TDO</span>
+											<span class="icon-<?php echo $alias; ?>">l</span>
 										</a>
 									</li>
 								<?php endforeach; ?>
