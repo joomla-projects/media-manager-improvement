@@ -3,7 +3,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-.icon-plg-media-action-edit {
+.icon-plg-media-action-edit, .icon-plg-media-action-filter {
     content: "l";
     font-family: "IcoMoon";
     cursor: pointer;

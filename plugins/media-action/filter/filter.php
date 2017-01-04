@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Media-Action.rotate
+ * @subpackage  Media-Action.filter
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 
 
 /**
- * Media Manager Rotate Action
+ * Media Manager Filter Action
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgMediaActionRotate extends MediaAction
+class PlgMediaActionFilter extends MediaAction
 {
 	/**
 	 * Load the language file on instantiation.
@@ -59,7 +59,7 @@ class PlgMediaActionRotate extends MediaAction
 	 */
 	public function getTitle()
 	{
-		return JText::_('PLG_MEDIA-ACTION_ROTATE_TITLE');
+		return JText::_('PLG_MEDIA-ACTION_FILTER_TITLE');
 	}
 
 	/**
@@ -71,7 +71,7 @@ class PlgMediaActionRotate extends MediaAction
 	 */
 	public function getCategory()
 	{
-		return JText::_('PLG_MEDIA-ACTION_EDIT');
+		return JText::_('PLG_MEDIA-ACTION_FILTER');
 	}
 
 	/**
@@ -83,7 +83,7 @@ class PlgMediaActionRotate extends MediaAction
 	 */
 	public function getIconClass()
 	{
-		return 'unblock';
+		return 'palette';
 	}
 
 	/**
@@ -127,10 +127,12 @@ class PlgMediaActionRotate extends MediaAction
 	 */
 	public function process($resource, $options = array())
 	{
-		$rotate = $options['degree'];
+		$brightness = $options['brightness'];
+		$contrast = $options['contrast'];
 
 		// @todo Transparency, error handling etc
-		$resource = imagerotate($resource, $rotate, imageColorAllocateAlpha($resource, 0, 0, 0, 127));
+		imagefilter($resource, IMG_FILTER_BRIGHTNESS, $brightness);
+		imagefilter($resource, IMG_FILTER_CONTRAST, $contrast);
 
 		return $resource;
 	}
