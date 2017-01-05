@@ -9,29 +9,28 @@
 
 defined('_JEXEC') or die;
 
-// @todo load from image
-$dimensions = array('width' => 294, 'height' => 44);
+// Get the image properties
+list($imageWidth, $imageHeight, $imageType, $imageAttr) = getimagesize(JPATH_ROOT . '/' . $displayData['filePath']);
 ?>
 
 <div class="RESIZE-buttons">
 	<p>
 		<label for="width"><?php echo JText::_('PLG_MEDIA-ACTION_RESIZE_WIDTH'); ?></label>
-		<input type="number" min="0" name="width" id="width" value="<?php echo $dimensions['width']; ?>" />
+		<input type="number" min="0" name="width" id="width" value="<?php echo $imageWidth; ?>" />
 	</p>
 	<p>
 		<label for="height"><?php echo JText::_('PLG_MEDIA-ACTION_RESIZE_HEIGHT'); ?></label>
-		<input type="number" min="0" name="height" id="height" value="<?php echo $dimensions['height']; ?>" />
+		<input type="number" min="0" name="height" id="height" value="<?php echo $imageHeight; ?>" />
 	</p>
 	<p>
 		<input type="checkbox" name="keep_proportions" id="keep_proportions" checked="checked" />
-		<?php echo JText::_('PLG_MEDIA-ACTION_RESIZE_KEEP_PROPORTIONS'); ?>
+		<label for="keep_proportions"><?php echo JText::_('PLG_MEDIA-ACTION_RESIZE_KEEP_PROPORTIONS'); ?></label>
 	</p>
 </div>
 
 
 <script type="text/javascript">
 	// Prototyping only
-
 	(function ($) {
 		$(document).ready(function(){
 			var $width = $('#width');
@@ -39,26 +38,26 @@ $dimensions = array('width' => 294, 'height' => 44);
 			var $keep = $('#keep_proportions');
 			var $file = $('#file');
 
-			var imageWidth = <?php echo $dimensions['width']; ?>;
-			var imageHeight = <?php echo $dimensions['height']; ?>;
+			var imageWidth = <?php echo $imageWidth; ?>;
+			var imageHeight = <?php echo $imageHeight; ?>;
 
 			$width.keyup(function(e) {
 				var keep = $keep.is(":checked");
+				var height = $height.val();
+				var width = $(this).val();
 
 				if (keep) {
-					var width = $(this).val();
-
 					var ratio = width / imageWidth;
 
-					var height = imageHeight * ratio;
+					height = imageHeight * ratio;
 
 					$height.val(height);
-
-					$file.css('max-width', width);
-					$file.css('max-height', height);
 				}
+
+				console.log(width);
+				$file.css('height', height  + 'px');
+				$file.css('width', width + 'px');
 			});
 		});
-
 	}(jQuery));
 </script>

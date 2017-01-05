@@ -112,7 +112,7 @@ class PlgMediaActionResize extends MediaAction
 	{
 		$layout = new JLayoutFile('controls', __DIR__ . '/layouts');
 
-		return $layout->render(array($filePath, $options));
+		return $layout->render(array('filePath' => $filePath, 'options' => $options));
 	}
 
 	/**
