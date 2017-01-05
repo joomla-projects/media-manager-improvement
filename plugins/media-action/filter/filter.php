@@ -43,7 +43,9 @@ class PlgMediaActionFilter extends MediaAction
 	/**
 	 * Is the plugin usable in server side batch processing
 	 *
-	 * @return bool
+	 * @return  bool
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function isBatchProcessable()
 	{
