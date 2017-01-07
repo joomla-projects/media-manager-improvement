@@ -99,13 +99,12 @@ class MediaControllerApi extends JControllerLegacy
 	 * - POST a new file or folder into a specific folder:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
 	 * 		/api/files/sampledata/fruitshop
-	 *
-	 * 		New file body:
+	 * 		Request body new file:
 	 * 		{
 	 * 			"name": "test.jpg",
 	 * 			"content":"base64 encoded image"
 	 * 		}
-	 * 		New folder body:
+	 * 		Request body new folder:
 	 * 		{
 	 * 			"name": "test",
 	 * 		}
@@ -113,8 +112,7 @@ class MediaControllerApi extends JControllerLegacy
 	 * - PUT a media file:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
 	 * 		/api/files/sampledata/fruitshop/test.jpg
-	 *
-	 * 		Update file body:
+	 * 		Request body:
 	 * 		{
 	 * 			"content":"base64 encoded image"
 	 * 		}
@@ -122,6 +120,20 @@ class MediaControllerApi extends JControllerLegacy
 	 * - PUT process a media file:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg&action=process
 	 * 		/api/files/sampledata/fruitshop/test.jpg/process
+	 * 		Request body:
+	 * 		{
+	 * 			"options":
+	 * 			{
+	 * 				"rotate":[45],
+	 * 				"crop":
+	 * 				{
+	 * 					"x":100,
+	 * 					"y":25,
+	 * 					"width":200,
+	 * 					"height":300
+	 * 				}
+	 * 			}
+	 * 		}
 	 *
 	 * - DELETE an existing folder in a specific folder:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test
@@ -157,7 +169,7 @@ class MediaControllerApi extends JControllerLegacy
 					// Add the file contents when a preview is requested
 					if ($data && pathinfo($path, PATHINFO_EXTENSION) && $this->input->get('action') == 'preview')
 					{
-						$data[0]->content = $this->process($path);
+						$data[0]->content = $this->process($path, false);
 					}
 					break;
 				case 'delete':
@@ -235,8 +247,7 @@ class MediaControllerApi extends JControllerLegacy
 		JPluginHelper::importPlugin('media-action');
 
 		// Trigger the event
-		// @todo options need to be prepared with a better way
-		JEventDispatcher::getInstance()->trigger('onMediaProcess', $resource, $this->input->post->getArray());
+		JEventDispatcher::getInstance()->trigger('onMediaProcess', $resource, $this->input->json->get('options', array()));
 
 		$data = $resource;
 
@@ -259,7 +270,8 @@ class MediaControllerApi extends JControllerLegacy
 
 		if ($persist)
 		{
-			$this->adapter->updateFile(basename($path), $path, $data);
+			$name = basename($path);
+			$this->adapter->updateFile($name, str_replace($name, '', $path), $data);
 		}
 
 		// Return the file contents base64 encoded
