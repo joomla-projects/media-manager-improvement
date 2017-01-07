@@ -59,15 +59,42 @@ class MediaControllerApi extends JControllerLegacy
 	 * - path: The path of the resource, if not set then the default / is taken.
 	 *
 	 * Some examples with a more understandable rest url equivalent:
-	 * - GET a list of folders below the root:
-	 * 		index.php?option=com_media&task=api.files
-	 * 		/api/files
-	 * - GET a list of files and subfolders of a given folder:
+	 * - GET a list of files and subfolders of a given folder, if none is set, the root folder is used:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
 	 * 		/api/files/sampledata/fruitshop
+	 * 		Return body:
+	 * 		[
+	 * 			{"type":"dir","name":"banners","path":"\/banners"},
+	 * 			{"type":"dir","name":"headers","path":"\/headers"},
+	 * 			{"type":"file","name":"index.html","path":"\/index.html","extension":"html","size":31},
+	 * 			{"type":"file","name":"joomla_black.png","path":"\/joomla_black.png","extension":"png","size":4979},
+	 * 			{"type":"file","name":"powered_by.png","path":"\/powered_by.png","extension":"png","size":3197}
+	 * 		]
 	 * - GET file information for a specific file:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
 	 * 		/api/files/sampledata/fruitshop/test.jpg
+	 * 		Return body:
+	 * 		[
+	 * 			{
+	 * 				"type":"file",
+	 * 				"name":"index.html",
+	 * 				"path":"\/index.html",
+	 * 				"extension":"html",
+	 * 				"size":31
+	 * 			}
+	 * 		]
+	 * - GET file information for a specific file:
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg&action=preview
+	 * 		/api/files/sampledata/fruitshop/test.jpg/preview
+	 * 		Return body:
+ * 			{
+ * 				"type":"file",
+ * 				"name":"index.html",
+ * 				"path":"\/index.html",
+ * 				"extension":"html",
+ * 				"size":31,
+ * 				"content":"a base 64 encoded string of the content of the file",
+ * 			}
 	 *
 	 * - POST a new file or folder into a specific folder:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
@@ -101,6 +128,8 @@ class MediaControllerApi extends JControllerLegacy
 		// Determine the method
 		$method = $this->input->getMethod() ? : 'GET';
 
+		// The data to return
+		$data = array();
 		try
 		{
 			// Gather the data accoring to the method
@@ -108,12 +137,23 @@ class MediaControllerApi extends JControllerLegacy
 			{
 				case 'get':
 					$data = $this->adapter->getFiles($path);
+
+					// Add the file contents when a preview is requested
+					if ($data && pathinfo($path, PATHINFO_EXTENSION) && $this->input->get('action') == 'preview')
+					{
+						$data[0]->content = $this->process($this->adapter->getLocalFilePath($path), true);
+					}
 					break;
 				case 'delete':
 					$data = $this->adapter->delete($path);
 					break;
 				case 'post':
 				case 'put':
+					if ($this->input->get('action') == 'process')
+					{
+						$this->process($this->adapter->getLocalFilePath($path));
+					}
+					break;
 				default:
 					throw new BadMethodCallException('Method not supported yet!');
 			}
@@ -128,6 +168,42 @@ class MediaControllerApi extends JControllerLegacy
 	}
 
 	/**
+	 * Trigger the process event.
+	 *
+	 * @param   string   $path        The full local path of the file to process
+	 * @param   boolean  $useTmpFile  Should the processing be done on a temporary file
+	 *
+	 * @return  string  The contents of the file base64 encoded
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function process($path, $useTmpFile = false)
+	{
+		// Work on a temp file when requested
+		if ($useTmpFile)
+		{
+			// Create the tmp path
+			$tmpFile = JPATH_ROOT . '/' . basename($path);
+
+			// Copy the original file to the temp one
+			JFile::copy($path, $tmpFile);
+
+			// Assign the new path
+			$path = $tmpFile;
+		}
+
+		// Load the media action plugins
+		JPluginHelper::importPlugin('media-action');
+
+		// Trigger the event
+		// @todo options need to be prepared with a better way
+		JEventDispatcher::getInstance()->trigger('onMediaProcess', $path, $this->input->post->getArray());
+
+		// Return the file contents base64 encoded
+		return base64_encode(file_get_contents($path));
+	}
+
+	/**
 	 * Send the given data as JSON response in the following format:
 	 *
 	 * {"success":true,"message":"ok","messages":null,"data":[{"type":"dir","name":"banners","path":"//"}]}
@@ -138,7 +214,7 @@ class MediaControllerApi extends JControllerLegacy
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function sendResponse($data = null)
+	private function sendResponse($data = null)
 	{
 		echo new JResponseJson($data);
 	}

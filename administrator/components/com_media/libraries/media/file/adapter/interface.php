@@ -18,10 +18,14 @@ interface MediaFileAdapterInterface
 {
 	/**
 	 * Returns the folders and files for the given path. The returned objects
-	 * have the following properties:
-	 * - type: file or dir
+	 * have the following properties available:
+	 * - type: The type can be file or dir
 	 * - name: The name of the file
 	 * - path: The relative path to the root
+	 *
+	 * If the type is file, then some additional properties are available:
+	 * - extension: The file extension
+	 * - size:      The size of the file
 	 *
 	 * @param   string  $path  The folder
 	 *
@@ -43,4 +47,16 @@ interface MediaFileAdapterInterface
 	 * @throws  Exception
 	 */
 	public function delete($path);
+
+	/**
+	 * Returns a file in the local filesystem for the given path.
+	 *
+	 * @param   string  $path  The path to the file
+	 *
+	 * @return  string  The local file path
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	public function getLocalFilePath($path);
 }
