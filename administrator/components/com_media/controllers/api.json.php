@@ -148,7 +148,7 @@ class MediaControllerApi extends JControllerLegacy
 		$data = array();
 		try
 		{
-			// Gather the data accoring to the method
+			// Gather the data according to the method
 			switch (strtolower($method))
 			{
 				case 'get':
@@ -168,7 +168,7 @@ class MediaControllerApi extends JControllerLegacy
 					$name         = $content->get('name');
 					$mediaContent = base64_decode($content->get('content'));
 
-					if ($mediaContent)
+					if (pathinfo($path, PATHINFO_EXTENSION))
 					{
 						// A file needs to be created
 						$data = $this->adapter->createFile($name, $path, $mediaContent);
@@ -184,12 +184,14 @@ class MediaControllerApi extends JControllerLegacy
 					{
 						$this->process($path);
 					}
+					else
+					{
+						$content      = $this->input->json;
+						$name         = basename($path);
+						$mediaContent = base64_decode($content->get('content'));
 
-					$content      = $this->input->json;
-					$name         = basename($path);
-					$mediaContent = base64_decode($content->get('content'));
-
-					$data = $this->adapter->updateFile($name, str_replace($name, '', $path), $mediaContent);
+						$this->adapter->updateFile($name, str_replace($name, '', $path), $mediaContent);
+					}
 					break;
 				default:
 					throw new BadMethodCallException('Method not supported yet!');
@@ -236,7 +238,9 @@ class MediaControllerApi extends JControllerLegacy
 		// @todo options need to be prepared with a better way
 		JEventDispatcher::getInstance()->trigger('onMediaProcess', $resource, $this->input->post->getArray());
 
-		// The output gets recorded
+		$data = $resource;
+
+		// Images do need special handling
 		ob_start();
 		switch (strtolower(pathinfo($path, PATHINFO_EXTENSION)))
 		{
@@ -249,13 +253,14 @@ class MediaControllerApi extends JControllerLegacy
 			case 'png':
 				imagepng($resource);
 				break;
-			default:
-				// Get the raw data from the resources
-				echo $resource;
-				break;
 		}
 		$data = ob_get_contents();
 		ob_end_clean();
+
+		if ($persist)
+		{
+			$this->adapter->updateFile(basename($path), $path, $data);
+		}
 
 		// Return the file contents base64 encoded
 		return base64_encode($data);
