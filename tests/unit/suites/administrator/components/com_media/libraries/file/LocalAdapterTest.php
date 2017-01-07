@@ -193,11 +193,11 @@ class LocalAdapterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test MediaFileAdapterLocal::getLocalFilePath
+	 * Test MediaFileAdapterLocal::getResource
 	 *
 	 * @return  void
 	 */
-	public function testGetLocalFilePath()
+	public function testGetResource()
 	{
 		// Make some test files
 		JFile::write($this->root . 'test.txt', 'test');
@@ -205,10 +205,10 @@ class LocalAdapterTest extends PHPUnit_Framework_TestCase
 		// Create the adapter
 		$adapter = new MediaFileAdapterLocal($this->root);
 
-		// Fetch the path for the test file
-		$path = $adapter->getLocalFilePath('test.txt');
+		// Fetch the resource for the test file
+		$resource = $adapter->getResource('test.txt');
 
-		// Check if the paths are equal
-		$this->assertEquals($this->root . 'test.txt', $path);
+		// Check if it is a resource
+		$this->assertTrue(is_resource($resource));
 	}
 }

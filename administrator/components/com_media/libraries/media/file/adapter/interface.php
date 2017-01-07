@@ -49,14 +49,14 @@ interface MediaFileAdapterInterface
 	public function delete($path);
 
 	/**
-	 * Returns a file in the local filesystem for the given path.
+	 * Returns a stream for the given path.
 	 *
-	 * @param   string  $path  The path to the file
+	 * @param   string    $path  The path to the file
 	 *
-	 * @return  string  The local file path
+	 * @return  resource  The resource
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public function getLocalFilePath($path);
+	public function getStream($path);
 }
