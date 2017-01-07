@@ -201,7 +201,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * Returns a stream for the given path.
 	 *
-	 * @param   string    $path  The path to the file
+	 * @param   string  $path  The path to the file
 	 *
 	 * @return  resource  The resource
 	 *
