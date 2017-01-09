@@ -169,7 +169,7 @@ class MediaControllerApi extends JControllerLegacy
 					// Add the file contents when a preview is requested
 					if ($data && pathinfo($path, PATHINFO_EXTENSION) && $this->input->get('action') == 'preview')
 					{
-						$data[0]->content = $this->process($path, false);
+						$data[0]->content = $this->process($this->adapter->getLocalFilePath($path), false);
 					}
 					break;
 				case 'delete':
@@ -194,7 +194,7 @@ class MediaControllerApi extends JControllerLegacy
 				case 'put':
 					if ($this->input->get('action') == 'process')
 					{
-						$this->process($path);
+						$this->process($this->adapter->getLocalFilePath($path));
 					}
 					else
 					{
@@ -218,64 +218,39 @@ class MediaControllerApi extends JControllerLegacy
 		}
 	}
 
-	/**
+		/**
 	 * Trigger the process event.
 	 *
-	 * @param   string   $path     The full local path of the file to process
-	 * @param   boolean  $persist  Should the processed media file being persisted
+	 * @param   string   $path        The full local path of the file to process
+	 * @param   boolean  $useTmpFile  Should the processing be done on a temporary file
 	 *
 	 * @return  string  The contents of the file base64 encoded
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function process($path, $persist = true)
+	private function process($path, $useTmpFile = false)
 	{
-		$stream = $this->adapter->getStream($path);
-
-		// Create a resource
-		$resource = stream_get_contents($stream);
-		switch (strtolower(pathinfo($path, PATHINFO_EXTENSION)))
+		// Work on a temp file when requested
+		if ($useTmpFile)
 		{
-			case 'jpg':
-			case 'png':
-			case 'gif':
-				// Create an image resource
-				$resource = imagecreatefromstring($resource);
+			// Create the tmp path
+			$tmpFile = JPATH_ROOT . '/' . basename($path);
+
+			// Copy the original file to the temp one
+			JFile::copy($path, $tmpFile);
+
+			// Assign the new path
+			$path = $tmpFile;
 		}
 
 		// Load the media action plugins
 		JPluginHelper::importPlugin('media-action');
 
 		// Trigger the event
-		JEventDispatcher::getInstance()->trigger('onMediaProcess', $resource, $this->input->json->get('options', array()));
-
-		$data = $resource;
-
-		// Images do need special handling
-		ob_start();
-		switch (strtolower(pathinfo($path, PATHINFO_EXTENSION)))
-		{
-			case 'jpg':
-				imagejpeg($resource);
-				break;
-			case 'gif':
-				imagegif($resource);
-				break;
-			case 'png':
-				imagepng($resource);
-				break;
-		}
-		$data = ob_get_contents();
-		ob_end_clean();
-
-		if ($persist)
-		{
-			$name = basename($path);
-			$this->adapter->updateFile($name, str_replace($name, '', $path), $data);
-		}
+		JEventDispatcher::getInstance()->trigger('onMediaProcess', $path, $this->input->json->get('options', array()));
 
 		// Return the file contents base64 encoded
-		return base64_encode($data);
+		return base64_encode(file_get_contents($path));
 	}
 
 	/**

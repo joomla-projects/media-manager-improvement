@@ -199,17 +199,17 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	}
 
 	/**
-	 * Returns a stream for the given path.
+	 * Returns a file in the local filesystem for the given path.
 	 *
 	 * @param   string  $path  The path to the file
 	 *
-	 * @return  resource  The resource
+	 * @return  string  The local file path
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public function getStream($path)
+	public function getLocalFilePath($path)
 	{
-		return fopen($this->rootPath . $path, 'rw');
+		return JPath::clean($this->rootPath . $path);
 	}
 }
