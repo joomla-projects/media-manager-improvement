@@ -54,6 +54,7 @@
                     this.$set(obj, 'children', data);
                     return true;
                 }
+
                 // Loop over the node children
                 if (obj.children && obj.children.length) {
                     for(let i=0; i < obj.children.length; i++) {

@@ -49,7 +49,8 @@ class MediaViewMedia extends JViewLegacy
 		// Add javascripts
 		$doc->addScript(JUri::root() . 'media/media/js/app.js');
 
-		// TODO Add stylesheets
+		// Populate the language
+		// TODO use JText for all language strings used by the js application
 	}
 
 	/**
@@ -61,9 +62,35 @@ class MediaViewMedia extends JViewLegacy
 	 */
 	protected function prepareToolbar()
 	{
+		$bar  = JToolbar::getInstance('toolbar');
+		$user = JFactory::getUser();
+
 		// Set the title
 		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
 
 		// TODO add the toolbar buttons
+
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('toolbar.uploadmedia', JPATH_COMPONENT_ADMINISTRATOR . '/legacy/layouts');
+
+		$bar->appendButton('Custom', $layout->render(array()), 'upload');
+		JToolbarHelper::divider();
+
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('toolbar.newfolder', JPATH_COMPONENT_ADMINISTRATOR . '/legacy/layouts');
+
+		$bar->appendButton('Custom', $layout->render(array()), 'upload');
+		JToolbarHelper::divider();
+
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('toolbar.deletemedia', JPATH_COMPONENT_ADMINISTRATOR . '/legacy/layouts');
+
+		$bar->appendButton('Custom', $layout->render(array()), 'upload');
+		JToolbarHelper::divider();
+
+		JToolbarHelper::preferences('com_media');
+		JToolbarHelper::divider();
+
+		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
 	}
 }
