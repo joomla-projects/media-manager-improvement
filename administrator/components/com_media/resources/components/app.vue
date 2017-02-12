@@ -1,9 +1,9 @@
 <template>
     <div class="media-container row-fluid" :style="{height: fullHeight}">
-        <div class="media-sidebar span3">
+        <div class="media-sidebar span2">
             <media-tree :tree="tree" :dir="dir"></media-tree>
         </div>
-        <div class="media-browser span9">
+        <div class="media-browser span10">
             <media-breadcrumb :dir="dir"></media-breadcrumb>
             <media-browser :content="content" v-if="!isLoading"></media-browser>
             <div v-else>Loading...</div>
@@ -68,8 +68,7 @@
                 });
             },
             // Get the full size
-            setFullHeight (event) {
-                console.log('resize');
+            setFullHeight () {
                 this.fullHeight = window.innerHeight - this.$el.offsetTop + 'px';
             },
             // TODO move to a mixin
