@@ -1,6 +1,6 @@
 <template>
     <div class="media-toolbar">
-        <media-breadcrumb :dir="dir"></media-breadcrumb>
+        <media-breadcrumb :currentDir="currentDir"></media-breadcrumb>
     </div>
 </template>
 
@@ -15,6 +15,6 @@
 <script>
     export default {
         name: 'media-toolbar',
-        props: ['dir'],
+        props: ['currentDir'],
     }
 </script>

@@ -1,11 +1,11 @@
 <template>
     <div class="media-container row-fluid" :style="{height: fullHeight}">
         <div class="media-sidebar span2">
-            <media-tree :tree="tree" :dir="dir"></media-tree>
+            <media-tree :tree="tree" :currentDir="currentDir"></media-tree>
         </div>
         <div class="media-main span10">
-            <media-toolbar :dir="dir"></media-toolbar>
-            <media-browser :content="content" v-if="!isLoading"></media-browser>
+            <media-toolbar :currentDir="currentDir"></media-toolbar>
+            <media-browser :content="currentDirContent" v-if="!isLoading"></media-browser>
             <div v-else>Loading...</div>
         </div>
     </div>
@@ -39,9 +39,9 @@
                 // A global is loading flag
                 isLoading: false,
                 // The current selected directory
-                dir: '/',
+                currentDir: '/',
                 // The content of the selected directory
-                content: [],
+                currentDirContent: [],
                 // The tree structure
                 tree: {path: '/', children: []},
                 // The api base url
@@ -51,23 +51,24 @@
             }
         },
         methods: {
+            // Get the content of the current directory
             getContents() {
                 this.isLoading = true;
-                let url = this.baseUrl + '&path=' + this.dir;
+                let url = this.baseUrl + '&path=' + this.currentDir;
                 jQuery.getJSON(url, (response) => {
                     // Get the contents from the data attribute
                     let content = response.data;
                     // Update the current directory content
-                    this.content = content;
+                    this.currentDirContent = content;
                     // Find the directory node by path and update its children
-                    this._updateLeafByPath(this.tree, this.dir, content);
+                    this._updateLeafByPath(this.tree, this.currentDir, content);
                 }).error(() => {
                     alert("Error loading directory content.");
                 }).always(() => {
                     this.isLoading = false;
                 });
             },
-            // Get the full size
+            // Set the full height on the app container
             setFullHeight () {
                 this.fullHeight = window.innerHeight - this.$el.offsetTop + 'px';
             },
@@ -94,7 +95,7 @@
         created() {
             // Listen to the directory changed event
             Media.Event.listen('dirChanged', (dir) => {
-                this.dir = dir;
+                this.currentDir = dir;
             });
         },
         mounted() {
@@ -102,15 +103,17 @@
             this.getContents();
             this.$nextTick(function () {
                 this.setFullHeight();
+                // Add the global resize event listener
                 window.addEventListener('resize', this.setFullHeight)
             });
         },
         watch: {
-            dir: function () {
+            currentDir: function () {
                 this.getContents();
             }
         },
         beforeDestroy: function () {
+            // Add the global resize event listener
             window.removeEventListener('resize', this.setFullHeight)
         },
     }

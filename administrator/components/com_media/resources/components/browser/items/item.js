@@ -7,16 +7,16 @@ export default {
     props: ['item'],
     render: function (createElement, context) {
 
-        // Return the correct item type
+        // Return the correct item type component
         function itemType() {
             let item = context.props.item;
-            let imageExtensions = ['jpg', 'png'];
-            
+            let imageExtensions = ['jpg', 'png', 'gif'];
+
             // Render directory items
             if (item.type === 'dir') return Directory;
 
             // Render image items
-            if (item.extension && item.extension.indexOf(imageExtensions) !== -1) {
+            if (item.extension && imageExtensions.indexOf(item.extension.toLowerCase()) !== -1) {
                 return Image;
             }
 

@@ -1,11 +1,11 @@
 <template>
-    <div>
-        <p class="media-browser-icon">
+    <div class="media-browser-item-file">
+        <div class="media-browser-item-icon">
             <i class="icon icon-file"></i>
-        </p>
-        <p class="text-center">
+        </div>
+        <div class="media-browser-item-info">
             {{ item.name }}
-        </p>
+        </div>
     </div>
 </template>
 

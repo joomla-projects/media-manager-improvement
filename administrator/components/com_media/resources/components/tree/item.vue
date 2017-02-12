@@ -4,14 +4,16 @@
             <i class="icon" :class="{'icon-folder-open': isActive, 'icon-folder-close': !isActive}"></i>
             {{ item.name }}
         </a>
-        <media-tree v-if="item.children && item.children.length" v-show="isOpen" :tree="item" :dir="dir"></media-tree>
+        <media-tree v-if="item.children && item.children.length" v-show="isOpen"
+                    :tree="item"
+                    :currentDir="currentDir"></media-tree>
     </li>
 </template>
 
 <script>
     export default {
         name: 'media-tree-item',
-        props: ['item', 'dir'],
+        props: ['item', 'currentDir'],
         data() {
             return {
                 isOpen: false,

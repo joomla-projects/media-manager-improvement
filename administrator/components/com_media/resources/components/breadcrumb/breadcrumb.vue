@@ -32,17 +32,17 @@
 <script>
     export default {
         name: 'media-breadcrumb',
-        props: ['dir'],
+        props: ['currentDir'],
         computed: {
             /* Get the directories from the current directory path */
             directories: function () {
                 const items = [];
-                this.dir.split('/')
+                this.currentDir.split('/')
                     .filter((crumb) => crumb.length !== 0)
                     .forEach((crumb) => {
                         items.push({
                             name: crumb,
-                            path: this.dir.split(crumb)[0] + '/' + crumb,
+                            path: this.currentDir.split(crumb)[0] + '/' + crumb,
                         });
                     })
                 return items;

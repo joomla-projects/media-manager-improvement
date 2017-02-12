@@ -1,13 +1,13 @@
 <template>
     <ul class="media-tree">
-        <media-tree-item v-for="item in directories" :item="item" :dir="dir"></media-tree-item>
+        <media-tree-item v-for="item in directories" :item="item" :currentDir="currentDir"></media-tree-item>
     </ul>
 </template>
 
 <script>
     export default {
         name: 'media-tree',
-        props: ['tree', 'dir'],
+        props: ['tree', 'currentDir'],
         computed: {
             directories: function () {
                 return this.tree.children
