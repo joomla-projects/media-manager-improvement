@@ -1,17 +1,35 @@
 <template>
-    <div>
-        <div class="row-fluid">
-            <div class="span3 media-sidebar">
-                <media-tree :tree="tree" :dir="dir"></media-tree>
-            </div>
-            <div class="span9 media-browser">
-                <media-breadcrumb :dir="dir"></media-breadcrumb>
-                <media-browser :content="content" v-if="!isLoading"></media-browser>
-                <div v-else>Loading...</div>
-            </div>
+    <div class="media-container row-fluid" :style="{height: fullHeight}">
+        <div class="media-sidebar span3">
+            <media-tree :tree="tree" :dir="dir"></media-tree>
+        </div>
+        <div class="media-browser span9">
+            <media-breadcrumb :dir="dir"></media-breadcrumb>
+            <media-browser :content="content" v-if="!isLoading"></media-browser>
+            <div v-else>Loading...</div>
         </div>
     </div>
 </template>
+
+<style>
+    .media-container {
+        background: #f8f8f8;
+        position: absolute;
+        width: 100%;
+        left: 0;
+        margin-top: -10px;
+    }
+
+    .media-sidebar {
+        height: 100%;
+    }
+
+    .media-browser {
+        height: 100%;
+        background: #fff;
+        border-left: 1px solid #dedede;
+    }
+</style>
 
 <script>
     export default {
@@ -27,7 +45,9 @@
                 // The tree structure
                 tree: {path: '/', children: []},
                 // The api base url
-                baseUrl: '/administrator/index.php?option=com_media&task=api.files&format=json'
+                baseUrl: '/administrator/index.php?option=com_media&task=api.files&format=json',
+                // The full height of the app
+                fullHeight: '',
             }
         },
         methods: {
@@ -47,6 +67,11 @@
                     this.isLoading = false;
                 });
             },
+            // Get the full size
+            setFullHeight (event) {
+                console.log('resize');
+                this.fullHeight = window.innerHeight - this.$el.offsetTop + 'px';
+            },
             // TODO move to a mixin
             _updateLeafByPath(obj, path, data) {
                 // Set the node children
@@ -57,8 +82,8 @@
 
                 // Loop over the node children
                 if (obj.children && obj.children.length) {
-                    for(let i=0; i < obj.children.length; i++) {
-                        if(this._updateLeafByPath(obj.children[i], path, data)) {
+                    for (let i = 0; i < obj.children.length; i++) {
+                        if (this._updateLeafByPath(obj.children[i], path, data)) {
                             return true;
                         }
                     }
@@ -76,11 +101,18 @@
         mounted() {
             // Load the tree data
             this.getContents();
+            this.$nextTick(function () {
+                this.setFullHeight();
+                window.addEventListener('resize', this.setFullHeight)
+            });
         },
         watch: {
             dir: function () {
                 this.getContents();
             }
-        }
+        },
+        beforeDestroy: function () {
+            window.removeEventListener('resize', this.setFullHeight)
+        },
     }
 </script>
