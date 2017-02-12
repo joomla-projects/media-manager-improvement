@@ -1,7 +1,9 @@
 <template>
-    <ul class="media-browser-items">
-        <media-browser-item v-for="item in content" :item="item"></media-browser-item>
-    </ul>
+    <div class="media-browser">
+        <ul class="media-browser-items">
+            <media-browser-item v-for="item in content" :item="item"></media-browser-item>
+        </ul>
+    </div>
 </template>
 <script>
     export default {

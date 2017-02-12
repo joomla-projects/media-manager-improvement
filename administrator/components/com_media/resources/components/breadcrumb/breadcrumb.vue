@@ -22,6 +22,7 @@
         name: 'media-breadcrumb',
         props: ['dir'],
         computed: {
+            /* Get the directories from the current directory path */
             directories: function () {
                 const items = [];
                 this.dir.split('/')
@@ -36,6 +37,7 @@
             }
         },
         methods: {
+            /* Go to a path */
             goTo: function (path) {
                 Media.Event.fire('dirChanged', path);
             }
