@@ -1,7 +1,7 @@
 <template>
-    <li class="media-tree-item" :class="{active: isActive, open: isOpen}">
+    <li class="media-tree-item" :class="{active: isActive}">
         <a @click.stop.prevent="toggleItem()">
-            <i class="icon" :class="{'icon-folder-open': isOpen, 'icon-folder-close': !isOpen}"></i>
+            <i class="icon" :class="{'icon-folder-open': isActive, 'icon-folder-close': !isActive}"></i>
             {{ item.name }}
         </a>
         <media-tree v-if="item.children && item.children.length" v-show="isOpen" :tree="item" :dir="dir"></media-tree>
