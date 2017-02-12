@@ -30,13 +30,13 @@
 </script>
 <style>
     /** TODO: move styles to dedicated css file **/
-    ul.media-browser-items {
+    .media-browser-items {
         margin: 0;
-        padding: 0;
+        padding: 15px;
         list-style: none;
     }
 
-    ul.media-browser-items li {
+    .media-browser-items li {
         display: inline-block;
         float: left;
         width: 100px;

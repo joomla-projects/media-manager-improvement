@@ -1,5 +1,5 @@
 <template>
-    <ul class="breadcrumb media-breadcrumb">
+    <ul class="media-breadcrumb">
         <li>
             <a @click.stop.prevent="goTo('/')">Root</a>
             <span class="divider">/</span>
@@ -12,8 +12,20 @@
 </template>
 
 <style>
-    .breadcrumb a {
+    .media-breadcrumb {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    .media-breadcrumb > li {
+        display: inline-block;
+    }
+    .media-breadcrumb > li > a {
         cursor: pointer;
+    }
+    .media-breadcrumb > li > .divider {
+        padding: 0 3px;
+        color: #ccc;
     }
 </style>
 
