@@ -39,8 +39,9 @@
         float: left;
         width: 100px;
         height: 100px;
-        margin-bottom: 9px;
-        margin-right: 9px;
+        margin-bottom: 6px;
+        margin-right: 6px;
+        border: 3px solid #fff;
     }
     .media-browser-icon {
         font-size: 32px;
