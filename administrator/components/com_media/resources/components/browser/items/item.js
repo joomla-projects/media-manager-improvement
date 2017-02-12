@@ -11,12 +11,12 @@ export default {
         function itemType() {
             let item = context.props.item;
             let imageExtensions = ['jpg', 'png'];
-
+            
             // Render directory items
             if (item.type === 'dir') return Directory;
 
             // Render image items
-            if (item.extension && item.extension.indexOf(imageExtensions)) {
+            if (item.extension && item.extension.indexOf(imageExtensions) !== -1) {
                 return Image;
             }
 
