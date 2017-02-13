@@ -13,10 +13,18 @@
         list-style: none;
     }
 
+    .media-browser-items:after {
+        content: ".";
+        clear: both;
+        display: block;
+        visibility: hidden;
+        height: 0px;
+    }
+
     .media-browser-items li {
         display: inline-block;
         float: left;
-        margin-bottom: 6px;
+        margin-bottom: 12px;
         margin-right: 6px;
         padding: 2px;
     }

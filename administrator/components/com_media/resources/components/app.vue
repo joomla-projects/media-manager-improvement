@@ -1,9 +1,10 @@
 <template>
-    <div class="media-container row-fluid" :style="{height: fullHeight}">
-        <div class="media-sidebar span2">
+    <div class="media-container" :style="{minHeight: fullHeight}">
+        <div class="media-sidebar">
+            <div class="media-sidebar-header">//</div>
             <media-tree :tree="tree" :currentDir="currentDir"></media-tree>
         </div>
-        <div class="media-main span10">
+        <div class="media-main">
             <media-toolbar :currentDir="currentDir"></media-toolbar>
             <media-browser :content="currentDirContent" v-if="!isLoading"></media-browser>
             <div v-else>Loading...</div>
@@ -13,21 +14,29 @@
 
 <style>
     .media-container {
-        background: #f8f8f8;
         position: absolute;
-        width: 100%;
         left: 0;
+        width: 100%;
         margin-top: -10px;
+        display: flex;
     }
 
     .media-sidebar {
-        height: 100%;
+        width: 16.5%;
+        background: #f8f8f8;
+        border-right: 1px solid #dedede;
+        padding-bottom: 50px;
+    }
+
+    .media-sidebar-header {
+        padding: 15px;
+        border-bottom: 1px solid #dedede;
     }
 
     .media-main {
-        height: 100%;
         background: #fff;
-        border-left: 1px solid #dedede;
+        flex-grow: 1;
+        padding-bottom: 50px;
     }
 </style>
 
