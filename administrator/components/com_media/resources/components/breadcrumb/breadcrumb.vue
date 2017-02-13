@@ -1,12 +1,12 @@
 <template>
     <ul class="media-breadcrumb">
         <li>
-            <a @click.stop.prevent="goTo('/')">Root</a>
+            <a @click.stop.prevent="goTo('/')"><i class="icon icon-home"></i></a>
             <span class="divider">/</span>
         </li>
         <li v-for="item in directories">
             <a @click.stop.prevent="goTo(item.path)">{{ item.name }}</a>
-            <span class="divider">/</span>
+            <span class="divider" v-if="!isLast(item)">/</span>
         </li>
     </ul>
 </template>
@@ -52,6 +52,9 @@
             /* Go to a path */
             goTo: function (path) {
                 Media.Event.fire('dirChanged', path);
+            },
+            isLast(item) {
+                return this.directories.indexOf(item) === this.directories.length - 1;
             }
         },
     }

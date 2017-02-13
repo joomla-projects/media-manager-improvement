@@ -6,9 +6,11 @@
                 {{ item.name }}
             </span>
         </a>
-        <media-tree v-if="item.children && item.children.length" v-show="isOpen"
-                    :tree="item"
-                    :currentDir="currentDir"></media-tree>
+        <transition name="slide-fade">
+            <media-tree v-if="item.children && item.children.length" v-show="isOpen"
+                        :tree="item"
+                        :currentDir="currentDir"></media-tree>
+        </transition>
     </li>
 </template>
 
@@ -41,5 +43,15 @@
     }
     .media-tree-item a {
         cursor: pointer;
+    }
+    .slide-fade-enter-active {
+        transition: all .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+    .slide-fade-leave-active {
+        transition: all .2s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+    .slide-fade-enter, .slide-fade-leave-to {
+        transform: translateY(-10px);
+        opacity: 0;
     }
 </style>
