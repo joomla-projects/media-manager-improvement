@@ -24,8 +24,8 @@
         cursor: pointer;
     }
     .media-breadcrumb > li > .divider {
-        padding: 0 3px;
-        color: #ccc;
+        padding: 0 5px;
+        color: #dedede;
     }
 </style>
 
