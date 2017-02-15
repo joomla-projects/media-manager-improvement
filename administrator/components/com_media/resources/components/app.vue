@@ -6,8 +6,7 @@
         </div>
         <div class="media-main">
             <media-toolbar :currentDir="currentDir"></media-toolbar>
-            <media-browser :content="currentDirContent" v-if="!isLoading"></media-browser>
-            <div v-else>Loading...</div>
+            <media-browser :content="currentDirContent"></media-browser>
         </div>
     </div>
 </template>

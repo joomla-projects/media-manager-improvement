@@ -9,20 +9,14 @@
         name: 'media-tree',
         props: ['tree', 'currentDir'],
         computed: {
-            directories: function () {
+            directories () {
                 return this.tree.children
-                    .filter((item) => {
-                        // Hide hidden files
-                        return item.name.indexOf('.') !== 0;
-                    })
-                    .filter((item) => {
-                        // Show only directories
-                        return item.type === "dir";
-                    })
-                    .sort((a, b) => {
-                        // Sort alphabetically
-                        return (a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1;
-                    })
+                // Hide hidden files
+                    .filter(item => item.name.indexOf('.') !== 0)
+                    // Show only directories
+                    .filter(item =>  item.type === "dir")
+                    // Sort alphabetically
+                    .sort((a, b) => (a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1);
             }
         }
     }

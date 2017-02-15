@@ -42,7 +42,7 @@
                     .forEach((crumb) => {
                         items.push({
                             name: crumb,
-                            path: this.currentDir.split(crumb)[0] + '/' + crumb,
+                            path: this.currentDir.split(crumb)[0] + crumb,
                         });
                     })
                 return items;
