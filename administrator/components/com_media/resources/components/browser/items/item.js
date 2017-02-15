@@ -24,7 +24,7 @@ export default {
             return File;
         }
 
-        return createElement('li', {
+        return createElement('div', {
                 'class': 'media-browser-item'
             }, [
                 createElement(itemType(), {

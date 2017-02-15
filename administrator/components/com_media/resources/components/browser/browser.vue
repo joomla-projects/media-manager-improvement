@@ -1,43 +1,30 @@
 <template>
     <div class="media-browser">
-        <ul class="media-browser-items">
+        <div class="media-browser-items">
             <media-browser-item v-for="item in content" :item="item"></media-browser-item>
-        </ul>
+        </div>
     </div>
 </template>
 <style>
     /** TODO: move styles to dedicated css file **/
     .media-browser-items {
-        margin: 0;
         padding: 15px;
-        list-style: none;
-    }
-
-    .media-browser-items:after {
-        content: ".";
-        clear: both;
-        display: block;
-        visibility: hidden;
-        height: 0px;
-    }
-
-    .media-browser-items li {
-        display: inline-block;
-        float: left;
-        margin-bottom: 12px;
-        margin-right: 6px;
-        padding: 2px;
     }
 
     .media-browser-item {
+        display: inline-block;
+        position: relative;
+        vertical-align: top;
+        margin-top: 15px;
+        margin-right: 15px;
+        width: calc(14.285714285714286% - 16px);
     }
 
     .media-browser-item-icon {
-        vertical-align: middle;
-        width: 100px;
-        height: 100px;
-        font-size: 50px;
-        text-align: center;
+        padding-top: 75%;
+        position: relative;
+        border-radius: 1px;
+        width: 100%;
     }
 
     .media-browser-item-icon .icon {

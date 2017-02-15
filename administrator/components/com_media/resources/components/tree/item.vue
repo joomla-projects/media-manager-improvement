@@ -60,14 +60,14 @@
     }
 
     .media-tree-item a:hover {
-        background-color: #eee;
-        border-color: #8f8f8f;
+        background-color: #e1e1e1;
+        border-color: #646464;
         text-decoration: none;
     }
 
     .media-tree-item.active > a {
         background-color: transparent;
-        border-color: #1976D2;
+        border-color: #2384d3;
     }
 
     .item-icon {
@@ -79,7 +79,7 @@
     }
 
     .media-tree-item.active > a .item-icon {
-        color: #1976D2;
+        color: #2384d3;
     }
 
     .item-name {

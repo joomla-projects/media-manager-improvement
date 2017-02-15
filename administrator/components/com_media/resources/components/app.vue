@@ -1,11 +1,11 @@
 <template>
     <div class="media-container" :style="{minHeight: fullHeight}">
-        <div class="media-sidebar">
-            <div class="media-sidebar-header">//</div>
-            <media-tree :tree="tree" :currentDir="currentDir"></media-tree>
-        </div>
+
+        <media-toolbar :currentDir="currentDir"></media-toolbar>
         <div class="media-main">
-            <media-toolbar :currentDir="currentDir"></media-toolbar>
+            <div class="media-sidebar">
+                <media-tree :tree="tree" :currentDir="currentDir"></media-tree>
+            </div>
             <media-browser :content="currentDirContent"></media-browser>
         </div>
     </div>
@@ -16,27 +16,24 @@
         position: absolute;
         left: 0;
         width: 100%;
-        margin-top: -10px;
+        margin-top: -62px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .media-main {
+        background: #eee;
+        flex-grow: 1;
         display: flex;
     }
 
     .media-sidebar {
         width: 16.5%;
-        background: #f8f8f8;
-        border-right: 1px solid #dedede;
+        background: #eee;
+        border-right: 1px solid #e1e1e1;
         padding-bottom: 50px;
     }
 
-    .media-sidebar-header {
-        padding: 15px;
-        border-bottom: 1px solid #dedede;
-    }
-
-    .media-main {
-        background: #fff;
-        flex-grow: 1;
-        padding-bottom: 50px;
-    }
 </style>
 
 <script>

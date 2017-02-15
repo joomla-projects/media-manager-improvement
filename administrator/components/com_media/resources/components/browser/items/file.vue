@@ -3,9 +3,7 @@
         <div class="media-browser-item-icon">
             <i class="icon icon-file"></i>
         </div>
-        <div class="media-browser-item-info">
-            {{ item.name }}
-        </div>
+        <div class="media-browser-item-info">{{ item.name }}</div>
     </div>
 </template>
 

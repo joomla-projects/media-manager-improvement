@@ -1,12 +1,11 @@
 <template>
     <ul class="media-breadcrumb">
         <li>
-            <a @click.stop.prevent="goTo('/')"><i class="icon icon-home"></i></a>
-            <span class="divider">/</span>
+            <a @click.stop.prevent="goTo('/')">Home</a>
         </li>
         <li v-for="item in directories">
+            <span class="divider material-icons">keyboard_arrow_right</span>
             <a @click.stop.prevent="goTo(item.path)">{{ item.name }}</a>
-            <span class="divider" v-if="!isLast(item)">/</span>
         </li>
     </ul>
 </template>
@@ -14,20 +13,28 @@
 <style>
     .media-breadcrumb {
         margin: 0;
-        padding: 0;
+        padding: 0 15px;
         list-style: none;
+        height: 31px;
+        line-height: 31px;
     }
     .media-breadcrumb > li {
         display: inline-block;
     }
     .media-breadcrumb > li > a {
         cursor: pointer;
-        color: #333;
+        color: #555;
         text-decoration: none;
+        font-size: 16px;
     }
     .media-breadcrumb > li > .divider {
-        padding: 0 5px;
-        color: #dedede;
+        color: #555;
+        vertical-align: middle;
+        height: 31px;
+        line-height: 31px;
+    }
+    .media-breadcrumb > li:last-child a {
+        font-weight: bold;
     }
 </style>
 
