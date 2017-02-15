@@ -22,6 +22,8 @@
     }
     .media-breadcrumb > li > a {
         cursor: pointer;
+        color: #333;
+        text-decoration: none;
     }
     .media-breadcrumb > li > .divider {
         padding: 0 5px;

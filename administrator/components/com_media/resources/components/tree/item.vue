@@ -1,10 +1,8 @@
 <template>
     <li class="media-tree-item" :class="{active: isActive}">
-        <a @click.stop.prevent="toggleItem()">
-            <span>
-                <i class="icon" :class="{'icon-folder-open': isOpen, 'icon-folder-close': !isOpen}"></i>
-                {{ (isOpen) ? 'open' : 'close' }} {{ (isActive) ? 'active' : 'inactive' }} {{ item.name }}
-            </span>
+        <a @click.stop.prevent="toggleItem()" :style="{'paddingLeft': 15 * level + 'px'}">
+            <span class="item-icon material-icons">folder</span>
+            <span class="item-name">{{ item.name }}</span>
         </a>
         <transition name="slide-fade">
             <media-tree v-if="item.children && item.children.length" v-show="isOpen"
@@ -19,11 +17,17 @@
         name: 'media-tree-item',
         props: ['item', 'currentDir'],
         computed: {
+            /* Whether or not the item is active */
             isActive () {
                 return (this.item.path === this.currentDir);
             },
+            /* Whether or not the item is open */
             isOpen () {
                 return this.currentDir.includes(this.item.path);
+            },
+            /* Get the current level */
+            level() {
+                return this.item.path.split('/').length - 1;
             }
         },
         methods: {
@@ -36,12 +40,58 @@
 </script>
 
 <style>
-    .media-tree-item.active > a {
-        font-weight: bold;
+
+    .media-tree-item {
+        position: relative;
+        display: block;
     }
 
     .media-tree-item a {
+        display: block;
+        position: relative;
+        padding: 5px 10px;
+        margin-bottom: 2px;
         cursor: pointer;
+        color: #333;
+        border-left: 4px solid transparent;
+        text-decoration: none;
+        height: 26px;
+        line-height: 26px;
+    }
+
+    .media-tree-item a:hover {
+        background-color: #eee;
+        border-color: #8f8f8f;
+        text-decoration: none;
+    }
+
+    .media-tree-item.active > a {
+        background-color: transparent;
+        border-color: #1976D2;
+    }
+
+    .item-icon {
+        display: inline-block;
+        line-height: normal;
+        padding-right: 6px;
+        vertical-align: middle;
+        color: #8f8f8f;
+    }
+
+    .media-tree-item.active > a .item-icon {
+        color: #1976D2;
+    }
+
+    .item-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    .media-tree-item.active > a .item-name {
+        font-weight: bold;
     }
 
     .slide-fade-enter-active {

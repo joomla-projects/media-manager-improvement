@@ -49,6 +49,10 @@ class MediaViewMedia extends JViewLegacy
 		// Add javascripts
 		$doc->addScript(JUri::root() . 'media/media/js/app.js');
 
+		// Add stylesheets
+        // TODO include the font in the component media (self hosted)
+        $doc->addStyleSheet('https://fonts.googleapis.com/icon?family=Material+Icons');
+
 		// Populate the language
 		// TODO use JText for all language strings used by the js application
 	}

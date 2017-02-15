@@ -2,9 +2,7 @@
     <div class="media-browser-item-directory"
          @click="select(item)"
          @dblclick="open(item.path)">
-        <div class="media-browser-item-icon">
-            <i class="icon icon-folder-open"></i>
-        </div>
+        <div class="media-browser-item-icon material-icons">folder</div>
         <div class="media-browser-item-info">
             {{ item.name }}
         </div>

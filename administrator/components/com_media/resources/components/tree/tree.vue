@@ -28,19 +28,6 @@
         margin: 0;
     }
 
-    ul.media-tree li {
-        position: relative;
-        display: block;
-        padding-left: 15px;
-    }
-
-    ul.media-tree li a {
-        display: block;
-        position: relative;
-        padding: 5px 10px;
-        margin-bottom: -1px;
-    }
-
     ul.media-tree ul {
         padding-top: 0;
     }
