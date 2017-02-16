@@ -7,25 +7,14 @@
 </template>
 
 <script>
-    import FileMixin from "./../../mixins/file";
     export default {
         name: 'media-browser',
         props: ['content'],
-        mixins: [FileMixin],
         computed: {
             contents: function () {
                 return this.content
-                    .filter((item) => {
-                        // Hide hidden files
-                        return item.name.indexOf('.') !== 0;
-                    })
-                    .map((item) => {
-                        // Add file extension
-                        if (item.type !== 'dir') {
-                            item.extension = this.getFileExtension(item.name);
-                        }
-                        return item;
-                    })
+                // Hide hidden files
+                    .filter((item) => item.name.indexOf('.') !== 0)
                     .sort((a, b) => {
                         // Sort by type and alphabetically
                         if (a.type !== b.type) {
