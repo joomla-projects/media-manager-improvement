@@ -10,34 +10,6 @@
     </ul>
 </template>
 
-<style>
-    .media-breadcrumb {
-        margin: 0;
-        padding: 0 15px;
-        list-style: none;
-        height: 31px;
-        line-height: 31px;
-    }
-    .media-breadcrumb > li {
-        display: inline-block;
-    }
-    .media-breadcrumb > li > a {
-        cursor: pointer;
-        color: #555;
-        text-decoration: none;
-        font-size: 16px;
-    }
-    .media-breadcrumb > li > .divider {
-        color: #555;
-        vertical-align: middle;
-        height: 31px;
-        line-height: 31px;
-    }
-    .media-breadcrumb > li:last-child a {
-        font-weight: bold;
-    }
-</style>
-
 <script>
     export default {
         name: 'media-breadcrumb',

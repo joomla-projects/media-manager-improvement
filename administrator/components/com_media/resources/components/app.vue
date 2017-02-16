@@ -10,30 +10,6 @@
     </div>
 </template>
 
-<style>
-    .media-container {
-        position: absolute;
-        left: 0;
-        width: 100%;
-        margin-top: -62px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .media-main {
-        background: #eee;
-        flex-grow: 1;
-        display: flex;
-    }
-
-    .media-sidebar {
-        width: 16.5%;
-        background: #fafafa;
-        border-right: 1px solid #e1e1e1;
-        padding-bottom: 50px;
-    }
-</style>
-
 <script>
     export default {
         name: 'media-app',
