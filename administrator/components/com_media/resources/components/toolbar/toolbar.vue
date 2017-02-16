@@ -14,7 +14,7 @@
                 </ul>
             </div>
         </div>
-        <media-breadcrumb :currentDir="currentDir"></media-breadcrumb>
+        <media-breadcrumb></media-breadcrumb>
         <div class="media-tools">
             <a href="#" class="material-icons">list</a>
             <a href="#" class="material-icons">info_outline</a>
@@ -27,6 +27,5 @@
 <script>
     export default {
         name: 'media-toolbar',
-        props: ['currentDir'],
     }
 </script>

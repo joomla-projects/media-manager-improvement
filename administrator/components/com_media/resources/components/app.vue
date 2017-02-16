@@ -1,9 +1,9 @@
 <template>
     <div class="media-container" :style="{minHeight: fullHeight}">
-        <media-toolbar :currentDir="state.currentDir"></media-toolbar>
+        <media-toolbar></media-toolbar>
         <div class="media-main">
             <div class="media-sidebar">
-                <media-tree :tree="tree" :currentDir="state.currentDir"></media-tree>
+                <media-tree :tree="tree"></media-tree>
             </div>
             <media-browser :content="currentDirContent"></media-browser>
         </div>

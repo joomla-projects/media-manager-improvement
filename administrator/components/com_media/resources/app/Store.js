@@ -26,7 +26,7 @@ export default class Store {
      * @param string dir
      */
     setCurrentDir(dir) {
-        this._isDebug && console.log('STORE: changeCurrentDir', dir);
+        this._isDebug && console.log('STORE: setCurrentDir', dir);
         this.state.currentDir = dir;
     }
 

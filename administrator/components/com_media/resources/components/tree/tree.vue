@@ -9,6 +9,9 @@
         name: 'media-tree',
         props: ['tree'],
         computed: {
+            /**
+             * Get the directories
+             */
             directories () {
                 return this.tree.children
                 // Hide hidden files
