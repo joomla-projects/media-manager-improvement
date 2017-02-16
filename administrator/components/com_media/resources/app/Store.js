@@ -12,10 +12,12 @@ export default class Store {
 
         /* The com_media initial application state */
         this.state = {
-            /* The currently selected directory */
-            currentDir: '/',
             /* Whether or not the app is currently in loading state */
             isLoading: false,
+            /* The currently selected directory */
+            currentDir: '/',
+            // The contents of the currently selected directory
+            currentDirContents: [],
             /* Array of selected items */
             selectedItems: [],
         };
@@ -28,6 +30,15 @@ export default class Store {
     setCurrentDir(dir) {
         this._isDebug && console.log('STORE: setCurrentDir', dir);
         this.state.currentDir = dir;
+    }
+
+    /**
+     * Set the contents of the currently selected directory
+     * @param contents
+     */
+    setCurrentDirContents(contents) {
+        this._isDebug && console.log('STORE: setCurrentDirContents', contents);
+        this.state.currentDirContents = contents;
     }
 
     /**

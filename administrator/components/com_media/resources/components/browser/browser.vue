@@ -1,7 +1,7 @@
 <template>
     <div class="media-browser">
         <div class="media-browser-items">
-            <media-browser-item v-for="item in content" :item="item"></media-browser-item>
+            <media-browser-item v-for="item in filteredContents" :item="item"></media-browser-item>
         </div>
     </div>
 </template>
@@ -9,10 +9,12 @@
 <script>
     export default {
         name: 'media-browser',
-        props: ['content'],
         computed: {
-            contents: function () {
-                return this.content
+            /**
+             * Filter the contents of the currently selected directory
+             */
+            filteredContents () {
+                return this.state.currentDirContents
                 // Hide hidden files
                     .filter((item) => item.name.indexOf('.') !== 0)
                     .sort((a, b) => {

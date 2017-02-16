@@ -5,7 +5,7 @@
             <div class="media-sidebar">
                 <media-tree :tree="tree"></media-tree>
             </div>
-            <media-browser :content="currentDirContent"></media-browser>
+            <media-browser></media-browser>
         </div>
     </div>
 </template>
@@ -15,10 +15,6 @@
         name: 'media-app',
         data() {
             return {
-                // A global is loading flag
-                isLoading: false,
-                // The content of the selected directory
-                currentDirContent: [],
                 // The tree structure
                 tree: {path: '/', children: []},
                 // The api base url
@@ -34,11 +30,11 @@
                 let url = this.baseUrl + '&path=' + this.state.currentDir;
                 jQuery.getJSON(url, (response) => {
                     // Get the contents from the data attribute
-                    let content = response.data;
-                    // Update the current directory content
-                    this.currentDirContent = content;
+                    let contents = response.data;
+                    // Update the current directory contents in the store
+                    this.$actions('setCurrentDirContents', contents);
                     // Find the directory node by path and update its children
-                    this._updateLeafByPath(this.tree, this.state.currentDir, content);
+                    this._updateLeafByPath(this.tree, this.state.currentDir, contents);
                 }).error(() => {
                     alert("Error loading directory content.");
                 }).always(() => {
