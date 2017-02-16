@@ -140,12 +140,12 @@ class MediaControllerApi extends JControllerLegacy
 					if ($mediaContent)
 					{
 						// A file needs to be created
-						$data = $this->adapter->createFile($name, $path, $mediaContent);
+						$this->adapter->createFile($name, $path, $mediaContent);
 					}
 					else
 					{
 						// A file needs to be created
-						$data = $this->adapter->createFolder($name, $path);
+						$this->adapter->createFolder($name, $path);
 					}
 					break;
 				case 'put':
@@ -153,7 +153,7 @@ class MediaControllerApi extends JControllerLegacy
 					$name         = basename($path);
 					$mediaContent = base64_decode($content->get('content'));
 
-					$data = $this->adapter->updateFile($name, str_replace($name, '', $path), $mediaContent);
+					$this->adapter->updateFile($name, str_replace($name, '', $path), $mediaContent);
 					break;
 				default:
 					throw new BadMethodCallException('Method not supported yet!');
