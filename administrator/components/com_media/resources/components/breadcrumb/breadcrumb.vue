@@ -60,7 +60,7 @@
         methods: {
             /* Go to a path */
             goTo: function (path) {
-                Media.Event.fire('dirChanged', path);
+                this.$actions('setCurrentDir', path);
             },
             isLast(item) {
                 return this.directories.indexOf(item) === this.directories.length - 1;

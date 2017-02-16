@@ -1,9 +1,9 @@
 <template>
     <div class="media-container" :style="{minHeight: fullHeight}">
-        <media-toolbar :currentDir="currentDir"></media-toolbar>
+        <media-toolbar :currentDir="state.currentDir"></media-toolbar>
         <div class="media-main">
             <div class="media-sidebar">
-                <media-tree :tree="tree" :currentDir="currentDir"></media-tree>
+                <media-tree :tree="tree" :currentDir="state.currentDir"></media-tree>
             </div>
             <media-browser :content="currentDirContent"></media-browser>
         </div>
@@ -39,7 +39,6 @@
         name: 'media-app',
         data() {
             return {
-                currentDir: '/',
                 // A global is loading flag
                 isLoading: false,
                 // The content of the selected directory
@@ -56,14 +55,14 @@
             // Get the content of the current directory
             getContents() {
                 this.isLoading = true;
-                let url = this.baseUrl + '&path=' + this.currentDir;
+                let url = this.baseUrl + '&path=' + this.state.currentDir;
                 jQuery.getJSON(url, (response) => {
                     // Get the contents from the data attribute
                     let content = response.data;
                     // Update the current directory content
                     this.currentDirContent = content;
                     // Find the directory node by path and update its children
-                    this._updateLeafByPath(this.tree, this.currentDir, content);
+                    this._updateLeafByPath(this.tree, this.state.currentDir, content);
                 }).error(() => {
                     alert("Error loading directory content.");
                 }).always(() => {
@@ -94,12 +93,6 @@
                 return false;
             }
         },
-        created() {
-            // Listen to the directory changed event
-            window.Media.Event.listen('dirChanged', (dir) => {
-                this.currentDir = dir;
-            });
-        },
         mounted() {
             // Load the tree data
             this.getContents();
@@ -110,7 +103,7 @@
             });
         },
         watch: {
-            'currentDir': function () {
+            'state.currentDir': function () {
                 this.getContents();
             }
         },

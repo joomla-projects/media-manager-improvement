@@ -16,11 +16,10 @@
         props: ['item'],
         methods: {
             open: function (path) {
-                Media.Event.fire('dirChanged', path);
+                this.$actions('setCurrentDir', path);
             },
             select: function(item) {
                 // TODO implement
-                // Media.Event.fire('itemSelected', item);
             }
         }
     }

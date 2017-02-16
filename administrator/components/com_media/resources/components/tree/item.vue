@@ -33,7 +33,7 @@
         methods: {
             toggleItem () {
                 this.isOpen = !this.isOpen;
-                Media.Event.fire('dirChanged', this.item.path);
+                this.$actions('setCurrentDir', this.item.path);
             }
         },
     }
