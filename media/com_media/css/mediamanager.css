@@ -119,6 +119,16 @@
 }
 
 /* Media Tree */
+ul.media-tree {
+    list-style: none;
+    padding: 15px 0 0;
+    margin: 0;
+}
+
+ul.media-tree ul {
+    padding-top: 0;
+}
+
 .media-tree-item {
     position: relative;
     display: block;
