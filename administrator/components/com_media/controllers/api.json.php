@@ -65,9 +65,13 @@ class MediaControllerApi extends JControllerLegacy
 	 * - GET a list of files and subfolders of a given folder:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
 	 * 		/api/files/sampledata/fruitshop
+	 * - GET a list of files and subfolders of a given folder for a given filter:
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop&filter=apple
+	 * 		/api/files/sampledata/fruitshop?filter=apple
 	 * - GET file information for a specific file:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
 	 * 		/api/files/sampledata/fruitshop/test.jpg
+	 *
 	 *
 	 * - POST a new file or folder into a specific folder:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
@@ -123,7 +127,7 @@ class MediaControllerApi extends JControllerLegacy
 			switch (strtolower($method))
 			{
 				case 'get':
-					$data = $this->adapter->getFiles($path);
+					$data = $this->adapter->getFiles($path, $this->input->getWord('filter'));
 					break;
 				case 'delete':
 					$data = $this->adapter->delete($path);
