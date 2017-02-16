@@ -1,6 +1,5 @@
 <template>
     <div class="media-container" :style="{minHeight: fullHeight}">
-
         <media-toolbar :currentDir="currentDir"></media-toolbar>
         <div class="media-main">
             <div class="media-sidebar">
@@ -29,11 +28,10 @@
 
     .media-sidebar {
         width: 16.5%;
-        background: #eee;
+        background: #fafafa;
         border-right: 1px solid #e1e1e1;
         padding-bottom: 50px;
     }
-
 </style>
 
 <script>
@@ -41,19 +39,18 @@
         name: 'media-app',
         data() {
             return {
+                currentDir: '/',
                 // A global is loading flag
                 isLoading: false,
-                // The current selected directory
-                currentDir: '/',
                 // The content of the selected directory
                 currentDirContent: [],
                 // The tree structure
                 tree: {path: '/', children: []},
                 // The api base url
                 baseUrl: '/administrator/index.php?option=com_media&task=api.files&format=json',
-                // The full height of the app
+                // The full height of the app in px
                 fullHeight: '',
-            }
+            };
         },
         methods: {
             // Get the content of the current directory
@@ -99,7 +96,7 @@
         },
         created() {
             // Listen to the directory changed event
-            Media.Event.listen('dirChanged', (dir) => {
+            window.Media.Event.listen('dirChanged', (dir) => {
                 this.currentDir = dir;
             });
         },
@@ -113,7 +110,7 @@
             });
         },
         watch: {
-            currentDir: function () {
+            'currentDir': function () {
                 this.getContents();
             }
         },
