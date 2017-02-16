@@ -252,4 +252,24 @@ class LocalAdapterTest extends PHPUnit_Framework_TestCase
 		// Check if the files exists
 		$this->assertCount(1, JFolder::files($this->root));
 	}
+
+	/**
+	 * Test MediaFileAdapterLocal::getStream
+	 *
+	 * @return  void
+	 */
+	public function testGetStream()
+	{
+		// Make some test files
+		JFile::write($this->root . 'test.txt', 'test');
+
+		// Create the adapter
+		$adapter = new MediaFileAdapterLocal($this->root);
+
+		// Fetch the resource for the test file
+		$resource = $adapter->getStream('test.txt');
+
+		// Check if it is a resource
+		$this->assertTrue(is_resource($resource));
+	}
 }

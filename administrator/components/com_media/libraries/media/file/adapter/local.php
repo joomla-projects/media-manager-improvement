@@ -45,7 +45,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 	/**
 	 * Returns the folders and files for the given path. The returned objects
-	 * have the following properties avilable:
+	 * have the following properties available:
 	 * - type: The type can be file or dir
 	 * - name: The name of the file
 	 * - path: The relative path to the root
@@ -109,7 +109,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			$obj->name      = $file;
 			$obj->path      = str_replace($this->rootPath, '/', JPath::clean($basePath . '/' . $file));
 			$obj->extension = JFile::getExt($file);
-			$obj->size      = filesize($this->rootPath . $path);
+			$obj->size      = filesize($this->rootPath . $file);
 
 			$data[] = $obj;
 		}
@@ -196,5 +196,20 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		{
 			throw new Exception('Delete not possible!');
 		}
+	}
+
+	/**
+	 * Returns a stream for the given path.
+	 *
+	 * @param   string  $path  The path to the file
+	 *
+	 * @return  resource  The resource
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	public function getStream($path)
+	{
+		return fopen($this->rootPath . $path, 'rw');
 	}
 }
