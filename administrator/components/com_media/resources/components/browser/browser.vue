@@ -21,6 +21,9 @@
         margin-top: 15px;
         margin-right: 15px;
         width: calc(25% - 15px);
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
     }
 
     .media-browser-item-preview {
