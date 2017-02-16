@@ -130,7 +130,7 @@ class MediaControllerApi extends JControllerLegacy
 					$data = $this->adapter->getFiles($path, $this->input->getWord('filter'));
 					break;
 				case 'delete':
-					$data = $this->adapter->delete($path);
+					$this->adapter->delete($path);
 					break;
 				case 'post':
 					$content      = $this->input->json;
