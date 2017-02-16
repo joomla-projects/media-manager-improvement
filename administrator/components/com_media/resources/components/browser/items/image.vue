@@ -1,6 +1,6 @@
 <template>
     <div class="media-browser-image">
-        <div class="media-browser-item-icon">
+        <div class="media-browser-item-preview">
             <div class="image-brackground">
                 <div class="image-cropped" :style="{ backgroundImage: 'url(/images' + item.path + ')' }"></div>
             </div>

@@ -6,42 +6,61 @@
     </div>
 </template>
 <style>
-    /** TODO: move styles to dedicated css file **/
+    .media-browser {
+        width: 83.5%;
+    }
+
     .media-browser-items {
         padding: 15px;
+        display: flex;
+        flex-wrap: wrap;
     }
 
     .media-browser-item {
-        display: inline-block;
         position: relative;
-        vertical-align: top;
         margin-top: 15px;
         margin-right: 15px;
-        width: calc(14.285714285714286% - 16px);
+        width: calc(25% - 15px);
     }
 
-    .media-browser-item-icon {
-        padding-top: 75%;
+    .media-browser-item-preview {
         position: relative;
         border-radius: 1px;
         width: 100%;
+        height: 100px;
+        background: #fff;
+        box-shadow: 0 1px 1px 0 rgba(0,0,0,.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .media-browser-item-icon .icon {
-        display: inline-block;
-        width: auto;
-        height: auto;
-        margin: 0;
-        line-height: 100px;
+    .media-browser-item-preview .icon {
+        font-size: 80px;
+        color: #2384d3;
     }
 
     .media-browser-item-info {
-        text-align: center;
-        padding: 5px 0;
+        padding: 8px 5px;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
-        width: 100px;
+        text-align: center;
+    }
+
+    @media only screen and (min-width : 979px) {
+        .media-browser-item {
+            width: calc(20% - 15px);
+        }
+        .media-browser-item-preview {
+            height: 150px;
+        }
+    }
+
+    @media only screen and (min-width : 1200px) {
+        .media-browser-item {
+            width: calc(14.285714285714286% - 15px);
+        }
     }
 </style>
 <script>
