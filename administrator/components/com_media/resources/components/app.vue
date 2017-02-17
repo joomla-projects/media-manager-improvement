@@ -17,29 +17,19 @@
             return {
                 // The tree structure
                 tree: {path: '/', children: []},
-                // The api base url
-                baseUrl: '/administrator/index.php?option=com_media&task=api.files&format=json',
                 // The full height of the app in px
                 fullHeight: '',
             };
         },
         methods: {
-            // Get the content of the current directory
+            // Get the contents of the current directory
             getContents() {
-                this.isLoading = true;
-                let url = this.baseUrl + '&path=' + this.state.currentDir;
-                jQuery.getJSON(url, (response) => {
-                    // Get the contents from the data attribute
-                    let contents = response.data;
-                    // Update the current directory contents in the store
-                    this.$actions('setCurrentDirContents', contents);
-                    // Find the directory node by path and update its children
-                    this._updateLeafByPath(this.tree, this.state.currentDir, contents);
-                }).error(() => {
-                    alert("Error loading directory content.");
-                }).always(() => {
-                    this.isLoading = false;
-                });
+                this.$api.getContents(this.state.currentDir)
+                    .then((response) => {
+                            this.$actions('setCurrentDirContents', response.data);
+                            this._updateLeafByPath(this.tree, this.state.currentDir, response.data);
+                        }
+                    ).catch(() => {});
             },
             // Set the full height on the app container
             setFullHeight () {

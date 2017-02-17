@@ -27,12 +27,3 @@ export default function plugin(Vue, options) {
         },
     });
 }
-
-/**
- * Register the store
- * @param vm
- */
-function registerStore(vm) {
-
-
-}
