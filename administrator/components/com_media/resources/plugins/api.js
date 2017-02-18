@@ -1,6 +1,8 @@
 /**
  * A vue plugin for binding an api service
  * @param Vue
+ * @param options
+ * @todo use the api service only in the app component
  */
 export default function plugin(Vue, options) {
 

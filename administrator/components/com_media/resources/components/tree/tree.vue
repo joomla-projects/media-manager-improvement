@@ -7,13 +7,12 @@
 <script>
     export default {
         name: 'media-tree',
-        props: ['tree'],
         computed: {
             /**
              * Get the directories
              */
             directories () {
-                return this.tree.children
+                return this.state.tree.children
                 // Hide hidden files
                     .filter(item => item.name.indexOf('.') !== 0)
                     // Show only directories

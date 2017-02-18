@@ -1,3 +1,5 @@
+import {MediaTree} from "./MediaTree";
+
 /**
  * Store
  */
@@ -18,9 +20,17 @@ export default class Store {
             currentDir: '/',
             // The contents of the currently selected directory
             currentDirContents: [],
+            // The tree data
+            tree: new MediaTree('/'),
             /* Array of selected items */
             selectedItems: [],
         };
+
+        this.state.tree.add('/one', '/');
+        this.state.tree.add('/two', '/one');
+        this.state.tree.add('/three', '/');
+
+        console.log(this.state.tree);
     }
 
     /**

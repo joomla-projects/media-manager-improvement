@@ -3,7 +3,7 @@
         <media-toolbar></media-toolbar>
         <div class="media-main">
             <div class="media-sidebar">
-                <media-tree :tree="tree"></media-tree>
+                <media-tree></media-tree>
             </div>
             <media-browser></media-browser>
         </div>
@@ -15,8 +15,6 @@
         name: 'media-app',
         data() {
             return {
-                // The tree structure
-                tree: {path: '/', children: []},
                 // The full height of the app in px
                 fullHeight: '',
             };
@@ -26,34 +24,17 @@
             getContents() {
                 this.$api.getContents(this.state.currentDir)
                     .then((response) => {
-                            this.$actions('setCurrentDirContents', response.data);
-                            this._updateLeafByPath(this.tree, this.state.currentDir, response.data);
-                        }
-                    ).catch(() => {});
+                        this.$actions('setCurrentDirContents', response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        // this.$actions('setError', error)
+                    });
             },
             // Set the full height on the app container
             setFullHeight () {
                 this.fullHeight = window.innerHeight - this.$el.offsetTop + 'px';
             },
-            // TODO move to a mixin
-            _updateLeafByPath(obj, path, data) {
-                // Set the node children
-                if (obj.path && obj.path === path) {
-                    this.$set(obj, 'children', data);
-                    return true;
-                }
-
-                // Loop over the node children
-                if (obj.children && obj.children.length) {
-                    for (let i = 0; i < obj.children.length; i++) {
-                        if (this._updateLeafByPath(obj.children[i], path, data)) {
-                            return true;
-                        }
-                    }
-                }
-
-                return false;
-            }
         },
         mounted() {
             // Load the tree data
