@@ -7,19 +7,13 @@
 <script>
     export default {
         name: 'media-tree',
+        props: ['root'],
         computed: {
-            /**
-             * Get the directories
-             */
-            directories () {
-                return this.state.tree.children
-                // Hide hidden files
-                    .filter(item => item.name.indexOf('.') !== 0)
-                    // Show only directories
-                    .filter(item =>  item.type === "dir")
-                    // Sort alphabetically
-                    .sort((a, b) => (a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1);
-            }
+            /* Get the directories */
+            directories() {
+                return this.$store.state.directories
+                    .filter(directory => (directory.directory === this.root));
+            },
         }
     }
 </script>

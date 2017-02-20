@@ -1,14 +1,15 @@
+const path = require('path');
+
 /**
  * Api class for communication with the server
  */
-export default class Api {
+class Api {
 
     /**
      * Store constructor
-     * @param string baseUrl
      */
-    constructor(baseUrl) {
-        this._baseUrl = baseUrl;
+    constructor() {
+        this._baseUrl = '/administrator/index.php?option=com_media&format=json';
     }
 
     /**
@@ -21,11 +22,41 @@ export default class Api {
         return new Promise((resolve, reject) => {
             const url = this._baseUrl + '&task=api.files&path=' + dir;
             jQuery.getJSON(url)
-                .success((json) => resolve(json))
+                .success((json) => resolve(this._normalizeArray(json.data)))
                 .fail((xhr, status, error) => {
                     reject(xhr)
                 })
         }).catch(this._handleError);
+    }
+
+    /**
+     * Normalize array data
+     * @param data
+     * @returns {{directories, files}}
+     * @private
+     */
+    _normalizeArray(data) {
+
+        // Directories
+        const directories = data.filter(item => (item.type === 'dir'))
+            .map(directory => {
+                directory.directory = path.dirname(directory.path);
+                directory.directories = [];
+                directory.files = [];
+                return directory;
+            });
+
+        // Files
+        const files = data.filter(item => (item.type === 'file'))
+            .map(file => {
+                file.directory = path.dirname(file.path);
+                return file;
+            });
+
+        return {
+            directories: directories,
+            files: files,
+        }
     }
 
     /**
@@ -49,3 +80,5 @@ export default class Api {
         throw error;
     }
 }
+
+export let api = new Api();

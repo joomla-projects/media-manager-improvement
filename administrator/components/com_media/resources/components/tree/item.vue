@@ -5,8 +5,7 @@
             <span class="item-name">{{ item.name }}</span>
         </a>
         <transition name="slide-fade">
-            <media-tree v-if="item.children && item.children.length" v-show="isOpen"
-                        :tree="item"></media-tree>
+            <media-tree v-if="hasChildren" v-show="isOpen" :root="item.path"></media-tree>
         </transition>
     </li>
 </template>
@@ -16,28 +15,28 @@
         name: 'media-tree-item',
         props: ['item'],
         computed: {
-            /**
-             * Whether or not the item is active
-             */
+            /* Whether or not the item is active */
             isActive () {
-                return (this.item.path === this.state.currentDir);
+                return (this.item.path === this.$store.state.selectedDirectory);
             },
             /* Whether or not the item is open */
             isOpen () {
-                return this.state.currentDir.includes(this.item.path);
+                return this.$store.state.selectedDirectory.includes(this.item.path);
             },
             /* Get the current level */
             level() {
                 return this.item.path.split('/').length - 1;
-            }
+            },
+            /* Whether or not the item has children */
+            hasChildren() {
+                return this.item.directories.length > 0;
+            },
         },
         methods: {
-            /**
-             * Toggle an item open state
-             */
+            /* Toggle an item open state */
             toggleItem () {
-                this.$actions('setCurrentDir', this.item.path);
+                this.$store.dispatch('getContents', this.item.path);
             }
-        },
+        }
     }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div class="media-browser-item-directory"
          @click="select(item)"
-         @dblclick="open(item.path)">
+         @dblclick="goTo(item.path)">
         <div class="media-browser-item-preview">
             <span class="icon material-icons">folder</span>
         </div>
@@ -15,9 +15,11 @@
         name: 'media-browser-item-directory',
         props: ['item'],
         methods: {
-            open: function (path) {
-                this.$actions('setCurrentDir', path);
+            /* Go to a path */
+            goTo: function (path) {
+                this.$store.dispatch('getContents', path);
             },
+            /* Select the directory */
             select: function(item) {
                 // TODO implement
             }

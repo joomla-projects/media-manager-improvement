@@ -14,35 +14,29 @@
     export default {
         name: 'media-breadcrumb',
         computed: {
-            /**
-             * Get the crumbs from the current directory path
-             */
+            /* Get the crumbs from the current directory path */
             crumbs () {
                 const items = [];
-                this.state.currentDir.split('/')
-                    .filter((crumb) => crumb.length !== 0)
-                    .forEach((crumb) => {
+                this.$store.state.selectedDirectory.split('/')
+                    .filter(crumb => crumb.length !== 0)
+                    .forEach(crumb => {
                         items.push({
                             name: crumb,
-                            path: this.state.currentDir.split(crumb)[0] + crumb,
+                            path: this.$store.state.selectedDirectory.split(crumb)[0] + crumb,
                         });
                     });
 
                 return items;
             },
-            /**
-             * Check if item is the last element in the list
-             */
+            /* Whether or not the crumb is the last element in the list */
             isLast(item) {
-                return this.directories.indexOf(item) === this.directories.length - 1;
+                return this.crumbs.indexOf(item) === this.crumbs.length - 1;
             }
         },
         methods: {
-            /**
-             * Go to a path
-             */
+            /* Go to a path */
             goTo: function (path) {
-                this.$actions('setCurrentDir', path);
+                this.$store.dispatch('getContents', path);
             },
         },
     }
