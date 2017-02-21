@@ -7,6 +7,12 @@
             </div>
             <media-browser></media-browser>
         </div>
+        <media-modal :show="true" v-if="$store.state.showCreateFolderModal">
+            <h3 slot="header">Hello world</h3>
+            <div slot="body">
+                Create folder
+            </div>
+        </media-modal>
     </div>
 </template>
 
@@ -37,7 +43,7 @@
             });
         },
         beforeDestroy() {
-            // Add the global resize event listener
+            // Remove the global resize event listener
             window.removeEventListener('resize', this.setFullHeight)
         },
     }

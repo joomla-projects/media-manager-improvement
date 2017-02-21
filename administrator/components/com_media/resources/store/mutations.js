@@ -55,5 +55,23 @@ export default {
                 files: [...parentDirectory.files, ...newFileIds]
             }));
         }
-    }
+    },
+
+    /**
+     * Show the create folder modal
+     * @param state
+     * @todo: combine with the hide method and use toggle
+     */
+    [types.SHOW_CREATE_FOLDER_MODAL]: (state) => {
+        state.showCreateFolderModal = true;
+    },
+
+    /**
+     * Show the create folder modal
+     * @param state
+     * @todo: combine with the show method and use toggle
+     */
+    [types.HIDE_CREATE_FOLDER_MODAL]: (state) => {
+        state.showCreateFolderModal = false;
+    },
 }
