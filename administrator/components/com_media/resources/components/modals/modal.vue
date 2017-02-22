@@ -1,8 +1,8 @@
 <template>
     <div class="media-modal-backdrop" @click="close()">
-        <div class="modal" :class="modalClass">
+        <div class="modal" :class="modalClass" @click.stop>
             <div class="modal-header">
-                <button v-if="showCloseButton" type="button" class="close">×</button>
+                <button v-if="showCloseButton" type="button" class="close" @click="close()">×</button>
                 <slot name="header"></slot>
             </div>
             <div class="modal-body">
@@ -28,6 +28,11 @@
             width: auto;
             margin: 0;
         }
+    }
+    .modal-body {
+        width: auto;
+        padding: 15px;
+        overflow-y: auto;
     }
     .media-modal-backdrop {
         position: fixed;
@@ -70,11 +75,11 @@
         methods: {
             /* Close the modal instance */
             close() {
-                this.$store.commit(types.HIDE_CREATE_FOLDER_MODAL);
+                this.$emit('close');
             },
             /* Handle keydown events */
             onKeyDown(event) {
-                if (this.show && event.keyCode == 27) {
+                if (event.keyCode == 27) {
                     this.close();
                 }
             }

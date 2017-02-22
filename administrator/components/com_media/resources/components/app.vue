@@ -7,12 +7,7 @@
             </div>
             <media-browser></media-browser>
         </div>
-        <media-modal :show="true" v-if="$store.state.showCreateFolderModal" :size="'sm'">
-            <h3 slot="header">Hello world</h3>
-            <div slot="body">
-                Create folder
-            </div>
-        </media-modal>
+        <create-folder-modal></create-folder-modal>
     </div>
 </template>
 
