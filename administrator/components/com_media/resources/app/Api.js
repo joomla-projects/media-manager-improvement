@@ -35,6 +35,24 @@ class Api {
     }
 
     /**
+     * Create a folder
+     * @param name
+     * @param parent
+     * @returns {Promise.<T>}
+     */
+    createFolder(name, parent) {
+        // Wrap the jquery call into a real promise
+        return new Promise((resolve, reject) => {
+            const url = this._baseUrl + '&task=api.files&path=' + parent;
+            jQuery.post(url, {name: name})
+                .success((json) => resolve(this._normalizeArray(json.data)))
+                .fail((xhr, status, error) => {
+                    reject(xhr)
+                })
+        }).catch(this._handleError);
+    }
+
+    /**
      * Normalize array data
      * @param data
      * @returns {{directories, files}}

@@ -31,7 +31,7 @@
             save() {
                 this.$store.dispatch('createFolder', {
                     name: this.folder,
-                    directory: this.$store.state.selectedDirectory,
+                    parent: this.$store.state.selectedDirectory,
                 });
             }
         }

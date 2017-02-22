@@ -22,3 +22,19 @@ export const getContents = ({commit}, dir) => {
         });
 }
 
+/**
+ * Create a new folder
+ * @param commit
+ * @param payload object with the new folder name and its parent directory
+ */
+export const createFolder = ({commit}, payload) => {
+    api.createFolder(payload.name, payload.parent)
+        .then((contents) => {
+            console.log(contents);
+        })
+        .catch(error => {
+            // TODO error handling
+            console.log("error", error);
+        })
+}
+
