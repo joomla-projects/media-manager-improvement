@@ -58,6 +58,30 @@ export default {
     },
 
     /**
+     * The create directory success mutation
+     * @param state
+     * @param payload
+     */
+    [types.CREATE_DIRECTORY_SUCCESS]: (state, payload) => {
+
+        const directory = payload;
+        const isNew = (!state.directories.some(existing => (existing.path === directory.path)));
+
+        if (isNew) {
+            const parentDirectory = state.directories.find((existing) => (existing.path === directory.directory));
+            const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
+
+            // Add the new directory to the directory
+            state.directories.push(directory);
+
+            // Update the relation to the parent directory
+            state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
+                directories: [...parentDirectory.directories, directory.path]
+            }));
+        }
+    },
+
+    /**
      * Show the create folder modal
      * @param state
      * @todo: combine with the hide method and use toggle

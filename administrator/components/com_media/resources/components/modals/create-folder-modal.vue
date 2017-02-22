@@ -29,10 +29,11 @@
             },
             /* Save the form and create the folder */
             save() {
-                this.$store.dispatch('createFolder', {
+                this.$store.dispatch('createDirectory', {
                     name: this.folder,
                     parent: this.$store.state.selectedDirectory,
                 });
+                this.folder = '';
             }
         }
     }
