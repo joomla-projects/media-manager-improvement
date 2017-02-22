@@ -18,7 +18,7 @@ class MediaViewMedia extends JViewLegacy
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
@@ -44,19 +44,32 @@ class MediaViewMedia extends JViewLegacy
 	 */
 	protected function prepareDocument()
 	{
-		$doc = JFactory::getDocument();
+		$doc    = JFactory::getDocument();
+		$params = JComponentHelper::getParams('com_media');
+
+		// Make sure core.js is loaded before media scripts
+		JHtml::_('behavior.core');
+
+		// Populate the media config
+		$config = array(
+			'apiBaseUrl'              => JUri::root() . 'administrator/index.php?option=com_media&format=json',
+			'filePath'                => $params->get('file_path', 'images'),
+			'allowedUploadExtensions' => $params->get('upload_extensions', ''),
+			'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
+		);
+		$doc->addScriptOptions('com_media', $config);
+
+		// Populate the language
+		// TODO use JText for all language strings used by the js application
 
 		// Add javascripts
 		$doc->addScript(JUri::root() . 'media/com_media/js/mediamanager.js');
 
 		// Add stylesheets
-        $doc->addStyleSheet(JUri::root() . 'media/com_media/css/mediamanager.css');
+		$doc->addStyleSheet(JUri::root() . 'media/com_media/css/mediamanager.css');
 
-        // TODO include the font in the component media (self hosted)
-        $doc->addStyleSheet('https://fonts.googleapis.com/icon?family=Material+Icons');
-
-		// Populate the language
-		// TODO use JText for all language strings used by the js application
+		// TODO include the font in the component media (self hosted)
+		$doc->addStyleSheet('https://fonts.googleapis.com/icon?family=Material+Icons');
 	}
 
 	/**
