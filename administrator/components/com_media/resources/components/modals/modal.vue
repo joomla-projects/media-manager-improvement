@@ -1,6 +1,6 @@
 <template>
     <div class="media-modal-backdrop" @click="close()">
-        <div class="modal">
+        <div class="modal" :class="modalClass">
             <div class="modal-header">
                 <button v-if="showCloseButton" type="button" class="close">×</button>
                 <slot name="header"></slot>
@@ -17,6 +17,18 @@
 
 <style>
     /** TODO DN extract styles **/
+
+    /** modal-sm styles **/
+    .modal.modal-sm {
+        width: 450px;
+        margin-left: -225px;
+    }
+    @media (max-width: 767px) {
+        .modal.modal-sm {
+            width: auto;
+            margin: 0;
+        }
+    }
     .media-modal-backdrop {
         position: fixed;
         z-index: 1040;
@@ -41,6 +53,18 @@
             showClose: {
                 type: Boolean,
                 default: true,
+            },
+            /* The size of the modal */
+            size: {
+                type: String,
+            }
+        },
+        computed: {
+            /* Get the modal css class */
+            modalClass() {
+                return {
+                    'modal-sm': this.size === 'sm',
+                }
             },
         },
         methods: {
