@@ -2,7 +2,7 @@
     <div class="media-toolbar">
         <div class="create-wrapper">
             <div class="btn-group">
-                <button class="btn btn-success">Upload</button>
+                <button class="btn btn-success">New</button>
                 <button class="btn dropdown-toggle btn-success" data-toggle="dropdown">
                     <span class="caret"></span>
                 </button>
