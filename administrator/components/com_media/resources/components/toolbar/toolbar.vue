@@ -2,15 +2,15 @@
     <div class="media-toolbar">
         <div class="create-wrapper">
             <div class="btn-group">
-                <button class="btn btn-success">New</button>
+                <button class="btn btn-success">{{ translate('COM_MEDIA_NEW') }}</button>
                 <button class="btn dropdown-toggle btn-success" data-toggle="dropdown">
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
                     <li><a href="#" @click.prevent="showCreateFolderModal()">Create Folder</a></li>
                     <li class="divider"></li>
-                    <li><a href="#">Upload File</a></li>
-                    <li><a href="#">Upload Folder</a></li>
+                    <li><a href="#">{{ translate('COM_MEDIA_UPLOAD_FILE') }}</a></li>
+                    <li><a href="#">{{ translate('COM_MEDIA_UPLOAD_FOLDER') }}</a></li>
                 </ul>
             </div>
         </div>
