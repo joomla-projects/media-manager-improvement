@@ -1,26 +1,37 @@
 <template>
     <div class="media-toolbar">
-        <div class="create-wrapper">
+        <div class="media-toolbar-create">
             <div class="btn-group">
-                <button class="btn btn-success">New</button>
-                <button class="btn dropdown-toggle btn-success" data-toggle="dropdown">
-                    <span class="caret"></span>
+                <button class="btn btn-sm btn-success">
+                    <span class="icon-apply icon-white"></span> New
                 </button>
+                <button type="button" class="btn btn-sm btn-success dropdown-toggle dropdown-toggle-split"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                 <ul class="dropdown-menu">
-                    <li><a href="#" @click.prevent="showCreateFolderModal()">Create Folder</a></li>
+                    <li class="dropdown-item">
+                        <a href="#" @click.prevent="showCreateFolderModal()">Create Folder</a>
+                    </li>
                     <li class="divider"></li>
-                    <li><a href="#">Upload File</a></li>
-                    <li><a href="#">Upload Folder</a></li>
+                    <li class="dropdown-item"><a href="#">Upload File</a></li>
+                    <li class="dropdown-item"><a href="#">Upload Folder</a></li>
                 </ul>
             </div>
         </div>
         <media-breadcrumb></media-breadcrumb>
-        <div class="media-tools">
-            <a href="#"><span class="fa fa-list"></span></a>
-            <a href="#"><span class="fa fa-info-circle"></span></a>
-            <a href="#"><span class="fa fa-question-circle"></span></a>
-            <a href="#"><span class="fa fa-cog"></span></a>
-        </div>
+        <ul class="media-tools">
+            <li>
+                <a href="#"><span class="fa fa-list"></span></a>
+            </li>
+            <li>
+                <a href="#"><span class="fa fa-info-circle"></span></a>
+            </li>
+            <li>
+                <a href="#"><span class="fa fa-question-circle"></span></a>
+            </li>
+            <li>
+                <a href="#"><span class="fa fa-cog"></span></a>
+            </li>
+        </ul>
     </div>
 </template>
 
