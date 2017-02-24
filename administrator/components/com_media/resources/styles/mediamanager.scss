@@ -118,6 +118,7 @@ ul.media-tree {
   list-style: none;
   padding: 15px 0 0;
   margin: 0;
+  overflow-x: hidden;
 }
 
 ul.media-tree ul {
@@ -135,15 +136,13 @@ ul.media-tree ul {
   padding: 5px 10px;
   margin-bottom: 2px;
   cursor: pointer;
-  color: #333;
   border-left: 4px solid transparent;
   text-decoration: none;
-  height: 26px;
   line-height: 26px;
+  white-space: nowrap;
 }
 
 .media-tree-item a:hover {
-  color: #333;
   background-color: #e1e1e1;
   border-color: #646464;
   text-decoration: none;
@@ -154,12 +153,13 @@ ul.media-tree ul {
   border-color: #2384d3;
 }
 
-.item-icon {
+.media-tree-item .item-icon {
   display: inline-block;
   line-height: normal;
   padding-right: 6px;
   vertical-align: middle;
-  color: #8f8f8f;
+  color: #646464;
+  font-size: 20px;
 }
 
 .media-tree-item.active > a .item-icon {
@@ -209,10 +209,7 @@ ul.media-tree ul {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.media-browser-item-preview .icon {
-  font-size: 80px;
+  font-size: 60px;
   color: #2384d3;
 }
 
