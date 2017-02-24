@@ -7680,7 +7680,7 @@ exports.default = {
     name: 'media-app',
     methods: {
         setFullHeight: function setFullHeight() {
-            this.fullHeight = window.innerHeight - this.$el.offsetTop + 'px';
+            this.fullHeight = window.innerHeight + this.$el.offsetTop + 'px';
         }
     },
     data: function data() {
@@ -7758,7 +7758,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('ul',{staticClass:"media-breadcrumb"},[_c('li',[_c('a',{on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.goTo('/')}}},[_vm._v("Home")])]),_vm._v(" "),_vm._l((_vm.crumbs),function(crumb){return _c('li',[_c('span',{staticClass:"divider material-icons"},[_vm._v("keyboard_arrow_right")]),_vm._v(" "),_c('a',{on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.goTo(crumb.path)}}},[_vm._v(_vm._s(crumb.name))])])})],2)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('ul',{staticClass:"media-breadcrumb"},[_c('li',[_c('a',{on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.goTo('/')}}},[_vm._v("Home")])]),_vm._v(" "),_vm._l((_vm.crumbs),function(crumb){return _c('li',[_c('span',{staticClass:"divider"},[_vm._v("/")]),_vm._v(" "),_c('a',{on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.goTo(crumb.path)}}},[_vm._v(_vm._s(crumb.name))])])})],2)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
