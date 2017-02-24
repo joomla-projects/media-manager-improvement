@@ -16,10 +16,10 @@
         </div>
         <media-breadcrumb></media-breadcrumb>
         <div class="media-tools">
-            <a href="#" class="material-icons">list</a>
-            <a href="#" class="material-icons">info_outline</a>
-            <a href="#" class="material-icons">help_outline</a>
-            <a href="#" class="material-icons">settings</a>
+            <a href="#"><span class="fa fa-list"></span></a>
+            <a href="#"><span class="fa fa-info-circle"></span></a>
+            <a href="#"><span class="fa fa-question-circle"></span></a>
+            <a href="#"><span class="fa fa-cog"></span></a>
         </div>
     </div>
 </template>

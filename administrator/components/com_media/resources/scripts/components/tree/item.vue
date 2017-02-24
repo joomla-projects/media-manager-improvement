@@ -1,7 +1,7 @@
 <template>
     <li class="media-tree-item" :class="{active: isActive}">
         <a @click.stop.prevent="toggleItem()" :style="{'paddingLeft': 15 * level + 'px'}">
-            <span class="item-icon material-icons">folder</span>
+            <span class="item-icon fa fa-folder"></span>
             <span class="item-name">{{ item.name }}</span>
         </a>
         <transition name="slide-fade">
