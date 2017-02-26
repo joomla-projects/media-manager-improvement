@@ -8,11 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-JText::script('COM_MEDIA_CREATE_FOLDER', true);
 JText::script('COM_MEDIA_CREATE_NEW_FOLDER', true);
 JText::script('COM_MEDIA_FOLDER', true);
-JText::script('COM_MEDIA_NEW', true);
-JText::script('COM_MEDIA_UPLOAD_FILE', true);
-JText::script('COM_MEDIA_UPLOAD_FOLDER', true);
 JText::script('JCANCEL', true);
 JText::script('JAPPLY', true);
