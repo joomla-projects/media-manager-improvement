@@ -7673,7 +7673,7 @@ var api = exports.api = new Api();
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -7687,30 +7687,48 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
- * Media Eventbus
+ * Media Event bus - used for communication between joomla and vue
  */
 var Event = function () {
-    function Event() {
-        _classCallCheck(this, Event);
 
-        this.vue = new _vue2.default();
+  /**
+   * Media Event constructor
+   */
+  function Event() {
+    _classCallCheck(this, Event);
+
+    this.vue = new _vue2.default();
+  }
+
+  /**
+   * Fire an event
+   * @param event
+   * @param data
+   */
+
+
+  _createClass(Event, [{
+    key: "fire",
+    value: function fire(event) {
+      var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+      this.vue.$emit(event, data);
     }
 
-    _createClass(Event, [{
-        key: "fire",
-        value: function fire(event) {
-            var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    /**
+     * Listen to events
+     * @param event
+     * @param callback
+     */
 
-            this.vue.$emit(event, data);
-        }
-    }, {
-        key: "listen",
-        value: function listen(event, callback) {
-            this.vue.$on(event, callback);
-        }
-    }]);
+  }, {
+    key: "listen",
+    value: function listen(event, callback) {
+      this.vue.$on(event, callback);
+    }
+  }]);
 
-    return Event;
+  return Event;
 }();
 
 exports.default = Event;
@@ -7816,19 +7834,40 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _mutationTypes = require('./../../store/mutation-types');
+
+var types = _interopRequireWildcard(_mutationTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 exports.default = {
     name: 'media-browser',
     computed: {
         items: function items() {
             return this.$store.getters.getSelectedDirectoryContents;
         }
+    },
+    methods: {
+        unselectAllBrowserItems: function unselectAllBrowserItems(event) {
+            var eventOutside = !this.$refs.browserItems.contains(event.target) || event.target === this.$refs.browserItems;
+            if (eventOutside) {
+                this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+            }
+        }
+    },
+    created: function created() {
+        document.body.addEventListener('click', this.unselectAllBrowserItems, false);
+    },
+    beforeDestroy: function beforeDestroy() {
+        document.body.removeEventListener('click', this.unselectAllBrowserItems, false);
     }
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser"},[_c('div',{staticClass:"media-browser-items"},_vm._l((_vm.items),function(item){return _c('media-browser-item',{attrs:{"item":item}})}))])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser"},[_c('div',{ref:"browserItems",staticClass:"media-browser-items"},_vm._l((_vm.items),function(item){return _c('media-browser-item',{attrs:{"item":item}})}))])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -7840,7 +7879,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-cd88c8d6", __vue__options__)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":3}],12:[function(require,module,exports){
+},{"./../../store/mutation-types":25,"vue":4,"vue-hot-reload-api":3}],12:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -7853,16 +7892,14 @@ exports.default = {
     methods: {
         goTo: function goTo(path) {
             this.$store.dispatch('getContents', path);
-        },
-
-        select: function select(item) {}
+        }
     }
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-item-directory",on:{"click":function($event){_vm.select(_vm.item)},"dblclick":function($event){_vm.goTo(_vm.item.path)}}},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"media-browser-item-info"},[_vm._v("\n        "+_vm._s(_vm.item.name)+"\n    ")])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-item-directory",on:{"dblclick":function($event){_vm.goTo(_vm.item.path)}}},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"media-browser-item-info"},[_vm._v("\n        "+_vm._s(_vm.item.name)+"\n    ")])])}
 __vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-item-preview"},[_c('span',{staticClass:"fa fa-folder"})])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -7889,7 +7926,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-item-file"},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"media-browser-item-info"},[_vm._v(_vm._s(_vm.item.name))])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-item-file",class:{selected: _vm.isSelected}},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"media-browser-item-info"},[_vm._v(_vm._s(_vm.item.name))])])}
 __vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-item-preview"},[_c('span',{staticClass:"fa fa-file-text-o"})])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -7954,6 +7991,12 @@ var _image = require("./image.vue");
 
 var _image2 = _interopRequireDefault(_image);
 
+var _mutationTypes = require("./../../../store/mutation-types");
+
+var types = _interopRequireWildcard(_mutationTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
@@ -7961,9 +8004,14 @@ exports.default = {
     props: ['item'],
     render: function render(createElement, context) {
 
-        // Return the correct item type component
+        var store = context.parent.$store;
+        var selectedItems = store.state.selectedItems;
+        var item = context.props.item;
+
+        /**
+         * Return the correct item type component
+         */
         function itemType() {
-            var item = context.props.item;
             var imageExtensions = ['jpg', 'png', 'gif'];
 
             // Render directory items
@@ -7978,15 +8026,54 @@ exports.default = {
             return _file2.default;
         }
 
+        /**
+         * Whether or not the item is currently selected
+         * @returns {boolean}
+         */
+        function isSelected() {
+            return store.state.selectedItems.some(function (selected) {
+                return selected.path === item.path;
+            });
+        }
+
+        /**
+         * Handle the click event
+         * @param event
+         */
+        function handleClick(event) {
+            // Handle clicks when the item was not selected
+            if (!isSelected()) {
+                // Unselect all other selected items, if the shift key was not pressed during the click event
+                if (!(event.shiftKey || event.keyCode === 13)) {
+                    store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+                }
+                store.commit(types.SELECT_BROWSER_ITEM, item);
+                return;
+            }
+
+            // If more than one item was selected and the user clicks again on the selected item,
+            // he most probably wants to unselect all other items.
+            if (selectedItems.length > 1) {
+                store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+                store.commit(types.SELECT_BROWSER_ITEM, item);
+            }
+        }
+
         return createElement('div', {
-            'class': 'media-browser-item'
+            'class': {
+                'media-browser-item': true,
+                selected: isSelected()
+            },
+            on: {
+                click: handleClick
+            }
         }, [createElement(itemType(), {
             props: context.props
         })]);
     }
 };
 
-},{"./directory.vue":12,"./file.vue":13,"./image.vue":14}],16:[function(require,module,exports){
+},{"./../../../store/mutation-types":25,"./directory.vue":12,"./file.vue":13,"./image.vue":14}],16:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -8221,6 +8308,10 @@ var _vue = require("vue");
 
 var _vue2 = _interopRequireDefault(_vue);
 
+var _Event = require("./app/Event");
+
+var _Event2 = _interopRequireDefault(_Event);
+
 var _app = require("./components/app.vue");
 
 var _app2 = _interopRequireDefault(_app);
@@ -8265,10 +8356,6 @@ var _store = require("./store/store");
 
 var _store2 = _interopRequireDefault(_store);
 
-var _Event = require("./app/Event");
-
-var _Event2 = _interopRequireDefault(_Event);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Add the plugins
@@ -8284,8 +8371,9 @@ _vue2.default.component('media-browser-item', _item4.default);
 _vue2.default.component('media-modal', _modal2.default);
 _vue2.default.component('create-folder-modal', _createFolderModal2.default);
 
-// Toolbar components
+// Register MediaManager namespace
 window.MediaManager = window.MediaManager || {};
+// Register the media manager event bus
 window.MediaManager.Event = new _Event2.default();
 
 // Create the root Vue instance
@@ -8353,6 +8441,7 @@ var getContents = exports.getContents = function getContents(_ref, dir) {
 
     _Api.api.getContents(dir).then(function (contents) {
         commit(types.LOAD_CONTENTS_SUCCESS, contents);
+        commit(types.UNSELECT_ALL_BROWSER_ITEMS);
         commit(types.SELECT_DIRECTORY, dir);
     }).catch(function (error) {
         // TODO error handling
@@ -8444,6 +8533,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var SELECT_DIRECTORY = exports.SELECT_DIRECTORY = 'SELECT_DIRECTORY';
+var SELECT_BROWSER_ITEM = exports.SELECT_BROWSER_ITEM = 'SELECT_BROWSER_ITEM';
+var UNSELECT_ALL_BROWSER_ITEMS = exports.UNSELECT_ALL_BROWSER_ITEMS = 'UNSELECT_ALL_BROWSER_ITEMS';
 
 // Api handlers
 var LOAD_CONTENTS_SUCCESS = exports.LOAD_CONTENTS_SUCCESS = 'LOAD_CONTENTS_SUCCESS';
@@ -8552,6 +8643,11 @@ exports.default = (_types$SELECT_DIRECTO = {}, _defineProperty(_types$SELECT_DIR
             directories: [].concat(_toConsumableArray(parentDirectory.directories), [directory.path])
         }));
     }
+}), _defineProperty(_types$SELECT_DIRECTO, types.SELECT_BROWSER_ITEM, function (state, payload) {
+    state.selectedItems.push(payload);
+    var selectedItemIndex = state.selectedItems.indexOf(payload);
+}), _defineProperty(_types$SELECT_DIRECTO, types.UNSELECT_ALL_BROWSER_ITEMS, function (state, payload) {
+    state.selectedItems = [];
 }), _defineProperty(_types$SELECT_DIRECTO, types.SHOW_CREATE_FOLDER_MODAL, function (state) {
     state.showCreateFolderModal = true;
 }), _defineProperty(_types$SELECT_DIRECTO, types.HIDE_CREATE_FOLDER_MODAL, function (state) {
@@ -8569,7 +8665,8 @@ exports.default = {
     selectedDirectory: '/',
     directories: [{ path: '/', directories: [], files: [], directory: null }],
     files: [],
-    showCreateFolderModal: false
+    showCreateFolderModal: false,
+    selectedItems: []
 };
 
 },{}],28:[function(require,module,exports){
