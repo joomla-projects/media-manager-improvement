@@ -29,13 +29,9 @@ $sidebar-width: 16.666666%;
 /* Media Tree */
 ul.media-tree {
   list-style: none;
-  padding: 15px 0 0;
+  padding: 0;
   margin: 0;
   overflow-x: hidden;
-}
-
-ul.media-tree ul {
-  padding-top: 0;
 }
 
 .media-tree-item {
