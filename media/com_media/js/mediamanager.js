@@ -7676,8 +7676,22 @@ var api = exports.api = new Api();
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _mutationTypes = require('./../store/mutation-types');
+
+var types = _interopRequireWildcard(_mutationTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 exports.default = {
     name: 'media-app',
+    created: function created() {
+        var _this = this;
+
+        MediaManager.Event.$on('onClickCreateFolder', function (e) {
+            _this.$store.commit(types.SHOW_CREATE_FOLDER_MODAL);
+        });
+    },
     mounted: function mounted() {
         this.$store.dispatch('getContents', this.$store.state.selectedDirectory);
     }
@@ -7698,7 +7712,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-02393475", __vue__options__)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":3}],9:[function(require,module,exports){
+},{"./../store/mutation-types":24,"vue":4,"vue-hot-reload-api":3}],9:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -8041,25 +8055,13 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 })()}
 },{"./../../store/mutation-types":24,"vue":4,"vue-hot-reload-api":3,"vueify/lib/insert-css":5}],17:[function(require,module,exports){
 ;(function(){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _mutationTypes = require("./../../store/mutation-types");
-
-var types = _interopRequireWildcard(_mutationTypes);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
 exports.default = {
-    name: 'media-toolbar',
-    methods: {
-        showCreateFolderModal: function showCreateFolderModal() {
-            this.$store.commit(types.SHOW_CREATE_FOLDER_MODAL);
-        }
-    }
+    name: 'media-toolbar'
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
@@ -8077,7 +8079,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-2ba1163b", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":24,"vue":4,"vue-hot-reload-api":3}],18:[function(require,module,exports){
+},{"vue":4,"vue-hot-reload-api":3}],18:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -8231,6 +8233,10 @@ _vue2.default.component('media-browser', _browser2.default);
 _vue2.default.component('media-browser-item', _item4.default);
 _vue2.default.component('media-modal', _modal2.default);
 _vue2.default.component('create-folder-modal', _createFolderModal2.default);
+
+// Toolbar components
+window.MediaManager = window.MediaManager || {};
+window.MediaManager.Event = new _vue2.default();
 
 // Create the root Vue instance
 document.addEventListener("DOMContentLoaded", function (e) {

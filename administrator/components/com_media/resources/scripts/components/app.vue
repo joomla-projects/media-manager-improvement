@@ -12,15 +12,21 @@
                     <media-browser></media-browser>
                 </div>
             </div>
-
         </div>
         <create-folder-modal></create-folder-modal>
     </div>
 </template>
 
 <script>
+    import * as types from "./../store/mutation-types";
     export default {
         name: 'media-app',
+        created() {
+            // Listen to the on click create folder event
+            MediaManager.Event.$on('onClickCreateFolder', (e) => {
+                this.$store.commit(types.SHOW_CREATE_FOLDER_MODAL);
+            });
+        },
         mounted() {
             // Initial load the data
             this.$store.dispatch('getContents', this.$store.state.selectedDirectory);
