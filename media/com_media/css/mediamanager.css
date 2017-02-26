@@ -1,10 +1,7 @@
 /* General layout */
 .media-container {
   height: 100%;
-  flex-direction: column;
-  margin-top: -57px;
-  margin-left: -15px;
-  margin-right: -15px; }
+  flex-direction: column; }
 
 .media-main {
   min-height: 100%;
