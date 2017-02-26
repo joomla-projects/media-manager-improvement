@@ -7678,36 +7678,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
     name: 'media-app',
-    methods: {
-        setFullHeight: function setFullHeight() {
-            this.fullHeight = window.innerHeight + this.$el.offsetTop + 'px';
-        }
-    },
-    data: function data() {
-        return {
-            fullHeight: ''
-        };
-    },
     mounted: function mounted() {
-        var _this = this;
-
         this.$store.dispatch('getContents', this.$store.state.selectedDirectory);
-
-        this.$nextTick(function () {
-            _this.setFullHeight();
-
-            window.addEventListener('resize', _this.setFullHeight);
-        });
-    },
-    beforeDestroy: function beforeDestroy() {
-        window.removeEventListener('resize', this.setFullHeight);
     }
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-container",style:({minHeight: _vm.fullHeight})},[_c('media-toolbar'),_vm._v(" "),_c('div',{staticClass:"media-main"},[_c('div',{staticClass:"media-sidebar"},[_c('media-tree',{attrs:{"root":'/'}})],1),_vm._v(" "),_c('media-browser')],1),_vm._v(" "),_c('create-folder-modal')],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-container row"},[_c('div',{staticClass:"media-sidebar col-md-2 hidden-sm-down"},[_c('media-tree',{attrs:{"root":'/'}})],1),_vm._v(" "),_c('div',{staticClass:"media-main col-md-10"},[_c('div',{staticClass:"card"},[_c('div',{staticClass:"card-header"},[_c('media-toolbar')],1),_vm._v(" "),_c('div',{staticClass:"card-block"},[_c('media-browser')],1)])]),_vm._v(" "),_c('create-folder-modal')],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -7758,7 +7737,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('ul',{staticClass:"media-breadcrumb"},[_c('li',[_c('a',{on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.goTo('/')}}},[_vm._v("Home")])]),_vm._v(" "),_vm._l((_vm.crumbs),function(crumb){return _c('li',[_c('span',{staticClass:"divider"},[_vm._v("/")]),_vm._v(" "),_c('a',{on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.goTo(crumb.path)}}},[_vm._v(_vm._s(crumb.name))])])})],2)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('ol',{staticClass:"media-breadcrumb breadcrumb"},[_c('li',{staticClass:"breadcrumb-item"},[_c('a',{on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.goTo('/')}}},[_vm._v("Home")])]),_vm._v(" "),_vm._l((_vm.crumbs),function(crumb){return _c('li',{staticClass:"breadcrumb-item"},[_c('a',{on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.goTo(crumb.path)}}},[_vm._v(_vm._s(crumb.name))])])})],2)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -8079,11 +8058,6 @@ exports.default = {
     methods: {
         showCreateFolderModal: function showCreateFolderModal() {
             this.$store.commit(types.SHOW_CREATE_FOLDER_MODAL);
-        },
-        onKeyDown: function onKeyDown(event) {
-            if (this.show && event.keyCode == 27) {
-                this.close();
-            }
         }
     }
 };
@@ -8091,8 +8065,8 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-toolbar"},[_c('div',{staticClass:"media-toolbar-create"},[_c('div',{staticClass:"btn-group"},[_c('button',{staticClass:"btn btn-sm btn-success"},[_c('span',{staticClass:"icon-apply icon-white"}),_vm._v(" "+_vm._s(_vm.translate('COM_MEDIA_NEW'))+"\n            ")]),_vm._v(" "),_c('button',{staticClass:"btn btn-sm btn-success dropdown-toggle dropdown-toggle-split",attrs:{"type":"button","data-toggle":"dropdown","aria-haspopup":"true","aria-expanded":"false"}}),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu"},[_c('li',{staticClass:"dropdown-item"},[_c('a',{attrs:{"href":"#"},on:{"click":function($event){$event.preventDefault();_vm.showCreateFolderModal()}}},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_CREATE_FOLDER')))])]),_vm._v(" "),_c('li',{staticClass:"divider"}),_vm._v(" "),_c('li',{staticClass:"dropdown-item"},[_c('a',{attrs:{"href":"#"}},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_UPLOAD_FILE')))])]),_vm._v(" "),_c('li',{staticClass:"dropdown-item"},[_c('a',{attrs:{"href":"#"}},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_UPLOAD_FOLDER')))])])])])]),_vm._v(" "),_c('media-breadcrumb'),_vm._v(" "),_vm._m(0)],1)}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('ul',{staticClass:"media-tools"},[_c('li',[_c('a',{attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-list"})])]),_vm._v(" "),_c('li',[_c('a',{attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-info-circle"})])]),_vm._v(" "),_c('li',[_c('a',{attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-question-circle"})])]),_vm._v(" "),_c('li',[_c('a',{attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-cog"})])])])}]
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-toolbar"},[_c('media-breadcrumb')],1)}
+__vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
