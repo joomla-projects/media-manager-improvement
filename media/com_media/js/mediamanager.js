@@ -7670,6 +7670,52 @@ var Api = function () {
 var api = exports.api = new Api();
 
 },{"path":1}],8:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _vue = require("vue");
+
+var _vue2 = _interopRequireDefault(_vue);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Media Eventbus
+ */
+var Event = function () {
+    function Event() {
+        _classCallCheck(this, Event);
+
+        this.vue = new _vue2.default();
+    }
+
+    _createClass(Event, [{
+        key: "fire",
+        value: function fire(event) {
+            var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+            this.vue.$emit(event, data);
+        }
+    }, {
+        key: "listen",
+        value: function listen(event, callback) {
+            this.vue.$on(event, callback);
+        }
+    }]);
+
+    return Event;
+}();
+
+exports.default = Event;
+
+},{"vue":4}],9:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -7688,8 +7734,8 @@ exports.default = {
     created: function created() {
         var _this = this;
 
-        MediaManager.Event.$on('onClickCreateFolder', function (e) {
-            _this.$store.commit(types.SHOW_CREATE_FOLDER_MODAL);
+        MediaManager.Event.listen('onClickCreateFolder', function () {
+            return _this.$store.commit(types.SHOW_CREATE_FOLDER_MODAL);
         });
     },
     mounted: function mounted() {
@@ -7712,7 +7758,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-02393475", __vue__options__)
   }
 })()}
-},{"./../store/mutation-types":24,"vue":4,"vue-hot-reload-api":3}],9:[function(require,module,exports){
+},{"./../store/mutation-types":25,"vue":4,"vue-hot-reload-api":3}],10:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -7763,7 +7809,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-5a2cfde3", __vue__options__)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":3}],10:[function(require,module,exports){
+},{"vue":4,"vue-hot-reload-api":3}],11:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -7794,7 +7840,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-cd88c8d6", __vue__options__)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":3}],11:[function(require,module,exports){
+},{"vue":4,"vue-hot-reload-api":3}],12:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -7828,7 +7874,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-3c2c1b4b", __vue__options__)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":3}],12:[function(require,module,exports){
+},{"vue":4,"vue-hot-reload-api":3}],13:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -7855,7 +7901,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-744344e4", __vue__options__)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":3}],13:[function(require,module,exports){
+},{"vue":4,"vue-hot-reload-api":3}],14:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -7889,7 +7935,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-12aad239", __vue__options__)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":3}],14:[function(require,module,exports){
+},{"vue":4,"vue-hot-reload-api":3}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7940,7 +7986,7 @@ exports.default = {
     }
 };
 
-},{"./directory.vue":11,"./file.vue":12,"./image.vue":13}],15:[function(require,module,exports){
+},{"./directory.vue":12,"./file.vue":13,"./image.vue":14}],16:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -7985,7 +8031,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-1e731972", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":24,"vue":4,"vue-hot-reload-api":3}],16:[function(require,module,exports){
+},{"./../../store/mutation-types":25,"vue":4,"vue-hot-reload-api":3}],17:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/** TODO DN extract styles **/\n.modal {\n    display: block;\n}\n\n.modal-body {\n    width: auto;\n    padding: 15px;\n}\n\n.media-modal-backdrop {\n    position: fixed;\n    z-index: 1040;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, .5);\n    display: table;\n    transition: opacity .3s ease;\n}")
 ;(function(){
 'use strict';
@@ -8053,7 +8099,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-afa4aac0", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":24,"vue":4,"vue-hot-reload-api":3,"vueify/lib/insert-css":5}],17:[function(require,module,exports){
+},{"./../../store/mutation-types":25,"vue":4,"vue-hot-reload-api":3,"vueify/lib/insert-css":5}],18:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -8079,7 +8125,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-2ba1163b", __vue__options__)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":3}],18:[function(require,module,exports){
+},{"vue":4,"vue-hot-reload-api":3}],19:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -8132,7 +8178,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-4c306eb8", __vue__options__)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":3}],19:[function(require,module,exports){
+},{"vue":4,"vue-hot-reload-api":3}],20:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -8168,7 +8214,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-58a029c3", __vue__options__)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":3}],20:[function(require,module,exports){
+},{"vue":4,"vue-hot-reload-api":3}],21:[function(require,module,exports){
 "use strict";
 
 var _vue = require("vue");
@@ -8219,6 +8265,10 @@ var _store = require("./store/store");
 
 var _store2 = _interopRequireDefault(_store);
 
+var _Event = require("./app/Event");
+
+var _Event2 = _interopRequireDefault(_Event);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Add the plugins
@@ -8236,7 +8286,7 @@ _vue2.default.component('create-folder-modal', _createFolderModal2.default);
 
 // Toolbar components
 window.MediaManager = window.MediaManager || {};
-window.MediaManager.Event = new _vue2.default();
+window.MediaManager.Event = new _Event2.default();
 
 // Create the root Vue instance
 document.addEventListener("DOMContentLoaded", function (e) {
@@ -8249,7 +8299,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     });
 });
 
-},{"./components/app.vue":8,"./components/breadcrumb/breadcrumb.vue":9,"./components/browser/browser.vue":10,"./components/browser/items/item":14,"./components/modals/create-folder-modal.vue":15,"./components/modals/modal.vue":16,"./components/toolbar/toolbar.vue":17,"./components/tree/item.vue":18,"./components/tree/tree.vue":19,"./plugins/translate":21,"./store/store":27,"vue":4}],21:[function(require,module,exports){
+},{"./app/Event":8,"./components/app.vue":9,"./components/breadcrumb/breadcrumb.vue":10,"./components/browser/browser.vue":11,"./components/browser/items/item":15,"./components/modals/create-folder-modal.vue":16,"./components/modals/modal.vue":17,"./components/toolbar/toolbar.vue":18,"./components/tree/item.vue":19,"./components/tree/tree.vue":20,"./plugins/translate":22,"./store/store":28,"vue":4}],22:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8273,7 +8323,7 @@ Translate.install = function (Vue, options) {
 
 exports.default = Translate;
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8327,7 +8377,7 @@ var createDirectory = exports.createDirectory = function createDirectory(_ref2, 
     });
 };
 
-},{"../app/Api":7,"./mutation-types":24}],23:[function(require,module,exports){
+},{"../app/Api":7,"./mutation-types":25}],24:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8387,7 +8437,7 @@ var getSelectedDirectoryContents = exports.getSelectedDirectoryContents = functi
   return [].concat(_toConsumableArray(getters.getSelectedDirectoryDirectories), _toConsumableArray(getters.getSelectedDirectoryFiles));
 };
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8403,7 +8453,7 @@ var CREATE_DIRECTORY_SUCCESS = exports.CREATE_DIRECTORY_SUCCESS = 'CREATE_DIRECT
 var SHOW_CREATE_FOLDER_MODAL = exports.SHOW_CREATE_FOLDER_MODAL = 'SHOW_CREATE_FOLDER_MODAL';
 var HIDE_CREATE_FOLDER_MODAL = exports.HIDE_CREATE_FOLDER_MODAL = 'HIDE_CREATE_FOLDER_MODAL';
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8508,7 +8558,7 @@ exports.default = (_types$SELECT_DIRECTO = {}, _defineProperty(_types$SELECT_DIR
     state.showCreateFolderModal = false;
 }), _types$SELECT_DIRECTO);
 
-},{"./mutation-types":24}],26:[function(require,module,exports){
+},{"./mutation-types":25}],27:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8522,7 +8572,7 @@ exports.default = {
     showCreateFolderModal: false
 };
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8569,4 +8619,4 @@ exports.default = new _vuex2.default.Store({
     strict: true
 });
 
-},{"./actions":22,"./getters":23,"./mutations":25,"./state":26,"vue":4,"vuex":6}]},{},[20]);
+},{"./actions":23,"./getters":24,"./mutations":26,"./state":27,"vue":4,"vuex":6}]},{},[21]);
