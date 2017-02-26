@@ -50,20 +50,16 @@ class MediaViewMedia extends View
 		// Set the title
 		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
 
-		// Add an upload button
+		// Add the upload and create folder buttons
 		if ($user->authorise('core.create', 'com_media'))
 		{
-			// Instantiate a new JLayoutFile instance and render the layout
+			// Add the upload button
 			$layout = new JLayoutFile('toolbar.upload', JPATH_COMPONENT_ADMINISTRATOR . '/legacy/layouts');
 
 			$bar->appendButton('Custom', $layout->render(array()), 'upload');
 			JToolbarHelper::divider();
-		}
 
-		// Add an upload button
-		if ($user->authorise('core.create', 'com_media'))
-		{
-			// Instantiate a new JLayoutFile instance and render the layout
+			// Add the create folder button
 			$layout = new JLayoutFile('toolbar.create-folder', JPATH_COMPONENT_ADMINISTRATOR . '/legacy/layouts');
 
 			$bar->appendButton('Custom', $layout->render(array()), 'new');
