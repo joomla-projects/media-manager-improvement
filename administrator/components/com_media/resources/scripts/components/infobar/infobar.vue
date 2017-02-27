@@ -1,5 +1,5 @@
 <template>
-    <div class="media-infobar">
+    <div class="media-infobar col-md-4">
         <div class="card">
             <div class="card-header">
                 Item name
@@ -18,8 +18,9 @@
         position: absolute;
         right: 0;
         top: 0;
-        width: 365px;
         z-index: 4;
+        float: none;
+        padding: 0;
     }
     .media-infobar .card {
         height: 100%;

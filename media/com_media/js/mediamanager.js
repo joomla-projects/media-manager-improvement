@@ -7841,11 +7841,20 @@ var types = _interopRequireWildcard(_mutationTypes);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 exports.default = {
     name: 'media-browser',
     computed: {
         items: function items() {
-            return this.$store.getters.getSelectedDirectoryContents;
+            var directories = this.$store.getters.getSelectedDirectoryDirectories.sort(function (a, b) {
+                return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
+            });
+            var files = this.$store.getters.getSelectedDirectoryFiles.sort(function (a, b) {
+                return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
+            });
+
+            return [].concat(_toConsumableArray(directories), _toConsumableArray(files));
         }
     },
     methods: {
@@ -7867,7 +7876,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser"},[_c('div',{ref:"browserItems",staticClass:"media-browser-items",style:({'margin-right': '365px'})},_vm._l((_vm.items),function(item){return _c('media-browser-item',{attrs:{"item":item}})})),_vm._v(" "),_c('media-infobar')],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser"},[_c('div',{ref:"browserItems",staticClass:"media-browser-items col-md-8"},_vm._l((_vm.items),function(item){return _c('media-browser-item',{attrs:{"item":item}})})),_vm._v(" "),_c('media-infobar')],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -8074,7 +8083,7 @@ exports.default = {
 };
 
 },{"./../../../store/mutation-types":26,"./directory.vue":12,"./file.vue":13,"./image.vue":14}],16:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".media-infobar {\n    background-color: #fafafa;\n    height: 100%;\n    overflow: hidden;\n    position: absolute;\n    right: 0;\n    top: 0;\n    width: 365px;\n    z-index: 4;\n}\n.media-infobar .card {\n    height: 100%;\n    border-top: 0;\n    border-right: 0;\n    border-bottom: 0;\n    border-radius: 0;\n}")
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".media-infobar {\n    background-color: #fafafa;\n    height: 100%;\n    overflow: hidden;\n    position: absolute;\n    right: 0;\n    top: 0;\n    z-index: 4;\n    float: none;\n    padding: 0;\n}\n.media-infobar .card {\n    height: 100%;\n    border-top: 0;\n    border-right: 0;\n    border-bottom: 0;\n    border-radius: 0;\n}")
 ;(function(){
 'use strict';
 
@@ -8089,7 +8098,7 @@ if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
 __vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-infobar"},[_c('div',{staticClass:"card"},[_c('div',{staticClass:"card-header"},[_vm._v("\n            Item name\n        ")]),_vm._v(" "),_c('div',{staticClass:"card-block"},[_vm._v("\n            Some content\n        ")])])])}]
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-infobar col-md-4"},[_c('div',{staticClass:"card"},[_c('div',{staticClass:"card-header"},[_vm._v("\n            Item name\n        ")]),_vm._v(" "),_c('div',{staticClass:"card-block"},[_vm._v("\n            Some content\n        ")])])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
@@ -8505,9 +8514,6 @@ var createDirectory = exports.createDirectory = function createDirectory(_ref2, 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 // Sometimes we may need to compute derived state based on store state,
 // for example filtering through a list of items and counting them.
 
@@ -8548,15 +8554,6 @@ var getSelectedDirectoryFiles = exports.getSelectedDirectoryFiles = function get
       return file.path === filePath;
     });
   });
-};
-
-/**
- * Get the combined contents (files and directories) of the currently selected directory
- * @param state
- * @returns {[*,*]}
- */
-var getSelectedDirectoryContents = exports.getSelectedDirectoryContents = function getSelectedDirectoryContents(state, getters) {
-  return [].concat(_toConsumableArray(getters.getSelectedDirectoryDirectories), _toConsumableArray(getters.getSelectedDirectoryFiles));
 };
 
 },{}],26:[function(require,module,exports){
