@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-        <create-folder-modal></create-folder-modal>
+        <media-create-folder-modal></media-create-folder-modal>
     </div>
 </template>
 

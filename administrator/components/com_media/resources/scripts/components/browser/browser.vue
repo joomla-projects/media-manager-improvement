@@ -1,8 +1,9 @@
 <template>
     <div class="media-browser">
-        <div class="media-browser-items" ref="browserItems">
+        <div class="media-browser-items" ref="browserItems" :style="{'margin-right': '365px'}">
             <media-browser-item v-for="item in items" :item="item"></media-browser-item>
         </div>
+        <media-infobar></media-infobar>
     </div>
 </template>
 
