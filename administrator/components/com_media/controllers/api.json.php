@@ -109,10 +109,8 @@ class MediaControllerApi extends JControllerLegacy
 	 */
 	public function files()
 	{
-		// @todo add ACL check
-
 		// Get the required variables
-		$path = $this->input->getPath('path', '/');
+		$path = $this->input->getPath('path', '/', 'path');
 
 		// Determine the method
 		$method = $this->input->getMethod() ? : 'GET';
@@ -130,11 +128,13 @@ class MediaControllerApi extends JControllerLegacy
 					break;
 				case 'post':
 					$content      = $this->input->json;
-					$name         = $content->get('name');
+					$name         = $this->getSafeName($content->get('name'));
 					$mediaContent = base64_decode($content->get('content'));
 
 					if ($mediaContent)
 					{
+						$this->checkContent($name, $mediaContent);
+
 						// A file needs to be created
 						$this->adapter->createFile($name, $path, $mediaContent);
 					}
@@ -150,6 +150,8 @@ class MediaControllerApi extends JControllerLegacy
 					$content      = $this->input->json;
 					$name         = basename($path);
 					$mediaContent = base64_decode($content->get('content'));
+
+					$this->checkContent($name, $mediaContent);
 
 					$this->adapter->updateFile($name, str_replace($name, '', $path), $mediaContent);
 
@@ -168,7 +170,13 @@ class MediaControllerApi extends JControllerLegacy
 		}
 		catch (Exception $e)
 		{
-			$this->sendResponse($e, 500);
+			$errorCode = 500;
+
+			if ($e->getCode() > 0)
+			{
+				$errorCode = $e->getCode();
+			}
+			$this->sendResponse($e, $errorCode);
 		}
 	}
 
@@ -194,5 +202,80 @@ class MediaControllerApi extends JControllerLegacy
 
 		// Send the data
 		echo new JResponseJson($data);
+	}
+
+
+	/**
+	 * Creates a safe file name for the given name.
+	 *
+	 * @param   string  $name  The filename
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	private function getSafeName($name)
+	{
+		// Make the filename safe
+		$name = JFile::makeSafe($name);
+
+		// Transform filename to punycode
+		$name = JStringPunycode::toPunycode($name);
+
+		$extension = JFile::getExt($name);
+
+		if ($extension)
+		{
+			$extension = '.' . strtolower($extension);
+		}
+
+		// Transform filename to punycode, then neglect other than non-alphanumeric characters & underscores.
+		// Also transform extension to lowercase.
+		$name = preg_replace(array("/[\\s]/", '/[^a-zA-Z0-9_]/'), array('_', ''), $name) . $extension;
+
+		return $name;
+	}
+
+	/**
+	 * Performs various check if it is allowed to save the content with the given name.
+	 *
+	 * @param   string  $name          The filename
+	 * @param   string  $mediaContent  The media content
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	private function checkContent($name, $mediaContent)
+	{
+		if (!JFactory::getUser()->authorise('core.create', 'com_media'))
+		{
+			throw new Exception(JText::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'), 403);
+		}
+
+		$helper = new JHelperMedia();
+		$serverlength = $this->input->server->get('CONTENT_LENGTH');
+		if ($serverlength > ($params->get('upload_maxsize', 0) * 1024 * 1024)
+			|| $serverlength > $helper->toBytes(ini_get('upload_max_filesize'))
+			|| $serverlength > $helper->toBytes(ini_get('post_max_size'))
+			|| $serverlength > $helper->toBytes(ini_get('memory_limit')))
+		{
+			throw new Exception(JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
+		}
+
+		// @todo find a better way to check the input, by not writing the file to the disk
+		$tmpFile = JFactory::getApplication()->getConfig()->get('tmp_path') . '/' . uniqid($name);
+
+		if (!JFile::write($tmpFile, $mediaContent))
+		{
+			throw new Exception(JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+		}
+
+		if (!$helper->canUpload(array('name' => $name, 'size' => sizeof($mediaContent), 'tmp_name' => $tmpFile), 'com_media'))
+		{
+			throw new Exception(JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'), 403);
+		}
 	}
 }
