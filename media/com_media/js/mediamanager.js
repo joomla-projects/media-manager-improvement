@@ -7580,7 +7580,7 @@ var Api = function () {
 
             // Wrap the jquery call into a real promise
             return new Promise(function (resolve, reject) {
-                var url = _this2._baseUrl + '&task=api.files&path=' + parent;
+                var url = _this2._appendToken(_this2._baseUrl + '&task=api.files&path=' + parent);
                 jQuery.ajax({
                     url: url,
                     type: "POST",
@@ -7647,6 +7647,8 @@ var Api = function () {
          * Handle errors
          * @param error
          * @private
+         *
+         * @TODO DN improve error handling
          */
 
     }, {
@@ -7665,6 +7667,19 @@ var Api = function () {
             }
 
             throw error;
+        }
+
+        /**
+         * Append the token to an url
+         * @param url
+         * @returns {string}
+         * @private
+         */
+
+    }, {
+        key: '_appendToken',
+        value: function _appendToken(url) {
+            return url + '&' + this._csrfToken + '=1';
         }
     }]);
 

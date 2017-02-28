@@ -47,7 +47,7 @@ class Api {
     createDirectory(name, parent) {
         // Wrap the jquery call into a real promise
         return new Promise((resolve, reject) => {
-            const url = this._baseUrl + '&task=api.files&path=' + parent;
+            const url = this._appendToken(this._baseUrl + '&task=api.files&path=' + parent);
             jQuery.ajax({
                 url: url,
                 type: "POST",
@@ -101,6 +101,8 @@ class Api {
      * Handle errors
      * @param error
      * @private
+     *
+     * @TODO DN improve error handling
      */
     _handleError(error) {
         alert(error.status + ' ' + error.statusText);
@@ -116,6 +118,16 @@ class Api {
         }
 
         throw error;
+    }
+
+    /**
+     * Append the token to an url
+     * @param url
+     * @returns {string}
+     * @private
+     */
+    _appendToken(url) {
+        return url + '&' + this._csrfToken + '=1';
     }
 }
 
