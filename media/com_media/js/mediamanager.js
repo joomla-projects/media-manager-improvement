@@ -7749,6 +7749,17 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 exports.default = {
     name: 'media-app',
+    data: function data() {
+        return {
+            fullHeight: ''
+        };
+    },
+
+    methods: {
+        setFullHeight: function setFullHeight() {
+            this.fullHeight = window.innerHeight - this.$el.getBoundingClientRect().top + 'px';
+        }
+    },
     created: function created() {
         var _this = this;
 
@@ -7757,14 +7768,25 @@ exports.default = {
         });
     },
     mounted: function mounted() {
+        var _this2 = this;
+
+        this.$nextTick(function () {
+            _this2.setFullHeight();
+
+            window.addEventListener('resize', _this2.setFullHeight);
+        });
+
         this.$store.dispatch('getContents', this.$store.state.selectedDirectory);
+    },
+    beforeDestroy: function beforeDestroy() {
+        window.removeEventListener('resize', this.setFullHeight);
     }
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-container row"},[_c('div',{staticClass:"media-sidebar col-md-2 hidden-sm-down"},[_c('media-tree',{attrs:{"root":'/'}})],1),_vm._v(" "),_c('div',{staticClass:"media-main col-md-10"},[_c('div',{staticClass:"card"},[_c('div',{staticClass:"card-header"},[_c('media-toolbar')],1),_vm._v(" "),_c('div',{staticClass:"card-block"},[_c('media-browser')],1)])]),_vm._v(" "),_c('media-create-folder-modal')],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-container row no-gutters",style:({minHeight: _vm.fullHeight})},[_c('div',{staticClass:"media-sidebar col-md-2 hidden-sm-down"},[_c('media-tree',{attrs:{"root":'/'}})],1),_vm._v(" "),_c('div',{staticClass:"media-main col-md-10"},[_c('media-toolbar'),_vm._v(" "),_c('media-browser')],1),_vm._v(" "),_c('media-create-folder-modal')],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
