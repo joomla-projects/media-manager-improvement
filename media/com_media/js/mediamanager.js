@@ -8091,14 +8091,29 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
-    name: 'media-infobar'
+    name: 'media-infobar',
+    computed: {
+        item: function item() {
+            var selectedItems = this.$store.state.selectedItems;
+
+            if (selectedItems.length === 1) {
+                return selectedItems[0];
+            }
+
+            if (selectedItems.length > 1) {
+                return selectedItems.slice(-1)[0];
+            }
+
+            return this.$store.getters.getSelectedDirectory;
+        }
+    }
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-infobar col-md-4"},[_c('div',{staticClass:"card"},[_c('div',{staticClass:"card-header"},[_vm._v("\n            Item name\n        ")]),_vm._v(" "),_c('div',{staticClass:"card-block"},[_vm._v("\n            Some content\n        ")])])])}]
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-infobar col-md-4"},[_c('div',{staticClass:"card"},[_c('div',{staticClass:"card-header"}),_vm._v(" "),_c('div',{staticClass:"card-block"},[_c('h4',{staticClass:"item-name"},[_vm._v("\n                "+_vm._s(_vm.item.name)+"\n            ")]),_vm._v(" "),(_vm.item.path === '/')?_c('div',{staticClass:"text-center"},[_c('span',{staticClass:"fa fa-info"}),_vm._v("\n                Select file or folder to view its details.\n            ")]):_c('ul')])])])}
+__vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
@@ -8693,7 +8708,7 @@ Object.defineProperty(exports, "__esModule", {
 // The initial state
 exports.default = {
     selectedDirectory: '/',
-    directories: [{ path: '/', directories: [], files: [], directory: null }],
+    directories: [{ path: '/', name: 'PLACEHOLDER', directories: [], files: [], directory: null }],
     files: [],
     showCreateFolderModal: false,
     selectedItems: []
