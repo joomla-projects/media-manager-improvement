@@ -82,19 +82,18 @@ class MediaControllerApi extends Controller
 		$path = $this->input->getPath('path', '/', 'path');
 
 		// Determine the method
-		$method = $this->input->getMethod() ? : 'GET';
-
-		// Check token for requests which do modify files
-		if (in_array(strtolower($method), array('post', 'put', 'delete')) && !JSession::checkToken('request'))
-		{
-			$this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
-			return;
-		}
+		$method = strtolower($this->input->getMethod() ? : 'GET');
 
 		try
 		{
+			// Check token for requests which do modify files (all except get requests)
+			if ($method !== 'get' && !JSession::checkToken('request'))
+			{
+				throw new InvalidArgumentException(JText::_('JINVALID_TOKEN'), 403);
+			}
+
 			// Gather the data according to the method
-			switch (strtolower($method))
+			switch ($method)
 			{
 				case 'get':
 					$data = $this->getModel()->getFiles($path, $this->input->getWord('filter'));
