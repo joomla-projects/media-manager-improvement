@@ -13,8 +13,12 @@ class Api {
         if (options.apiBaseUrl === undefined) {
             throw new TypeError('Media api baseUrl is not defined');
         }
+        if (options.csrfToken === undefined) {
+            throw new TypeError('Media api csrf token is not defined');
+        }
 
         this._baseUrl = options.apiBaseUrl;
+        this._csrfToken = options.csrfToken;
     }
 
     /**
@@ -64,7 +68,7 @@ class Api {
      * @private
      */
     _normalizeItem(item) {
-        if(item.type === 'dir') {
+        if (item.type === 'dir') {
             item.directories = [];
             item.files = [];
         }

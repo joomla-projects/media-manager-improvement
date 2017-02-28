@@ -7535,8 +7535,12 @@ var Api = function () {
         if (options.apiBaseUrl === undefined) {
             throw new TypeError('Media api baseUrl is not defined');
         }
+        if (options.csrfToken === undefined) {
+            throw new TypeError('Media api csrf token is not defined');
+        }
 
         this._baseUrl = options.apiBaseUrl;
+        this._csrfToken = options.csrfToken;
     }
 
     /**
