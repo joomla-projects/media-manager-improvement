@@ -213,8 +213,11 @@ class MediaModelApi extends Model
 			throw new Exception(JText::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'), 403);
 		}
 
+		$params = JComponentHelper::getParams('com_media');
+
 		$helper = new JHelperMedia();
 		$serverlength = $this->input->server->get('CONTENT_LENGTH');
+
 		if ($serverlength > ($params->get('upload_maxsize', 0) * 1024 * 1024)
 			|| $serverlength > $helper->toBytes(ini_get('upload_max_filesize'))
 			|| $serverlength > $helper->toBytes(ini_get('post_max_size'))
