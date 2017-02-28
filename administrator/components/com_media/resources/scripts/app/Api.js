@@ -47,11 +47,12 @@ class Api {
     createDirectory(name, parent) {
         // Wrap the jquery call into a real promise
         return new Promise((resolve, reject) => {
-            const url = this._appendToken(this._baseUrl + '&task=api.files&path=' + parent);
+            const url = this._baseUrl + '&task=api.files&path=' + parent;
+            const data = {[this._csrfToken]: '1', name: name};
             jQuery.ajax({
                 url: url,
                 type: "POST",
-                data: JSON.stringify({'name': name}),
+                data: JSON.stringify(data),
                 contentType: "application/json",
             })
                 .done((json) => resolve(this._normalizeItem(json.data)))
@@ -118,16 +119,6 @@ class Api {
         }
 
         throw error;
-    }
-
-    /**
-     * Append the token to an url
-     * @param url
-     * @returns {string}
-     * @private
-     */
-    _appendToken(url) {
-        return url + '&' + this._csrfToken + '=1';
     }
 }
 
