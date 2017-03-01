@@ -47,22 +47,6 @@
   }
 }
 
-@media only screen and (min-width: 979px) {
-  .media-browser-item {
-    width: calc(20% - 15px);
-  }
-
-  .media-browser-item-preview {
-    height: 150px;
-  }
-}
-
-@media only screen and (min-width: 1200px) {
-  .media-browser-item {
-    width: calc(14.285714285714286% - 15px);
-  }
-}
-
 .image-brackground {
   width: 100%;
   height: 100%;
