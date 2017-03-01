@@ -86,6 +86,17 @@
   background-position: center;
   background-size: cover; }
 
+.media-infobar {
+  background-color: #fafafa;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 4;
+  float: none;
+  padding: 0; }
+
 /* Media breadcrumb */
 .media-toolbar .breadcrumb {
   margin: 0;

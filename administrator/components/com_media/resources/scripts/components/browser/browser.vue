@@ -3,7 +3,6 @@
         <div class="media-browser-items col-md-8" ref="browserItems">
             <media-browser-item v-for="item in items" :item="item"></media-browser-item>
         </div>
-        <media-infobar></media-infobar>
     </div>
 </template>
 

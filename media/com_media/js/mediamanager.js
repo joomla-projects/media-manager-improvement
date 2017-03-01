@@ -7786,7 +7786,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-container row no-gutters",style:({minHeight: _vm.fullHeight})},[_c('div',{staticClass:"media-sidebar col-md-2 hidden-sm-down"},[_c('media-tree',{attrs:{"root":'/'}})],1),_vm._v(" "),_c('div',{staticClass:"media-main col-md-10"},[_c('media-toolbar'),_vm._v(" "),_c('media-browser')],1),_vm._v(" "),_c('media-create-folder-modal')],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-container row no-gutters",style:({minHeight: _vm.fullHeight})},[_c('div',{staticClass:"media-sidebar col-md-2 hidden-sm-down"},[_c('media-tree',{attrs:{"root":'/'}})],1),_vm._v(" "),_c('div',{staticClass:"media-main col-md-10"},[_c('media-toolbar'),_vm._v(" "),_c('media-browser'),_vm._v(" "),_c('media-infobar')],1),_vm._v(" "),_c('media-create-folder-modal')],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -7898,7 +7898,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser"},[_c('div',{ref:"browserItems",staticClass:"media-browser-items col-md-8"},_vm._l((_vm.items),function(item){return _c('media-browser-item',{attrs:{"item":item}})})),_vm._v(" "),_c('media-infobar')],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser"},[_c('div',{ref:"browserItems",staticClass:"media-browser-items col-md-8"},_vm._l((_vm.items),function(item){return _c('media-browser-item',{attrs:{"item":item}})}))])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -8105,7 +8105,6 @@ exports.default = {
 };
 
 },{"./../../../store/mutation-types":26,"./directory.vue":12,"./file.vue":13,"./image.vue":14}],16:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".media-infobar {\n    background-color: #fafafa;\n    height: 100%;\n    overflow: hidden;\n    position: absolute;\n    right: 0;\n    top: 0;\n    z-index: 4;\n    float: none;\n    padding: 0;\n}\n.media-infobar .card {\n    height: 100%;\n    border-top: 0;\n    border-right: 0;\n    border-bottom: 0;\n    border-radius: 0;\n}")
 ;(function(){
 'use strict';
 
@@ -8134,20 +8133,19 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-infobar col-md-4"},[_c('div',{staticClass:"card"},[_c('div',{staticClass:"card-header"}),_vm._v(" "),_c('div',{staticClass:"card-block"},[_c('h4',{staticClass:"item-name"},[_vm._v("\n                "+_vm._s(_vm.item.name)+"\n            ")]),_vm._v(" "),(_vm.item.path === '/')?_c('div',{staticClass:"text-center"},[_c('span',{staticClass:"fa fa-info"}),_vm._v("\n                Select file or folder to view its details.\n            ")]):_c('ul')])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-infobar"},[_c('h4',{staticClass:"item-name"},[_vm._v("\n        "+_vm._s(_vm.item.name)+"\n    ")]),_vm._v(" "),(_vm.item.path === '/')?_c('div',{staticClass:"text-center"},[_c('span',{staticClass:"fa fa-info"}),_vm._v("\n        Select file or folder to view its details.\n    ")]):_c('ul')])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.accept()
-  module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-06984c8f", __vue__options__)
   } else {
     hotAPI.reload("data-v-06984c8f", __vue__options__)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":3,"vueify/lib/insert-css":5}],17:[function(require,module,exports){
+},{"vue":4,"vue-hot-reload-api":3}],17:[function(require,module,exports){
 ;(function(){
 'use strict';
 

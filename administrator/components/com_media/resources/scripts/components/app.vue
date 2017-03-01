@@ -6,6 +6,7 @@
         <div class="media-main col-md-10">
             <media-toolbar></media-toolbar>
             <media-browser></media-browser>
+            <media-infobar></media-infobar>
         </div>
         <media-create-folder-modal></media-create-folder-modal>
     </div>
