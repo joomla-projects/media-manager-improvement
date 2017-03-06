@@ -99,6 +99,8 @@ class MediaModelApi extends Model
 	 */
 	public function createFolder($name, $path)
 	{
+		$name = $this->getSafeName($name);
+
 		$this->adapter->createFolder($name, $path);
 	}
 
@@ -119,8 +121,6 @@ class MediaModelApi extends Model
 	public function createFile($name, $path, $data)
 	{
 		$name = $this->getSafeName($name);
-
-		$this->checkContent($name, $data);
 
 		$this->adapter->createFile($name, $path, $data);
 	}

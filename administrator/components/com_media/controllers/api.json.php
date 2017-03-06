@@ -103,7 +103,7 @@ class MediaControllerApi extends Controller
 					break;
 				case 'post':
 					$content      = $this->input->json;
-					$name         = $content->get('name');
+					$name         = $content->getString('name');
 					$mediaContent = base64_decode($content->get('content'));
 
 					if ($mediaContent)
