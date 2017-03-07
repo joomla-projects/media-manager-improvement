@@ -111,12 +111,12 @@ class MediaControllerApi extends Controller
 						$this->checkContent($name, $mediaContent);
 
 						// A file needs to be created
-						$this->getModel()->createFile($name, $path, $mediaContent);
+						$name = $this->getModel()->createFile($name, $path, $mediaContent);
 					}
 					else
 					{
 						// A file needs to be created
-						$this->getModel()->createFolder($name, $path);
+						$name = $this->getModel()->createFolder($name, $path);
 					}
 
 					$data = $this->getModel()->getFile($path . '/' . $name);
