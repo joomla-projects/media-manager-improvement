@@ -201,7 +201,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * Deletes the folder or file of the given path.
 	 *
-	 * @param   string $path The path to the file or folder
+	 * @param   string  $path  The path to the file or folder
 	 *
 	 * @return  void
 	 *
