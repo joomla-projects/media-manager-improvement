@@ -29,7 +29,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * The absolute root path in the local file system.
 	 *
-	 * @param   string  $rootPath  The root path
+	 * @param   string $rootPath The root path
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -59,7 +59,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 *
 	 * If the path doesn't exist a MediaFileAdapterFilenotfoundexception is thrown.
 	 *
-	 * @param   string  $path  The path to the file or folder
+	 * @param   string $path The path to the file or folder
 	 *
 	 * @return  stdClass[]
 	 *
@@ -97,8 +97,8 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 *
 	 * If the path doesn't exist a MediaFileAdapterFilenotfoundexception is thrown.
 	 *
-	 * @param   string  $path    The folder
-	 * @param   string  $filter  The filter
+	 * @param   string $path   The folder
+	 * @param   string $filter The filter
 	 *
 	 * @return  stdClass[]
 	 *
@@ -145,8 +145,8 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * Creates a folder with the given name in the given path.
 	 *
-	 * @param   string  $name  The name
-	 * @param   string  $path  The folder
+	 * @param   string $name The name
+	 * @param   string $path The folder
 	 *
 	 * @return  void
 	 *
@@ -161,9 +161,9 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * Creates a file with the given name in the given path with the data.
 	 *
-	 * @param   string  $name  The name
-	 * @param   string  $path  The folder
-	 * @param   string  $data  The data
+	 * @param   string $name The name
+	 * @param   string $path The folder
+	 * @param   string $data The data
 	 *
 	 * @return  void
 	 *
@@ -178,9 +178,9 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * Updates the file with the given name in the given path with the data.
 	 *
-	 * @param   string  $name  The name
-	 * @param   string  $path  The folder
-	 * @param   binary  $data  The data
+	 * @param   string $name The name
+	 * @param   string $path The folder
+	 * @param   binary $data The data
 	 *
 	 * @return  void
 	 *
@@ -201,7 +201,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * Deletes the folder or file of the given path.
 	 *
-	 * @param   string  $path  The path to the file or folder
+	 * @param   string $path The path to the file or folder
 	 *
 	 * @return  void
 	 *
@@ -251,7 +251,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * - width:         The width, when available
 	 * - height:        The height, when available
 	 *
-	 * @param   string  $path    The folder
+	 * @param   string $path The folder
 	 *
 	 * @return  stdClass
 	 *
@@ -262,16 +262,21 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		// The boolean if it is a dir
 		$isDir = is_dir($path);
 
+		$createDate   = $this->getDate(filectime($path));
+		$modifiedDate = $this->getDate(filemtime($path));
+
 		// Set the values
-		$obj                = new stdClass;
-		$obj->type          = $isDir ? 'dir' : 'file';
-		$obj->name          = basename($path);
-		$obj->path          = str_replace($this->rootPath, '/', $path);
-		$obj->extension     = !$isDir ? JFile::getExt($obj->name) : '';
-		$obj->size          = !$isDir ? filesize($path) : 0;
-		$obj->create_date   = $this->getDate(filectime($path))->format('c', true);
-		$obj->modified_date = $this->getDate(filemtime($path))->format('c', true);
-		$obj->mime_type     = mime_content_type($path);
+		$obj                          = new stdClass;
+		$obj->type                    = $isDir ? 'dir' : 'file';
+		$obj->name                    = basename($path);
+		$obj->path                    = str_replace($this->rootPath, '/', $path);
+		$obj->extension               = !$isDir ? JFile::getExt($obj->name) : '';
+		$obj->size                    = !$isDir ? filesize($path) : 0;
+		$obj->create_date             = $createDate->format('c', true);
+		$obj->create_date_formatted   = (string) $createDate; // TODO use format from config
+		$obj->modified_date           = $modifiedDate->format('c', true);
+		$obj->modified_date_formatted = (string) $modifiedDate; // TODO use format from config
+		$obj->mime_type               = mime_content_type($path);
 
 		try
 		{
@@ -293,7 +298,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * Returns a JDate with the correct Joomla timezone for the given date.
 	 *
-	 * @param   string  $date  The date to create a JDate from
+	 * @param   string $date The date to create a JDate from
 	 *
 	 * @return  JDate[]
 	 *
@@ -304,7 +309,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$dateObj = JFactory::getDate($date);
 
 		$timezone = JFactory::getApplication()->get('offset');
-		$user = JFactory::getUser();
+		$user     = JFactory::getUser();
 		if ($user->id)
 		{
 			$userTimezone = $user->getParam('timezone');
