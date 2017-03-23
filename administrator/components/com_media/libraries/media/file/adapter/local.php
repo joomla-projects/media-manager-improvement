@@ -310,6 +310,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 		$timezone = JFactory::getApplication()->get('offset');
 		$user     = JFactory::getUser();
+		
 		if ($user->id)
 		{
 			$userTimezone = $user->getParam('timezone');
