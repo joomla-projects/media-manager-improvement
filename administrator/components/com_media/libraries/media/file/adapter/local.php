@@ -29,7 +29,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * The absolute root path in the local file system.
 	 *
-	 * @param   string $rootPath The root path
+	 * @param   string  $rootPath  The root path
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -59,7 +59,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 *
 	 * If the path doesn't exist a MediaFileAdapterFilenotfoundexception is thrown.
 	 *
-	 * @param   string $path The path to the file or folder
+	 * @param   string  $path  The path to the file or folder
 	 *
 	 * @return  stdClass[]
 	 *
@@ -97,8 +97,8 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 *
 	 * If the path doesn't exist a MediaFileAdapterFilenotfoundexception is thrown.
 	 *
-	 * @param   string $path   The folder
-	 * @param   string $filter The filter
+	 * @param   string  $path    The folder
+	 * @param   string  $filter  The filter
 	 *
 	 * @return  stdClass[]
 	 *
@@ -145,8 +145,8 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * Creates a folder with the given name in the given path.
 	 *
-	 * @param   string $name The name
-	 * @param   string $path The folder
+	 * @param   string  $name  The name
+	 * @param   string  $path  The folder
 	 *
 	 * @return  void
 	 *
@@ -161,9 +161,9 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * Creates a file with the given name in the given path with the data.
 	 *
-	 * @param   string $name The name
-	 * @param   string $path The folder
-	 * @param   string $data The data
+	 * @param   string  $name  The name
+	 * @param   string  $path  The folder
+	 * @param   string  $data  The data
 	 *
 	 * @return  void
 	 *
@@ -178,9 +178,9 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * Updates the file with the given name in the given path with the data.
 	 *
-	 * @param   string $name The name
-	 * @param   string $path The folder
-	 * @param   binary $data The data
+	 * @param   string  $name  The name
+	 * @param   string  $path  The folder
+	 * @param   binary  $data  The data
 	 *
 	 * @return  void
 	 *
@@ -251,7 +251,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * - width:         The width, when available
 	 * - height:        The height, when available
 	 *
-	 * @param   string $path The folder
+	 * @param   string  $path  The folder
 	 *
 	 * @return  stdClass
 	 *
@@ -298,7 +298,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * Returns a JDate with the correct Joomla timezone for the given date.
 	 *
-	 * @param   string $date The date to create a JDate from
+	 * @param   string  $date  The date to create a JDate from
 	 *
 	 * @return  JDate[]
 	 *
