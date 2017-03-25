@@ -26,4 +26,6 @@ if ($fieldSets)
 }
 ?>
 
-<img id="media-edit-file" src="<?php echo $this->fullFilePath ?>"
+<span class=""image-container">
+    <img id="media-edit-file" src="<?php echo $this->fullFilePath ?>"/>
+</span>
