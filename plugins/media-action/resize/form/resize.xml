@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="resize" label="Resize">
+		<field
+			name="resize_width"
+			type="text"
+			label="Width"
+		/>
+		<field
+			name="resize_height"
+			type="text"
+			label="Height"
+		/>
+	</fieldset>
+</form>
