@@ -16,16 +16,14 @@ $form = $this->form;
 
 $fieldSets = $form->getFieldsets();
 
-if (empty($fieldSets))
+if ($fieldSets)
 {
-	return;
+	echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name));
+
+	echo JLayoutHelper::render('joomla.edit.params', $this);
+
+	echo JHtml::_('bootstrap.endTabSet');
 }
-
-echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name));
-
-echo JLayoutHelper::render('joomla.edit.params', $this);
-
-echo JHtml::_('bootstrap.endTabSet');
 ?>
 
 <img id="media-edit-file" src="<?php echo $this->fullFilePath ?>"
