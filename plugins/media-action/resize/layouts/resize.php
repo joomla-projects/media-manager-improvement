@@ -14,14 +14,16 @@ defined('_JEXEC') or die;
 JFactory::getDocument()->addScript('//cdnjs.cloudflare.com/ajax/libs/interact.js/1.2.6/interact.min.js');
 
 JFactory::getDocument()->addScriptDeclaration("
-document.addEventListener('DOMContentLoaded',  function(e){ 
-interact('#media-edit-file')
-.draggable(false)
-.resizable({
+EventBus.addEventListener('onActivate', function(e, context, imageElement){
+if (context != 'resize') {
+	return;
+}
+
+var resizer = interact('#media-edit-file');
+resizer.draggable(false).resizable({
 	preserveAspectRatio: true,
 	edges: { left: true, right: true, bottom: true, top: true }
-})
-.on('resizemove', function (event) {
+}).on('resizemove', function (event) {
 	var target = event.target,
     x = (parseFloat(target.getAttribute('data-x')) || 0),
     y = (parseFloat(target.getAttribute('data-y')) || 0);
@@ -41,9 +43,17 @@ interact('#media-edit-file')
 	document.getElementById('jform_resize_height').value = Math.round(event.rect.height);
 });
   
-var img = document.getElementById('media-edit-file');
+document.getElementById('jform_resize_width').value = imageElement.offsetWidth;
+document.getElementById('jform_resize_height').value = imageElement.offsetHeight;
 
-document.getElementById('jform_resize_width').value = img.offsetWidth;
-document.getElementById('jform_resize_height').value = img.offsetHeight;
-}, false);
-  ");
+imageElement.resizer = resizer;
+});
+
+EventBus.addEventListener('onDeactivate', function(e, context, imageElement){
+if (context != 'resize' || !imageElement.resizer) {
+	return;
+}
+
+imageElement.resizer.unset();
+});
+");

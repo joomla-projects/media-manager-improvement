@@ -9,6 +9,11 @@
 
 defined('_JEXEC') or die;
 
+// Add javascripts
+JHtml::_('jquery.framework');
+JHtml::_('script', 'media/com_media/js/EventBus.js', true, false);
+JHtml::_('script', 'media/com_media/js/edit.js');
+
 /**
  * @var JForm $form
  */
