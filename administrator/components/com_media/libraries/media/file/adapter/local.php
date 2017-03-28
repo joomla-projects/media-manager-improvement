@@ -282,16 +282,10 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 		if (strpos($obj->mime_type, 'image/') === 0 && in_array(strtolower($obj->extension), array('jpg', 'jpeg', 'png', 'gif', 'bmp')))
 		{
-			$obj->width  = 0;
-			$obj->height = 0;
-
-			if (!is_dir($path))
-			{
-				// Get the image properties
-				$props       = JImage::getImageFileProperties($path);
-				$obj->width  = $props->width;
-				$obj->height = $props->height;
-			}
+			// Get the image properties
+			$props       = JImage::getImageFileProperties($path);
+			$obj->width  = $props->width;
+			$obj->height = $props->height;
 		}
 
 		return $obj;
