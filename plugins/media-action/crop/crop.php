@@ -33,8 +33,7 @@ class PlgMediaActionCrop extends JPlugin
 			return;
 		}
 
-		// THIS IS FOR DEMO PURPOSES ONLY!!!!
-		JLayoutHelper::render('crop', array(), JPATH_PLUGINS . '/media-action/crop/layouts');
+		include JPluginHelper::getLayoutPath('media-action', $this->_name, $this->_name);
 
 		$form->loadFile(JPATH_PLUGINS . '/media-action/crop/form/crop.xml');
 	}

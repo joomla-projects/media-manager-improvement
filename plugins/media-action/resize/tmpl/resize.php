@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-// THIS IS FOR DEMO PURPOSES ONLY!!!!
-
+// @todo move to local scripts
 JFactory::getDocument()->addScript('//cdnjs.cloudflare.com/ajax/libs/interact.js/1.2.6/interact.min.js');
 
 JFactory::getDocument()->addScriptDeclaration("

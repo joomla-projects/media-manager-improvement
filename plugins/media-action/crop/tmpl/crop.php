@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-// THIS IS FOR DEMO PURPOSES ONLY!!!!
-
+// @todo move to local scripts
 JFactory::getDocument()->addStyleSheet('//cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.css');
 JFactory::getDocument()->addScript('//cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.js');
 

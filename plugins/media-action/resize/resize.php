@@ -33,8 +33,7 @@ class PlgMediaActionResize extends JPlugin
 			return;
 		}
 
-		// THIS IS FOR DEMO PURPOSES ONLY!!!!
-		JLayoutHelper::render('resize', array(), JPATH_PLUGINS . '/media-action/resize/layouts');
+		include JPluginHelper::getLayoutPath('media-action', $this->_name, $this->_name);
 
 		$form->loadFile(JPATH_PLUGINS . '/media-action/resize/form/resize.xml');
 	}
