@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset name="crop" label="Crop">
+	<fieldset name="crop" label="PLG_MEDIA-ACTION_CROP_LABEL">
 		<field
 			name="crop_x"
 			type="text"
-			label="X"
+			pattern="\d*\.?\d*"
+			label="PLG_MEDIA-ACTION_CROP_PARAM_X"
 		/>
 		<field
 			name="crop_y"
 			type="text"
-			label="Y"
+			pattern="\d*\.?\d*"
+			label="PLG_MEDIA-ACTION_CROP_PARAM_Y"
 		/>
 		<field
 			name="crop_width"
 			type="text"
-			label="Width"
+			pattern="\d*\.?\d*"
+			label="PLG_MEDIA-ACTION_CROP_PARAM_WIDTH"
 		/>
 		<field
 			name="crop_height"
 			type="text"
-			label="Height"
+			pattern="\d*\.?\d*"
+			label="PLG_MEDIA-ACTION_CROP_PARAM_HEIGHT"
 		/>
 	</fieldset>
 </form>

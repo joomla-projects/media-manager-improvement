@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 // Add javascripts
 JHtml::_('jquery.framework');
+JHtml::_('behavior.formvalidator');
+
 JHtml::_('script', 'media/com_media/js/EventBus.js', true, false);
 JHtml::_('script', 'media/com_media/js/edit.js');
 
@@ -18,7 +20,9 @@ JHtml::_('script', 'media/com_media/js/edit.js');
  * @var JForm $form
  */
 $form = $this->form;
-
+?>
+<form action="#" method="post" name="adminForm" id="media-form" class="form-validate">
+<?php
 $fieldSets = $form->getFieldsets();
 
 if ($fieldSets)
@@ -30,6 +34,7 @@ if ($fieldSets)
 	echo JHtml::_('bootstrap.endTabSet');
 }
 ?>
+</form>
 
 <span class="image-container">
     <img id="media-edit-file" src="<?php echo $this->fullFilePath ?>"/>

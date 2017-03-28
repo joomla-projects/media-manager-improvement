@@ -21,9 +21,7 @@ if (context != 'crop') {
 }
 
 var cropper = new Cropper(imageElement, {
-	aspectRatio: imageElement.offsetWidth / imageElement.offsetHeight,
-	background: false,
-	autoCrop: false,
+	minContainerHeight: imageElement.offsetHeight,
 	crop: function(e) {    
 		document.getElementById('jform_crop_x').value = e.detail.x;
 		document.getElementById('jform_crop_y').value = e.detail.y;
