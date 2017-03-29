@@ -67,5 +67,6 @@ class MediaViewFile extends JViewLegacy
 		// @todo buttons
 		JToolbarHelper::apply('file.apply');
 		JToolbarHelper::save('file.save');
+		JToolbarHelper::cancel('file.cancel');
 	}
 }
