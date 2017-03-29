@@ -9,32 +9,13 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('components.com_media.libraries.media.plugin.mediaaction', JPATH_ADMINISTRATOR);
 
 /**
  * Media Manager Resize Action
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgMediaActionResize extends JPlugin
+class PlgMediaActionResize extends MediaActionPlugin
 {
-	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $autoloadLanguage = true;
-
-	public function onContentPrepareForm(JForm $form, $data)
-	{
-		if ($form->getName() != 'com_media.file')
-		{
-			return;
-		}
-
-		include JPluginHelper::getLayoutPath('media-action', $this->_name, $this->_name);
-
-		$form->loadFile(JPATH_PLUGINS . '/media-action/resize/form/resize.xml');
-	}
 }
