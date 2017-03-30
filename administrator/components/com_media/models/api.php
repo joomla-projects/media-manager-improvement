@@ -39,8 +39,8 @@ class MediaModelApi extends Model
 		if (!isset($config['fileadapter']))
 		{
 			// Compile the root path
-			$root = JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('file_path', 'images');
-			$root = rtrim($root) . '/';
+			$root = JPATH_ROOT . DIRECTORY_SEPARATOR . JComponentHelper::getParams('com_media')->get('file_path', 'images');
+			$root = rtrim($root) . DIRECTORY_SEPARATOR;
 
 			// Default to the local adapter
 			$config['fileadapter'] = new MediaFileAdapterLocal($root);
@@ -61,7 +61,7 @@ class MediaModelApi extends Model
 	 * @throws  Exception
 	 * @see     MediaFileAdapterInterface::getFile()
 	 */
-	public function getFile($path = '/')
+	public function getFile($path = DIRECTORY_SEPARATOR)
 	{
 		return $this->adapter->getFile($path);
 	}
@@ -79,7 +79,7 @@ class MediaModelApi extends Model
 	 * @throws  Exception
 	 * @see     MediaFileAdapterInterface::getFile()
 	 */
-	public function getFiles($path = '/', $filter = '')
+	public function getFiles($path = DIRECTORY_SEPARATOR, $filter = '')
 	{
 		return $this->adapter->getFiles($path, $filter);
 	}

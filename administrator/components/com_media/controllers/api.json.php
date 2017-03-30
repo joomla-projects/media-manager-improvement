@@ -119,7 +119,7 @@ class MediaControllerApi extends Controller
 						$name = $this->getModel()->createFolder($name, $path);
 					}
 
-					$data = $this->getModel()->getFile($path . '/' . $name);
+					$data = $this->getModel()->getFile($path . DIRECTORY_SEPARATOR . $name);
 					break;
 				case 'put':
 					$content      = $this->input->json;
@@ -130,7 +130,7 @@ class MediaControllerApi extends Controller
 
 					$this->getModel()->updateFile($name, str_replace($name, '', $path), $mediaContent);
 
-					$data = $this->getModel()->getFile($path . '/' . $name);
+					$data = $this->getModel()->getFile($path . DIRECTORY_SEPARATOR . $name);
 					break;
 				default:
 					throw new BadMethodCallException('Method not supported yet!');
@@ -227,7 +227,7 @@ class MediaControllerApi extends Controller
 		}
 
 		// @todo find a better way to check the input, by not writing the file to the disk
-		$tmpFile = JFactory::getApplication()->getConfig()->get('tmp_path') . '/' . uniqid($name);
+		$tmpFile = JFactory::getApplication()->getConfig()->get('tmp_path') . DIRECTORY_SEPARATOR . uniqid($name);
 
 		if (!JFile::write($tmpFile, $mediaContent))
 		{

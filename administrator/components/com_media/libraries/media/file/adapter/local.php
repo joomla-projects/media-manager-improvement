@@ -66,10 +66,10 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public function getFile($path = '/')
+	public function getFile($path = DIRECTORY_SEPARATOR)
 	{
 		// Set up the path correctly
-		$path     = JPath::clean('/' . $path);
+		$path     = JPath::clean(DIRECTORY_SEPARATOR . $path);
 		$basePath = JPath::clean($this->rootPath . $path);
 
 		// Check if file exists
@@ -105,10 +105,10 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public function getFiles($path = '/', $filter = '')
+	public function getFiles($path = DIRECTORY_SEPARATOR, $filter = '')
 	{
 		// Set up the path correctly
-		$path     = JPath::clean('/' . $path);
+		$path     = JPath::clean(DIRECTORY_SEPARATOR . $path);
 		$basePath = JPath::clean($this->rootPath . $path);
 
 		// Check if file exists
@@ -129,13 +129,13 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		// Read the folders
 		foreach (JFolder::folders($basePath, $filter) as $folder)
 		{
-			$data[] = $this->getPathInformation(JPath::clean($basePath . '/' . $folder));
+			$data[] = $this->getPathInformation(JPath::clean($basePath . DIRECTORY_SEPARATOR . $folder));
 		}
 
 		// Read the files
 		foreach (JFolder::files($basePath, $filter) as $file)
 		{
-			$data[] = $this->getPathInformation(JPath::clean($basePath . '/' . $file));
+			$data[] = $this->getPathInformation(JPath::clean($basePath . DIRECTORY_SEPARATOR . $file));
 		}
 
 		// Return the data
@@ -155,7 +155,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 */
 	public function createFolder($name, $path)
 	{
-		JFolder::create($this->rootPath . $path . '/' . $name);
+		JFolder::create($this->rootPath . $path . DIRECTORY_SEPARATOR . $name);
 	}
 
 	/**
@@ -172,7 +172,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 */
 	public function createFile($name, $path, $data)
 	{
-		JFile::write($this->rootPath . $path . '/' . $name, $data);
+		JFile::write($this->rootPath . $path . DIRECTORY_SEPARATOR . $name, $data);
 	}
 
 	/**
@@ -189,12 +189,12 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 */
 	public function updateFile($name, $path, $data)
 	{
-		if (!JFile::exists($this->rootPath . $path . '/' . $name))
+		if (!JFile::exists($this->rootPath . $path . DIRECTORY_SEPARATOR . $name))
 		{
 			throw new MediaFileAdapterFilenotfoundexception();
 		}
 
-		JFile::write($this->rootPath . $path . '/' . $name, $data);
+		JFile::write($this->rootPath . $path . DIRECTORY_SEPARATOR . $name, $data);
 	}
 
 
@@ -269,7 +269,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$obj                          = new stdClass;
 		$obj->type                    = $isDir ? 'dir' : 'file';
 		$obj->name                    = basename($path);
-		$obj->path                    = str_replace($this->rootPath, '/', $path);
+		$obj->path                    = str_replace($this->rootPath, DIRECTORY_SEPARATOR, $path);
 		$obj->extension               = !$isDir ? JFile::getExt($obj->name) : '';
 		$obj->size                    = !$isDir ? filesize($path) : 0;
 		$obj->create_date             = $createDate->format('c', true);
