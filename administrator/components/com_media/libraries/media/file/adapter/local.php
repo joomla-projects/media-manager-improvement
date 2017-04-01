@@ -40,7 +40,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			throw new InvalidArgumentException;
 		}
 
-		$this->rootPath = $rootPath;
+		$this->rootPath = JPath::clean($rootPath, '/');
 	}
 
 	/**
@@ -69,8 +69,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	public function getFile($path = '/')
 	{
 		// Set up the path correctly
-		$path     = JPath::clean('/' . $path);
-		$basePath = JPath::clean($this->rootPath . $path);
+		$basePath = JPath::clean($this->rootPath . '/' . $path);
 
 		// Check if file exists
 		if (!file_exists($basePath))
@@ -108,8 +107,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	public function getFiles($path = '/', $filter = '')
 	{
 		// Set up the path correctly
-		$path     = JPath::clean('/' . $path);
-		$basePath = JPath::clean($this->rootPath . $path);
+		$basePath = JPath::clean($this->rootPath . '/' . $path);
 
 		// Check if file exists
 		if (!file_exists($basePath))
@@ -259,6 +257,9 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 */
 	private function getPathInformation($path)
 	{
+		// Prepare the path
+		$path = JPath::clean($path, '/');
+
 		// The boolean if it is a dir
 		$isDir = is_dir($path);
 
