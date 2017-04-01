@@ -208,8 +208,6 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 */
 	public function delete($path)
 	{
-		$success = false;
-
 		if (is_file($this->rootPath . $path))
 		{
 			if (!JFile::exists($this->rootPath . $path))
