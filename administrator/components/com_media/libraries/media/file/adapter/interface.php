@@ -39,7 +39,7 @@ interface MediaFileAdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public function getFile($path = '/');
+	public function getFile($path = DIRECTORY_SEPARATOR);
 
 	/**
 	 * Returns the folders and files for the given path. The returned objects
@@ -65,7 +65,7 @@ interface MediaFileAdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public function getFiles($path = '/', $filter = '');
+	public function getFiles($path = DIRECTORY_SEPARATOR, $filter = '');
 
 	/**
 	 * Creates a folder with the given name in the given path.
