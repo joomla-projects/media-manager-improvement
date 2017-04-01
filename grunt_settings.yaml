@@ -52,6 +52,9 @@ vendors:
     'diff':
                   'version': '3.2.0'
                   'dependencies': ''
+    'eventbusjs':
+                  'version': '0.1.0'
+                  'dependencies': ''
 
 ## DO NOT EDIT THE NEXT LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
 CmAddons:
