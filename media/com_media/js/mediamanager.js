@@ -9121,7 +9121,11 @@ exports.default = {
     props: ['root'],
     computed: {
         directories: function directories() {
-            return this.$store.getters.getSelectedDirectoryDirectories.sort(function (a, b) {
+            var _this = this;
+
+            return this.$store.state.directories.filter(function (directory) {
+                return directory.directory === _this.root;
+            }).sort(function (a, b) {
                 return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
             });
         }
