@@ -272,9 +272,11 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$obj->extension               = !$isDir ? JFile::getExt($obj->name) : '';
 		$obj->size                    = !$isDir ? filesize($path) : 0;
 		$obj->create_date             = $createDate->format('c', true);
+
 		// TODO use format from config
 		$obj->create_date_formatted   = (string) $createDate;
 		$obj->modified_date           = $modifiedDate->format('c', true);
+
 		// TODO use format from config
 		$obj->modified_date_formatted = (string) $modifiedDate;
 		$obj->mime_type               = mime_content_type($path);
