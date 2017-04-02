@@ -170,6 +170,8 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: '<%= folder.node_module %>flying-focus-a11y/src/js', src: ['*.js'], dest: 'media/vendor/flying-focus-a11y/js/', filter: 'isFile'},
 					// JSDiff js files
 					{ expand: true, cwd: '<%= folder.node_module %>diff/dist', src: ['*.js'], dest: 'media/vendor/diff/js/', filter: 'isFile'},
+					// EventBus js file
+					{ expand: true, cwd: '<%= folder.node_module %>eventbusjs/lib', src: ['*.js'], dest: 'media/vendor/eventbusjs/js/', filter: 'isFile'},
 
 					// Licenses
 					{ src: ['<%= folder.node_module %>jquery/LICENSE.txt'], dest: 'media/vendor/jquery/LICENSE.txt'},
@@ -182,6 +184,7 @@ module.exports = function(grunt) {
 					{ src: ['<%= folder.node_module %>perfect-scrollbar/LICENSE'], dest: 'media/vendor/perfect-scrollbar/LICENSE'},
 					{ src: ['<%= folder.node_module %>flying-focus-a11y/MIT-LICENSE.txt'], dest: 'media/vendor/flying-focus-a11y/MIT-LICENSE.txt'},
 					{ src: ['<%= folder.node_module %>diff/LICENSE'], dest: 'media/vendor/diff/LICENSE'},
+					{ src: ['<%= folder.node_module %>eventbusjs/LICENSE'], dest: 'media/vendor/eventbusjs/LICENSE'},
 				]
 			}
 		},
