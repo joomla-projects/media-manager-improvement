@@ -11,8 +11,10 @@
         computed: {
             /* Get the directories */
             directories() {
-                return this.$store.state.directories
-                    .filter(directory => (directory.directory === this.root));
+                return this.$store.getters.getSelectedDirectoryDirectories.sort((a, b) => {
+                    // Sort by type and alphabetically
+                    return (a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1;
+                });
             },
         }
     }
