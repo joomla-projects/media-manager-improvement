@@ -41,7 +41,6 @@
             },
             /* Save the form and create the folder */
             save() {
-                // Check validation
                 if (!this.isValid()) {
                     // TODO show an error message to user for insert a folder name
                     // TODO mark the field as invalid
