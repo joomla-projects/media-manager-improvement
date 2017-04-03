@@ -3,6 +3,11 @@
 (function() {
 	"use strict";
 
+	var options = Joomla.getOptions('com_media', {});
+
+	if (!options) {
+		return;
+	}
 	// The upload object
 	Joomla.UploadFile = {};
 	Joomla.UploadFile.removeProgressBar = function() {
@@ -25,22 +30,22 @@
 	 */
 	Joomla.UploadFile.exec = function (name, file, uploadPath, url, type) {
 
-		var reader = new FileReader();
-
-		reader.onload = function() {
-			window.file = reader.result;
-		};
-		reader.readAsText(file)
+		// var reader = new FileReader();
+		//
+		// reader.onload = function() {
+		// 	window.file = reader.result;
+		// };
+		// reader.readAsText(file)
 
 		var forUpload = {
 			'name': name,
-			'content': window.file ///file.replace(/data:+.+base64,/, '')
+			'content': 'Some content' // window.file ///file.replace(/data:+.+base64,/, '')
 		};
 
 
 // @TODO get these from the store
 		uploadPath = '';
-		url = '/administrator/index.php?option=com_media&task=api.files&format=json&path=' + uploadPath + '/' + name + '&' +document.querySelector('input[type="hidden"][value="1"]').name+'=1';
+		url = options.apiBaseUrl + '&task=api.files&path=' + uploadPath;
 		type = 'application/json';
 
 		var xhr = new XMLHttpRequest();
@@ -87,26 +92,37 @@
 
 	document.addEventListener('DOMContentLoaded', function() {
 
-		// Upload cropped image to server
-		var doTheUpload = function (mediaFile) {
-			var filename = document.getElementById('media-edit-file').src.split('/');
-			filename = filename[filename.length -1];
-			var blobBin = atob(filename);
-			var array = [];
-			for(var i = 0; i < blobBin.length; i++) {
-				array.push(blobBin.charCodeAt(i));
-			}
 
-			var file=new Blob([new Uint8Array(array)], {type: 'image/png'});
+		// function toDataURL(url, callback){
+		// 	var xhr = new XMLHttpRequest();
+		// 	xhr.open('get', url);
+		// 	xhr.responseType = 'blob';
+		// 	xhr.onload = function(){
+		// 		var fr = new FileReader();
+		// 		fr.onload = function(){
+		// 			callback(this.result);
+		// 		};
+		// 		fr.readAsDataURL(xhr.response);
+		// 	};
+		// 	xhr.send();
+		// }
 
-			Joomla.UploadFile.exec(filename, file);
-			// This Joomla.cropper.getCroppedCanvas() needs to be the media file
+		//  Upload cropped image to server
+		// var openFile = function(f) {
+		// 	var reader = new FileReader();
+		// 	reader.onloadend = function(e) {
+		// 		Joomla.UploadFile.exec(f.name, reader.result);
+		// 	};
+		// 	reader.readAsDataURL(f);
+		// };
+
+			// // This Joomla.cropper.getCroppedCanvas() needs to be the media file
 			// Joomla.cropper.getCroppedCanvas().toBlob(function (blob) {
 			// 	var imgFileName = document.getElementById('media-edit-file').src.split('/').pop();
 			//
 			// 	Joomla.UploadFile.exec(imgFileName, blob);
 			// });
-		};
+
 
 		// This needs a good refactoring once we'll get the new UI/CE
 		// Crap to satisfy jQuery's slowlyness!!!
@@ -118,8 +134,8 @@
 					EventBus.dispatch('onActivate', this, event.target.hash.replace('#attrib-', ''), document.getElementById('media-edit-file'));
 				});
 
-			jQuery('[data-toggle="tab"]').click();
-			jQuery('[data-toggle="tab"]')[0].click();
+			// Hardcoded loading the first tab!!!!!!!
+			EventBus.dispatch('onActivate', this, 'crop', document.getElementById('media-edit-file'));
 		};
 		setTimeout(func, 1000); // jQuery...
 
@@ -144,8 +160,27 @@
 
 		save = function(event) {
 			event.preventDefault();
+
+			var filename = document.getElementById('media-edit-file-new').src.split('/').pop();
+			//
+			// var cont = toDataURL(document.getElementById('media-edit-file-new').src, function(dataURL){
+			// 	document.getElementById('media-edit-file-new').src = dataURL;
+			//
+			// 	var canvas = document.createElement('canvas');
+			// 	canvas.width = document.getElementById('media-edit-file-new').naturalWidth;
+			// 	canvas.height = document.getElementById('media-edit-file-new').naturalHeight;
+			// 	canvas.getContext('2d').drawImage(document.getElementById('media-edit-file-new'), 0,0);
+			//
+			// 	return canvas.toDataURL();
+			// 	// console.log(canvas.toDataURL() === dataURL);
+			// });
+
+			Joomla.UploadFile.exec(filename, 'whatever');
+
 			// Do the upload
-			doTheUpload();
+			// var filename = document.getElementById('media-edit-file-new').src.split('/').pop();
+			//
+			// openFile(document.getElementById('media-edit-file-new').src);
 
 		};
 

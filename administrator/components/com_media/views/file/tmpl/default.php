@@ -10,11 +10,26 @@
 defined('_JEXEC') or die;
 
 // Add javascripts
+JHtml::_('behavior.core');
 JHtml::_('behavior.formvalidator');
 
 JHtml::_('script', 'vendor/eventbusjs/eventbus.min.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'com_media/edit.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'com_media/toblob.js', array('version' => 'auto', 'relative' => true));
+
+$params = JComponentHelper::getParams('com_media');
+
+// Populate the media config
+$config = array(
+	'apiBaseUrl'              => JUri::root() . 'administrator/index.php?option=com_media&format=json',
+	'csrfToken'               => JSession::getFormToken(),
+	'filePath'                => $params->get('file_path', 'images'),
+	'fileBaseUrl'             => JUri::root() . $params->get('file_path', 'images'),
+	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file',
+	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
+	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
+);
+JFactory::getDocument()->addScriptOptions('com_media', $config);
 
 /**
  * @var JForm $form
