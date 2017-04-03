@@ -86,25 +86,6 @@
 
 	document.addEventListener('DOMContentLoaded', function() {
 
-		function getBase64Image(img, format) {
-			console.log(img)
-			// Create an empty canvas element
-			var canvas = document.createElement("canvas");
-			canvas.width = img.width;
-			canvas.height = img.height;
-
-			// Copy the image contents to the canvas
-			var ctx = canvas.getContext("2d");
-			ctx.drawImage(img, 0, 0);
-
-			// Get the data-URL formatted image
-			// Firefox supports PNG and JPEG. You could check img.src to
-			// guess the original format, but be aware the using "image/jpg"
-			// will re-encode the image.
-			return canvas.toDataURL("image/" + format);
-		}
-
-
 		// This needs a good refactoring once we'll get the new UI/CE
 		// Crap to satisfy jQuery's slowlyness!!!
 		var func = function() {
@@ -142,10 +123,8 @@
 		save = function(event) {
 			event.preventDefault();
 
-			var format = document.getElementById('media-edit-file').src.split('.').pop();
-
 			// Do the Upload
-			 Joomla.UploadFile.exec(document.getElementById('media-edit-file').src.split('/').pop(), getBase64Image(document.getElementById('media-edit-file-new'), format));
+			 Joomla.UploadFile.exec(document.getElementById('media-edit-file').src.split('/').pop(), document.getElementById('media-edit-file-new').src.replace(/data:image\/png;base64,/, ''));
 		};
 
 		toolbarButtons.forEach(function(item) {
