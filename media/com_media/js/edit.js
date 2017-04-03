@@ -11,7 +11,7 @@
 	// The upload object
 	Joomla.UploadFile = {};
 	Joomla.UploadFile.removeProgressBar = function() {
-		setTimeout(function() {
+		return setTimeout(function() {
 //			document.querySelector('#jloader').outerHTML = "";
 //			delete document.querySelector('#jloader');
 //			document.querySelector('.media-browser').style.borderWidth = '1px';
@@ -32,12 +32,13 @@
 
 		var forUpload = {
 			'name': name,
-			'content': data // window.file ///file.replace(/data:+.+base64,/, '')
+			'content': data.replace(/data:image\/png;base64,/, '')
 		};
 
 
 		forUpload[options.csrfToken] = 1;
 
+		console.log(forUpload)
 // @TODO get these from the store
 		uploadPath = '';
 		url = options.apiBaseUrl + '&task=api.files&path=' + uploadPath;
@@ -47,7 +48,7 @@
 
 		xhr.upload.onprogress = function(e) {
 			var percentComplete = (e.loaded / e.total) * 100;
-			//document.dispatchEvent(new Event('upload.progress', {"progress": percentComplete + '%'}));
+			//document.dispatchEvent(new Event('upload.progress', {"progress": percentComplete + '%'})); @TODO
 		};
 
 		xhr.onload = function() {
@@ -60,22 +61,22 @@
 			if (resp) {
 				if (xhr.status == 200) {
 					if (resp.success == true) {
-						item =resp.data;
-						Joomla.UploadFile.removeProgessBar();
+						var item =resp.data;
+						Joomla.UploadFile.removeProgressBar(); // @TODO
 					}
 
 					if (resp.status == '1') {
 						Joomla.renderMessages({'success': [resp.message]}, 'true');
-						Joomla.UploadFile.removeProgessBar();
+						Joomla.UploadFile.removeProgressBar();//  @TODO
 					}
 				}
 			} else {
-				Joomla.UploadFile.removeProgessBar();
+				Joomla.UploadFile.removeProgressBar(); //  @TODO
 			}
 		};
 
 		xhr.onerror = function() {
-			Joomla.UploadFile.removeProgessBar();
+			Joomla.UploadFile.removeProgressBar(); // @TODO
 		};
 
 		xhr.open("POST", url, true);
@@ -85,7 +86,7 @@
 
 	document.addEventListener('DOMContentLoaded', function() {
 
-		function getBase64Image(img) {
+		function getBase64Image(img, format) {
 			console.log(img)
 			// Create an empty canvas element
 			var canvas = document.createElement("canvas");
@@ -100,9 +101,7 @@
 			// Firefox supports PNG and JPEG. You could check img.src to
 			// guess the original format, but be aware the using "image/jpg"
 			// will re-encode the image.
-			var dataURL = canvas.toDataURL("image/png");
-
-			return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+			return canvas.toDataURL("image/" + format);
 		}
 
 
@@ -116,7 +115,7 @@
 					EventBus.dispatch('onActivate', this, event.target.hash.replace('#attrib-', ''), document.getElementById('media-edit-file'));
 				});
 
-			// Hardcoded loading the first tab!!!!!!!
+			// @TODO Hardcoded loading the first tab!!!!!!!
 			EventBus.dispatch('onActivate', this, 'crop', document.getElementById('media-edit-file'));
 		};
 		setTimeout(func, 1000); // jQuery...
@@ -127,25 +126,6 @@
 		// 	}
 		// 	EventBus.dispatch('onActivate', this, e.target.hash.replace('#attrib-', ''), document.getElementById('media-edit-file'));
 		// });
-
-		function getBase64Image(img) {
-			// Create an empty canvas element
-			var canvas = document.createElement("canvas");
-			canvas.width = img.width;
-			canvas.height = img.height;
-
-			// Copy the image contents to the canvas
-			var ctx = canvas.getContext("2d");
-			ctx.drawImage(img, 0, 0);
-
-			// Get the data-URL formatted image
-			// Firefox supports PNG and JPEG. You could check img.src to
-			// guess the original format, but be aware the using "image/jpg"
-			// will re-encode the image.
-			var dataURL = canvas.toDataURL("image/png");
-
-			return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-		}
 
 		/**
 		 * Toolbar custom functionality
@@ -162,8 +142,10 @@
 		save = function(event) {
 			event.preventDefault();
 
+			var format = document.getElementById('media-edit-file').src.split('.').pop();
+
 			// Do the Upload
-			 Joomla.UploadFile.exec(document.getElementById('media-edit-file-new').src.split('/').pop(), getBase64Image(document.getElementById('media-edit-file-new')));
+			 Joomla.UploadFile.exec(document.getElementById('media-edit-file').src.split('/').pop(), getBase64Image(document.getElementById('media-edit-file-new'), format));
 		};
 
 		toolbarButtons.forEach(function(item) {
