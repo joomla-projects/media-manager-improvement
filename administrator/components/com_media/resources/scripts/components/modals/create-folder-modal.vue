@@ -41,6 +41,7 @@
             },
             /* Save the form and create the folder */
             save() {
+                // Check if the form is valid
                 if (!this.isValid()) {
                     // TODO show an error message to user for insert a folder name
                     // TODO mark the field as invalid
@@ -48,10 +49,13 @@
                     return;
                 }
 
+                // Create the directory
                 this.$store.dispatch('createDirectory', {
                     name: this.folder,
                     parent: this.$store.state.selectedDirectory,
                 });
+
+                // Reset the form
                 this.folder = '';
             },
         },
