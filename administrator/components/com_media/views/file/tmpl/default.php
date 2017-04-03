@@ -12,10 +12,8 @@ defined('_JEXEC') or die;
 // Add javascripts
 JHtml::_('behavior.core');
 JHtml::_('behavior.formvalidator');
-
 JHtml::_('script', 'vendor/eventbusjs/eventbus.min.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'com_media/edit.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'com_media/toblob.js', array('version' => 'auto', 'relative' => true));
 
 $params = JComponentHelper::getParams('com_media');
 
