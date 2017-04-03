@@ -22,24 +22,17 @@
 	/**
 	 *
 	 * @param name        the name of the file
-	 * @param file       the file
+	 * @param data       the file data (base64 encoded)
 	 * @param uploadPath the file
 	 * @param url        the file
 	 * @param type       the file
 	 * @constructor
 	 */
-	Joomla.UploadFile.exec = function (name, file, uploadPath, url, type) {
-
-		// var reader = new FileReader();
-		//
-		// reader.onload = function() {
-		// 	window.file = reader.result;
-		// };
-		// reader.readAsText(file)
+	Joomla.UploadFile.exec = function (name, data, uploadPath, url, type) {
 
 		var forUpload = {
 			'name': name,
-			'content': 'Some content' // window.file ///file.replace(/data:+.+base64,/, '')
+			'content': data // window.file ///file.replace(/data:+.+base64,/, '')
 		};
 
 
@@ -90,40 +83,27 @@
 		xhr.send(JSON.stringify(forUpload));
 	};
 
-
-
 	document.addEventListener('DOMContentLoaded', function() {
 
+		function getBase64Image(img) {
+			console.log(img)
+			// Create an empty canvas element
+			var canvas = document.createElement("canvas");
+			canvas.width = img.width;
+			canvas.height = img.height;
 
-		// function toDataURL(url, callback){
-		// 	var xhr = new XMLHttpRequest();
-		// 	xhr.open('get', url);
-		// 	xhr.responseType = 'blob';
-		// 	xhr.onload = function(){
-		// 		var fr = new FileReader();
-		// 		fr.onload = function(){
-		// 			callback(this.result);
-		// 		};
-		// 		fr.readAsDataURL(xhr.response);
-		// 	};
-		// 	xhr.send();
-		// }
+			// Copy the image contents to the canvas
+			var ctx = canvas.getContext("2d");
+			ctx.drawImage(img, 0, 0);
 
-		//  Upload cropped image to server
-		// var openFile = function(f) {
-		// 	var reader = new FileReader();
-		// 	reader.onloadend = function(e) {
-		// 		Joomla.UploadFile.exec(f.name, reader.result);
-		// 	};
-		// 	reader.readAsDataURL(f);
-		// };
+			// Get the data-URL formatted image
+			// Firefox supports PNG and JPEG. You could check img.src to
+			// guess the original format, but be aware the using "image/jpg"
+			// will re-encode the image.
+			var dataURL = canvas.toDataURL("image/png");
 
-			// // This Joomla.cropper.getCroppedCanvas() needs to be the media file
-			// Joomla.cropper.getCroppedCanvas().toBlob(function (blob) {
-			// 	var imgFileName = document.getElementById('media-edit-file').src.split('/').pop();
-			//
-			// 	Joomla.UploadFile.exec(imgFileName, blob);
-			// });
+			return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+		}
 
 
 		// This needs a good refactoring once we'll get the new UI/CE
@@ -148,6 +128,25 @@
 		// 	EventBus.dispatch('onActivate', this, e.target.hash.replace('#attrib-', ''), document.getElementById('media-edit-file'));
 		// });
 
+		function getBase64Image(img) {
+			// Create an empty canvas element
+			var canvas = document.createElement("canvas");
+			canvas.width = img.width;
+			canvas.height = img.height;
+
+			// Copy the image contents to the canvas
+			var ctx = canvas.getContext("2d");
+			ctx.drawImage(img, 0, 0);
+
+			// Get the data-URL formatted image
+			// Firefox supports PNG and JPEG. You could check img.src to
+			// guess the original format, but be aware the using "image/jpg"
+			// will re-encode the image.
+			var dataURL = canvas.toDataURL("image/png");
+
+			return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+		}
+
 		/**
 		 * Toolbar custom functionality
 		 */
@@ -163,27 +162,8 @@
 		save = function(event) {
 			event.preventDefault();
 
-			var filename = document.getElementById('media-edit-file-new').src.split('/').pop();
-			//
-			// var cont = toDataURL(document.getElementById('media-edit-file-new').src, function(dataURL){
-			// 	document.getElementById('media-edit-file-new').src = dataURL;
-			//
-			// 	var canvas = document.createElement('canvas');
-			// 	canvas.width = document.getElementById('media-edit-file-new').naturalWidth;
-			// 	canvas.height = document.getElementById('media-edit-file-new').naturalHeight;
-			// 	canvas.getContext('2d').drawImage(document.getElementById('media-edit-file-new'), 0,0);
-			//
-			// 	return canvas.toDataURL();
-			// 	// console.log(canvas.toDataURL() === dataURL);
-			// });
-
-			Joomla.UploadFile.exec(filename, 'whatever');
-
-			// Do the upload
-			// var filename = document.getElementById('media-edit-file-new').src.split('/').pop();
-			//
-			// openFile(document.getElementById('media-edit-file-new').src);
-
+			// Do the Upload
+			 Joomla.UploadFile.exec(document.getElementById('media-edit-file-new').src.split('/').pop(), getBase64Image(document.getElementById('media-edit-file-new')));
 		};
 
 		toolbarButtons.forEach(function(item) {
