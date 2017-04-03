@@ -23,6 +23,7 @@ $config = array(
 	'csrfToken'               => JSession::getFormToken(),
 	'filePath'                => $params->get('file_path', 'images'),
 	'fileBaseUrl'             => JUri::root() . $params->get('file_path', 'images'),
+	'uploadPath'              => $this->uploadPath,
 	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file',
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
@@ -53,7 +54,7 @@ if ($fieldSets)
 }
 // @TODO Logic for handling other types of media, not only images!!!!!
 ?>
-<input type="hidden" name="<?php echo JFactory::getSession()->getToken(); ?>" value="1">
+
 </form>
 <p>Edit area: </p>
 <span class="image-container">

@@ -11,7 +11,7 @@
 	// The upload object
 	Joomla.UploadFile = {};
 	Joomla.UploadFile.removeProgressBar = function() {
-		return setTimeout(function() {
+		setTimeout(function() {
 //			document.querySelector('#jloader').outerHTML = "";
 //			delete document.querySelector('#jloader');
 //			document.querySelector('.media-browser').style.borderWidth = '1px';
@@ -30,17 +30,16 @@
 	 */
 	Joomla.UploadFile.exec = function (name, data, uploadPath, url, type) {
 
+
 		var forUpload = {
 			'name': name,
 			'content': data.replace(/data:image\/png;base64,/, '')
 		};
 
-
 		forUpload[options.csrfToken] = 1;
-
-		console.log(forUpload)
+console.log(forUpload)
 // @TODO get these from the store
-		uploadPath = '';
+		uploadPath = options.uploadPath;
 		url = options.apiBaseUrl + '&task=api.files&path=' + uploadPath;
 		type = 'application/json';
 
@@ -124,7 +123,7 @@
 			event.preventDefault();
 
 			// Do the Upload
-			 Joomla.UploadFile.exec(document.getElementById('media-edit-file').src.split('/').pop(), document.getElementById('media-edit-file-new').src.replace(/data:image\/png;base64,/, ''));
+			 Joomla.UploadFile.exec(document.getElementById('media-edit-file').src.split('/').pop().replace('jpg', 'png'), document.getElementById('media-edit-file-new').src); //.replace(/data:image\/(png|jpg|jpeg);base64,/, '')
 		};
 
 		toolbarButtons.forEach(function(item) {
