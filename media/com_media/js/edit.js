@@ -43,6 +43,8 @@
 		};
 
 
+		forUpload[options.csrfToken] = 1;
+
 // @TODO get these from the store
 		uploadPath = '';
 		url = options.apiBaseUrl + '&task=api.files&path=' + uploadPath;
