@@ -21,25 +21,22 @@
 					document.getElementById('jform_crop_width').value = e.detail.width;
 					document.getElementById('jform_crop_height').value = e.detail.height;
 
-					Joomla.cropper.getCroppedCanvas().toBlob(function (blob) {
-						var imgFileName = document.getElementById('media-edit-file').src.split('/').pop();
-						// console.log(imgFileName)
-						// console.log(blob)
+					// var imgFileName = document.getElementById('media-edit-file').src.split('/').pop();
+					var format = document.getElementById('media-edit-file').src.split('.').pop();
 
-						// Make sure that the plugin didn't remove the preview
-						if (document.getElementById('media-edit-file-new')) {
-							document.getElementById('media-edit-file-new').src = URL.createObjectURL(blob);
-						} else {
-							// Use createObjectURL to make a URL for the blob
-							var image = new Image();
-							image.id = 'media-edit-file-new';
-							image.src = URL.createObjectURL(blob);
-							document.body.appendChild(image);
-						}
 
-						// Do the upload automatically????
-						// Joomla.UploadFile.exec(imgFileName, blob);
-					});
+					// Make sure that the plugin didn't remove the preview
+					if (document.getElementById('media-edit-file-new')) {
+						document.getElementById('media-edit-file-new').src = Joomla.cropper.getCroppedCanvas().toDataURL("image/" + format);
+					} else {
+						var image = new Image();
+						image.id = 'media-edit-file-new';
+						image.src = Joomla.cropper.getCroppedCanvas().toDataURL("image/" + format);
+						document.body.appendChild(image);
+					}
+
+					// Do the upload automatically????
+					// Joomla.UploadFile.exec(imgFileName, blob);
 				}
 			});
 
