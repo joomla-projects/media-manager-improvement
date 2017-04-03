@@ -106,7 +106,7 @@ class MediaControllerApi extends Controller
 				case 'post':
 					$content      = $this->input->json;
 					$name         = $content->getString('name');
-					$mediaContent = base64_decode($content->get('content'));
+					$mediaContent = base64_decode($content->get('content', '', 'raw'));
 
 					if ($mediaContent)
 					{

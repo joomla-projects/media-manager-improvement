@@ -70,16 +70,6 @@
 
 			// Initialize
 			init(imageElement);
-
-			// Reset on resize
-			// window.addEventListener('resize', function(event) {
-			// 	// console.log('hit')
-			// 	// Joomla.cropper.reset();
-			// 	Joomla.cropper.minContainerWidth = document.querySelector('span.image-container').offsetWidth;
-			// 		// Joomla.cropper.minContainerHeight = document.querySelector('span.image-container').clientWidth;
-			// 	document.getElementById('media-edit-file-new').src = document.getElementById('media-edit-file').src;
-			// });
-
 		});
 
 		EventBus.addEventListener('onDeactivate', function(e, context, imageElement){
@@ -89,7 +79,7 @@
 
 			imageElement.cropper.destroy();
 		});
-	}, false);
+	});
 })();
 
 /**

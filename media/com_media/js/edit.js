@@ -1,5 +1,6 @@
-// OUR CODE
-// NEEDS CORE.JS
+/**
+ * BANNER
+ */
 (function() {
 	"use strict";
 
@@ -8,8 +9,60 @@
 	if (!options) {
 		return;
 	}
+
+	// Customize the buttons
+	Joomla.submitform = function(task, form, validate) {
+		var pathName = window.location.pathname.replace(/&view=file.*/g, ''),
+			name = document.getElementById('media-edit-file').src.split('/').pop(),
+			forUpload = {
+				'name': name,
+				'content': document.getElementById('media-edit-file-new').src.replace(/data:image\/(png|jpg);base64,/, '')
+			},
+			uploadPath = options.uploadPath,
+			url = options.apiBaseUrl + '&task=api.files&path=' + uploadPath,
+			type = 'application/json';
+
+		forUpload[options.csrfToken] = "1";
+
+		switch (task) {
+			case 'apply':
+				Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
+				break;
+			case 'save':
+				Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
+				window.location = pathName + '?option=com_media';
+				break;
+			case 'cancel':
+				window.location = pathName + '?option=com_media&path=' + uploadPath;
+				break;
+		}
+	};
+
+
 	// The upload object
 	Joomla.UploadFile = {};
+
+	// Create the progress bar
+	Joomla.UploadFile.createProgressBar = function() {
+		setTimeout(function() {
+//			document.querySelector('#jloader').outerHTML = "";
+//			delete document.querySelector('#jloader');
+//			document.querySelector('.media-browser').style.borderWidth = '1px';
+//			document.querySelector('.media-browser').style.borderStyle = 'solid';
+		}, 200);
+	};
+
+	// Update the progress bar
+	Joomla.UploadFile.updateProgressBar = function(position) {
+		setTimeout(function() {
+//			document.querySelector('#jloader').outerHTML = "";
+//			delete document.querySelector('#jloader');
+//			document.querySelector('.media-browser').style.borderWidth = '1px';
+//			document.querySelector('.media-browser').style.borderStyle = 'solid';
+		}, 200);
+	};
+
+	// Remove the progress bar
 	Joomla.UploadFile.removeProgressBar = function() {
 		setTimeout(function() {
 //			document.querySelector('#jloader').outerHTML = "";
@@ -19,9 +72,11 @@
 		}, 200);
 	};
 
+
+
 	/**
 	 *
-	 * @param name        the name of the file
+	 * @param name       the name of the file
 	 * @param data       the file data (base64 encoded)
 	 * @param uploadPath the file
 	 * @param url        the file
@@ -30,24 +85,10 @@
 	 */
 	Joomla.UploadFile.exec = function (name, data, uploadPath, url, type) {
 
-
-		var forUpload = {
-			'name': name,
-			'content': data.replace(/data:image\/png;base64,/, '')
-		};
-
-		forUpload[options.csrfToken] = 1;
-console.log(forUpload)
-// @TODO get these from the store
-		uploadPath = options.uploadPath;
-		url = options.apiBaseUrl + '&task=api.files&path=' + uploadPath;
-		type = 'application/json';
-
 		var xhr = new XMLHttpRequest();
 
 		xhr.upload.onprogress = function(e) {
-			var percentComplete = (e.loaded / e.total) * 100;
-			//document.dispatchEvent(new Event('upload.progress', {"progress": percentComplete + '%'})); @TODO
+			Joomla.UploadFile.updateProgressBar((e.loaded / e.total) * 100);
 		};
 
 		xhr.onload = function() {
@@ -60,91 +101,48 @@ console.log(forUpload)
 			if (resp) {
 				if (xhr.status == 200) {
 					if (resp.success == true) {
-						var item =resp.data;
-						Joomla.UploadFile.removeProgressBar(); // @TODO
+						Joomla.UploadFile.removeProgressBar();
 					}
 
 					if (resp.status == '1') {
 						Joomla.renderMessages({'success': [resp.message]}, 'true');
-						Joomla.UploadFile.removeProgressBar();//  @TODO
+						Joomla.UploadFile.removeProgressBar();
 					}
 				}
 			} else {
-				Joomla.UploadFile.removeProgressBar(); //  @TODO
+				Joomla.UploadFile.removeProgressBar();
 			}
 		};
 
 		xhr.onerror = function() {
-			Joomla.UploadFile.removeProgressBar(); // @TODO
+			Joomla.UploadFile.removeProgressBar();
 		};
 
 		xhr.open("POST", url, true);
 		xhr.setRequestHeader('Content-Type', type);
-		xhr.send(JSON.stringify(forUpload));
+		Joomla.UploadFile.createProgressBar();
+		xhr.send(data);
 	};
 
+	// Once the DOM is ready, initialize everything
 	document.addEventListener('DOMContentLoaded', function() {
 
 		// This needs a good refactoring once we'll get the new UI/CE
 		// Crap to satisfy jQuery's slowlyness!!!
 		var func = function() {
-				jQuery('[data-toggle="tab"]').on('shown.bs.tab', function(event) {
+			var links = [].slice.call(document.querySelectorAll('[data-toggle="tab"]'));
+
+			links.forEach(function(item) {
+				item.addEventListener('shown.bs.tab', function(event) {
 					if (event.relatedTarget) {
 						EventBus.dispatch('onDeactivate', this, event.relatedTarget.hash.replace('#attrib-', ''), document.getElementById('media-edit-file'));
 					}
 					EventBus.dispatch('onActivate', this, event.target.hash.replace('#attrib-', ''), document.getElementById('media-edit-file'));
 				});
+			});
 
-			// @TODO Hardcoded loading the first tab!!!!!!!
-			EventBus.dispatch('onActivate', this, 'crop', document.getElementById('media-edit-file'));
+			EventBus.dispatch('onActivate', this, links[0].hash.replace('#attrib-', ''), document.getElementById('media-edit-file'));
 		};
 		setTimeout(func, 1000); // jQuery...
-
-		// jQuery(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
-		// 	if (e.relatedTarget) {
-		// 		EventBus.dispatch('onDeactivate', this, e.relatedTarget.hash.replace('#attrib-', ''), document.getElementById('media-edit-file'));
-		// 	}
-		// 	EventBus.dispatch('onActivate', this, e.target.hash.replace('#attrib-', ''), document.getElementById('media-edit-file'));
-		// });
-
-		/**
-		 * Toolbar custom functionality
-		 */
-		var close, save, subHead = document.getElementById('subhead'),
-		    toolbarButtons = [].slice.call(subHead.querySelectorAll('.btn.btn-sm'));
-
-		close = function(event) {
-			event.preventDefault();
-			var pathName = window.location.pathname.replace(/&view=file.*/g, '');
-			window.location = pathName + '?option=com_media';
-		};
-
-		save = function(event) {
-			event.preventDefault();
-
-			// Do the Upload
-			 Joomla.UploadFile.exec(document.getElementById('media-edit-file').src.split('/').pop().replace('jpg', 'png'), document.getElementById('media-edit-file-new').src); //.replace(/data:image\/(png|jpg|jpeg);base64,/, '')
-		};
-
-		toolbarButtons.forEach(function(item) {
-			// Cancel
-			if (item.classList.contains('btn-danger')) {
-				item.removeAttribute('onclick');
-				item.addEventListener('click', close);
-			}
-
-			// Save
-			if (item.classList.contains('btn-success')) {
-				item.removeAttribute('onclick');
-				item.addEventListener('click', save);
-			}
-
-			// save and close
-			if (item.classList.contains('btn-outline-success')) {
-				item.removeAttribute('onclick');
-				item.addEventListener('click', save);
-				item.addEventListener('click', close);
-			}
-		})
 	});
 })();
