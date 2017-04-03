@@ -8933,21 +8933,12 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 exports.default = {
     name: 'create-folder-modal',
     directives: { focus: _vueFocus.focus },
-    ready: function ready() {
-        document.addEventListener("keydown", function (e) {
-            if ($store.state.showCreateFolderModal && e.keyCode == 13) {
-                save();
-                close();
-            }
-        });
-    },
     methods: {
         close: function close() {
             this.$store.commit(types.HIDE_CREATE_FOLDER_MODAL);
         },
         save: function save() {
             if (!this.folder) {
-                this.$store.commit(types.HIDE_CREATE_FOLDER_MODAL);
                 Joomla.renderMessages({ "error": [this.translate('JLIB_FORM_FIELD_REQUIRED_VALUE')] });
                 return;
             }

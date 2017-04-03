@@ -23,16 +23,6 @@
     export default {
         name: 'create-folder-modal',
         directives: { focus: focus },
-        ready: function() {
-            /*add event listener on keydown*/
-            document.addEventListener("keydown", (e) => {
-                /*checks if the model is shown and enter(keycode 13) is pressed*/
-                if($store.state.showCreateFolderModal && e.keyCode == 13){
-                    save();
-                    close();
-                }
-            });
-        },
         methods: {
             /* Close the modal instance */
             close() {
@@ -43,8 +33,7 @@
                 /*Checks for the folder name, if it is not declared display an error to user and abort task*/
                 if(!this.folder){
                     // TODO: show an error message to user for insert a folder name
-                    this.$store.commit(types.HIDE_CREATE_FOLDER_MODAL);
-                    Joomla.renderMessages({"error":[this.translate('JLIB_FORM_FIELD_REQUIRED_VALUE')]});
+                    Joomla.renderMessages({"error":[ this.translate('JLIB_FORM_FIELD_REQUIRED_VALUE') ]});
                     return;
                 }
 
