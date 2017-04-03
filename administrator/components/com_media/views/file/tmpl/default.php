@@ -10,10 +10,9 @@
 defined('_JEXEC') or die;
 
 // Add javascripts
-JHtml::_('jquery.framework');
 JHtml::_('behavior.formvalidator');
 
-JHtml::_('script', 'com_media/EventBus.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'vendors/eventbausjs/eventbus.min.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'com_media/edit.js', array('version' => 'auto', 'relative' => true));
 
 /**
