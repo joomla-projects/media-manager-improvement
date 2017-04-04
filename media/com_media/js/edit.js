@@ -15,7 +15,6 @@
 		var pathName = window.location.pathname.replace(/&view=file.*/g, ''),
 			name = document.getElementById('media-edit-file').src.split('/').pop(),
 			forUpload = {
-				'name': name,
 				'content': document.getElementById('media-edit-file-new').src.replace(/data:image\/(png|jpg);base64,/, '')
 			},
 			uploadPath = options.uploadPath,
@@ -118,7 +117,7 @@
 			Joomla.UploadFile.removeProgressBar();
 		};
 
-		xhr.open("POST", url, true);
+		xhr.open("PUT", url, true);
 		xhr.setRequestHeader('Content-Type', type);
 		Joomla.UploadFile.createProgressBar();
 		xhr.send(data);
