@@ -41,7 +41,6 @@ class MediaViewFile extends JViewLegacy
 
 		$this->file         = $input->getString('path', null);
 		$this->fullFilePath = JUri::root() . $this->params->get('file_path', 'images') . $input->getString('path', null);
-		$this->uploadPath   = pathinfo($this->file)["dirname"];
 
 		if (!$this->file && JFile::exists($this->fullFilePath))
 		{
