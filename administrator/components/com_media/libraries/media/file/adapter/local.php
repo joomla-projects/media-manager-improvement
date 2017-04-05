@@ -281,7 +281,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$obj->modified_date           = $modifiedDate->format('c', true);
 		$obj->modified_date_formatted = $modifiedDate->format(JText::_('DATE_FORMAT_LC5'), true);
 
-		if (strpos($obj->mime_type, 'image/') === 0 && in_array(strtolower($obj->extension), array('jpg', 'jpeg', 'png', 'gif', 'bmp')))
+		if (strpos($obj->mime_type, 'image/') === 0 && JHelperMedia::isImage($obj->name))
 		{
 			// Get the image properties
 			$props       = JImage::getImageFileProperties($path);
