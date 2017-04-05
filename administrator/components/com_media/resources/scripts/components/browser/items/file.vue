@@ -16,4 +16,4 @@
         name: 'media-browser-item-file',
         props: ['item'],
     }
-</script>
+</script> 

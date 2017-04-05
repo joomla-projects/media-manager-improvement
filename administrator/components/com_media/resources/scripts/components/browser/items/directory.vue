@@ -1,13 +1,15 @@
 <template>
     <div class="media-browser-item-directory">
-        <div class="d-flex justify-content-center flex-column"
+        <div class="media-browser-item-preview"
              @dblclick="goTo(item.path)">
-            <div class="media-browser-item-preview d-flex justify-content-center">
-                <span class="fa fa-folder-o"></span>
+             <div class="file-background">
+                <div class="folder-icon d-flex justify-content-center align-items-center">
+                    <span class="fa fa-folder-o"></span>
+                </div>
             </div>
-            <div class="media-browser-item-info">
-                {{ item.name }}
-            </div>
+        </div>
+        <div class="media-browser-item-info">
+            {{ item.name }}
         </div>
     </div>
 </template>

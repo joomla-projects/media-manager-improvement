@@ -8,7 +8,7 @@
 
         </div>
         <div class="media-browser-item-info">
-            {{ item.name }}
+            {{ item.name }} {{ item.filetype }}
         </div>
     </div>
 </template>
