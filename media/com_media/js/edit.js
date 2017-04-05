@@ -15,7 +15,7 @@
 		var pathName = window.location.pathname.replace(/&view=file.*/g, ''),
 			name = document.getElementById('media-edit-file').src.split('/').pop(),
 			forUpload = {
-				'content': document.getElementById('media-edit-file-new').src.replace(/data:image\/(png|jpg);base64,/, '')
+				'content': document.getElementById('media-edit-file-new').src.replace(/data:image\/(png|jpeg);base64,/, '')
 			},
 			uploadPath = options.uploadPath,
 			url = options.apiBaseUrl + '&task=api.files&path=' + uploadPath,

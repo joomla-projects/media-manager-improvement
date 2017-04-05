@@ -24,6 +24,8 @@
 					// var imgFileName = document.getElementById('media-edit-file').src.split('/').pop();
 					var format = document.getElementById('media-edit-file').src.split('.').pop();
 
+					// jpg is really jpeg
+					if (format === 'jpg') format = 'jpeg';
 
 					// Make sure that the plugin didn't remove the preview
 					if (document.getElementById('media-edit-file-new')) {
@@ -31,7 +33,7 @@
 					} else {
 						var image = new Image();
 						image.id = 'media-edit-file-new';
-						image.src = Joomla.cropper.getCroppedCanvas().toDataURL("image/" + format);
+						image.src = Joomla.cropper.getCroppedCanvas().toDataURL("image/" + format, 1.0);
 						document.body.appendChild(image);
 					}
 
