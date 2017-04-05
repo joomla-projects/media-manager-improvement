@@ -5,6 +5,7 @@
                 <div class="image-cropped" :style="{ backgroundImage: 'url(' + itemUrl + ')' }"
                  v-on:dblclick="openEditView()"></div>
             </div>
+
         </div>
         <div class="media-browser-item-info">
             {{ item.name }}
