@@ -22,7 +22,7 @@
             },
             multiple: {
                 type: Boolean,
-                default: false,
+                default: true,
             },
         },
         methods: {
@@ -35,8 +35,28 @@
                 e.preventDefault();
                 const files = e.target.files;
 
-                // Do the upload
+                // Loop through array of files and upload each file
+                for (let file of files) {
 
+                    // Create a new file reader instance
+                    let reader = new FileReader();
+
+                    // Add the on load callback
+                    reader.onload = (progressEvent) => {
+                        const result = progressEvent.target.result,
+                            splitIndex = result.indexOf('base64') + 7,
+                            content = result.slice(splitIndex, result.length);
+
+                        // Upload the file
+                        this.$store.dispatch('uploadFile', {
+                            name: file.name,
+                            parent: this.$store.state.selectedDirectory,
+                            content: content,
+                        });
+                    };
+
+                    reader.readAsDataURL(file);
+                }
             },
         },
         created() {

@@ -58,6 +58,15 @@ export default {
     },
 
     /**
+     * The upload success mutation
+     * @param state
+     * @param payload
+     */
+    [types.UPLOAD_SUCCESS]: (state, payload) => {
+        console.log(payload);
+    },
+
+    /**
      * The create directory success mutation
      * @param state
      * @param payload

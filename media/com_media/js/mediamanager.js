@@ -8353,6 +8353,38 @@ var Api = function () {
         }
 
         /**
+         * Upload a file
+         * @param name
+         * @param parent
+         * @param content base64 encoded string
+         * @return {Promise.<T>}
+         */
+
+    }, {
+        key: 'upload',
+        value: function upload(name, parent, content) {
+            var _this3 = this;
+
+            // Wrap the jquery call into a real promise
+            return new Promise(function (resolve, reject) {
+                var _data2;
+
+                var url = _this3._baseUrl + '&task=api.files&path=' + parent;
+                var data = (_data2 = {}, _defineProperty(_data2, _this3._csrfToken, '1'), _defineProperty(_data2, 'name', name), _defineProperty(_data2, 'content', content), _data2);
+                jQuery.ajax({
+                    url: url,
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    contentType: "application/json"
+                }).done(function (json) {
+                    return resolve(_this3._normalizeItem(json.data));
+                }).fail(function (xhr, status, error) {
+                    reject(xhr);
+                });
+            }).catch(this._handleError);
+        }
+
+        /**
          * Normalize a single item
          * @param item
          * @returns {*}
@@ -8382,17 +8414,17 @@ var Api = function () {
     }, {
         key: '_normalizeArray',
         value: function _normalizeArray(data) {
-            var _this3 = this;
+            var _this4 = this;
 
             var directories = data.filter(function (item) {
                 return item.type === 'dir';
             }).map(function (directory) {
-                return _this3._normalizeItem(directory);
+                return _this4._normalizeItem(directory);
             });
             var files = data.filter(function (item) {
                 return item.type === 'file';
             }).map(function (file) {
-                return _this3._normalizeItem(file);
+                return _this4._normalizeItem(file);
             });
 
             return {
@@ -9190,7 +9222,7 @@ exports.default = {
         },
         multiple: {
             type: Boolean,
-            default: false
+            default: true
         }
     },
     methods: {
@@ -9198,15 +9230,60 @@ exports.default = {
             this.$refs['fileInput'].click();
         },
         upload: function upload(e) {
+            var _this = this;
+
             e.preventDefault();
             var files = e.target.files;
+
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                var _loop = function _loop() {
+                    var file = _step.value;
+
+                    var reader = new FileReader();
+
+                    reader.onload = function (progressEvent) {
+                        var result = progressEvent.target.result,
+                            splitIndex = result.indexOf('base64') + 7,
+                            content = result.slice(splitIndex, result.length);
+
+                        _this.$store.dispatch('uploadFile', {
+                            name: file.name,
+                            parent: _this.$store.state.selectedDirectory,
+                            content: content
+                        });
+                    };
+
+                    reader.readAsDataURL(file);
+                };
+
+                for (var _iterator = files[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    _loop();
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
         }
     },
     created: function created() {
-        var _this = this;
+        var _this2 = this;
 
         MediaManager.Event.listen('onClickUpload', function () {
-            return _this.chooseFiles();
+            return _this2.chooseFiles();
         });
     }
 };
@@ -9352,7 +9429,7 @@ exports.default = Translate;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.createDirectory = exports.getContents = undefined;
+exports.uploadFile = exports.createDirectory = exports.getContents = undefined;
 
 var _Api = require("../app/Api");
 
@@ -9395,6 +9472,22 @@ var createDirectory = exports.createDirectory = function createDirectory(_ref2, 
     _Api.api.createDirectory(payload.name, payload.parent).then(function (folder) {
         commit(types.CREATE_DIRECTORY_SUCCESS, folder);
         commit(types.HIDE_CREATE_FOLDER_MODAL);
+    }).catch(function (error) {
+        // TODO error handling
+        console.log("error", error);
+    });
+};
+
+/**
+ * Create a new folder
+ * @param commit
+ * @param payload object with the new folder name and its parent directory
+ */
+var uploadFile = exports.uploadFile = function uploadFile(_ref3, payload) {
+    var commit = _ref3.commit;
+
+    _Api.api.upload(payload.name, payload.parent, payload.content).then(function (file) {
+        commit(types.UPLOAD_SUCCESS, file);
     }).catch(function (error) {
         // TODO error handling
         console.log("error", error);
@@ -9462,6 +9555,7 @@ var UNSELECT_ALL_BROWSER_ITEMS = exports.UNSELECT_ALL_BROWSER_ITEMS = 'UNSELECT_
 // Api handlers
 var LOAD_CONTENTS_SUCCESS = exports.LOAD_CONTENTS_SUCCESS = 'LOAD_CONTENTS_SUCCESS';
 var CREATE_DIRECTORY_SUCCESS = exports.CREATE_DIRECTORY_SUCCESS = 'CREATE_DIRECTORY_SUCCESS';
+var UPLOAD_SUCCESS = exports.UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 
 // Create folder modal
 var SHOW_CREATE_FOLDER_MODAL = exports.SHOW_CREATE_FOLDER_MODAL = 'SHOW_CREATE_FOLDER_MODAL';
@@ -9516,7 +9610,7 @@ exports.default = (_types$SELECT_DIRECTO = {}, _defineProperty(_types$SELECT_DIR
         });
         var parentDirectoryIndex = state.directories.indexOf(parentDirectory);
 
-        // Add the new directories to the directories
+        // Add the new directories to the directories array
         (_state$directories = state.directories).push.apply(_state$directories, _toConsumableArray(newDirectories));
 
         // Update the relation to the parent directory
@@ -9537,7 +9631,7 @@ exports.default = (_types$SELECT_DIRECTO = {}, _defineProperty(_types$SELECT_DIR
         });
         var _parentDirectoryIndex = state.directories.indexOf(_parentDirectory);
 
-        // Add the new files to the files
+        // Add the new files to the files array
         (_state$files = state.files).push.apply(_state$files, _toConsumableArray(newFiles));
 
         // Update the relation to the parent directory
@@ -9545,6 +9639,8 @@ exports.default = (_types$SELECT_DIRECTO = {}, _defineProperty(_types$SELECT_DIR
             files: [].concat(_toConsumableArray(_parentDirectory.files), _toConsumableArray(newFileIds))
         }));
     }
+}), _defineProperty(_types$SELECT_DIRECTO, types.UPLOAD_SUCCESS, function (state, payload) {
+    console.log(payload);
 }), _defineProperty(_types$SELECT_DIRECTO, types.CREATE_DIRECTORY_SUCCESS, function (state, payload) {
 
     var directory = payload;
@@ -9568,7 +9664,6 @@ exports.default = (_types$SELECT_DIRECTO = {}, _defineProperty(_types$SELECT_DIR
     }
 }), _defineProperty(_types$SELECT_DIRECTO, types.SELECT_BROWSER_ITEM, function (state, payload) {
     state.selectedItems.push(payload);
-    var selectedItemIndex = state.selectedItems.indexOf(payload);
 }), _defineProperty(_types$SELECT_DIRECTO, types.UNSELECT_ALL_BROWSER_ITEMS, function (state, payload) {
     state.selectedItems = [];
 }), _defineProperty(_types$SELECT_DIRECTO, types.SHOW_CREATE_FOLDER_MODAL, function (state) {
