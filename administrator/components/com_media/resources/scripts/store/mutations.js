@@ -32,7 +32,7 @@ export default {
             const parentDirectory = state.directories.find((directory) => (directory.path === newDirectories[0].directory));
             const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
 
-            // Add the new directories to the directories
+            // Add the new directories to the directories array
             state.directories.push(...newDirectories);
 
             // Update the relation to the parent directory
@@ -47,7 +47,7 @@ export default {
             const parentDirectory = state.directories.find((directory) => (directory.path === newFiles[0].directory));
             const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
 
-            // Add the new files to the files
+            // Add the new files to the files array
             state.files.push(...newFiles);
 
             // Update the relation to the parent directory
@@ -88,7 +88,6 @@ export default {
      */
     [types.SELECT_BROWSER_ITEM]: (state, payload) => {
         state.selectedItems.push(payload);
-        const selectedItemIndex = state.selectedItems.indexOf(payload);
     },
 
     /**
