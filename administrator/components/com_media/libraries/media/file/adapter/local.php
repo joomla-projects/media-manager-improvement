@@ -35,7 +35,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 */
 	public function __construct($rootPath)
 	{
-		if (!file_exists($rootPath))
+		if (!JFile::exists($rootPath))
 		{
 			throw new InvalidArgumentException;
 		}
@@ -72,7 +72,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$basePath = JPath::clean($this->rootPath . '/' . $path);
 
 		// Check if file exists
-		if (!file_exists($basePath))
+		if (!JFile::exists($basePath))
 		{
 			throw new MediaFileAdapterFilenotfoundexception;
 		}
@@ -110,7 +110,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$basePath = JPath::clean($this->rootPath . '/' . $path);
 
 		// Check if file exists
-		if (!file_exists($basePath))
+		if (!JFile::exists($basePath))
 		{
 			throw new MediaFileAdapterFilenotfoundexception;
 		}
@@ -187,7 +187,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 */
 	public function updateFile($name, $path, $data)
 	{
-		if (!file_exists($this->rootPath . $path . '/' . $name))
+		if (!JFile::exists($this->rootPath . $path . '/' . $name))
 		{
 			throw new MediaFileAdapterFilenotfoundexception;
 		}
