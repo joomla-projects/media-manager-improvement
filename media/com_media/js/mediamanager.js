@@ -9640,7 +9640,26 @@ exports.default = (_types$SELECT_DIRECTO = {}, _defineProperty(_types$SELECT_DIR
         }));
     }
 }), _defineProperty(_types$SELECT_DIRECTO, types.UPLOAD_SUCCESS, function (state, payload) {
-    console.log(payload);
+    var file = payload;
+    var isNew = !state.files.some(function (existing) {
+        return existing.path === file.path;
+    });
+
+    // TODO handle file_exists
+    if (isNew) {
+        var parentDirectory = state.directories.find(function (existing) {
+            return existing.path === file.directory;
+        });
+        var parentDirectoryIndex = state.directories.indexOf(parentDirectory);
+
+        // Add the new file to the files array
+        state.files.push(file);
+
+        // Update the relation to the parent directory
+        state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
+            files: [].concat(_toConsumableArray(parentDirectory.files), [file.path])
+        }));
+    }
 }), _defineProperty(_types$SELECT_DIRECTO, types.CREATE_DIRECTORY_SUCCESS, function (state, payload) {
 
     var directory = payload;

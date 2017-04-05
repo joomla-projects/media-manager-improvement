@@ -63,7 +63,22 @@ export default {
      * @param payload
      */
     [types.UPLOAD_SUCCESS]: (state, payload) => {
-        console.log(payload);
+        const file = payload;
+        const isNew = (!state.files.some(existing => (existing.path === file.path)));
+
+        // TODO handle file_exists
+        if (isNew) {
+            const parentDirectory = state.directories.find((existing) => (existing.path === file.directory));
+            const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
+
+            // Add the new file to the files array
+            state.files.push(file);
+
+            // Update the relation to the parent directory
+            state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
+                files: [...parentDirectory.files, file.path]
+            }));
+        }
     },
 
     /**
