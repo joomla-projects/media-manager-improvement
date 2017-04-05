@@ -1,8 +1,14 @@
 <template>
-    <input type="file">
+    <input type="file" class="hidden"
+           :name="name"
+           :multiple="multiple"
+           :accept="accept"
+           @change="upload"
+           ref="fileInput">
 </template>
 <script>
     export default {
+        name: 'media-upload',
         props: {
             accept: {
                 type: String,
@@ -16,7 +22,23 @@
             },
             multiple: {
                 type: Boolean,
+                default: false,
             },
+        },
+        methods: {
+            chooseFiles() {
+                this.$refs['fileInput'].click();
+            },
+            upload(e) {
+                e.preventDefault();
+                const files = e.target.files;
+
+                // Do the upload
+            },
+        },
+        created() {
+            // Listen to the toolbar upload click event
+            MediaManager.Event.listen('onClickUpload', () => this.chooseFiles());
         },
     }
 </script>

@@ -5,10 +5,10 @@
         </div>
         <div class="media-main col-md-10">
             <media-toolbar></media-toolbar>
-            <media-upload></media-upload>
             <media-browser></media-browser>
             <media-infobar></media-infobar>
         </div>
+        <media-upload></media-upload>
         <media-create-folder-modal></media-create-folder-modal>
     </div>
 </template>
@@ -31,7 +31,7 @@
             },
         },
         created() {
-            // Listen to the on click create folder event
+            // Listen to the toolbar events
             MediaManager.Event.listen('onClickCreateFolder', () => this.$store.commit(types.SHOW_CREATE_FOLDER_MODAL));
         },
         mounted() {
