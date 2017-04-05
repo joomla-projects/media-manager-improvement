@@ -236,7 +236,7 @@ class MediaControllerApi extends Controller
 			throw new Exception(JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
 		}
 
-		if (!$helper->canUpload(array('name' => $name, 'size' => sizeof($mediaContent), 'tmp_name' => $tmpFile), 'com_media'))
+		if (!$helper->canUpload(array('name' => $name, 'size' => count($mediaContent), 'tmp_name' => $tmpFile), 'com_media'))
 		{
 			JFile::delete($tmpFile);
 
