@@ -26,14 +26,17 @@
             },
         },
         methods: {
+            /* Open the choose-file dialog */
             chooseFiles() {
                 this.$refs['fileInput'].click();
             },
+            /* Upload files */
             upload(e) {
                 e.preventDefault();
                 const files = e.target.files;
 
                 // Do the upload
+
             },
         },
         created() {
