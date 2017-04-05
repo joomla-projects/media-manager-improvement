@@ -35,7 +35,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 */
 	public function __construct($rootPath)
 	{
-		if (!JFile::exists($rootPath))
+		if (!file_exists($rootPath))
 		{
 			throw new InvalidArgumentException;
 		}
@@ -72,7 +72,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$basePath = JPath::clean($this->rootPath . '/' . $path);
 
 		// Check if file exists
-		if (!JFile::exists($basePath))
+		if (!file_exists($basePath))
 		{
 			throw new MediaFileAdapterFilenotfoundexception;
 		}
@@ -110,7 +110,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$basePath = JPath::clean($this->rootPath . '/' . $path);
 
 		// Check if file exists
-		if (!JFile::exists($basePath))
+		if (!file_exists($basePath))
 		{
 			throw new MediaFileAdapterFilenotfoundexception;
 		}
@@ -208,8 +208,6 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 */
 	public function delete($path)
 	{
-		$success = false;
-
 		if (is_file($this->rootPath . $path))
 		{
 			if (!JFile::exists($this->rootPath . $path))
@@ -267,22 +265,21 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$modifiedDate = $this->getDate(filemtime($path));
 
 		// Set the values
-		$obj                          = new stdClass;
-		$obj->type                    = $isDir ? 'dir' : 'file';
-		$obj->name                    = basename($path);
-		$obj->path                    = str_replace($this->rootPath, '/', $path);
-		$obj->extension               = !$isDir ? JFile::getExt($obj->name) : '';
-		$obj->size                    = !$isDir ? filesize($path) : 0;
+		$obj            = new stdClass;
+		$obj->type      = $isDir ? 'dir' : 'file';
+		$obj->name      = basename($path);
+		$obj->path      = str_replace($this->rootPath, '/', $path);
+		$obj->extension = !$isDir ? JFile::getExt($obj->name) : '';
+		$obj->size      = !$isDir ? filesize($path) : 0;
+		$obj->mime_type = mime_content_type($path);
+		$obj->width     = 0;
+		$obj->height    = 0;
 
 		// Dates
 		$obj->create_date             = $createDate->format('c', true);
 		$obj->create_date_formatted   = $createDate->format(JText::_('DATE_FORMAT_LC5'), true);
 		$obj->modified_date           = $modifiedDate->format('c', true);
 		$obj->modified_date_formatted = $modifiedDate->format(JText::_('DATE_FORMAT_LC5'), true);
-
-		$obj->mime_type               = mime_content_type($path);
-		$obj->width                   = 0;
-		$obj->height                  = 0;
 
 		if (strpos($obj->mime_type, 'image/') === 0 && in_array(strtolower($obj->extension), array('jpg', 'jpeg', 'png', 'gif', 'bmp')))
 		{
