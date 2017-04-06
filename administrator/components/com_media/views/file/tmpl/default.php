@@ -20,8 +20,14 @@ JHtml::_('script', 'com_media/edit.js', array('version' => 'auto', 'relative' =>
 
 $params = JComponentHelper::getParams('com_media');
 
+
+/**
+ * @var JForm $form
+ */
+$form = $this->form;
+
 // Populate the media config
-$config = array(
+$config = [
 	'apiBaseUrl'              => JUri::root() . 'administrator/index.php?option=com_media&format=json',
 	'csrfToken'               => JSession::getFormToken(),
 	'filePath'                => $params->get('file_path', 'images'),
@@ -30,13 +36,12 @@ $config = array(
 	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file',
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
-);
-JFactory::getDocument()->addScriptOptions('com_media', $config);
+	'contents'                => base64_encode(file_get_contents(JPATH_ROOT . '/images' . $this->file)),
+];
 
-/**
- * @var JForm $form
- */
-$form = $this->form;
+
+
+JFactory::getDocument()->addScriptOptions('com_media', $config);
 ?>
 <style>
 	.btn-group {
@@ -60,10 +65,10 @@ if ($fieldSets)
 
 </form>
 <p>Edit area: </p>
-<span class="image-container">
-    <img id="media-edit-file" src="<?php echo $this->fullFilePath ?>" width="100%"/>
+<span class="js-image-container" data-src="<?php echo $this->fullFilePath; ?>" style="max-width:100%">
+
 </span>
 <p>Preview: </p>
 <span class="image-container-preview">
-    <img id="media-edit-file-new" src="<?php echo $this->fullFilePath ?>" style="max-width:100%"/>
+    <img id="media-edit-file-new" style="max-width:100%"/>
 </span>

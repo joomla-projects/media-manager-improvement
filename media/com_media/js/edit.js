@@ -13,9 +13,10 @@
 	// Customize the buttons
 	Joomla.submitform = function(task, form, validate) {
 		var pathName = window.location.pathname.replace(/&view=file.*/g, ''),
-			name = document.getElementById('media-edit-file').src.split('/').pop(),
+			name = options.filePath.split('/').pop(),
 			forUpload = {
-				'content': document.getElementById('media-edit-file-new').src.replace(/data:image\/(png|jpeg);base64,/, '')
+				'name': name,
+				'content':  document.getElementById('media-edit-file-new').src.replace(/data:image\/(png|jpeg);base64,/, '')
 			},
 			uploadPath = options.uploadPath,
 			url = options.apiBaseUrl + '&task=api.files&path=' + uploadPath,
@@ -126,21 +127,32 @@
 	// Once the DOM is ready, initialize everything
 	document.addEventListener('DOMContentLoaded', function() {
 
+		// Setup the canvas
+		var imageContainer = document.querySelector('.js-image-container');
+
+		var ext = options.filePath.split('/').pop();
+
+		var image = document.createElement('img');
+		image.src = 'data:image/' + ext + ';base64,' + options.contents;
+		image.id  = 'original-image';
+		image.style.maxWidth = '100%';
+
+		imageContainer.appendChild(image);
 		// This needs a good refactoring once we'll get the new UI/CE
 		// Crap to satisfy jQuery's slowlyness!!!
 		var func = function() {
 			var links = [].slice.call(document.querySelectorAll('[data-toggle="tab"]'));
 
 			links.forEach(function(item) {
-				item.addEventListener('shown.bs.tab', function(event) {
+				jQuery(item).on('shown.bs.tab', function(event) {
 					if (event.relatedTarget) {
-						EventBus.dispatch('onDeactivate', this, event.relatedTarget.hash.replace('#attrib-', ''), document.getElementById('media-edit-file'));
+						EventBus.dispatch('onDeactivate', this, event.relatedTarget.hash.replace('#attrib-', ''), document.getElementById('original-image'));
 					}
-					EventBus.dispatch('onActivate', this, event.target.hash.replace('#attrib-', ''), document.getElementById('media-edit-file'));
+					EventBus.dispatch('onActivate', this, event.target.hash.replace('#attrib-', ''), document.getElementById('original-image'));
 				});
 			});
 
-			EventBus.dispatch('onActivate', this, links[0].hash.replace('#attrib-', ''), document.getElementById('media-edit-file'));
+			EventBus.dispatch('onActivate', this, links[0].hash.replace('#attrib-', ''), document.getElementById('original-image'));
 		};
 		setTimeout(func, 1000); // jQuery...
 	});
