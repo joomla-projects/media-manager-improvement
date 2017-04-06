@@ -8,6 +8,12 @@
  */
 defined('_JEXEC') or die;
 
+// Load the toolbar when we are in an iframe
+if (JFactory::getApplication()->input->getCmd('tmpl') == 'component')
+{
+	echo JToolbar::getInstance('toolbar')->render();
+}
+
 $doc    = JFactory::getDocument();
 $params = JComponentHelper::getParams('com_media');
 
@@ -37,4 +43,3 @@ JHtml::_('script', 'media/com_media/js/mediamanager.js');
 JHtml::_('stylesheet', 'media/com_media/css/mediamanager.css');
 ?>
 <div id="com-media"></div>
-
