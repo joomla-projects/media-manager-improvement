@@ -228,8 +228,9 @@ class MediaControllerApi extends Controller
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function checkContent($name, $mediaContent)
 	{
