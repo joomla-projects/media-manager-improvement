@@ -1,6 +1,11 @@
 /**
  * BANNER
  */
+
+Joomla = window.Joomla || {};
+
+Joomla.MediaManager = Joomla.MediaManager || {};
+
 (function() {
 	"use strict";
 
@@ -16,7 +21,7 @@
 			name = options.filePath.split('/').pop(),
 			forUpload = {
 				'name': name,
-				'content':  document.getElementById('media-edit-file-new').src.replace(/data:image\/(png|jpeg);base64,/, '')
+				'content': Joomla.MediaManager.Edit.current.content.replace(/data:image\/(png|jpeg);base64,/, '')
 			},
 			uploadPath = options.uploadPath,
 			url = options.apiBaseUrl + '&task=api.files&path=' + uploadPath,
@@ -126,34 +131,33 @@
 
 	// Once the DOM is ready, initialize everything
 	document.addEventListener('DOMContentLoaded', function() {
+		// Initiate the plugins registry
+		Joomla.MediaManager.Edit.original = {
+			filename: options.filePath.split('/').pop(),
+			extension: options.filePath.split('.').pop(),
+			contents: options.contents
+		};
+		Joomla.MediaManager.Edit.history= {};
+		Joomla.MediaManager.Edit.current= {};
 
-		// Setup the canvas
-		var imageContainer = document.querySelector('.js-image-container');
-
-		var ext = options.filePath.split('/').pop();
-
-		var image = document.createElement('img');
-		image.src = 'data:image/' + ext + ';base64,' + options.contents;
-		image.id  = 'original-image';
-		image.style.maxWidth = '100%';
-
-		imageContainer.appendChild(image);
 		// This needs a good refactoring once we'll get the new UI/CE
 		// Crap to satisfy jQuery's slowlyness!!!
 		var func = function() {
 			var links = [].slice.call(document.querySelectorAll('[data-toggle="tab"]'));
 
-			links.forEach(function(item) {
-				jQuery(item).on('shown.bs.tab', function(event) {
-					if (event.relatedTarget) {
-						EventBus.dispatch('onDeactivate', this, event.relatedTarget.hash.replace('#attrib-', ''), document.getElementById('original-image'));
-					}
-					EventBus.dispatch('onActivate', this, event.target.hash.replace('#attrib-', ''), document.getElementById('original-image'));
-				});
-			});
+			for(var i = 0, l = links.length; i < l; i++){
 
-			EventBus.dispatch('onActivate', this, links[0].hash.replace('#attrib-', ''), document.getElementById('original-image'));
+				jQuery(links[i]).on('shown.bs.tab', function(event) {
+
+					if (event.relatedTarget) {
+						Joomla.MediaManager.Edit[event.relatedTarget.hash.replace('#attrib-', '').toLowerCase()].onDeactivate();
+					}
+					Joomla.MediaManager.Edit[event.target.hash.replace('#attrib-', '').toLowerCase()].onActivate(Joomla.MediaManager.Edit.original);
+				});
+			}
+
+			Joomla.MediaManager.Edit[links[0].hash.replace('#attrib-', '').toLowerCase()].onActivate(Joomla.MediaManager.Edit.original);
 		};
-		setTimeout(func, 1000); // jQuery...
+		setTimeout(func, 100); // jQuery...
 	});
 })();

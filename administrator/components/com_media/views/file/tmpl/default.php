@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
 JHtml::_('behavior.formvalidator');
-JHtml::_('script', 'vendor/eventbusjs/eventbus.min.js', array('version' => 'auto', 'relative' => true));
 
 JHtml::_('bootstrap.framework');
 JHtml::_('script', 'com_media/edit.js', array('version' => 'auto', 'relative' => true));
@@ -60,15 +59,6 @@ if ($fieldSets)
 
 	echo JHtml::_('bootstrap.endTabSet');
 }
-// @TODO Logic for handling other types of media, not only images!!!!!
 ?>
-
 </form>
-<p>Edit area: </p>
-<span class="js-image-container" data-src="<?php echo $this->fullFilePath; ?>" style="max-width:100%">
-
-</span>
-<p>Preview: </p>
-<span class="image-container-preview">
-    <img id="media-edit-file-new" style="max-width:100%"/>
-</span>
+<div id="media-manager-edit-container"></div>
