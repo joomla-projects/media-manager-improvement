@@ -140,6 +140,14 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 		Joomla.MediaManager.Edit.history= {};
 		Joomla.MediaManager.Edit.current= {};
 
+		// Create history entry
+		window.addEventListener('mediaManager.history.point', function() {
+			if (Joomla.MediaManager.Edit.original !== Joomla.MediaManager.Edit.current.content) {
+				var key = Object.keys(Joomla.MediaManager.Edit.history).length + 1;
+				Joomla.MediaManager.Edit.history[key] = Joomla.MediaManager.Edit.current.content;
+			}
+		});
+
 		// This needs a good refactoring once we'll get the new UI/CE
 		// Crap to satisfy jQuery's slowlyness!!!
 		var func = function() {
