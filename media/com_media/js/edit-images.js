@@ -18,8 +18,10 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 	}
 
 	// Reset the image to the initial state
-	Joomla.MediaManager.Edit.Reset = function() {
-		Joomla.MediaManager.Edit.current.contents = Joomla.MediaManager.Edit.original.contents;
+	Joomla.MediaManager.Edit.Reset = function(current) {
+		if (!current || (current && current !== true)) {
+			Joomla.MediaManager.Edit.current.contents = Joomla.MediaManager.Edit.original.contents;
+		}
 
 		// Clear the DOM
 		document.getElementById('originalMedia').innerHTML = '';
@@ -32,7 +34,11 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
 			if (links[i].classList.contains('active')) {
 				Joomla.MediaManager.Edit[links[i].hash.replace('#attrib-', '').toLowerCase()].Deactivate();
-				Joomla.MediaManager.Edit[links[i].hash.replace('#attrib-', '').toLowerCase()].Activate(Joomla.MediaManager.Edit.original);
+				if (!current || (current && current !== true)) {
+					Joomla.MediaManager.Edit[links[i].hash.replace('#attrib-', '').toLowerCase()].Activate(Joomla.MediaManager.Edit.original);
+				} else {
+					Joomla.MediaManager.Edit[links[i].hash.replace('#attrib-', '').toLowerCase()].Activate(Joomla.MediaManager.Edit.current);
+				}
 				break;
 			}
 		}
@@ -70,6 +76,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 		switch (task) {
 			case 'apply':
 				Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
+				Joomla.MediaManager.Edit.Reset(true);
 				break;
 			case 'save':
 				Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
@@ -153,9 +160,12 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
 		// Create history entry
 		window.addEventListener('mediaManager.history.point', function() {
-			if (Joomla.MediaManager.Edit.original !== Joomla.MediaManager.Edit.current.content) {
-				var key = Object.keys(Joomla.MediaManager.Edit.history).length + 1;
-				Joomla.MediaManager.Edit.history[key] = Joomla.MediaManager.Edit.current.content;
+			if (Joomla.MediaManager.Edit.original !== Joomla.MediaManager.Edit.current.contents) {
+				var key = Object.keys(Joomla.MediaManager.Edit.history).length;
+				if (Joomla.MediaManager.Edit.history[key] && Joomla.MediaManager.Edit.history[key - 1] && Joomla.MediaManager.Edit.history[key] === Joomla.MediaManager.Edit.history[key - 1]) {
+					return;
+				}
+				Joomla.MediaManager.Edit.history[key + 1] = Joomla.MediaManager.Edit.current.contents;
 			}
 		});
 

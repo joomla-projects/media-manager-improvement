@@ -4,7 +4,7 @@
 		<field
 			name="rotate"
 			type="range"
-			label="PLG_MEDIA-ACTION_CROP_PARAM_ROTATE"
+			label="Rotate"
 		    value="0"
 		/>
 	</fieldset>

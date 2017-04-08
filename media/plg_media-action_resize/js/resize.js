@@ -35,7 +35,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 	};
 
 	// Update image
-	var updateImage = function(data) {
+	var updateResizeImage = function(data) {
 
 		var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg';
 
@@ -93,7 +93,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
 					Joomla.cropperResize.crop({ width: parseInt(document.getElementById('jform_resize_w').value), height: parseInt(document.getElementById('jform_resize_w').value)/ Joomla.cropperResize.aspectRatio });
 
-					updateImage({ width: parseInt(document.getElementById('jform_resize_w').value), height: parseInt(document.getElementById('jform_resize_h').value)/ Joomla.cropperResize.aspectRatio })
+					updateResizeImage({ width: parseInt(document.getElementById('jform_resize_w').value), height: parseInt(document.getElementById('jform_resize_h').value)/ Joomla.cropperResize.aspectRatio })
 				});
 
 				resizeHeight.addEventListener('change', function(event) {
@@ -103,7 +103,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
 					Joomla.cropperResize.crop({ width: parseInt(document.getElementById('jform_resize_h').value) * Joomla.cropperResize.aspectRatio, height: parseInt(document.getElementById('jform_resize_h').value) });
 
-					updateImage({ width: parseInt(document.getElementById('jform_resize_h').value) * Joomla.cropperResize.aspectRatio, height: parseInt(document.getElementById('jform_resize_h').value) })
+					updateResizeImage({ width: parseInt(document.getElementById('jform_resize_h').value) * Joomla.cropperResize.aspectRatio, height: parseInt(document.getElementById('jform_resize_h').value) })
 				});
 			};
 

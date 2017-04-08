@@ -36,7 +36,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 	};
 
 	// Update image
-	var updateImage = function(data) {
+	var updateRotateImage = function(data) {
 
 		var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg';
 
@@ -86,7 +86,10 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
 					Joomla.cropperRotate.rotate(parseInt(event.target.value));
 
-					updateImage({rotate: parseInt(event.target.value)})
+					updateRotateImage({rotate: parseInt(event.target.value)});
+
+					// Reset the slider
+					event.target.value = 0;
 				});
 			};
 
