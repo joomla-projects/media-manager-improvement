@@ -57,10 +57,4 @@ if ($fieldSets)
 }
 ?>
 </form>
-<div id="media-manager-edit-container">
-	<h3>Edit:</h3>
-	<div id="originalMedia"></div>
-	<hr>
-	<h3>Preview:</h3>
-	<div id="previewMedia"></div>
-</div>
+<div id="media-manager-edit-container"></div>

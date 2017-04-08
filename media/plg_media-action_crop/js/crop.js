@@ -14,17 +14,29 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 	var initCrop = function(mediaData) {
 
 		// Create the images for edit and preview
-		var imageContainer = document.getElementById('media-manager-edit-container'),
+		var baseContainer = document.getElementById('media-manager-edit-container'),
+			editH3 = document.createElement('h3'),
+			previewH3 = document.createElement('h3'),
+			editContainer = document.createElement('div'),
+			previewContainer = document.createElement('div'),
 			imageSrc = document.createElement('img'),
 			imagePreview = document.createElement('img');
 
 		imageSrc.src = mediaData.contents;
 		imagePreview.src = mediaData.contents;
 		imagePreview.id = 'image-preview';
-
 		imageSrc.style.maxWidth = '100%';
-		document.getElementById('originalMedia').appendChild(imageSrc);
-		document.getElementById('previewMedia').appendChild(imagePreview);
+		imagePreview.style.maxWidth = '100%';
+		editH3.innerText = 'Edit area:';
+		previewH3.innerText = 'Actual preview:';
+
+		editContainer.appendChild(editH3);
+		editContainer.appendChild(imageSrc);
+		baseContainer.appendChild(editContainer);
+
+		previewContainer.appendChild(previewH3);
+		previewContainer.appendChild(imagePreview);
+		baseContainer.appendChild(previewContainer);
 
 		// Clear previous cropper
 		if (Joomla.cropper) Joomla.cropper = {};

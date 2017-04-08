@@ -53,17 +53,27 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 		Activate: function(mediaData) {
 
 			// Create the images for edit and preview
-			var imageSrc = document.createElement('img'),
+			var baseContainer = document.getElementById('media-manager-edit-container'),
+			    previewH3 = document.createElement('h3'),
+			    editContainer = document.createElement('div'),
+			    previewContainer = document.createElement('div'),
+			    imageSrc = document.createElement('img'),
 			    imagePreview = document.createElement('img');
 
 			imageSrc.src = mediaData.contents;
 			imagePreview.src = mediaData.contents;
-			imagePreview.style.maxWidth = '100%';
 			imagePreview.id = 'image-preview';
-
 			imageSrc.style.maxWidth = '100%';
-			document.getElementById('originalMedia').appendChild(imageSrc);
-			document.getElementById('previewMedia').appendChild(imagePreview);
+			imagePreview.style.maxWidth = '100%';
+			editContainer.style.display = 'none';
+			previewH3.innerText = 'Actual preview:';
+
+			editContainer.appendChild(imageSrc);
+			baseContainer.appendChild(editContainer);
+
+			previewContainer.appendChild(previewH3);
+			previewContainer.appendChild(imagePreview);
+			baseContainer.appendChild(previewContainer);
 
 			// Initialize
 			initResize(imageSrc);
