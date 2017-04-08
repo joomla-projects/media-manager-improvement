@@ -13,12 +13,11 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
 JHtml::_('behavior.formvalidator');
-
 JHtml::_('bootstrap.framework');
-JHtml::_('script', 'com_media/edit.js', array('version' => 'auto', 'relative' => true));
+
+JHtml::_('script', 'com_media/edit-images.js', array('version' => 'auto', 'relative' => true)); // @TODO logic to load plugins per media type
 
 $params = JComponentHelper::getParams('com_media');
-
 
 /**
  * @var JForm $form
@@ -38,15 +37,12 @@ $config = [
 	'contents'                => base64_encode(file_get_contents(JPATH_ROOT . '/images' . $this->file)),
 ];
 
-
-
 JFactory::getDocument()->addScriptOptions('com_media', $config);
-?>
-<style>
-	.btn-group {
+JFactory::getDocument()->addStyleDeclaration("	.btn-group {
 		display: block;
-	}
-</style>
+	}");
+
+?>
 <form action="#" method="post" name="adminForm" id="media-form" class="form-validate">
 <?php
 $fieldSets = $form->getFieldsets();
@@ -61,4 +57,10 @@ if ($fieldSets)
 }
 ?>
 </form>
-<div id="media-manager-edit-container"></div>
+<div id="media-manager-edit-container">
+	<h3>Edit:</h3>
+	<div id="originalMedia"></div>
+	<hr>
+	<h3>Preview:</h3>
+	<div id="previewMedia"></div>
+</div>

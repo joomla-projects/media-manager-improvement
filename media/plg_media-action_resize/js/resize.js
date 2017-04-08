@@ -1,72 +1,75 @@
+/**
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
 Joomla = window.Joomla || {};
 
 Joomla.MediaManager = Joomla.MediaManager || {};
+
 Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 (function() {
 	"use strict";
 
-	document.addEventListener('DOMContentLoaded', function() {
-		var initResize = function(imageSrc) {
-			// Clear previous cropper
-			if (Joomla.cropper) Joomla.cropper = {};
+	var initResize = function(imageSrc) {
+		// Clear previous cropper
+		if (Joomla.cropper) Joomla.cropper = {};
 
-			// Initiate the cropper
-			Joomla.cropperResize = new Cropper(imageSrc, {
-				//viewMode: 1,
-				restore: true,
-				responsive:true,
-				dragMode: false,
-				autoCrop: false,
-				autoCropArea: 1,
-				guides: false,
-				center: false,
-				highlight: false,
-				cropBoxMovable: false,
-				scalable: false,
-				zoomable:false,
+		// Initiate the cropper
+		Joomla.cropperResize = new Cropper(imageSrc, {
+			restore: true,
+			responsive:true,
+			dragMode: false,
+			autoCrop: false,
+			autoCropArea: 1,
+			guides: false,
+			center: false,
+			highlight: false,
+			cropBoxMovable: false,
+			scalable: false,
+			zoomable:false,
+			cropBoxResizable: false,
+			toggleDragModeOnDblclick: false,
+			minContainerWidth: imageSrc.offsetWidth,
+			minContainerHeight: imageSrc.offsetHeight,
+		});
+	};
 
-				//cropBoxResizable: false,
-				toggleDragModeOnDblclick: false,
-				minContainerWidth: imageSrc.offsetWidth,
-				minContainerHeight: imageSrc.offsetHeight,
-			});
-		};
+	// Update image
+	var updateImage = function(data) {
 
-		// Update image
-		var updateImage = function(data) {
+		var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg';
 
-			Joomla.MediaManager.Edit.current.content = Joomla.cropperResize.getCroppedCanvas(data).toDataURL("image/" + Joomla.MediaManager.Edit.original.extension).replace('data:image/' + Joomla.MediaManager.Edit.original.extension + ';base64,', '');
-				// Joomla.cropperCrop.getCroppedCanvas().toDataURL("image/" + Joomla.MediaManager.Edit.original.extension, 1.0);
-console.log(Joomla.MediaManager.Edit.current.content);
-			// Notify the app that a change has been made
-			window.dispatchEvent(new Event('mediaManager.history.point'));
+		Joomla.MediaManager.Edit.current.contents = Joomla.cropperResize.getCroppedCanvas(data).toDataURL("image/" + format, 1.0);
 
-			// Make sure that the plugin didn't remove the preview
-			document.getElementById('image-preview').src = Joomla.MediaManager.Edit.current.content;
-		};
+		// Notify the app that a change has been made
+		window.dispatchEvent(new Event('mediaManager.history.point'));
 
-		// Register the Events
-		Joomla.MediaManager.Edit.resize = {
-			onActivate: function(mediaData) {
+		// Make sure that the plugin didn't remove the preview
+		document.getElementById('image-preview').src = Joomla.MediaManager.Edit.current.contents;
+	};
 
-				// Create the images for edit and preview
-				var imageContainer = document.getElementById('media-manager-edit-container'),
-				    imageSrc = document.createElement('img'),
-				    imagePreview = document.createElement('img');
+	// Register the Events
+	Joomla.MediaManager.Edit.resize = {
+		Activate: function(mediaData) {
 
-				imageSrc.src = 'data:image/' + mediaData.extension + ';base64,' + mediaData.contents;
-				imagePreview.src = 'data:image/' + mediaData.extension + ';base64,' + mediaData.contents;
-				imagePreview.id = 'image-preview';
+			// Create the images for edit and preview
+			var imageSrc = document.createElement('img'),
+			    imagePreview = document.createElement('img');
 
-				imageSrc.style.maxWidth = '100%';
-				imageContainer.appendChild(imageSrc);
-				imageContainer.appendChild(imagePreview);
+			imageSrc.src = mediaData.contents;
+			imagePreview.src = mediaData.contents;
+			imagePreview.style.maxWidth = '100%';
+			imagePreview.id = 'image-preview';
 
+			imageSrc.style.maxWidth = '100%';
+			document.getElementById('originalMedia').appendChild(imageSrc);
+			document.getElementById('previewMedia').appendChild(imagePreview);
+
+			// Initialize
+			initResize(imageSrc);
+
+			var funct = function() {
 				imageSrc = document.getElementById('media-manager-edit-container').querySelector('img');
-
-				console.log(imageSrc)
-				console.log(imageSrc.height)
-				console.log(imageSrc.width)
 
 				// Set the values for the range fields
 				var resizeWidth = document.getElementById('jform_resize_w'),
@@ -80,9 +83,6 @@ console.log(Joomla.MediaManager.Edit.current.content);
 				resizeHeight.min = 0;
 				resizeHeight.max = imageSrc.height;
 				resizeHeight.value = imageSrc.height;
-
-				// Initialize
-				initResize(imageSrc);
 
 				Joomla.cropperResize.aspectRatio = parseInt(resizeWidth.value) / parseInt(resizeHeight.value);
 
@@ -105,17 +105,17 @@ console.log(Joomla.MediaManager.Edit.current.content);
 
 					updateImage({ width: parseInt(document.getElementById('jform_resize_h').value) * Joomla.cropperResize.aspectRatio, height: parseInt(document.getElementById('jform_resize_h').value) })
 				});
-			},
-			onDeactivate: function() {
-				if (!Joomla.cropperResize) {
-					return;
-				}
-				// Destroy the instance
-				Joomla.cropperResize.destroy();
+			};
 
-				// Clear the DOM
-				document.getElementById('media-manager-edit-container').innerHTML = '';
+			setTimeout(funct, 1000);
+		},
+		Deactivate: function() {
+			if (!Joomla.cropperResize) {
+				return;
 			}
-		};
-	});
+			// Destroy the instance
+			Joomla.cropperResize.destroy();
+		}
+	};
+
 })();
