@@ -1,6 +1,6 @@
 <template>
     <li class="media-tree-item" :class="{active: isActive}">
-        <a @click.stop.prevent="toggleItem()" :style="{'paddingLeft': 15 * level + 'px'}">
+        <a @click.stop.prevent="toggleItem()">
             <span class="item-icon"><span :class="iconClass"></span></span>
             <span class="item-name">{{ item.name }}</span>
         </a>
@@ -23,10 +23,6 @@
             isOpen () {
                 return this.$store.state.selectedDirectory.includes(this.item.path);
             },
-            /* Get the current level */
-            level() {
-                return this.item.path.split('/').length - 1;
-            },
             /* Whether or not the item has children */
             hasChildren() {
                 return this.item.directories.length > 0;
@@ -34,8 +30,8 @@
             iconClass() {
                 return {
                     fa: true,
-                    'fa-folder': !this.isOpen,
-                    'fa-folder-open': this.isOpen,
+                    'fa-folder-o': !this.isOpen,
+                    'fa-folder-open-o': this.isOpen,
                 }
             }
         },
