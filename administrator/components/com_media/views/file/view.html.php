@@ -65,11 +65,11 @@ class MediaViewFile extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_MEDIA_EDIT'), 'images mediamanager');
 
 		// @TODO buttons
-		JToolbarHelper::apply('apply', 'Upload');
-		JToolbarHelper::save('save', 'Upload & Close');
-		JToolbarHelper::custom('reset', 'refresh', '',  'Reset', false); // @TODO Tramslate
-		JToolbarHelper::custom('undo', 'undo', '',  'Undo', false); // @TODO Tramslate
-		JToolbarHelper::custom('redo', 'redo', '',  'Redo', false); // @TODO Tramslate
+		JToolbarHelper::apply('apply');
+		JToolbarHelper::save('save');
+		JToolbarHelper::custom('reset', 'refresh', '',  'COM_MEDIA_RESET', false);
+//		JToolbarHelper::custom('undo', 'undo', '',  'Undo', false);
+//		JToolbarHelper::custom('redo', 'redo', '',  'Redo', false);
 		JToolbarHelper::cancel('cancel');
 	}
 }
