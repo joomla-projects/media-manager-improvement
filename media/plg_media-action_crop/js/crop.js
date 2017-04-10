@@ -1,211 +1,96 @@
+/**
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+Joomla = window.Joomla || {};
+
+Joomla.MediaManager = Joomla.MediaManager || {};
+
+Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
+
 (function() {
 	"use strict";
 
-	document.addEventListener('DOMContentLoaded', function() {
+	var initCrop = function(mediaData) {
 
-		var init = function(imageElement) {
-			// Clear previous cropper
-			if (Joomla.cropper) Joomla.cropper = {};
+		// Create the images for edit and preview
+		var baseContainer = document.getElementById('media-manager-edit-container'),
+			editH3 = document.createElement('h3'),
+			previewH3 = document.createElement('h3'),
+			editContainer = document.createElement('div'),
+			previewContainer = document.createElement('div'),
+			imageSrc = document.createElement('img'),
+			imagePreview = document.createElement('img');
 
-			// Initiate the cropper
-			Joomla.cropper = new Cropper(imageElement, {
-				viewMode: 1,
-				responsive:true,
-				restore:true,
-				autoCrop:false,
-				minContainerWidth: imageElement.offsetWidth,
-				minContainerHeight: imageElement.offsetHeight,
-				crop: function(e) {
-					document.getElementById('jform_crop_x').value = e.detail.x;
-					document.getElementById('jform_crop_y').value = e.detail.y;
-					document.getElementById('jform_crop_width').value = e.detail.width;
-					document.getElementById('jform_crop_height').value = e.detail.height;
+		imageSrc.src = mediaData.contents;
+		imagePreview.src = mediaData.contents;
+		imagePreview.id = 'image-preview';
+		imageSrc.style.maxWidth = '100%';
+		imagePreview.style.maxWidth = '100%';
+		editH3.innerText = 'Edit area:';
+		previewH3.innerText = 'Actual preview:';
 
-					// var imgFileName = document.getElementById('media-edit-file').src.split('/').pop();
-					var format = document.getElementById('media-edit-file').src.split('.').pop();
+		editContainer.appendChild(editH3);
+		editContainer.appendChild(imageSrc);
+		baseContainer.appendChild(editContainer);
 
+		previewContainer.appendChild(previewH3);
+		previewContainer.appendChild(imagePreview);
+		baseContainer.appendChild(previewContainer);
 
-					// Make sure that the plugin didn't remove the preview
-					if (document.getElementById('media-edit-file-new')) {
-						document.getElementById('media-edit-file-new').src = Joomla.cropper.getCroppedCanvas().toDataURL("image/" + format);
-					} else {
-						var image = new Image();
-						image.id = 'media-edit-file-new';
-						image.src = Joomla.cropper.getCroppedCanvas().toDataURL("image/" + format);
-						document.body.appendChild(image);
-					}
+		// Clear previous cropper
+		if (Joomla.cropper) Joomla.cropper = {};
 
-					// Do the upload automatically????
-					// Joomla.UploadFile.exec(imgFileName, blob);
-				}
-			});
+		// Initiate the cropper
+		Joomla.cropperCrop = new Cropper(imageSrc, {
+			// viewMode: 1,
+			responsive:true,
+			restore:true,
+			autoCrop:true,
+			movable: false,
+			zoomable: false,
+			rotatable: false,
+			autoCropArea: 1,
+			// scalable: false,
+			minContainerWidth: imageSrc.offsetWidth,
+			minContainerHeight: imageSrc.offsetHeight,
+			crop: function(e) {
+				document.getElementById('jform_crop_x').value = e.detail.x;
+				document.getElementById('jform_crop_y').value = e.detail.y;
+				document.getElementById('jform_crop_width').value = e.detail.width;
+				document.getElementById('jform_crop_height').value = e.detail.height;
 
+				var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg';
 
+				// Update the store
+				Joomla.MediaManager.Edit.current.contents = Joomla.cropperCrop.getCroppedCanvas().toDataURL("image/" + format, 1.0);
 
-			// @TODO Actions as Buttons
-			// var actions = document.getElementById('jform_aspectRatio'), buttons = [].slice.call(actions.querySelectorAll('[type="radio"]'));
-			//
-			// buttons.forEach(function(item) {
-			// 	item.addEventListener('click', function(event) {
-			// 		console.log(event.target.value);
-			// 		Joomla.cropper.setAspectRatio = event.target.value;
-			// 	})
-			// });
+				// Notify the app that a change has been made
+				window.dispatchEvent(new Event('mediaManager.history.point'));
 
-
-			document.getElementById('jform_crop_x').value = 0;
-			document.getElementById('jform_crop_y').value = 0;
-			document.getElementById('jform_crop_width').value = imageElement.offsetWidth;
-			document.getElementById('jform_crop_height').value = imageElement.offsetHeight;
-
-
-			//imageElement.cropper = cropper;
-		};
-
-		EventBus.addEventListener('onActivate', function(e, context, imageElement){
-			// Bail out early
-			if (context != 'crop') {
-				return;
+				// Make sure that the plugin didn't remove the preview
+				document.getElementById('image-preview').src = Joomla.MediaManager.Edit.current.contents;
 			}
+		});
 
+		document.getElementById('jform_crop_x').value = 0;
+		document.getElementById('jform_crop_y').value = 0;
+		document.getElementById('jform_crop_width').value = imageSrc.offsetWidth;
+		document.getElementById('jform_crop_height').value = imageSrc.offsetHeight;
+	};
+
+	// Register the Events
+	Joomla.MediaManager.Edit.crop = {
+		Activate: function(mediaData) {
 			// Initialize
-			init(imageElement);
-		});
-
-		EventBus.addEventListener('onDeactivate', function(e, context, imageElement){
-			if (context != 'crop' || !imageElement.cropper) {
+			initCrop(mediaData);
+		},
+		Deactivate: function() {
+			if (!Joomla.cropperCrop) {
 				return;
 			}
-
-			imageElement.cropper.destroy();
-		});
-	});
-})();
-
-/**
- *
-!function() {
-	"use strict";
-
-	document.onreadystatechange = function () {
-		if (document.readyState == "interactive") {
-			var image = document.getElementById('joomla-media-image-cropper');      // The image node
-			window.imageUrl = image.getAttribute("src");                            // The image Url
-			window.postUrl = image.getAttribute("data-url");                        // The upload Url
-			window.submitInput = document.querySelectorAll('input[type="submit"]'); // The hidden submit input
-			window.cropperBoxDim = {};
-
-			// TODO get any data-* values and build the options
-			// eg:   if (typeof image.getAttribute("data-some-attribute") != "undefined") {
-			//           option1 = image.getAttribute("data-some-attribute");
-			//       }
-
-			/**
-			 * Initialiaze Cropper
-			 *
-			var cropper = new Cropper(image, {
-				// aspectRatio: 16 / 9,
-				crop       : function (e) {
-
-					var json = [{
-						"x"     : e.detail.x,
-						"y"     : e.detail.y,
-						"height": e.detail.height,
-						"width" : e.detail.width,
-						"rotate": e.detail.rotate,
-						"scaleX": e.detail.scaleX,
-						"scaleY": e.detail.scaleY
-					}];
-
-					document.getElementById('imagecropper-jsondata').value = json;
-				}
-			});
-			console.log(cropper);
-			// The upload logic copy paste from tinymce jdrag and drop
-			var UploadFile = function (fd) {
-				var xhr = new XMLHttpRequest();
-				xhr.open("POST", postUrl, true);
-
-				xhr.onload = function () {
-					var resp = JSON.parse(xhr.responseText);
-
-					if (xhr.status == 200) {
-						if (resp.status == '0') {
-							submitInput[0].click();
-							// console.log('Upload success');
-						}
-
-						if (resp.status == '1') {
-							submitInput[0].click();
-							// console.log('Upload success');
-						}
-					} else {
-						// console.log('No Upload');
-					}
-				};
-
-				xhr.onerror = function () {
-					// console.log('Upload Error');
-				};
-				xhr.send(fd);
-			};
-
-			// Upload cropped image to server
-			var doTheUpload = function () {
-				console.log(cropper.getCroppedCanvas());
-				cropper.getCroppedCanvas().toBlob(function (blob) {
-					var imgFileName = imageUrl.split('/').pop();
-					var fd = new FormData();
-
-					fd.append('files', blob, imgFileName);
-
-					UploadFile(fd);
-				});
-			};
-
-			var registerClick = function (element) {
-				element.addEventListener('click', function (event) {
-
-					var action = event.currentTarget.getAttribute("data-method");
-					var option = event.currentTarget.getAttribute("data-option");
-					var option2 = event.currentTarget.getAttribute("data-second-option");
-
-					switch (action) {
-						case 'zoom':
-							cropper.zoom(option);
-							break;
-
-						case 'rotate':
-							cropper.rotate(option);
-							break;
-
-						case 'scaleX':
-							cropper.scaleX(-cropper.getData().scaleX || -1);
-							break;
-
-						case 'scaleY':
-							cropper.scaleY(-cropper.getData().scaleY || -1);
-							break;
-
-						case 'move':
-							cropper.move(option, option2);
-							break;
-
-						default:
-						case 'crop':
-							console.log(cropper.getCroppedCanvas());
-							//cropper.getCroppedCanvas();
-							doTheUpload();
-							break;
-					}
-				});
-			};
-
-			var buttons = document.querySelectorAll('.btn');
-
-			for (var j = 0; j < buttons.length; j++) {
-				registerClick(buttons[j]);
-			}
+			// Destroy the instance
+			Joomla.cropperCrop.destroy();
 		}
-	}
-}(); */
+	};
+})();
