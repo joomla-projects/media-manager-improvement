@@ -89,6 +89,7 @@ class MediaControllerApi extends Controller
 		try
 		{
 			// Error handling
+			// Move error handling to a base class
 			set_error_handler(array($this, 'handleError'));
 
 			if ($error = error_get_last())
@@ -199,7 +200,7 @@ class MediaControllerApi extends Controller
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function handleError($errno, $errstr)
+	protected function handleError($errno, $errstr)
 	{
 		throw new Exception($errstr, $errno);
 	}
