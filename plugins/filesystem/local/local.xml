@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.5" type="plugin" group="filesystem" method="upgrade">
+    <name>PLG_LOCAL</name>
+    <creationDate>11/04/2017</creationDate>
+    <author>Kasun</author>
+    <authorEmail>your@email.com</authorEmail>
+    <authorUrl>http://your.url.com</authorUrl>
+    <copyright>A copyright</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <version>1.0</version>
+    <description>PLG_LOCAL_XML_DESCRIPTION</description>
+
+    <!-- Plugin files -->
+    <files>
+        <filename plugin="local">local.php</filename>
+        <folder>language</folder>
+    </files>
+
+</extension>
