@@ -97,7 +97,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * - width:         The width, when available
 	 * - height:        The height, when available
 	 *
-	 * @param   string $path The folder
+	 * @param   string  $path  The folder
 	 *
 	 * @return  stdClass
 	 *
@@ -131,7 +131,8 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$obj->modified_date = $modifiedDate->format('c', true);
 		$obj->modified_date_formatted = $modifiedDate->format(JText::_('DATE_FORMAT_LC5'), true);
 
-		if (strpos($obj->mime_type, 'image/') === 0 && JHelperMedia::isImage($obj->name)) {
+		if (strpos($obj->mime_type, 'image/') === 0 && JHelperMedia::isImage($obj->name))
+		{
 			// Get the image properties
 			$props = JImage::getImageFileProperties($path);
 			$obj->width = $props->width;
@@ -144,7 +145,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * Returns a JDate with the correct Joomla timezone for the given date.
 	 *
-	 * @param   string $date The date to create a JDate from
+	 * @param   string  $date  The date to create a JDate from
 	 *
 	 * @return  JDate[]
 	 *
