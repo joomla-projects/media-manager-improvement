@@ -32,7 +32,7 @@ class PlgFileSystemLocal extends JPlugin
 	/**
 	 * Returns a local media adapter to the caller which can be used to manipulate files
 	 *
-	 * @param    string $path The path used to be initialize a MediaFileAdapter
+	 * @param    string  $path  The path used to be initialize a MediaFileAdapter
 	 *
 	 * @return   MediaFileAdapterLocal return a new MediaFileAdapterLocal
 	 *
