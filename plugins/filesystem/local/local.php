@@ -30,18 +30,14 @@ class PlgFileSystemLocal extends JPlugin
 
 
 	/**
+	 * Returns a local media adapter
 	 *
 	 * @param $path - The path used to be initialize a MediaFileAdapter
-	 *
 	 * @return MediaFileAdapterLocal
-	 *
 	 * @since version __DEPLOY_VERSION__
 	 */
 	public function onFileSystemGetAdapters($path)
 	{
 		return new MediaFileAdapterLocal($path);
 	}
-
-
-
 }
