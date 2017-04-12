@@ -9124,17 +9124,14 @@ exports.default = {
         isOpen: function isOpen() {
             return this.$store.state.selectedDirectory.includes(this.item.path);
         },
-        level: function level() {
-            return this.item.path.split('/').length - 1;
-        },
         hasChildren: function hasChildren() {
             return this.item.directories.length > 0;
         },
         iconClass: function iconClass() {
             return {
                 fa: true,
-                'fa-folder': !this.isOpen,
-                'fa-folder-open': this.isOpen
+                'fa-folder-o': !this.isOpen,
+                'fa-folder-open-o': this.isOpen
             };
         }
     },
@@ -9148,7 +9145,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',{staticClass:"media-tree-item",class:{active: _vm.isActive}},[_c('a',{style:({'paddingLeft': 15 * _vm.level + 'px'}),on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.toggleItem()}}},[_c('span',{staticClass:"item-icon"},[_c('span',{class:_vm.iconClass})]),_vm._v(" "),_c('span',{staticClass:"item-name"},[_vm._v(_vm._s(_vm.item.name))])]),_vm._v(" "),_c('transition',{attrs:{"name":"slide-fade"}},[(_vm.hasChildren)?_c('media-tree',{directives:[{name:"show",rawName:"v-show",value:(_vm.isOpen),expression:"isOpen"}],attrs:{"root":_vm.item.path}}):_vm._e()],1)],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',{staticClass:"media-tree-item",class:{active: _vm.isActive}},[_c('a',{on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.toggleItem()}}},[_c('span',{staticClass:"item-icon"},[_c('span',{class:_vm.iconClass})]),_vm._v(" "),_c('span',{staticClass:"item-name"},[_vm._v(_vm._s(_vm.item.name))])]),_vm._v(" "),_c('transition',{attrs:{"name":"slide-fade"}},[(_vm.hasChildren)?_c('media-tree',{directives:[{name:"show",rawName:"v-show",value:(_vm.isOpen),expression:"isOpen"}],attrs:{"root":_vm.item.path}}):_vm._e()],1)],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
