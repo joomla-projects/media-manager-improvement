@@ -1,46 +1,47 @@
 <?php
 /**
- * @package    media-manager-improvement
+ * @package     Joomla.Plugin
+ * @subpackage  FileSystem.Local
  *
- * @author     Kasun <your@email.com>
- * @copyright  A copyright
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
- * @link       http://your.url.com
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+require_once 'adapter/adapter.php';
+
 /**
- * Local plugin.
+ * FileSystem Local plugin.
+ * This plugin will be used to manipulate local file system.
  *
- * @package  media-manager-improvement
- * @since    1.0
+ * @package  FileSystem.Local
+ * @since    __DEPLOY_VERSION__
  */
 class PlgFileSystemLocal extends JPlugin
 {
     /**
-     * Application object
-     *
-     * @var    JApplicationCms
-     * @since  1.0
-     */
-    protected $app;
-
-    /**
-     * Database object
-     *
-     * @var    JDatabaseDriver
-     * @since  1.0
-     */
-    protected $db;
-
-    /**
      * Affects constructor behavior. If true, language files will be loaded automatically.
      *
      * @var    boolean
-     * @since  1.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
+
+
+    /**
+     *
+     * @param $path - The path used to be initialize a MediaFileAdapter
+     *
+     * @return MediaFileAdapterLocal
+     *
+     * @since version __DEPLOY_VERSION__
+     */
+    public function onFileSystemGetAdapters($path)
+    {
+        return new MediaFileAdapterLocal($path);
+    }
+
 
 
 }
