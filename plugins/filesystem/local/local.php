@@ -13,7 +13,7 @@ require_once 'adapter/adapter.php';
 
 /**
  * FileSystem Local plugin.
- * This plugin will be used to manipulate local file system.
+ * The plugin used to manipulate local filesystem in Media Manager
  *
  * @package  FileSystem.Local
  * @since    __DEPLOY_VERSION__
@@ -30,11 +30,13 @@ class PlgFileSystemLocal extends JPlugin
 
 
 	/**
-	 * Returns a local media adapter
+	 * Returns a local media adapter to the caller which can be used to manipulate files
 	 *
-	 * @param $path - The path used to be initialize a MediaFileAdapter
-	 * @return MediaFileAdapterLocal
-	 * @since version __DEPLOY_VERSION__
+	 * @param    string $path The path used to be initialize a MediaFileAdapter
+	 *
+	 * @return   MediaFileAdapterLocal return a new MediaFileAdapterLocal
+	 *
+	 * @since    version  __DEPLOY_VERSION__
 	 */
 	public function onFileSystemGetAdapters($path)
 	{
