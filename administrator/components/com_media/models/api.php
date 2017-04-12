@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-use Joomla\Cms\Model\Model;
+use Joomla\CMS\Model\Model;
 
 /**
  * Api Model
