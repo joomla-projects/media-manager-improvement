@@ -20,27 +20,27 @@ require_once 'adapter/adapter.php';
  */
 class PlgFileSystemLocal extends JPlugin
 {
-    /**
-     * Affects constructor behavior. If true, language files will be loaded automatically.
-     *
-     * @var    boolean
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $autoloadLanguage = true;
+	/**
+	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $autoloadLanguage = true;
 
 
-    /**
-     *
-     * @param $path - The path used to be initialize a MediaFileAdapter
-     *
-     * @return MediaFileAdapterLocal
-     *
-     * @since version __DEPLOY_VERSION__
-     */
-    public function onFileSystemGetAdapters($path)
-    {
-        return new MediaFileAdapterLocal($path);
-    }
+	/**
+	 *
+	 * @param $path - The path used to be initialize a MediaFileAdapter
+	 *
+	 * @return MediaFileAdapterLocal
+	 *
+	 * @since version __DEPLOY_VERSION__
+	 */
+	public function onFileSystemGetAdapters($path)
+	{
+		return new MediaFileAdapterLocal($path);
+	}
 
 
 
