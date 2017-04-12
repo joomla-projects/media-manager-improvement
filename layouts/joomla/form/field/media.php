@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+
 /**
  * Layout variables
  * ---------------------
@@ -91,6 +93,7 @@ $url    = ($readonly ? ''
 ?>
 <div class="field-media-wrapper"
 	data-basepath="<?php echo JUri::root(); ?>"
+	data-root-folder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>"
 	data-url="<?php echo $url; ?>"
 	data-modal=".modal"
 	data-modal-width="100%"
