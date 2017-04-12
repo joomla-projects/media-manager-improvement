@@ -29,7 +29,7 @@ class ContentDispatcher extends Dispatcher
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($namespace, \Joomla\CMS\Application\CmsApplication $app,
-								\JInput $input = null, \Joomla\CMS\Mvc\Factory\MvcFactoryInterface $factory = null)
+	  \JInput $input = null, \Joomla\CMS\Mvc\Factory\MvcFactoryInterface $factory = null)
 	{
 		if (!$namespace)
 		{
