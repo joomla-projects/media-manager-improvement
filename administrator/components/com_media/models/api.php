@@ -51,7 +51,8 @@ class MediaModelApi extends Model
 
 			$results = $app->triggerEvent('onFileSystemGetAdapters', array($root));
 
-			if ($results != null) {
+			if ($results != null)
+			{
 				$config['fileadapter'] = $results[0];
 			}
 		}
