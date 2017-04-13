@@ -44,7 +44,7 @@ class MediaModelApi extends Model
 			$root = JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('file_path', 'images');
 			$root = rtrim($root) . '/';
 
-			//Import Local file system plugin
+			// Import Local file system plugin
 			JPluginHelper::importPlugin('filesystem');
 
 			$app = JFactory::getApplication();
