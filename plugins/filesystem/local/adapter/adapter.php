@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JLoader::import('joomla.filesystem.file');
 JLoader::import('joomla.filesystem.folder');
 
-//path for Interfaces in com_media
+// Path for Interfaces in com_media
 define('MEDIA_INTERFACE_PATH', JPATH_ADMINISTRATOR . '/components/com_media/models/interfaces/');
 
 include_once MEDIA_INTERFACE_PATH . 'interface.php';
