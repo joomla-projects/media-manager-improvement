@@ -13,7 +13,7 @@ JLoader::import('joomla.filesystem.file');
 JLoader::import('joomla.filesystem.folder');
 
 // Path for Interfaces in com_media
-define('MEDIA_INTERFACE_PATH', JPATH_ADMINISTRATOR . '/components/com_media/libraries/file/adapter/');
+define('MEDIA_INTERFACE_PATH', JPATH_ADMINISTRATOR . '/components/com_media/libraries/media/file/adapter/');
 
 include_once MEDIA_INTERFACE_PATH . 'interface.php';
 include_once MEDIA_INTERFACE_PATH . 'filenotfoundexception.php';
