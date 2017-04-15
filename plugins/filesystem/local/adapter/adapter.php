@@ -336,9 +336,9 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * If the destination folder or file already exists, it will not overwrite them without
 	 * force.
 	 *
-	 * @param   string  $sourcePath  Source path of the file or directory
+	 * @param   string  $sourcePath       Source path of the file or directory
 	 * @param   string  $destinationPath  Destination path of the file or directory
-	 * @param   bool    $force  Set true to overwrite files or directories
+	 * @param   bool    $force            Set true to overwrite files or directories
 	 *
 	 * @return bool
 	 *
@@ -400,9 +400,9 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * If the destination folder or file already exists, it will not overwrite them without
 	 * force.
 	 *
-	 * @param   string  $sourcePath  Source path of the file or directory
+	 * @param   string  $sourcePath       Source path of the file or directory
 	 * @param   string  $destinationPath  Destination path of the file or directory
-	 * @param   bool    $force  Set true to overwrite files or directories
+	 * @param   bool    $force            Set true to overwrite files or directories
 	 *
 	 * @return bool
 	 *
@@ -445,7 +445,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			if (is_dir($sourcePath))
 			{
 				$success = false;
-				if($force)
+				if ($force)
 				{
 					$success = JFolder::move($sourcePath, $destinationPath);
 				}
@@ -468,9 +468,9 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * Renames a file or directory
 	 *
-	 * @param   string  $baseDirectory  base directory where the file or folder currently kept
-	 * @param   string  $currentName  current name of the file or directory
-	 * @param   string  $newName  new name of the file or directory
+	 * @param   string  $baseDirectory  Base directory where the file or folder currently kept
+	 * @param   string  $currentName    Current name of the file or directory
+	 * @param   string  $newName        New name of the file or directory
 	 *
 	 * @return  bool
 	 *
