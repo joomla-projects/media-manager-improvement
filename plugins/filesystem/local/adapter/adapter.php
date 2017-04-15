@@ -335,9 +335,10 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * Copies a file or folder to a destination
 	 * If the destination folder or file already exists, it will not overwrite them without
 	 * force.
-	 * @param   string  $sourcePath Source path of the file or directory
-	 * @param   string  $destinationPath Destination path of the file or directory
-	 * @param   bool  $force Set true to overwrite files or directories
+	 *
+	 * @param   string  $sourcePath  Source path of the file or directory
+	 * @param   string  $destinationPath  Destination path of the file or directory
+	 * @param   bool    $force  Set true to overwrite files or directories
 	 *
 	 * @return bool
 	 *
@@ -346,7 +347,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 */
 	public function copy($sourcePath, $destinationPath, $force = false)
 	{
-		//get absolute paths from relative paths
+		// Get absolute paths from relative paths
 		$sourcePath = $this->rootPath. $sourcePath;
 		$destinationPath = $this->rootPath . $destinationPath;
 
@@ -355,8 +356,8 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			throw new MediaFileAdapterFilenotfoundexception;
 		}
 
-		//check for existence of the file in destination
-		//if it does not exists simply copy source to destination
+		// Check for existence of the file in destination
+		// if it does not exists simply copy source to destination
 		if(!file_exists($destinationPath))
 		{
 			if(is_dir($sourcePath))
@@ -374,8 +375,8 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		{
 			$success = false;
 
-			//this block copies a folder to a destination based on force condition
-			//if forced, it will overwrite duplicates in the destination
+			// This block copies a folder to a destination based on force condition
+			// if forced, it will overwrite duplicates in the destination
 			if(is_dir($sourcePath))
 			{
 				$success = JFolder::copy($sourcePath, $destinationPath, '', $force);
@@ -383,8 +384,8 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			}
 			else
 			{
-				//Copy a single file to a destination with the force condition
-				//It it is not forced, then it will not copy file
+				// Copy a single file to a destination with the force condition
+				// It it is not forced, then it will not copy file
 				if($force)
 				{
 					$success = JFile::copy($sourcePath, $destinationPath);
@@ -399,9 +400,9 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * If the destination folder or file already exists, it will not overwrite them without
 	 * force.
 	 *
-	 * @param   string  $sourcePath Source path of the file or directory
-	 * @param   string  $destinationPath Destination path of the file or directory
-	 * @param   bool  $force Set true to overwrite files or directories
+	 * @param   string  $sourcePath  Source path of the file or directory
+	 * @param   string  $destinationPath  Destination path of the file or directory
+	 * @param   bool    $force  Set true to overwrite files or directories
 	 *
 	 * @return bool
 	 *
@@ -410,7 +411,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 */
 	public function move($sourcePath, $destinationPath, $force = false)
 	{
-		//get absolute paths from relative paths
+		// Get absolute paths from relative paths
 		$sourcePath = $this->rootPath. $sourcePath;
 		$destinationPath = $this->rootPath . $destinationPath;
 
@@ -419,8 +420,8 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			throw new MediaFileAdapterFilenotfoundexception;
 		}
 
-		//check for existence of the file in destination
-		//if it does not exists simply copy source to destination
+		// Check for existence of the file in destination
+		// if it does not exists simply copy source to destination
 		if(!file_exists($destinationPath))
 		{
 			$success = false;
@@ -438,8 +439,8 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		}
 		else
 		{
-			//this block moves a folder to a destination based on force condition
-			//if forced, it will overwrite duplicates in the destination
+			// This block moves a folder to a destination based on force condition
+			// if forced, it will overwrite duplicates in the destination
 
 			if(is_dir($sourcePath))
 			{
@@ -452,8 +453,8 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			}
 			else
 			{
-				//Move a single file to a destination with the force condition
-				//It it is not forced, then it will not copy file
+				// Move a single file to a destination with the force condition
+				// It it is not forced, then it will not copy file
 				$success = false;
 				if($force)
 				{
@@ -467,9 +468,9 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	/**
 	 * Renames a file or directory
 	 *
-	 * @param   string  $baseDirectory base directory where the file or folder currently kept
-	 * @param   string  $currentName current name of the file or directory
-	 * @param   string  $newName new name of the file or directory
+	 * @param   string  $baseDirectory  base directory where the file or folder currently kept
+	 * @param   string  $currentName  current name of the file or directory
+	 * @param   string  $newName  new name of the file or directory
 	 *
 	 * @return  bool
 	 *
