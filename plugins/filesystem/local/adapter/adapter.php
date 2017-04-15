@@ -348,19 +348,19 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	public function copy($sourcePath, $destinationPath, $force = false)
 	{
 		// Get absolute paths from relative paths
-		$sourcePath = $this->rootPath. $sourcePath;
+		$sourcePath = $this->rootPath . $sourcePath;
 		$destinationPath = $this->rootPath . $destinationPath;
 
-		if(!file_exists($sourcePath))
+		if (!file_exists($sourcePath))
 		{
 			throw new MediaFileAdapterFilenotfoundexception;
 		}
 
 		// Check for existence of the file in destination
 		// if it does not exists simply copy source to destination
-		if(!file_exists($destinationPath))
+		if (!file_exists($destinationPath))
 		{
-			if(is_dir($sourcePath))
+			if (is_dir($sourcePath))
 			{
 				$success = JFolder::copy($sourcePath, $destinationPath);
 			}
@@ -377,7 +377,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 			// This block copies a folder to a destination based on force condition
 			// if forced, it will overwrite duplicates in the destination
-			if(is_dir($sourcePath))
+			if (is_dir($sourcePath))
 			{
 				$success = JFolder::copy($sourcePath, $destinationPath, '', $force);
 				return $success;
@@ -386,7 +386,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			{
 				// Copy a single file to a destination with the force condition
 				// It it is not forced, then it will not copy file
-				if($force)
+				if ($force)
 				{
 					$success = JFile::copy($sourcePath, $destinationPath);
 					return $success;
@@ -412,21 +412,21 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	public function move($sourcePath, $destinationPath, $force = false)
 	{
 		// Get absolute paths from relative paths
-		$sourcePath = $this->rootPath. $sourcePath;
+		$sourcePath = $this->rootPath . $sourcePath;
 		$destinationPath = $this->rootPath . $destinationPath;
 
-		if(!file_exists($sourcePath))
+		if (!file_exists($sourcePath))
 		{
 			throw new MediaFileAdapterFilenotfoundexception;
 		}
 
 		// Check for existence of the file in destination
 		// if it does not exists simply copy source to destination
-		if(!file_exists($destinationPath))
+		if (!file_exists($destinationPath))
 		{
 			$success = false;
 
-			if(is_dir($sourcePath))
+			if (is_dir($sourcePath))
 			{
 				$success = JFolder::move($sourcePath, $destinationPath);
 			}
@@ -442,7 +442,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			// This block moves a folder to a destination based on force condition
 			// if forced, it will overwrite duplicates in the destination
 
-			if(is_dir($sourcePath))
+			if (is_dir($sourcePath))
 			{
 				$success = false;
 				if($force)
@@ -456,7 +456,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 				// Move a single file to a destination with the force condition
 				// It it is not forced, then it will not copy file
 				$success = false;
-				if($force)
+				if ($force)
 				{
 					$success = JFile::move($sourcePath, $destinationPath);
 				}
@@ -483,17 +483,17 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$oldPath = $this->rootPath . $baseDirectory . $currentName;
 		$newPath = $this->rootPath . $baseDirectory . $newName;
 
-		if(!file_exists($oldPath))
+		if (!file_exists($oldPath))
 		{
 			throw new MediaFileAdapterFilenotfoundexception;
 		}
 
-		if(file_exists($newPath))
+		if (file_exists($newPath))
 		{
 			throw new Exception('Renaming not possible');
 		}
 
-		$success =  $this->move($oldPath, $newPath);
+		$success = $this->move($oldPath, $newPath);
 
 		return $success;
 	}
