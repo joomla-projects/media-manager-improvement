@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once 'adapter/adapter.php';
+JLoader::import('filesystem.local.adapter.adapter', JPATH_PLUGINS);
 
 /**
  * FileSystem Local plugin.
