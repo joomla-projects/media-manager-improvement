@@ -326,4 +326,171 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 		return $dateObj;
 	}
+
+	/**
+	 * Copies a file or folder to a destination
+	 * If the destination folder or file already exists, it will not overwrite them without
+	 * force.
+	 *
+	 * @param   string  $sourcePath       Source path of the file or directory
+	 * @param   string  $destinationPath  Destination path of the file or directory
+	 * @param   bool    $force            Set true to overwrite files or directories
+	 *
+	 * @return bool
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws MediaFileAdapterFilenotfoundexception
+	 */
+	public function copy($sourcePath, $destinationPath, $force = false)
+	{
+		// Get absolute paths from relative paths
+		$sourcePath = $this->rootPath . $sourcePath;
+		$destinationPath = $this->rootPath . $destinationPath;
+
+		if (!file_exists($sourcePath))
+		{
+			throw new MediaFileAdapterFilenotfoundexception;
+		}
+
+		// Check for existence of the file in destination
+		// if it does not exists simply copy source to destination
+		if (!file_exists($destinationPath))
+		{
+			if (is_dir($sourcePath))
+			{
+				$success = JFolder::copy($sourcePath, $destinationPath);
+			}
+			else
+			{
+				$success = JFile::copy($sourcePath, $destinationPath);
+			}
+
+			return $success;
+		}
+		else
+		{
+			$success = false;
+
+			// This block copies a folder to a destination based on force condition
+			// if forced, it will overwrite duplicates in the destination
+			if (is_dir($sourcePath))
+			{
+				$success = JFolder::copy($sourcePath, $destinationPath, '', $force);
+				return $success;
+			}
+			else
+			{
+				// Copy a single file to a destination with the force condition
+				// It it is not forced, then it will not copy file
+				if ($force)
+				{
+					$success = JFile::copy($sourcePath, $destinationPath);
+					return $success;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Moves a file or folder to a destination
+	 * If the destination folder or file already exists, it will not overwrite them without
+	 * force.
+	 *
+	 * @param   string  $sourcePath       Source path of the file or directory
+	 * @param   string  $destinationPath  Destination path of the file or directory
+	 * @param   bool    $force            Set true to overwrite files or directories
+	 *
+	 * @return bool
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws MediaFileAdapterFilenotfoundexception
+	 */
+	public function move($sourcePath, $destinationPath, $force = false)
+	{
+		// Get absolute paths from relative paths
+		$sourcePath = $this->rootPath . $sourcePath;
+		$destinationPath = $this->rootPath . $destinationPath;
+
+		if (!file_exists($sourcePath))
+		{
+			throw new MediaFileAdapterFilenotfoundexception;
+		}
+
+		// Check for existence of the file in destination
+		// if it does not exists simply copy source to destination
+		if (!file_exists($destinationPath))
+		{
+			$success = false;
+
+			if (is_dir($sourcePath))
+			{
+				$success = JFolder::move($sourcePath, $destinationPath);
+			}
+			else
+			{
+				$success = JFile::move($sourcePath, $destinationPath);
+			}
+
+			return $success;
+		}
+		else
+		{
+			// This block moves a folder to a destination based on force condition
+			// if forced, it will overwrite duplicates in the destination
+
+			if (is_dir($sourcePath))
+			{
+				$success = false;
+				if ($force)
+				{
+					$success = JFolder::move($sourcePath, $destinationPath);
+				}
+				return $success;
+			}
+			else
+			{
+				// Move a single file to a destination with the force condition
+				// It it is not forced, then it will not copy file
+				$success = false;
+				if ($force)
+				{
+					$success = JFile::move($sourcePath, $destinationPath);
+				}
+				return $success;
+			}
+		}
+	}
+
+	/**
+	 * Renames a file or directory
+	 *
+	 * @param   string  $baseDirectory  Base directory where the file or folder currently kept
+	 * @param   string  $currentName    Current name of the file or directory
+	 * @param   string  $newName        New name of the file or directory
+	 *
+	 * @return  bool
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws Exception
+	 * @throws MediaFileAdapterFilenotfoundexception
+	 */
+	public function rename($baseDirectory, $currentName, $newName)
+	{
+		$oldPath = $this->rootPath . $baseDirectory . $currentName;
+		$newPath = $this->rootPath . $baseDirectory . $newName;
+
+		if (!file_exists($oldPath))
+		{
+			throw new MediaFileAdapterFilenotfoundexception;
+		}
+
+		if (file_exists($newPath))
+		{
+			throw new Exception('Renaming not possible');
+		}
+
+		$success = $this->move($oldPath, $newPath);
+
+		return $success;
+	}
 }
