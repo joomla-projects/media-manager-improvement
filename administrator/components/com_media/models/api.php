@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 use Joomla\CMS\Model\Model;
 
 /**
@@ -39,7 +38,6 @@ class MediaModelApi extends Model
 
 		if (!isset($config['fileadapter']))
 		{
-
 			// Compile the root path
 			$root = JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('file_path', 'images');
 			$root = rtrim($root) . '/';
