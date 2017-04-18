@@ -13,7 +13,6 @@ JLoader::import('joomla.filesystem.file');
 JLoader::import('joomla.filesystem.folder');
 JLoader::import('components.com_media.libraries.media.file.adapter.interface', JPATH_ADMINISTRATOR);
 JLoader::import('components.com_media.libraries.media.file.adapter.filenotfoundexception', JPATH_ADMINISTRATOR);
-
 /**
  * Local file adapter.
  *
@@ -80,98 +79,6 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		}
 
 		return $this->getPathInformation($basePath);
-	}
-
-	/**
-	 * Returns the folder or file information for the given path. The returned object
-	 * has the following properties:
-	 * - type:          The type can be file or dir
-	 * - name:          The name of the file
-	 * - path:          The relative path to the root
-	 * - extension:     The file extension
-	 * - size:          The size of the file
-	 * - create_date:   The date created
-	 * - modified_date: The date modified
-	 * - mime_type:     The mime type
-	 * - width:         The width, when available
-	 * - height:        The height, when available
-	 *
-	 * @param   string  $path  The folder
-	 *
-	 * @return  stdClass
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function getPathInformation($path)
-	{
-		// Prepare the path
-		$path = JPath::clean($path, '/');
-
-		// The boolean if it is a dir
-		$isDir = is_dir($path);
-
-		$createDate = $this->getDate(filectime($path));
-		$modifiedDate = $this->getDate(filemtime($path));
-
-		// Set the values
-		$obj = new stdClass;
-		$obj->type = $isDir ? 'dir' : 'file';
-		$obj->name = basename($path);
-		$obj->path = str_replace($this->rootPath, '/', $path);
-		$obj->extension = !$isDir ? JFile::getExt($obj->name) : '';
-		$obj->size = !$isDir ? filesize($path) : 0;
-		$obj->mime_type = mime_content_type($path);
-		$obj->width = 0;
-		$obj->height = 0;
-
-		// Dates
-		$obj->create_date = $createDate->format('c', true);
-		$obj->create_date_formatted = $createDate->format(JText::_('DATE_FORMAT_LC5'), true);
-		$obj->modified_date = $modifiedDate->format('c', true);
-		$obj->modified_date_formatted = $modifiedDate->format(JText::_('DATE_FORMAT_LC5'), true);
-
-		if (strpos($obj->mime_type, 'image/') === 0 && JHelperMedia::isImage($obj->name))
-		{
-			// Get the image properties
-			$props = JImage::getImageFileProperties($path);
-			$obj->width = $props->width;
-			$obj->height = $props->height;
-		}
-
-		return $obj;
-	}
-
-	/**
-	 * Returns a JDate with the correct Joomla timezone for the given date.
-	 *
-	 * @param   string  $date  The date to create a JDate from
-	 *
-	 * @return  JDate[]
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function getDate($date = null)
-	{
-		$dateObj = JFactory::getDate($date);
-
-		$timezone = JFactory::getApplication()->get('offset');
-		$user = JFactory::getUser();
-
-		if ($user->id)
-		{
-			$userTimezone = $user->getParam('timezone');
-			if (!empty($userTimezone))
-			{
-				$timezone = $userTimezone;
-			}
-		}
-
-		if ($timezone)
-		{
-			$dateObj->setTimezone(new DateTimeZone($timezone));
-		}
-
-		return $dateObj;
 	}
 
 	/**
@@ -281,13 +188,14 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 */
 	public function updateFile($name, $path, $data)
 	{
-		if (!file_exists($this->rootPath . $path . '/' . $name))
+		if (!JFile::exists($this->rootPath . $path . '/' . $name))
 		{
 			throw new MediaFileAdapterFilenotfoundexception;
 		}
 
 		JFile::write($this->rootPath . $path . '/' . $name, $data);
 	}
+
 
 	/**
 	 * Deletes the folder or file of the given path.
@@ -324,5 +232,97 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		{
 			throw new Exception('Delete not possible!');
 		}
+	}
+
+	/**
+	 * Returns the folder or file information for the given path. The returned object
+	 * has the following properties:
+	 * - type:          The type can be file or dir
+	 * - name:          The name of the file
+	 * - path:          The relative path to the root
+	 * - extension:     The file extension
+	 * - size:          The size of the file
+	 * - create_date:   The date created
+	 * - modified_date: The date modified
+	 * - mime_type:     The mime type
+	 * - width:         The width, when available
+	 * - height:        The height, when available
+	 *
+	 * @param   string  $path  The folder
+	 *
+	 * @return  stdClass
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getPathInformation($path)
+	{
+		// Prepare the path
+		$path = JPath::clean($path, '/');
+
+		// The boolean if it is a dir
+		$isDir = is_dir($path);
+
+		$createDate   = $this->getDate(filectime($path));
+		$modifiedDate = $this->getDate(filemtime($path));
+
+		// Set the values
+		$obj            = new stdClass;
+		$obj->type      = $isDir ? 'dir' : 'file';
+		$obj->name      = basename($path);
+		$obj->path      = str_replace($this->rootPath, '/', $path);
+		$obj->extension = !$isDir ? JFile::getExt($obj->name) : '';
+		$obj->size      = !$isDir ? filesize($path) : 0;
+		$obj->mime_type = mime_content_type($path);
+		$obj->width     = 0;
+		$obj->height    = 0;
+
+		// Dates
+		$obj->create_date             = $createDate->format('c', true);
+		$obj->create_date_formatted   = $createDate->format(JText::_('DATE_FORMAT_LC5'), true);
+		$obj->modified_date           = $modifiedDate->format('c', true);
+		$obj->modified_date_formatted = $modifiedDate->format(JText::_('DATE_FORMAT_LC5'), true);
+
+		if (strpos($obj->mime_type, 'image/') === 0 && JHelperMedia::isImage($obj->name))
+		{
+			// Get the image properties
+			$props       = JImage::getImageFileProperties($path);
+			$obj->width  = $props->width;
+			$obj->height = $props->height;
+		}
+
+		return $obj;
+	}
+
+	/**
+	 * Returns a JDate with the correct Joomla timezone for the given date.
+	 *
+	 * @param   string  $date  The date to create a JDate from
+	 *
+	 * @return  JDate[]
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getDate($date = null)
+	{
+		$dateObj = JFactory::getDate($date);
+
+		$timezone = JFactory::getApplication()->get('offset');
+		$user     = JFactory::getUser();
+
+		if ($user->id)
+		{
+			$userTimezone = $user->getParam('timezone');
+			if (!empty($userTimezone))
+			{
+				$timezone = $userTimezone;
+			}
+		}
+
+		if ($timezone)
+		{
+			$dateObj->setTimezone(new DateTimeZone($timezone));
+		}
+
+		return $dateObj;
 	}
 }
