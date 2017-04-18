@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.filesystem.file');
 JLoader::import('joomla.filesystem.folder');
+
 JLoader::import('components.com_media.libraries.media.file.adapter.interface', JPATH_ADMINISTRATOR);
 JLoader::import('components.com_media.libraries.media.file.adapter.filenotfoundexception', JPATH_ADMINISTRATOR);
 /**
