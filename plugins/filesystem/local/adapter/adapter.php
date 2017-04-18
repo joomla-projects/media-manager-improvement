@@ -11,13 +11,8 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.filesystem.file');
 JLoader::import('joomla.filesystem.folder');
-
-// Path for Interfaces in com_media
-define('MEDIA_INTERFACE_PATH', JPATH_ADMINISTRATOR . '/components/com_media/libraries/media/file/adapter/');
-
-include_once MEDIA_INTERFACE_PATH . 'interface.php';
-include_once MEDIA_INTERFACE_PATH . 'filenotfoundexception.php';
-
+JLoader::import('components.com_media.libraries.media.file.adapter.interface', JPATH_ADMINISTRATOR);
+JLoader::import('components.com_media.libraries.media.file.adapter.filenotfoundexception', JPATH_ADMINISTRATOR);
 
 /**
  * Local file adapter.
