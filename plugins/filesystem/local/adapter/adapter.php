@@ -460,37 +460,4 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			}
 		}
 	}
-
-	/**
-	 * Renames a file or directory
-	 *
-	 * @param   string  $baseDirectory  Base directory where the file or folder currently kept
-	 * @param   string  $currentName    Current name of the file or directory
-	 * @param   string  $newName        New name of the file or directory
-	 *
-	 * @return  bool
-	 *
-	 * @since __DEPLOY_VERSION__
-	 * @throws Exception
-	 * @throws MediaFileAdapterFilenotfoundexception
-	 */
-	public function rename($baseDirectory, $currentName, $newName)
-	{
-		$oldPath = $this->rootPath . $baseDirectory . $currentName;
-		$newPath = $this->rootPath . $baseDirectory . $newName;
-
-		if (!file_exists($oldPath))
-		{
-			throw new MediaFileAdapterFilenotfoundexception;
-		}
-
-		if (file_exists($newPath))
-		{
-			throw new Exception('Renaming not possible');
-		}
-
-		$success = $this->move($oldPath, $newPath);
-
-		return $success;
-	}
 }
