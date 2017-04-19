@@ -30,7 +30,7 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 	 *
 	 * @var string
 	 */
-	protected $class = null;
+	protected $class;
 
 	/**
 	 * Sets up the environment.
