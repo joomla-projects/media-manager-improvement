@@ -25,6 +25,11 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 	 */
 	private $root = null;
 
+	/**
+	 * Used to hold an instance of plugin
+	 *
+	 * @var string
+	 */
 	protected $class = null;
 
 	/**
