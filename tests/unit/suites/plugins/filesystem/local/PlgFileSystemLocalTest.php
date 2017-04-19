@@ -17,7 +17,10 @@
 class PlgFileSystemLocalTest extends TestCaseDatabase
 {
 	/**
+	 * Variable to hold plugin
+	 *
 	 * @var   PlgFileSystemLocal
+	 *
 	 * @since __DEPLOY_VERSION__
 	 */
 	private $pluginClass = null;
