@@ -16,7 +16,7 @@ require JPATH_BASE . '/plugins/filesystem/local/local.php';
  * @subpackage  com_media
  * @since       __DEPLOY_VERSION__
  */
-class LocalAdapterTest extends TestCaseDatabase
+class PlgFileSystemLocalTest extends TestCaseDatabase
 {
 	/**
 	 * The root folder to work from.
