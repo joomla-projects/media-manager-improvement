@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require JPATH_BASE . '/plugins/filesystem/local/local.php';
+
 /**
  * Test class for local file adapter.
  *
@@ -14,7 +16,7 @@
  * @subpackage  com_media
  * @since       __DEPLOY_VERSION__
  */
-class LocalAdapterTest extends TestCaseDatabase
+class PlgFileSystemLocalTest extends TestCaseDatabase
 {
 	/**
 	 * The root folder to work from.
@@ -22,6 +24,13 @@ class LocalAdapterTest extends TestCaseDatabase
 	 * @var string
 	 */
 	private $root = null;
+
+	/**
+	 * Used to hold an instance of plugin
+	 *
+	 * @var string
+	 */
+	protected $class;
 
 	/**
 	 * Sets up the environment.
@@ -36,15 +45,24 @@ class LocalAdapterTest extends TestCaseDatabase
 		JLoader::register('JFolder', JPATH_PLATFORM . '/joomla/filesystem/folder.php');
 
 		// Add the media libraries to the class loader
-		JLoader::discover('MediaFileAdapter', JPATH_ADMINISTRATOR . '/components/com_media/libraries/media/file/adapter', true, true);
+		//JLoader::discover('MediaFileAdapter', JPATH_ADMINISTRATOR . '/components/com_media/libraries/media/file/adapter', true, true);
+
+		// Set up the application and session
+		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$session     = $this->getMockSession();
 
 		// Set up the temp root folder
 		$this->root = JPath::clean(JPATH_TESTS . '/tmp/test/');
 		JFolder::create($this->root);
 
-		// Set up the application and session
-		JFactory::$application = $this->getMockCmsApp();
-		JFactory::$session     = $this->getMockSession();
+		$dispatcher = $this->getMockDispatcher();
+		$plugin = array(
+			'name' => 'local',
+			'type' => 'FileSystem',
+			'params' => new \JRegistry
+		);
+
+		$this->class = new PlgFileSystemLocal($dispatcher, $plugin);
 	}
 
 	/**
@@ -70,7 +88,10 @@ class LocalAdapterTest extends TestCaseDatabase
 		JFile::write($this->root . 'test.txt', 'test');
 
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = $this->class->onFileSystemGetAdapters($this->root);
+
+		// Check if the class is instance of MediaFileAdapterLocal
+		$this->assertInstanceOf('MediaFileAdapterLocal', $adapter);
 
 		// Fetch the file from the root folder
 		$file = $adapter->getFile('test.txt');
@@ -102,7 +123,10 @@ class LocalAdapterTest extends TestCaseDatabase
 	public function testGetFileInvalidPath()
 	{
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = $this->class->onFileSystemGetAdapters($this->root);
+
+		// Check if the class is instance of MediaFileAdapterLocal
+		$this->assertInstanceOf('MediaFileAdapterLocal', $adapter);
 
 		// Fetch the file from the root folder
 		$adapter->getFile('invalid');
@@ -120,7 +144,10 @@ class LocalAdapterTest extends TestCaseDatabase
 		JFolder::create($this->root . 'unit');
 
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = $this->class->onFileSystemGetAdapters($this->root);
+
+		// Check if the class is instance of MediaFileAdapterLocal
+		$this->assertInstanceOf('MediaFileAdapterLocal', $adapter);
 
 		// Fetch the files from the root folder
 		$files = $adapter->getFiles();
@@ -171,7 +198,10 @@ class LocalAdapterTest extends TestCaseDatabase
 		JFolder::create($this->root . 'foo');
 
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = $this->class->onFileSystemGetAdapters($this->root);
+
+		// Check if the class is instance of MediaFileAdapterLocal
+		$this->assertInstanceOf('MediaFileAdapterLocal', $adapter);
 
 		// Fetch the files from the root folder
 		$files = $adapter->getFiles('/', 'foo');
@@ -203,7 +233,10 @@ class LocalAdapterTest extends TestCaseDatabase
 		JFile::write($this->root . 'test.txt', 'test');
 
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = $this->class->onFileSystemGetAdapters($this->root);
+
+		// Check if the class is instance of MediaFileAdapterLocal
+		$this->assertInstanceOf('MediaFileAdapterLocal', $adapter);
 
 		// Fetch the files from the root folder
 		$files = $adapter->getFiles('test.txt');
@@ -236,7 +269,10 @@ class LocalAdapterTest extends TestCaseDatabase
 	public function testGetFilesInvalidPath()
 	{
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = $this->class->onFileSystemGetAdapters($this->root);
+
+		// Check if the class is instance of MediaFileAdapterLocal
+		$this->assertInstanceOf('MediaFileAdapterLocal', $adapter);
 
 		// Fetch the file from the root folder
 		$adapter->getFiles('invalid');
@@ -250,7 +286,10 @@ class LocalAdapterTest extends TestCaseDatabase
 	public function testCreateFolder()
 	{
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = $this->class->onFileSystemGetAdapters($this->root);
+
+		// Check if the class is instance of MediaFileAdapterLocal
+		$this->assertInstanceOf('MediaFileAdapterLocal', $adapter);
 
 		// Fetch the files from the root folder
 		$adapter->createFolder('unit', '/');
@@ -267,7 +306,10 @@ class LocalAdapterTest extends TestCaseDatabase
 	public function testCreateFile()
 	{
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = $this->class->onFileSystemGetAdapters($this->root);
+
+		// Check if the class is instance of MediaFileAdapterLocal
+		$this->assertInstanceOf('MediaFileAdapterLocal', $adapter);
 
 		// Fetch the files from the root folder
 		$adapter->createFile('unit.txt', '/', 'test');
@@ -290,7 +332,10 @@ class LocalAdapterTest extends TestCaseDatabase
 		JFile::write($this->root . 'unit.txt', 'test');
 
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = $this->class->onFileSystemGetAdapters($this->root);
+
+		// Check if the class is instance of MediaFileAdapterLocal
+		$this->assertInstanceOf('MediaFileAdapterLocal', $adapter);
 
 		// Fetch the files from the root folder
 		$adapter->updateFile('unit.txt', '/', 'test 2');
@@ -312,7 +357,10 @@ class LocalAdapterTest extends TestCaseDatabase
 	public function testUpdateFileInvalidPath()
 	{
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = $this->class->onFileSystemGetAdapters($this->root);
+
+		// Check if the class is instance of MediaFileAdapterLocal
+		$this->assertInstanceOf('MediaFileAdapterLocal', $adapter);
 
 		// Fetch the file from the root folder
 		$adapter->updateFile('invalid', '/', 'test');
@@ -331,7 +379,10 @@ class LocalAdapterTest extends TestCaseDatabase
 		JFile::write($this->root . 'unit/test.txt', 'test');
 
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = $this->class->onFileSystemGetAdapters($this->root);
+
+		// Check if the class is instance of MediaFileAdapterLocal
+		$this->assertInstanceOf('MediaFileAdapterLocal', $adapter);
 
 		// Fetch the files from the root folder
 		$adapter->delete('unit');
@@ -353,7 +404,10 @@ class LocalAdapterTest extends TestCaseDatabase
 	public function testDeleteInvalidPath()
 	{
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = $this->class->onFileSystemGetAdapters($this->root);
+
+		// Check if the class is instance of MediaFileAdapterLocal
+		$this->assertInstanceOf('MediaFileAdapterLocal', $adapter);
 
 		// Fetch the file from the root folder
 		$adapter->delete('invalid');
