@@ -376,7 +376,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			// if forced, it will overwrite duplicates in the destination
 			if (is_dir($sourcePath))
 			{
-				if($force)
+				if ($force)
 				{
 					$success = JFolder::copy($sourcePath, $destinationPath, '', $force);
 				}
@@ -448,7 +448,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 				// Moves a folder
 				if ($force)
 				{
-					if($success = JFolder::copy($sourcePath, $destinationPath, '', true))
+					if ($success = JFolder::copy($sourcePath, $destinationPath, '', true))
 					{
 						$success = JFolder::delete($sourcePath);
 					}
