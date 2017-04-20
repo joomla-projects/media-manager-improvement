@@ -359,4 +359,131 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 		// Fetch the file from the root folder
 		$adapter->delete('invalid');
 	}
+
+	public function testCopy()
+	{
+		// Make some mock folders in the root
+		JFile::write($this->root . 'test-src.txt', 'test');
+		JFolder::create($this->root . 'src');
+		JFile::write($this->root . 'src/bar.txt', 'bar');
+
+		// Create the adapter
+		$adapter = new MediaFileAdapterLocal($this->root);
+
+		// Tests when destination has no conflicts
+
+		// Test file copy
+		$adapter->copy('test-src.txt', 'test-dest.txt');
+		$this->assertTrue(JFile::exists($this->root . 'test-dest.txt'));
+
+		// Test Folder copy
+		$adapter->copy('src', 'dest');
+		$this->assertTrue(JFolder::exists($this->root . 'dest'));
+		$this->assertTrue(JFile::exists($this->root . 'dest/bar.txt'));
+
+		// Cleanup created ones
+		JFolder::delete($this->root . 'dest');
+		JFile::delete($this->root . 'test-dest.txt');
+
+		// Tests when destination has conflicts
+
+		// Create some conflicts
+		JFolder::copy($this->root . 'src', $this->root . 'dest/some/src', '', true);
+
+		// Test file copy without force
+		$result = $adapter->copy('src/bar.txt', 'dest/some/src/bar.txt');
+		$this->assertFalse($result);
+
+		// Test file copy with force
+		$result = $adapter->copy('src/bar.txt', 'dest/some/src/bar.txt', true);
+		$this->assertTrue($result);
+
+		// Checks file is the copied one from src
+		$string = file_get_contents($this->root . 'dest/some/src/bar.txt');
+		$this->assertContains('bar', $string);
+
+		// Adds some additional file to foo
+		JFile::write($this->root . 'src/file', 'content');
+
+		// Test folder copy without force
+		$result = $adapter->copy('src', 'dest/some/src');
+		$this->assertFalse($result);
+
+		// Test folder copy with force
+		$result = $adapter->copy('src', 'dest/some/src', true);
+		$this->assertTrue(JFile::exists($this->root . 'dest/some/src/file'));
+		$this->assertTrue($result);
+
+		// Cleanup
+		JFolder::delete($this->root);
+		JFolder::create($this->root);
+
+		// Test for invalid files/folders
+		$this->setExpectedException('MediaFileAdapterFilenotfoundexception');
+		$adapter->copy('invalid', 'invalid');
+	}
+
+	public function testMove()
+	{
+		// Make some mock folders in the root
+		JFile::write($this->root . 'src-text.txt', 'some text here');
+		JFolder::create($this->root . 'src');
+		JFile::write($this->root . 'src/bar-test.txt', 'bar');
+
+		// Create the adapter
+		$adapter = new MediaFileAdapterLocal($this->root);
+
+		// Tests when destination has no conflicts
+
+		// Test file move
+		$adapter->move('src-text.txt', 'dest-text.txt');
+		$this->assertTrue(JFile::exists($this->root . 'dest-text.txt'));
+		$this->assertFalse(JFile::exists('src-text.txt'));
+
+		// Test Folder copy
+		$adapter->move('src', 'dest');
+		$this->assertTrue(JFolder::exists($this->root . 'dest'));
+		$this->assertTrue(JFile::exists($this->root . 'dest/bar-test.txt'));
+		$this->assertFalse(JFile::exists('src'));
+
+		// Tests when destination has conflicts
+
+		// Clean up and Create some conflicts
+		JFolder::delete($this->root);
+		JFolder::create($this->root);
+		JFile::write($this->root. 'src/some-text', 'some text');
+		JFile::write($this->root. 'src/some-another-text', 'some other text');
+		JFolder::create($this->root . 'src/some/folder');
+		JFile::write($this->root . 'dest/some-text', 'some another text');
+
+		// Test file copy without force
+		$result = $adapter->move('src/some-text', 'dest/some-text');
+		$this->assertFalse($result);
+		$this->assertTrue(JFile::exists($this->root . 'src/some-text'));
+
+		// Test file copy with force
+		$result = $adapter->move('src/some-text', 'dest/some-text', true);
+		$this->assertTrue($result);
+		$this->assertFalse(JFile::exists($this->root . 'src/some-text'));
+
+		// Checks file is the copied one from src
+		$string = file_get_contents($this->root . 'dest/some-text');
+		$this->assertContains('some text', $string);
+
+		// Test folder copy without force
+		$result = $adapter->move('src', 'dest');
+		$this->assertTrue(JFolder::exists($this->root . 'src'));
+		$this->assertFalse($result);
+
+		// Test folder copy with force
+		$result = $adapter->move('src', 'dest', true);
+		$this->assertTrue(JFile::exists($this->root . 'dest/some-another-text'));
+		$this->assertTrue(JFolder::exists($this->root . 'dest/some/folder'));
+		$this->assertFalse(JFolder::exists($this->root . 'src'));
+		$this->assertTrue($result);
+
+		// Test for invalid files/folders
+		$this->setExpectedException('MediaFileAdapterFilenotfoundexception');
+		$adapter->move('invalid', 'invalid');
+	}
 }
