@@ -354,6 +354,9 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 		// Check for existence of the file in destination
 		// if it does not exists simply copy source to destination
+
+		$success = false;
+
 		if (!file_exists($destinationPath))
 		{
 			if (is_dir($sourcePath))
@@ -369,25 +372,26 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		}
 		else
 		{
-			$success = false;
-
 			// This block copies a folder to a destination based on force condition
 			// if forced, it will overwrite duplicates in the destination
 			if (is_dir($sourcePath))
 			{
-				$success = JFolder::copy($sourcePath, $destinationPath, '', $force);
-				return $success;
+				if($force)
+				{
+					$success = JFolder::copy($sourcePath, $destinationPath, '', $force);
+				}
 			}
 			else
 			{
 				// Copy a single file to a destination with the force condition
-				// It it is not forced, then it will not copy file
+				// It it is not forced, then it will skip file
 				if ($force)
 				{
 					$success = JFile::copy($sourcePath, $destinationPath);
-					return $success;
 				}
 			}
+
+			return $success;
 		}
 	}
 
@@ -418,10 +422,11 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 		// Check for existence of the file in destination
 		// if it does not exists simply copy source to destination
+
+		$success = false;
+
 		if (!file_exists($destinationPath))
 		{
-			$success = false;
-
 			if (is_dir($sourcePath))
 			{
 				$success = JFolder::move($sourcePath, $destinationPath);
@@ -440,10 +445,13 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 			if (is_dir($sourcePath))
 			{
-				$success = false;
+				// Moves a folder
 				if ($force)
 				{
-					$success = JFolder::move($sourcePath, $destinationPath);
+					if($success = JFolder::copy($sourcePath, $destinationPath, '', true))
+					{
+						$success = JFolder::delete($sourcePath);
+					}
 				}
 				return $success;
 			}
@@ -451,7 +459,6 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			{
 				// Move a single file to a destination with the force condition
 				// It it is not forced, then it will not copy file
-				$success = false;
 				if ($force)
 				{
 					$success = JFile::move($sourcePath, $destinationPath);
