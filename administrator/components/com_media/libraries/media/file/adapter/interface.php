@@ -135,6 +135,8 @@ interface MediaFileAdapterInterface
 	public function move($sourcePath, $destinationPath, $force);
 
 	/**
+	 * Copies a file or folder from source to destination
+	 *
 	 * @param   string  $sourcePath       The source path
 	 * @param   string  $destinationPath  The destination path
 	 * @param   bool    $force            Force to overwrite
