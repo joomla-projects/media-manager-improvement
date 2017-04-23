@@ -123,9 +123,9 @@ interface MediaFileAdapterInterface
 	/**
 	 * Moves a file or folder from source to destination
 	 *
-	 * @param   string  $sourcePath  The source path
+	 * @param   string  $sourcePath       The source path
 	 * @param   string  $destinationPath  The destination path
-	 * @param   bool    $force  Force to overwrite
+	 * @param   bool    $force            Force to overwrite
 	 *
 	 * @return bool
 	 *
@@ -135,9 +135,9 @@ interface MediaFileAdapterInterface
 	public function move($sourcePath, $destinationPath, $force);
 
 	/**
-	 * @param $sourcePath
-	 * @param $destinationPath
-	 * @param $force
+	 * @param   string  $sourcePath       The source path
+	 * @param   string  $destinationPath  The destination path
+	 * @param   bool    $force            Force to overwrite
 	 *
 	 * @return bool
 	 *
