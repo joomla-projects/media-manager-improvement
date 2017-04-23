@@ -355,44 +355,92 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		// Check for existence of the file in destination
 		// if it does not exists simply copy source to destination
 
-		$success = false;
-
-		if (!file_exists($destinationPath))
+		if (is_dir($sourcePath))
 		{
-			if (is_dir($sourcePath))
-			{
-				$success = JFolder::copy($sourcePath, $destinationPath);
-			}
-			else
-			{
-				$success = JFile::copy($sourcePath, $destinationPath);
-			}
-
+			$success = $this->copyFolder($sourcePath, $destinationPath, $force);
 			return $success;
 		}
 		else
 		{
-			// This block copies a folder to a destination based on force condition
-			// if forced, it will overwrite duplicates in the destination
-			if (is_dir($sourcePath))
+			$success = $this->copyFile($sourcePath, $destinationPath, $force);
+			return $success;
+		}
+	}
+
+	/**
+	 * @param   string  $sourcePath       Source path of the file or directory
+	 * @param   string  $destinationPath  Destination path of the file or directory
+	 * @param   bool    $force            Set true to overwrite files or directories
+	 *
+	 * @return bool
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function copyFile($sourcePath, $destinationPath, $force = false)
+	{
+		$fileExists = file_exists($destinationPath);
+		if (!$fileExists)
+		{
+			$success = JFile::copy($sourcePath, $destinationPath);
+			return $success;
+		}
+		else
+		{
+			// Overwrite file if it is forced, otherwise skip
+			// We do not allow to copy same file name to a existing folder in destination
+			if ($force && !is_dir($destinationPath))
 			{
+				$success = JFile::copy($sourcePath, $destinationPath);
+				return $success;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param   string  $sourcePath       Source path of the file or directory
+	 * @param   string  $destinationPath  Destination path of the file or directory
+	 * @param   bool    $force            Set true to overwrite files or directories
+	 *
+	 * @return bool
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function copyFolder($sourcePath, $destinationPath, $force = false)
+	{
+		if (file_exists($destinationPath))
+		{
+			if (is_dir($destinationPath))
+			{
+				// We need to bypass exception thrown in JFolder when destination exists
+				// So we only copy it in forced condition
 				if ($force)
 				{
 					$success = JFolder::copy($sourcePath, $destinationPath, '', $force);
+					return $success;
 				}
 			}
 			else
 			{
-				// Copy a single file to a destination with the force condition
-				// It it is not forced, then it will skip file
-				if ($force)
+				// Sometimes a file with destination path could exists
+				// If forced we can delete it and copy folder
+				if($force)
 				{
-					$success = JFile::copy($sourcePath, $destinationPath);
+					JFile::delete($destinationPath);
+					$success = JFolder::copy($sourcePath, $destinationPath, '', $force);
+					return $success;
 				}
 			}
-
+		}
+		else
+		{
+			// Perform usual copy
+			$success = JFolder::copy($sourcePath, $destinationPath);
 			return $success;
 		}
+
+		return false;
 	}
 
 	/**
@@ -420,51 +468,125 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			throw new MediaFileAdapterFilenotfoundexception;
 		}
 
-		// Check for existence of the file in destination
-		// if it does not exists simply copy source to destination
-
-		$success = false;
-
-		if (!file_exists($destinationPath))
+		if (is_dir($sourcePath))
 		{
-			if (is_dir($sourcePath))
-			{
-				$success = JFolder::move($sourcePath, $destinationPath);
-			}
-			else
-			{
-				$success = JFile::move($sourcePath, $destinationPath);
-			}
-
+			$success = $this->moveFolder($sourcePath, $destinationPath, $force);
 			return $success;
 		}
 		else
 		{
-			// This block moves a folder to a destination based on force condition
-			// if forced, it will overwrite duplicates in the destination
+			$success = $this->moveFile($sourcePath, $destinationPath, $force);
+			return $success;
+		}
+	}
 
-			if (is_dir($sourcePath))
+	/**
+	 * Moves a file
+	 *
+	 * @param   string  $sourcePath       Absolute path of source
+	 * @param   string  $destinationPath  Absolute path of destination
+	 * @param   bool    $force            Set true to overwrite file if exists
+	 *
+	 * @return bool
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function moveFile($sourcePath, $destinationPath, $force = false)
+	{
+		if (!file_exists($destinationPath))
+		{
+			$success  = JFile::move($sourcePath, $destinationPath);
+			return $success;
+		}
+		else
+		{
+			if ($force && !is_dir($destinationPath))
 			{
-				// Moves a folder
+				$success  = JFile::move($sourcePath, $destinationPath);
+				return $success;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Moves a folder from source to destination
+	 *
+	 * @param   string  $sourcePath       Source path of the file or directory
+	 * @param   string  $destinationPath  Destination path of the file or directory
+	 * @param   bool    $force            Set true to overwrite files or directories
+	 *
+	 * @return bool
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function moveFolder($sourcePath, $destinationPath, $force = false)
+	{
+		if (file_exists($destinationPath))
+		{
+			if (is_dir($destinationPath))
+			{
+				// We need to bypass exception thrown in JFolder when destination exists
+				// So we only copy it in forced condition, then delete the source to simulate a move
 				if ($force)
 				{
-					if ($success = JFolder::copy($sourcePath, $destinationPath, '', true))
+					$copy_success = JFolder::copy($sourcePath, $destinationPath, '', $force);
+					$delete_success = false;
+
+					if ($copy_success)
 					{
-						$success = JFolder::delete($sourcePath);
+						$delete_success = JFolder::delete($sourcePath);
 					}
+
+					return $copy_success && $delete_success;
 				}
-				return $success;
 			}
 			else
 			{
-				// Move a single file to a destination with the force condition
-				// It it is not forced, then it will not copy file
-				if ($force)
+				// Sometimes a file with destination path could exists
+				// If forced we can delete it and move folder
+				if($force)
 				{
-					$success = JFile::move($sourcePath, $destinationPath);
+					$delete_success = JFile::delete($destinationPath);
+					$move_success = false;
+					if ($delete_success)
+					{
+						$move_success = JFolder::move($sourcePath, $destinationPath);
+					}
+
+					return self::convertToBool($move_success) && $delete_success;
 				}
-				return $success;
 			}
+		}
+		else
+		{
+			// Perform usual move
+			$success = JFolder::move($sourcePath, $destinationPath);
+			return self::convertToBool($success);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Some functions return errors on fail and true on success
+	 * This function will convert them to simple boolean values
+	 *
+	 * @param   object  $value  any PHP value
+	 *
+	 * @return bool
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	private static function convertToBool($value)
+	{
+		if (is_bool($value))
+		{
+			return $value;
+		}else
+		{
+			return false;
 		}
 	}
 }
