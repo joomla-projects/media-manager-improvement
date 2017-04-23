@@ -429,7 +429,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			{
 				// Sometimes a file with destination path could exists
 				// If forced we can delete it and copy folder
-				if($force)
+				if ($force)
 				{
 					JFile::delete($destinationPath);
 					$success = JFolder::copy($sourcePath, $destinationPath, '', $force);
@@ -550,7 +550,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			{
 				// Sometimes a file with destination path could exists
 				// If forced we can delete it and move folder
-				if($force)
+				if ($force)
 				{
 					$delete_success = JFile::delete($destinationPath);
 					$move_success = false;
@@ -588,7 +588,8 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		if (is_bool($value))
 		{
 			return $value;
-		}else
+		}
+		else
 		{
 			return false;
 		}
