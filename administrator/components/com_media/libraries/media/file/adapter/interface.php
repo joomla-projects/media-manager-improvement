@@ -119,4 +119,30 @@ interface MediaFileAdapterInterface
 	 * @throws  Exception
 	 */
 	public function delete($path);
+
+	/**
+	 * Moves a file or folder from source to destination
+	 *
+	 * @param   string  $sourcePath  The source path
+	 * @param   string  $destinationPath  The destination path
+	 * @param   bool    $force  Force to overwrite
+	 *
+	 * @return bool
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	public function move($sourcePath, $destinationPath, $force);
+
+	/**
+	 * @param $sourcePath
+	 * @param $destinationPath
+	 * @param $force
+	 *
+	 * @return bool
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	public function copy($sourcePath, $destinationPath, $force);
 }
