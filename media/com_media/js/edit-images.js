@@ -168,38 +168,42 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
 	// Once the DOM is ready, initialize everything
 	document.addEventListener('DOMContentLoaded', function() {
-		// @TODO This needs a good refactoring once we'll get the new UI/C-E
-		// Crap to satisfy jQuery's slowlyness!!!
-		var func = function() {
-			var links = [].slice.call(document.querySelectorAll('[data-toggle="tab"]'));
+			var links = [].slice.call(document.querySelector('joomla-ui-tabs').querySelectorAll('li'));
+			links[0].querySelector('a').classList.add('active');
+			document.getElementById(links[0].querySelector('a').hash.replace('#', '')).classList.add('active');
 
 			if (links.length) {
 				// Couple the tabs with the plugin objects
 				for (var i = 0, l = links.length; i < l; i++){
-					jQuery(links[i]).on('shown.bs.tab', function(event) {
-						var data, contents;
-						if (event.relatedTarget) {
-							Joomla.MediaManager.Edit[event.relatedTarget.hash.replace('#attrib-', '').toLowerCase()].Deactivate();
+					var linkable = links[i].querySelector('a');
+					console.log(linkable)
+					if (linkable){
+						linkable.addEventListener('shown.bs.tab', function(event) {
+							var data, contents;
+							console.log(event)
+							console.log(event.target)
+							if (event.relatedTarget) {
+								Joomla.MediaManager.Edit[event.relatedTarget.hash.replace('#', '').toLowerCase()].Deactivate();
 
-							// Clear the DOM
-							document.getElementById('media-manager-edit-container').innerHTML = '';
-						}
+								// Clear the DOM
+								document.getElementById('media-manager-edit-container').innerHTML = '';
+							}
 
-						if (!contents in Joomla.MediaManager.Edit.current) {
-							data = Joomla.MediaManager.Edit.original;
-						} else {
-							data = Joomla.MediaManager.Edit.current;
-						}
+							if (!contents in Joomla.MediaManager.Edit.current) {
+								data = Joomla.MediaManager.Edit.original;
+							} else {
+								data = Joomla.MediaManager.Edit.current;
+							}
 
-						Joomla.MediaManager.Edit[event.target.hash.replace('#attrib-', '').toLowerCase()].Activate(data);
-					});
+							Joomla.MediaManager.Edit[event.target.hash.replace('#', '').toLowerCase()].Activate(data);
+						});
+					}
 				}
 
-				// Activate the first plugin
-				Joomla.MediaManager.Edit[links[0].hash.replace('#attrib-', '').toLowerCase()].Activate(Joomla.MediaManager.Edit.original);
-			}
-		};
+				document.getElementById(links[0].querySelector('a').getAttribute("aria-controls")).classList.add('active');
 
-		setTimeout(func, 100); // jQuery...
+				// Activate the first plugin
+				Joomla.MediaManager.Edit[links[0].querySelector('a').getAttribute("aria-controls")].Activate(Joomla.MediaManager.Edit.original);
+			}
 	});
 })();

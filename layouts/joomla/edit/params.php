@@ -22,7 +22,7 @@ $ignoreFieldsets = $displayData->get('ignore_fieldsets') ?: array();
 $ignoreFields    = $displayData->get('ignore_fields') ?: array();
 $extraFields     = $displayData->get('extra_fields') ?: array();
 $tabName         = $displayData->get('tab_name') ?: 'myTab';
-
+$class           = '';
 if (!empty($displayData->hiddenFieldsets))
 {
 	// These are required to preserve data on save when fields are not displayed.
@@ -63,7 +63,9 @@ if ($displayData->get('show_options', 1))
 			$label = JText::_($label);
 		}
 
-		echo JHtml::_('bootstrap.addTab', $tabName, 'attrib-' . $name, $label);
+//		echo JHtml::_('bootstrap.addTab', $tabName, 'attrib-' . $name, $label);
+
+		echo '<div id="' . $name . '" role="tabpanel" data-li-name="' . $label . '" class="' . $class . '">';
 
 		if (isset($fieldSet->description) && trim($fieldSet->description))
 		{
@@ -73,7 +75,8 @@ if ($displayData->get('show_options', 1))
 		$displayData->fieldset = $name;
 		echo JLayoutHelper::render('joomla.edit.fieldset', $displayData);
 
-		echo JHtml::_('bootstrap.endTab');
+		echo '</div>';
+//		echo JHtml::_('bootstrap.endTab');
 	}
 }
 else
