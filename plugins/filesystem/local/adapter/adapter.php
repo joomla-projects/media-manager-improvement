@@ -368,6 +368,8 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	}
 
 	/**
+	 * Copies a file
+	 *
 	 * @param   string  $sourcePath       Source path of the file or directory
 	 * @param   string  $destinationPath  Destination path of the file or directory
 	 * @param   bool    $force            Set true to overwrite files or directories
@@ -399,6 +401,8 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	}
 
 	/**
+	 * Copies a folder
+	 *
 	 * @param   string  $sourcePath       Source path of the file or directory
 	 * @param   string  $destinationPath  Destination path of the file or directory
 	 * @param   bool    $force            Set true to overwrite files or directories
@@ -573,7 +577,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * Some functions return errors on fail and true on success
 	 * This function will convert them to simple boolean values
 	 *
-	 * @param   object  $value  any PHP value
+	 * @param   object  $value  any PHP object
 	 *
 	 * @return bool
 	 *
