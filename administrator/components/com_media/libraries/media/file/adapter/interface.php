@@ -132,7 +132,7 @@ interface MediaFileAdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public function move($sourcePath, $destinationPath, $force);
+	public function move($sourcePath, $destinationPath, $force = false);
 
 	/**
 	 * Copies a file or folder from source to destination
@@ -146,5 +146,5 @@ interface MediaFileAdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public function copy($sourcePath, $destinationPath, $force);
+	public function copy($sourcePath, $destinationPath, $force = false);
 }
