@@ -357,13 +357,11 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 		if (is_dir($sourcePath))
 		{
-			$success = $this->copyFolder($sourcePath, $destinationPath, $force);
-			return $success;
+			$this->copyFolder($sourcePath, $destinationPath, $force);
 		}
 		else
 		{
-			$success = $this->copyFile($sourcePath, $destinationPath, $force);
-			return $success;
+			$this->copyFile($sourcePath, $destinationPath, $force);
 		}
 	}
 
@@ -374,17 +372,19 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @param   string  $destinationPath  Destination path of the file or directory
 	 * @param   bool    $force            Set true to overwrite files or directories
 	 *
-	 * @return bool
+	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
+     * @throws  Exception
 	 */
 	protected function copyFile($sourcePath, $destinationPath, $force = false)
 	{
+	    $success = false;
+
 		$fileExists = file_exists($destinationPath);
 		if (!$fileExists)
 		{
 			$success = JFile::copy($sourcePath, $destinationPath);
-			return $success;
 		}
 		else
 		{
@@ -393,11 +393,13 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			if ($force && !is_dir($destinationPath))
 			{
 				$success = JFile::copy($sourcePath, $destinationPath);
-				return $success;
 			}
 		}
 
-		return false;
+		if (!$success)
+        {
+            throw new Exception('Copy is not possible');
+        }
 	}
 
 	/**
@@ -407,12 +409,15 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @param   string  $destinationPath  Destination path of the file or directory
 	 * @param   bool    $force            Set true to overwrite files or directories
 	 *
-	 * @return bool
+	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
+     * @throws  Exception
 	 */
 	protected function copyFolder($sourcePath, $destinationPath, $force = false)
 	{
+	    $success = false;
+
 		if (file_exists($destinationPath))
 		{
 			if (is_dir($destinationPath))
@@ -422,7 +427,6 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 				if ($force)
 				{
 					$success = JFolder::copy($sourcePath, $destinationPath, '', $force);
-					return $success;
 				}
 			}
 			else
@@ -433,7 +437,6 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 				{
 					JFile::delete($destinationPath);
 					$success = JFolder::copy($sourcePath, $destinationPath, '', $force);
-					return $success;
 				}
 			}
 		}
@@ -441,10 +444,12 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		{
 			// Perform usual copy
 			$success = JFolder::copy($sourcePath, $destinationPath);
-			return $success;
 		}
 
-		return false;
+		if (!$success)
+        {
+            throw new Exception('Copy is not possible');
+        }
 	}
 
 	/**
@@ -456,7 +461,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @param   string  $destinationPath  Destination path of the file or directory
 	 * @param   bool    $force            Set true to overwrite files or directories
 	 *
-	 * @return bool
+	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
 	 * @throws MediaFileAdapterFilenotfoundexception
@@ -474,13 +479,11 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 		if (is_dir($sourcePath))
 		{
-			$success = $this->moveFolder($sourcePath, $destinationPath, $force);
-			return $success;
+			$this->moveFolder($sourcePath, $destinationPath, $force);
 		}
 		else
 		{
-			$success = $this->moveFile($sourcePath, $destinationPath, $force);
-			return $success;
+			$this->moveFile($sourcePath, $destinationPath, $force);
 		}
 	}
 
@@ -491,27 +494,30 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @param   string  $destinationPath  Absolute path of destination
 	 * @param   bool    $force            Set true to overwrite file if exists
 	 *
-	 * @return bool
+	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
+     * @throws  Exception
 	 */
 	protected function moveFile($sourcePath, $destinationPath, $force = false)
 	{
+	    $success = false;
 		if (!file_exists($destinationPath))
 		{
 			$success  = JFile::move($sourcePath, $destinationPath);
-			return $success;
 		}
 		else
 		{
 			if ($force && !is_dir($destinationPath))
 			{
 				$success  = JFile::move($sourcePath, $destinationPath);
-				return $success;
 			}
 		}
 
-		return false;
+		if (!$success)
+        {
+            throw new Exception('Move is not possible');
+        }
 	}
 
 	/**
@@ -521,9 +527,10 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @param   string  $destinationPath  Destination path of the file or directory
 	 * @param   bool    $force            Set true to overwrite files or directories
 	 *
-	 * @return bool
+	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
+     * @throws  Exception
 	 */
 	protected function moveFolder($sourcePath, $destinationPath, $force = false)
 	{
@@ -535,15 +542,25 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 				// So we only copy it in forced condition, then delete the source to simulate a move
 				if ($force)
 				{
-					$copy_success = JFolder::copy($sourcePath, $destinationPath, '', $force);
-					$delete_success = false;
+					$copySuccess = JFolder::copy($sourcePath, $destinationPath, '', $force);
+					$deleteSuccess = false;
 
-					if ($copy_success)
+					if ($copySuccess)
 					{
-						$delete_success = JFolder::delete($sourcePath);
+						$deleteSuccess = JFolder::delete($sourcePath);
 					}
+					else
+                    {
+                        // Undo previous copy
+                        JFolder::delete($destinationPath);
+                    }
 
-					return $copy_success && $delete_success;
+
+					if (!$copySuccess && !$deleteSuccess)
+                    {
+                        throw new Exception('Move not possible');
+                    }
+
 				}
 			}
 			else
@@ -552,46 +569,31 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 				// If forced we can delete it and move folder
 				if ($force)
 				{
-					$delete_success = JFile::delete($destinationPath);
-					$move_success = false;
-					if ($delete_success)
+					$deleteSuccess = JFile::delete($destinationPath);
+					$value = false;
+					if ($deleteSuccess)
 					{
-						$move_success = JFolder::move($sourcePath, $destinationPath);
+						$value = JFolder::move($sourcePath, $destinationPath);
 					}
 
-					return self::convertToBool($move_success) && $delete_success;
+					if ($value === false)
+                    {
+                        throw new Exception($value);
+                    }
+
 				}
 			}
 		}
 		else
 		{
 			// Perform usual move
-			$success = JFolder::move($sourcePath, $destinationPath);
-			return self::convertToBool($success);
+			$value = JFolder::move($sourcePath, $destinationPath);
+
+            if ($value === false)
+            {
+                throw new Exception($value);
+            }
 		}
 
-		return false;
-	}
-
-	/**
-	 * Some functions return errors on fail and true on success
-	 * This function will convert them to simple boolean values
-	 *
-	 * @param   object  $value  any PHP object
-	 *
-	 * @return bool
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	private static function convertToBool($value)
-	{
-		if (is_bool($value))
-		{
-			return $value;
-		}
-		else
-		{
-			return false;
-		}
 	}
 }
