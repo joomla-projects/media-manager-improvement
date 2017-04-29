@@ -582,20 +582,20 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 					}
 				}
 
-				if ($value === false)
+				if ($value !== true)
 				{
-					throw new Exception('Move not possible');
+					throw new Exception($value);
 				}
 			}
 		}
 		else
 		{
-			// Perform usual move
+			// Perform usual moves
 			$value = JFolder::move($sourcePath, $destinationPath);
 
-			if ($value === false)
+			if ($value !== true)
 			{
-				throw new Exception('Move not possible');
+				throw new Exception($value);
 			}
 		}
 
