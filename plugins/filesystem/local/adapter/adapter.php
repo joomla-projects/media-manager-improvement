@@ -375,11 +375,11 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
-     * @throws  Exception
+	 * @throws  Exception
 	 */
 	protected function copyFile($sourcePath, $destinationPath, $force = false)
 	{
-	    $success = false;
+		$success = false;
 
 		$fileExists = file_exists($destinationPath);
 		if (!$fileExists)
@@ -397,9 +397,9 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		}
 
 		if (!$success)
-        {
-            throw new Exception('Copy is not possible');
-        }
+		{
+			throw new Exception('Copy is not possible');
+		}
 
 	}
 
@@ -413,11 +413,11 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
-     * @throws  Exception
+	 * @throws  Exception
 	 */
 	protected function copyFolder($sourcePath, $destinationPath, $force = false)
 	{
-	    $success = false;
+		$success = false;
 
 		if (file_exists($destinationPath))
 		{
@@ -448,9 +448,9 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		}
 
 		if (!$success)
-        {
-            throw new Exception('Copy is not possible');
-        }
+		{
+			throw new Exception('Copy is not possible');
+		}
 
 	}
 
@@ -500,11 +500,11 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
-     * @throws  Exception
+	 * @throws  Exception
 	 */
 	protected function moveFile($sourcePath, $destinationPath, $force = false)
 	{
-	    $success = false;
+		$success = false;
 		if (!file_exists($destinationPath))
 		{
 			$success  = JFile::move($sourcePath, $destinationPath);
@@ -518,9 +518,9 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		}
 
 		if (!$success)
-        {
-            throw new Exception('Move is not possible');
-        }
+		{
+			throw new Exception('Move is not possible');
+		}
 
 	}
 
@@ -534,7 +534,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
-     * @throws  Exception
+	 * @throws  Exception
 	 */
 	protected function moveFolder($sourcePath, $destinationPath, $force = false)
 	{
@@ -545,7 +545,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 				// We need to bypass exception thrown in JFolder when destination exists
 				// So we only copy it in forced condition, then delete the source to simulate a move
 
-                $success = false;
+				$success = false;
 				if ($force)
 				{
 					$copySuccess = JFolder::copy($sourcePath, $destinationPath, '', true);
@@ -556,27 +556,27 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 						$deleteSuccess = JFolder::delete($sourcePath);
 					}
 					else
-                    {
-                        // Undo previous copy
-                        JFolder::delete($destinationPath);
-                    }
+					{
+						// Undo previous copy
+						JFolder::delete($destinationPath);
+					}
 
 					$success = $copySuccess && $deleteSuccess;
 				}
 
 				if (!$success)
-                {
-                    throw new Exception('Move not possible');
-                }
+				{
+					throw new Exception('Move not possible');
+				}
 			}
 			else
 			{
 				// Sometimes a file with destination path could exists
 				// If forced we can delete it and move folder
 
-                $value = false;
+				$value = false;
 
-                if ($force)
+				if ($force)
 				{
 					$deleteSuccess = JFile::delete($destinationPath);
 
@@ -586,10 +586,10 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 					}
 				}
 
-                if ($value === false)
-                {
-                    throw new Exception($value);
-                }
+				if ($value === false)
+				{
+					throw new Exception($value);
+				}
 			}
 		}
 		else
@@ -597,10 +597,10 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			// Perform usual move
 			$value = JFolder::move($sourcePath, $destinationPath);
 
-            if ($value === false)
-            {
-                throw new Exception($value);
-            }
+			if ($value === false)
+			{
+				throw new Exception($value);
+			}
 		}
 
 	}
