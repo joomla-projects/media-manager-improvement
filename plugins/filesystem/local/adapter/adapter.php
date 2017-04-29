@@ -588,7 +588,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 				if ($value === false)
 				{
-					throw new Exception($value);
+					throw new Exception('Move not possible');
 				}
 			}
 		}
@@ -599,7 +599,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 			if ($value === false)
 			{
-				throw new Exception($value);
+				throw new Exception('Move not possible');
 			}
 		}
 
