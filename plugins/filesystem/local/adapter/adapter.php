@@ -336,7 +336,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @param   string  $destinationPath  Destination path of the file or directory
 	 * @param   bool    $force            Set true to overwrite files or directories
 	 *
-	 * @return bool
+	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
 	 * @throws MediaFileAdapterFilenotfoundexception
