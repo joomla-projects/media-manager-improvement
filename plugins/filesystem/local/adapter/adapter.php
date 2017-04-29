@@ -400,6 +400,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
         {
             throw new Exception('Copy is not possible');
         }
+
 	}
 
 	/**
@@ -450,6 +451,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
         {
             throw new Exception('Copy is not possible');
         }
+
 	}
 
 	/**
@@ -485,6 +487,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		{
 			$this->moveFile($sourcePath, $destinationPath, $force);
 		}
+
 	}
 
 	/**
@@ -518,6 +521,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
         {
             throw new Exception('Move is not possible');
         }
+
 	}
 
 	/**
@@ -600,4 +604,5 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		}
 
 	}
+
 }
