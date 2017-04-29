@@ -540,9 +540,11 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			{
 				// We need to bypass exception thrown in JFolder when destination exists
 				// So we only copy it in forced condition, then delete the source to simulate a move
+
+                $success = false;
 				if ($force)
 				{
-					$copySuccess = JFolder::copy($sourcePath, $destinationPath, '', $force);
+					$copySuccess = JFolder::copy($sourcePath, $destinationPath, '', true);
 					$deleteSuccess = false;
 
 					if ($copySuccess)
@@ -555,33 +557,35 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
                         JFolder::delete($destinationPath);
                     }
 
-
-					if (!$copySuccess && !$deleteSuccess)
-                    {
-                        throw new Exception('Move not possible');
-                    }
-
+					$success = $copySuccess && $deleteSuccess;
 				}
+
+				if (!$success)
+                {
+                    throw new Exception('Move not possible');
+                }
 			}
 			else
 			{
 				// Sometimes a file with destination path could exists
 				// If forced we can delete it and move folder
-				if ($force)
+
+                $value = false;
+
+                if ($force)
 				{
 					$deleteSuccess = JFile::delete($destinationPath);
-					$value = false;
+
 					if ($deleteSuccess)
 					{
 						$value = JFolder::move($sourcePath, $destinationPath);
 					}
-
-					if ($value === false)
-                    {
-                        throw new Exception($value);
-                    }
-
 				}
+
+                if ($value === false)
+                {
+                    throw new Exception($value);
+                }
 			}
 		}
 		else
