@@ -127,7 +127,7 @@ interface MediaFileAdapterInterface
 	 * @param   string  $destinationPath  The destination path
 	 * @param   bool    $force            Force to overwrite
 	 *
-	 * @return bool
+	 * @return void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
@@ -141,7 +141,7 @@ interface MediaFileAdapterInterface
 	 * @param   string  $destinationPath  The destination path
 	 * @param   bool    $force            Force to overwrite
 	 *
-	 * @return bool
+	 * @return void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
