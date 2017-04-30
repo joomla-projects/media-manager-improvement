@@ -162,25 +162,25 @@
   bottom: 0;
   color: #BBB; }
 
-@media only screen and (max-width: 1140px) {
+@media only screen and (max-width: 1420px) {
   .media-browser-item {
-    width: calc(20% - 15px); }
+    width: calc(20% - 20px); }
   .media-browser-item-preview {
     font-size: 50px; } }
 
+@media only screen and (max-width: 1140px) {
+  .media-browser-item {
+    width: calc(25% - 20px); } }
+
 @media only screen and (max-width: 960px) {
   .media-browser-item {
-    width: calc(25% - 15px); } }
-
-@media only screen and (max-width: 720px) {
-  .media-browser-item {
-    width: calc(33.33% - 15px); }
+    width: calc(33.33% - 20px); }
   .media-browser-item-preview {
     font-size: 40px; } }
 
-@media only screen and (max-width: 540px) {
+@media only screen and (max-width: 720px) {
   .media-browser-item {
-    width: calc(50% - 15px); } }
+    width: calc(50% - 20px); } }
 
 .media-infobar {
   background-color: #fafafa;
