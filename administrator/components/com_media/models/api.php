@@ -55,7 +55,8 @@ class MediaModelApi extends Model
 			}
 		}
 
-		$this->adapter = $config['fileadapter'];
+		if (isset($config['fileadapter']))
+            $this->adapter = $config['fileadapter'];
 	}
 
 	/**
@@ -90,6 +91,9 @@ class MediaModelApi extends Model
 	 */
 	public function getFiles($path = '/', $filter = '')
 	{
+	    if (!$this->adapter)
+	        return array();
+
 		return $this->adapter->getFiles($path, $filter);
 	}
 
