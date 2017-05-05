@@ -53,6 +53,7 @@
   white-space: nowrap;
   overflow: hidden;
 }
+
 .media-browser-select {
   position: absolute;
   top: 6px;
@@ -94,6 +95,7 @@
     opacity: 1;
   }
 }
+
 .media-browser-actions {
   position: absolute;
   right: 0;
@@ -121,6 +123,7 @@
     }
   }
 }
+
 .image-browser-action {
   height: $image-edit-icon-size;
   width: $image-edit-icon-size;
@@ -137,12 +140,6 @@
   &:hover {
     background-color: white;
     color: #464a4c;
-  }
-}
-
-.selected {
-  .image-cropped, .file-background, .folder-background {
-    // box-shadow: 0 0 0 3px #007eb7 inset;
   }
 }
 
