@@ -18,6 +18,9 @@ JHtml::_('script', 'com_media/edit-images.js', array('version' => 'auto', 'relat
 
 $params = JComponentHelper::getParams('com_media');
 
+// Add stylesheets
+JHtml::_('stylesheet', 'media/com_media/css/mediamanager.css');
+
 /**
  * @var JForm $form
  */
@@ -52,18 +55,20 @@ JFactory::getDocument()->addStyleDeclaration("	.btn-group {
 	}");
 
 ?>
-<form action="#" method="post" name="adminForm" id="media-form" class="form-validate">
-<?php
-$fieldSets = $form->getFieldsets();
+<div class="row">
+	<form action="#" method="post" name="adminForm" id="media-form" class="form-validate col-md-3">
+	<?php
+	$fieldSets = $form->getFieldsets();
 
-if ($fieldSets)
-{
-	echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name));
+	if ($fieldSets)
+	{
+		echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name));
 
-	echo JLayoutHelper::render('joomla.edit.params', $this);
+		echo JLayoutHelper::render('joomla.edit.params', $this);
 
-	echo JHtml::_('bootstrap.endTabSet');
-}
-?>
-</form>
-<div id="media-manager-edit-container"></div>
+		echo JHtml::_('bootstrap.endTabSet');
+	}
+	?>
+	</form>
+	<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around form-validate col-md-9"></div>
+</div>
