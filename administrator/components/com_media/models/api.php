@@ -221,7 +221,7 @@ class MediaModelApi extends Model
 	 *
 	 * @param   string  $sourcePath        Source path of the file or folder(relative)
 	 * @param   string  $destinationPath   Destination path(relative)
-	 * @param   bool  $force               Force to overwrite
+	 * @param   bool    $force             Force to overwrite
      *
      * @return void
 	 *
@@ -239,7 +239,7 @@ class MediaModelApi extends Model
 	 *
 	 * @param   string  $sourcePath        Source path of the file or folder(relative)
 	 * @param   string  $destinationPath   Destination path(relative)
-	 * @param   bool  $force               Force to overwrite
+	 * @param   bool    $force             Force to overwrite
      *
      * @return void
 	 *
