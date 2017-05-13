@@ -222,8 +222,8 @@ class MediaModelApi extends Model
 	 * @param   string  $sourcePath       Source path of the file or folder(relative)
 	 * @param   string  $destinationPath  Destination path(relative)
 	 * @param   bool    $force            Force to overwrite
-     *
-     * @return void
+	 *
+	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
 	 * @throws  Exception
@@ -240,14 +240,14 @@ class MediaModelApi extends Model
 	 * @param   string  $sourcePath       Source path of the file or folder(relative)
 	 * @param   string  $destinationPath  Destination path(relative)
 	 * @param   bool    $force            Force to overwrite
-     *
-     * @return void
+	 *
+	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
 	public function move($sourcePath, $destinationPath, $force = false)
 	{
-		$this->adapter->move($sourcePath, $destinationPath, $force);
+		 $this->adapter->move($sourcePath, $destinationPath, $force);
 	}
 }
