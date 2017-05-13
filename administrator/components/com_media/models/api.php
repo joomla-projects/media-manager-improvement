@@ -219,9 +219,9 @@ class MediaModelApi extends Model
 	 * Copies file of folder from source path to destination path
 	 * If forced, exciting files/folders would be overwritten
 	 *
-	 * @param   string  $sourcePath        Source path of the file or folder(relative)
-	 * @param   string  $destinationPath   Destination path(relative)
-	 * @param   bool    $force             Force to overwrite
+	 * @param   string  $sourcePath       Source path of the file or folder(relative)
+	 * @param   string  $destinationPath  Destination path(relative)
+	 * @param   bool    $force            Force to overwrite
      *
      * @return void
 	 *
@@ -237,9 +237,9 @@ class MediaModelApi extends Model
 	 * Moves file of folder from source path to destination path
 	 * If forced, exciting files/folders would be overwritten
 	 *
-	 * @param   string  $sourcePath        Source path of the file or folder(relative)
-	 * @param   string  $destinationPath   Destination path(relative)
-	 * @param   bool    $force             Force to overwrite
+	 * @param   string  $sourcePath       Source path of the file or folder(relative)
+	 * @param   string  $destinationPath  Destination path(relative)
+	 * @param   bool    $force            Force to overwrite
      *
      * @return void
 	 *
