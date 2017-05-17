@@ -62,7 +62,6 @@ export const uploadFile = (context, payload) => {
  * @param payload object: the item to delete
  */
 export const deleteItem = (context, payload) => {
-    console.log(payload);
     const item = payload;
     api.delete(item.path)
         .then(() => {
