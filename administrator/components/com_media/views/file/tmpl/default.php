@@ -52,11 +52,15 @@ $config = [
 JFactory::getDocument()->addScriptOptions('com_media', $config);
 JFactory::getDocument()->addStyleDeclaration("	.btn-group {
 		display: block;
-	}");
+	}
+	.tab-pane {
+		background-color: #fafafa;
+    	border-left: 1px solid #f0f0f0;
+    ");
 
 ?>
 <div class="row">
-	<form action="#" method="post" name="adminForm" id="media-form" class="form-validate col-md-3">
+	<form action="#" method="post" name="adminForm" id="media-form" class="form-validate col-md-12">
 	<?php
 	$fieldSets = $form->getFieldsets();
 
@@ -64,11 +68,13 @@ JFactory::getDocument()->addStyleDeclaration("	.btn-group {
 	{
 		echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name));
 
+		echo '<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around form-validate col-md-9"></div>';
+
 		echo JLayoutHelper::render('joomla.edit.params', $this);
 
 		echo JHtml::_('bootstrap.endTabSet');
 	}
 	?>
 	</form>
-	<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around form-validate col-md-9"></div>
+	
 </div>
