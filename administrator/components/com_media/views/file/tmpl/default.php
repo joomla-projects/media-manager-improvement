@@ -12,8 +12,10 @@ defined('_JEXEC') or die;
 // Add javascripts
 JHtml::_('behavior.core');
 JHtml::_('behavior.formvalidator');
-JHtml::_('bootstrap.framework');
+//JHtml::_('bootstrap.framework');
 
+JHtml::_('script', 'com_media/document-register-element.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'com_media/tabs.min.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'com_media/edit-images.js', array('version' => 'auto', 'relative' => true)); // @TODO logic to load plugins per media type
 
 $params = JComponentHelper::getParams('com_media');
@@ -58,11 +60,13 @@ $fieldSets = $form->getFieldsets();
 
 if ($fieldSets)
 {
-	echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name));
+//	echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name));
+	echo '<joomla-ui-tabs>';
 
 	echo JLayoutHelper::render('joomla.edit.params', $this);
 
-	echo JHtml::_('bootstrap.endTabSet');
+	echo '</joomla-ui-tabs>';
+//	echo JHtml::_('bootstrap.endTabSet');
 }
 ?>
 </form>
