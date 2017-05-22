@@ -38,16 +38,12 @@ class MediaModelApi extends Model
 
 		if (!isset($config['fileadapter']))
 		{
-			// Compile the root path
-			$root = JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('file_path', 'images');
-			$root = rtrim($root) . '/';
-
 			// Import Local file system plugin
 			JPluginHelper::importPlugin('filesystem');
 
 			$app = JFactory::getApplication();
 
-			$results = $app->triggerEvent('onFileSystemGetAdapters', array($root));
+			$results = $app->triggerEvent('onFileSystemGetAdapters');
 
 			if ($results != null)
 			{
@@ -213,5 +209,41 @@ class MediaModelApi extends Model
 		$name = preg_replace(array("/[\\s]/", '/[^a-zA-Z0-9_]/'), array('_', ''), $nameWithoutExtension) . $extension;
 
 		return $name;
+	}
+
+	/**
+	 * Copies file or folder from source path to destination path
+	 * If forced, existing files/folders would be overwritten
+	 *
+	 * @param   string  $sourcePath       Source path of the file or folder (relative)
+	 * @param   string  $destinationPath  Destination path(relative)
+	 * @param   bool    $force            Force to overwrite
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	public function copy($sourcePath, $destinationPath, $force = false)
+	{
+		$this->adapter->copy($sourcePath, $destinationPath, $force);
+	}
+
+	/**
+	 * Moves file or folder from source path to destination path
+	 * If forced, existing files/folders would be overwritten
+	 *
+	 * @param   string  $sourcePath       Source path of the file or folder (relative)
+	 * @param   string  $destinationPath  Destination path(relative)
+	 * @param   bool    $force            Force to overwrite
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	public function move($sourcePath, $destinationPath, $force = false)
+	{
+		 $this->adapter->move($sourcePath, $destinationPath, $force);
 	}
 }

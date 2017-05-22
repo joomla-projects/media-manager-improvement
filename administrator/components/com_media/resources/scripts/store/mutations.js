@@ -106,12 +106,47 @@ export default {
     },
 
     /**
+     * The delete success mutation
+     * @param state
+     * @param payload
+     */
+    [types.DELETE_SUCCESS]: (state, payload) => {
+        const item = payload;
+
+        // Delete file
+        if (item.type === 'file') {
+            state.files.splice(state.files.findIndex(
+                file => file.path === item.path
+            ), 1);
+        }
+
+        // Delete dir
+        if (item.type === 'dir') {
+            state.directories.splice(state.directories.findIndex(
+                directory => directory.path === item.path
+            ), 1);
+        }
+    },
+
+    /**
      * Select a browser item
      * @param state
      * @param payload the item
      */
     [types.SELECT_BROWSER_ITEM]: (state, payload) => {
         state.selectedItems.push(payload);
+    },
+
+    /**
+     * Unselect a browser item
+     * @param state
+     * @param payload the item
+     */
+    [types.UNSELECT_BROWSER_ITEM]: (state, payload) => {
+        const item = payload;
+        state.selectedItems.splice(state.selectedItems.findIndex(
+            selectedItem => selectedItem.path === item.path
+        ), 1);
     },
 
     /**

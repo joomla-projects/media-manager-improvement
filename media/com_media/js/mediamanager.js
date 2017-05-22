@@ -8385,6 +8385,34 @@ var Api = function () {
         }
 
         /**
+         * Upload a file
+         * @param path
+         * @return {Promise.<T>}
+         */
+
+    }, {
+        key: 'delete',
+        value: function _delete(path) {
+            var _this4 = this;
+
+            // Wrap the jquery call into a real promise
+            return new Promise(function (resolve, reject) {
+                var url = _this4._baseUrl + '&task=api.files&path=' + path;
+                var data = _defineProperty({}, _this4._csrfToken, '1');
+                jQuery.ajax({
+                    url: url,
+                    type: "DELETE",
+                    data: JSON.stringify(data),
+                    contentType: "application/json"
+                }).done(function (json) {
+                    return resolve();
+                }).fail(function (xhr, status, error) {
+                    reject(xhr);
+                });
+            }).catch(this._handleError);
+        }
+
+        /**
          * Normalize a single item
          * @param item
          * @returns {*}
@@ -8414,17 +8442,17 @@ var Api = function () {
     }, {
         key: '_normalizeArray',
         value: function _normalizeArray(data) {
-            var _this4 = this;
+            var _this5 = this;
 
             var directories = data.filter(function (item) {
                 return item.type === 'dir';
             }).map(function (directory) {
-                return _this4._normalizeItem(directory);
+                return _this5._normalizeItem(directory);
             });
             var files = data.filter(function (item) {
                 return item.type === 'file';
             }).map(function (file) {
-                return _this4._normalizeItem(file);
+                return _this5._normalizeItem(file);
             });
 
             return {
@@ -8561,6 +8589,9 @@ exports.default = {
 
         MediaManager.Event.listen('onClickCreateFolder', function () {
             return _this.$store.commit(types.SHOW_CREATE_FOLDER_MODAL);
+        });
+        MediaManager.Event.listen('onClickDelete', function () {
+            return _this.$store.dispatch('deleteSelectedItems');
         });
     },
     mounted: function mounted() {
@@ -8726,7 +8757,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-item-directory"},[_c('div',{staticClass:"media-browser-item-preview",on:{"dblclick":function($event){_vm.goTo(_vm.item.path)}}},[_vm._m(0)]),_vm._v(" "),_c('div',{staticClass:"media-browser-item-info"},[_vm._v("\n        "+_vm._s(_vm.item.name)+"\n    ")])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-item-directory"},[_c('div',{staticClass:"media-browser-item-preview",on:{"dblclick":function($event){_vm.goTo(_vm.item.path)}}},[_vm._m(0)]),_vm._v(" "),_c('div',{staticClass:"media-browser-item-info"},[_vm._v("\n        "+_vm._s(_vm.item.name)+"\n    ")]),_vm._v(" "),_c('div',{staticClass:"media-browser-select"})])}
 __vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"file-background"},[_c('div',{staticClass:"folder-icon d-flex justify-content-center align-items-center"},[_c('span',{staticClass:"fa fa-folder-o"})])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -8753,7 +8784,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-item-file",class:{selected: _vm.isSelected}},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"media-browser-item-info"},[_vm._v(_vm._s(_vm.item.name))])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-item-file",class:{selected: _vm.isSelected}},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"media-browser-item-info"},[_vm._v(_vm._s(_vm.item.name))]),_vm._v(" "),_c('div',{staticClass:"media-browser-select"})])}
 __vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-item-preview"},[_c('div',{staticClass:"file-background"},[_c('div',{staticClass:"file-icon d-flex justify-content-center align-items-center"},[_c('span',{staticClass:"fa fa-file-text-o"})])])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -8783,10 +8814,16 @@ exports.default = {
         }
     },
     methods: {
-        openEditView: function openEditView() {
+        deleteItem: function deleteItem() {
+            this.$store.dispatch('deleteItem', this.item);
+        },
+        editItem: function editItem() {
             var fileBaseUrl = Joomla.getOptions('com_media').editViewUrl + '&path=';
 
             window.location.href = fileBaseUrl + this.item.path;
+        },
+        toggleSelect: function toggleSelect() {
+            this.$store.dispatch('toggleBrowserItemSelect', this.item);
         }
     }
 };
@@ -8794,8 +8831,8 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-image"},[_c('div',{staticClass:"media-browser-item-preview"},[_c('div',{staticClass:"image-brackground"},[_c('div',{staticClass:"image-cropped",style:({ backgroundImage: 'url(' + _vm.itemUrl + ')' }),on:{"dblclick":function($event){_vm.openEditView()}}})])]),_vm._v(" "),_c('div',{staticClass:"media-browser-item-info"},[_vm._v("\n        "+_vm._s(_vm.item.name)+" "+_vm._s(_vm.item.filetype)+"\n    ")]),_vm._v(" "),_c('div',{staticClass:"media-browser-select"}),_vm._v(" "),_c('div',{staticClass:"media-browser-actions d-flex"},[_vm._m(0),_vm._v(" "),_vm._m(1),_vm._v(" "),_c('a',{staticClass:"action-edit",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-pencil",attrs:{"aria-hidden":"true"},on:{"click":function($event){_vm.openEditView()}}})])])])}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{staticClass:"action-delete",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-trash",attrs:{"aria-hidden":"true"}})])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{staticClass:"action-download",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-download",attrs:{"aria-hidden":"true"}})])}]
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-image"},[_c('div',{staticClass:"media-browser-item-preview"},[_c('div',{staticClass:"image-brackground"},[_c('div',{staticClass:"image-cropped",style:({ backgroundImage: 'url(' + _vm.itemUrl + ')' }),on:{"dblclick":function($event){_vm.openEditView()}}})])]),_vm._v(" "),_c('div',{staticClass:"media-browser-item-info"},[_vm._v("\n        "+_vm._s(_vm.item.name)+" "+_vm._s(_vm.item.filetype)+"\n    ")]),_vm._v(" "),_c('div',{staticClass:"media-browser-select",on:{"click":function($event){$event.stopPropagation();_vm.toggleSelect()}}}),_vm._v(" "),_c('div',{staticClass:"media-browser-actions d-flex"},[_c('a',{staticClass:"action-delete",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-trash",attrs:{"aria-hidden":"true"},on:{"click":function($event){$event.stopPropagation();_vm.deleteItem()}}})]),_vm._v(" "),_vm._m(0),_vm._v(" "),_c('a',{staticClass:"action-edit",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-pencil",attrs:{"aria-hidden":"true"},on:{"click":function($event){$event.stopPropagation();_vm.editItem()}}})])])])}
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{staticClass:"action-download",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-download",attrs:{"aria-hidden":"true"}})])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
@@ -8940,7 +8977,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-infobar"},[_c('h2',[_vm._v(_vm._s(_vm.item.name))]),_vm._v(" "),(_vm.item.path === '/')?_c('div',{staticClass:"text-center"},[_c('span',{staticClass:"fa fa-info"}),_vm._v("\n        Select file or folder to view its details.\n    ")]):_c('dl',{staticClass:"row"},[_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_FOLDER')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.directory))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_TYPE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.type || '-'))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_CREATED_AT')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.create_date_formatted))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_MODIFIED_AT')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.modified_date_formatted))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_DIMENSION')))]),_vm._v(" "),(_vm.item.width || _vm.item.height)?_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.width)+" x "+_vm._s(_vm.item.height))]):_c('dd',{staticClass:"col-sm-8"},[_vm._v("-")]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_SIZE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.size || '-'))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_MIME_TYPE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.mime_type))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_EXTENSION')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.extension || '-'))])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-infobar"},[_c('span',{staticClass:"infobar-close",attrs:{"aria-label":"Close Menu"}},[_vm._v("×")]),_vm._v(" "),_c('h2',[_vm._v(_vm._s(_vm.item.name))]),_vm._v(" "),(_vm.item.path === '/')?_c('div',{staticClass:"text-center"},[_c('span',{staticClass:"fa fa-file placeholder-icon"}),_vm._v("\n        Select file or folder to view its details.\n    ")]):_c('dl',{staticClass:"row"},[_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_FOLDER')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.directory))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_TYPE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.type || '-'))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_CREATED_AT')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.create_date_formatted))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_MODIFIED_AT')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.modified_date_formatted))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_DIMENSION')))]),_vm._v(" "),(_vm.item.width || _vm.item.height)?_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.width)+" x "+_vm._s(_vm.item.height))]):_c('dd',{staticClass:"col-sm-8"},[_vm._v("-")]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_SIZE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.size || '-'))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_MIME_TYPE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.mime_type))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_EXTENSION')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.extension || '-'))])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -9432,7 +9469,7 @@ exports.default = Translate;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.uploadFile = exports.createDirectory = exports.getContents = undefined;
+exports.deleteSelectedItems = exports.deleteItem = exports.uploadFile = exports.createDirectory = exports.toggleBrowserItemSelect = exports.getContents = undefined;
 
 var _Api = require("../app/Api");
 
@@ -9449,15 +9486,13 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 /**
  * Get contents of a directory from the api
  * @param commit
- * @param dir
+ * @param payload
  */
-var getContents = exports.getContents = function getContents(_ref, dir) {
-    var commit = _ref.commit;
-
-    _Api.api.getContents(dir).then(function (contents) {
-        commit(types.LOAD_CONTENTS_SUCCESS, contents);
-        commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-        commit(types.SELECT_DIRECTORY, dir);
+var getContents = exports.getContents = function getContents(context, payload) {
+    _Api.api.getContents(payload).then(function (contents) {
+        context.commit(types.LOAD_CONTENTS_SUCCESS, contents);
+        context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+        context.commit(types.SELECT_DIRECTORY, payload);
     }).catch(function (error) {
         // TODO error handling
         console.log("error", error);
@@ -9465,16 +9500,31 @@ var getContents = exports.getContents = function getContents(_ref, dir) {
 };
 
 /**
+ * Toggle the selection state of an item
+ * @param commit
+ * @param payload
+ */
+var toggleBrowserItemSelect = exports.toggleBrowserItemSelect = function toggleBrowserItemSelect(context, payload) {
+    var item = payload;
+    var isSelected = context.state.selectedItems.some(function (selected) {
+        return selected.path === item.path;
+    });
+    if (!isSelected) {
+        context.commit(types.SELECT_BROWSER_ITEM, item);
+    } else {
+        context.commit(types.UNSELECT_BROWSER_ITEM, item);
+    }
+};
+
+/**
  * Create a new folder
  * @param commit
  * @param payload object with the new folder name and its parent directory
  */
-var createDirectory = exports.createDirectory = function createDirectory(_ref2, payload) {
-    var commit = _ref2.commit;
-
+var createDirectory = exports.createDirectory = function createDirectory(context, payload) {
     _Api.api.createDirectory(payload.name, payload.parent).then(function (folder) {
-        commit(types.CREATE_DIRECTORY_SUCCESS, folder);
-        commit(types.HIDE_CREATE_FOLDER_MODAL);
+        context.commit(types.CREATE_DIRECTORY_SUCCESS, folder);
+        context.commit(types.HIDE_CREATE_FOLDER_MODAL);
     }).catch(function (error) {
         // TODO error handling
         console.log("error", error);
@@ -9486,22 +9536,59 @@ var createDirectory = exports.createDirectory = function createDirectory(_ref2, 
  * @param commit
  * @param payload object with the new folder name and its parent directory
  */
-var uploadFile = exports.uploadFile = function uploadFile(_ref3, payload) {
-    var commit = _ref3.commit;
-
+var uploadFile = exports.uploadFile = function uploadFile(context, payload) {
     _Api.api.upload(payload.name, payload.parent, payload.content).then(function (file) {
-        commit(types.UPLOAD_SUCCESS, file);
+        context.commit(types.UPLOAD_SUCCESS, file);
     }).catch(function (error) {
         // TODO error handling
         console.log("error", error);
     });
+};
+
+/**
+ * Delete a single item
+ * @param context
+ * @param payload object: the item to delete
+ */
+var deleteItem = exports.deleteItem = function deleteItem(context, payload) {
+    var item = payload;
+    _Api.api.delete(item.path).then(function () {
+        context.commit(types.DELETE_SUCCESS, item);
+        context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+    }).catch(function (error) {
+        // TODO error handling
+        console.log("error", error);
+    });
+};
+
+/**
+ * Delete the selected items
+ * @param context
+ * @param payload object
+ */
+var deleteSelectedItems = exports.deleteSelectedItems = function deleteSelectedItems(context, payload) {
+    // Get the selected items from the store
+    var selectedItems = context.state.selectedItems;
+    if (selectedItems.length > 0) {
+        selectedItems.forEach(function (item) {
+            _Api.api.delete(item.path).then(function () {
+                context.commit(types.DELETE_SUCCESS, item);
+                context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+            }).catch(function (error) {
+                // TODO error handling
+                console.log("error", error);
+            });
+        });
+    } else {
+        // TODO notify the user that he has to select at least one item
+    }
 };
 
 },{"../app/Api":8,"./mutation-types":28}],27:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 // Sometimes we may need to compute derived state based on store state,
 // for example filtering through a list of items and counting them.
@@ -9512,9 +9599,9 @@ Object.defineProperty(exports, "__esModule", {
  * @returns {*}
  */
 var getSelectedDirectory = exports.getSelectedDirectory = function getSelectedDirectory(state) {
-  return state.directories.find(function (directory) {
-    return directory.path === state.selectedDirectory;
-  });
+    return state.directories.find(function (directory) {
+        return directory.path === state.selectedDirectory;
+    });
 };
 
 /**
@@ -9524,11 +9611,9 @@ var getSelectedDirectory = exports.getSelectedDirectory = function getSelectedDi
  * @returns {Array|directories|{/}|computed.directories|*|Object}
  */
 var getSelectedDirectoryDirectories = exports.getSelectedDirectoryDirectories = function getSelectedDirectoryDirectories(state, getters) {
-  return getters.getSelectedDirectory.directories.map(function (directoryPath) {
-    return state.directories.find(function (directory) {
-      return directory.path === directoryPath;
+    return state.directories.filter(function (directory) {
+        return directory.directory === state.selectedDirectory;
     });
-  });
 };
 
 /**
@@ -9538,11 +9623,9 @@ var getSelectedDirectoryDirectories = exports.getSelectedDirectoryDirectories = 
  * @returns {Array|files|{}|FileList|*}
  */
 var getSelectedDirectoryFiles = exports.getSelectedDirectoryFiles = function getSelectedDirectoryFiles(state, getters) {
-  return getters.getSelectedDirectory.files.map(function (filePath) {
-    return state.files.find(function (file) {
-      return file.path === filePath;
+    return state.files.filter(function (file) {
+        return file.directory === state.selectedDirectory;
     });
-  });
 };
 
 },{}],28:[function(require,module,exports){
@@ -9553,6 +9636,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var SELECT_DIRECTORY = exports.SELECT_DIRECTORY = 'SELECT_DIRECTORY';
 var SELECT_BROWSER_ITEM = exports.SELECT_BROWSER_ITEM = 'SELECT_BROWSER_ITEM';
+var UNSELECT_BROWSER_ITEM = exports.UNSELECT_BROWSER_ITEM = 'UNSELECT_BROWSER_ITEM';
 var UNSELECT_ALL_BROWSER_ITEMS = exports.UNSELECT_ALL_BROWSER_ITEMS = 'UNSELECT_ALL_BROWSER_ITEMS';
 
 // Api handlers
@@ -9564,8 +9648,11 @@ var UPLOAD_SUCCESS = exports.UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 var SHOW_CREATE_FOLDER_MODAL = exports.SHOW_CREATE_FOLDER_MODAL = 'SHOW_CREATE_FOLDER_MODAL';
 var HIDE_CREATE_FOLDER_MODAL = exports.HIDE_CREATE_FOLDER_MODAL = 'HIDE_CREATE_FOLDER_MODAL';
 
+// Delete items
+var DELETE_SUCCESS = exports.DELETE_SUCCESS = 'DELETE_SUCCESS';
+
 },{}],29:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -9573,7 +9660,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _types$SELECT_DIRECTO;
 
-var _mutationTypes = require("./mutation-types");
+var _mutationTypes = require('./mutation-types');
 
 var types = _interopRequireWildcard(_mutationTypes);
 
@@ -9684,8 +9771,29 @@ exports.default = (_types$SELECT_DIRECTO = {}, _defineProperty(_types$SELECT_DIR
             directories: [].concat(_toConsumableArray(parentDirectory.directories), [directory.path])
         }));
     }
+}), _defineProperty(_types$SELECT_DIRECTO, types.DELETE_SUCCESS, function (state, payload) {
+    var item = payload;
+
+    // Delete file
+    if (item.type === 'file') {
+        state.files.splice(state.files.findIndex(function (file) {
+            return file.path === item.path;
+        }), 1);
+    }
+
+    // Delete dir
+    if (item.type === 'dir') {
+        state.directories.splice(state.directories.findIndex(function (directory) {
+            return directory.path === item.path;
+        }), 1);
+    }
 }), _defineProperty(_types$SELECT_DIRECTO, types.SELECT_BROWSER_ITEM, function (state, payload) {
     state.selectedItems.push(payload);
+}), _defineProperty(_types$SELECT_DIRECTO, types.UNSELECT_BROWSER_ITEM, function (state, payload) {
+    var item = payload;
+    state.selectedItems.splice(state.selectedItems.findIndex(function (selectedItem) {
+        return selectedItem.path === item.path;
+    }), 1);
 }), _defineProperty(_types$SELECT_DIRECTO, types.UNSELECT_ALL_BROWSER_ITEMS, function (state, payload) {
     state.selectedItems = [];
 }), _defineProperty(_types$SELECT_DIRECTO, types.SHOW_CREATE_FOLDER_MODAL, function (state) {
