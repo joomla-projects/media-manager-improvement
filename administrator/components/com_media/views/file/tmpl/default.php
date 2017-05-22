@@ -68,7 +68,7 @@ JFactory::getDocument()->addStyleDeclaration("	.btn-group {
 	{
 		echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name));
 
-		echo '<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around form-validate col-md-9"></div>';
+		echo '<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around form-validate col-md-9 p-4"></div>';
 
 		echo JLayoutHelper::render('joomla.edit.params', $this);
 

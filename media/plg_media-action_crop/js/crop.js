@@ -12,13 +12,15 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 	"use strict";
 
 	var initCrop = function(mediaData) {
+		// Amend the layout
+		var tabContent = document.getElementById('myTabContent'),
+			pluginControls = document.getElementById('attrib-crop');
+
+		tabContent.classList.add('row', 'ml-0', 'mr-0', 'p-0');
+		pluginControls.classList.add('col-md-3', 'p-4');
 
 		// Create the images for edit and preview
 		var baseContainer = document.getElementById('media-manager-edit-container'),
-			tabContent = document.getElementById('myTabContent'),
-			pluginControls = document.getElementById('attrib-crop'),
-			editH3 = document.createElement('h3'),
-			previewH3 = document.createElement('h3'),
 			editContainer = document.createElement('div'),
 			previewContainer = document.createElement('div'),
 			imageSrc = document.createElement('img'),
@@ -33,8 +35,6 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 		editContainer.appendChild(imageSrc);
 		baseContainer.appendChild(editContainer);
 
-		tabContent.classList.add('row', 'ml-0', 'mr-0', 'p-0');
-		pluginControls.classList.add('col-md-3', 'p-4');
 
 		// Clear previous cropper
 		if (Joomla.cropper) Joomla.cropper = {};
