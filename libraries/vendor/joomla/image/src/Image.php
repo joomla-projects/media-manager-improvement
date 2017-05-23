@@ -287,7 +287,7 @@ class Image implements LoggerAwareInterface
 	 * creation by resizing or cropping the original image.
 	 *
 	 * @param   mixed    $thumbSizes      String or array of strings. Example: $thumbSizes = array('150x75','250x150');
-	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create croppping | 5 resize then crop
+	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create cropping | 5 resize then crop
 	 *
 	 * @return  array
 	 *
@@ -354,10 +354,10 @@ class Image implements LoggerAwareInterface
 
 	/**
 	 * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing
-	 * or croppping the original image.
+	 * or cropping the original image.
 	 *
 	 * @param   mixed    $thumbSizes      string or array of strings. Example: $thumbSizes = array('150x75','250x150');
-	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create croppping
+	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create cropping
 	 * @param   string   $thumbsFolder    destination thumbs folder. null generates a thumbs folder in the image folder
 	 *
 	 * @return  array
