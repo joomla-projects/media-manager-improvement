@@ -11,103 +11,101 @@
 </template>
 
 <script>
-    import * as types from './../../store/mutation-types';
-    export default {
-        name: 'media-browser',
-        computed: {
+	import * as types from './../../store/mutation-types';
+	export default {
+		name: 'media-browser',
+		computed: {
             /* Get the contents of the currently selected directory */
-            items() {
-                const directories = this.$store.getters.getSelectedDirectoryDirectories.sort((a, b) => {
-                    // Sort by type and alphabetically
-                    return (a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1;
-                });
-                const files = this.$store.getters.getSelectedDirectoryFiles.sort((a, b) => {
-                    // Sort by type and alphabetically
-                    return (a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1;
-                });
+			items() {
+				const directories = this.$store.getters.getSelectedDirectoryDirectories.sort((a, b) => {
+					// Sort by type and alphabetically
+					return (a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1;
+				});
+				const files = this.$store.getters.getSelectedDirectoryFiles.sort((a, b) => {
+					// Sort by type and alphabetically
+					return (a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1;
+				});
 
-                return [...directories, ...files];
-            }
-        },
-        methods: {
+				return [...directories, ...files];
+			}
+		},
+		methods: {
             /* Unselect all browser items */
-            unselectAllBrowserItems(event) {
-                const eventOutside = !this.$refs.browserItems.contains(event.target) || event.target === this.$refs.browserItems;
-                if (eventOutside) {
-                    this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-                }
-            },
+			unselectAllBrowserItems(event) {
+				const eventOutside = !this.$refs.browserItems.contains(event.target) || event.target === this.$refs.browserItems;
+				if (eventOutside) {
+					this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+				}
+			},
 
-            // Listers for drag and drop
-	        // Fix for Chrome
-	        onDragEnter(e) {
-		        e.stopPropagation();
-		        return false;
-	        },
+			// Listeners for drag and drop
+			// Fix for Chrome
+			onDragEnter(e) {
+				e.stopPropagation();
+				return false;
+			},
 
 
-	        // Notify user when file is over the drop area
-	        onDragOver(e) {
-		        e.preventDefault();
-		        document.querySelector('.media-browser').style.borderStyle = 'dashed';
-		        document.querySelector('.media-browser').style.borderWidth = '5px';
-
-		        return false;
-	        },
+			// Notify user when file is over the drop area
+			onDragOver(e) {
+				e.preventDefault();
+				document.querySelector('.media-browser').style.borderStyle = 'dashed';
+				document.querySelector('.media-browser').style.borderWidth = '5px';
+				return false;
+			},
 
             /* Upload files */
-	        upload(file) {
-                // Create a new file reader instance
-                let reader = new FileReader();
+			upload(file) {
+				// Create a new file reader instance
+				let reader = new FileReader();
 
-                // Add the on load callback
-                reader.onload = (progressEvent) => {
-                    const result = progressEvent.target.result,
-                          splitIndex = result.indexOf('base64') + 7,
-                          content = result.slice(splitIndex, result.length);
+				// Add the on load callback
+				reader.onload = (progressEvent) => {
+					const result = progressEvent.target.result,
+					      splitIndex = result.indexOf('base64') + 7,
+					      content = result.slice(splitIndex, result.length);
 
-                    // Upload the file
-                    this.$store.dispatch('uploadFile', {
-                        name: file.name,
-                        parent: this.$store.state.selectedDirectory,
-                        content: content,
-                    });
-                };
+					// Upload the file
+					this.$store.dispatch('uploadFile', {
+						name: file.name,
+						parent: this.$store.state.selectedDirectory,
+						content: content,
+					});
+				};
 
-                reader.readAsDataURL(file);
-	        },
-	        // Logic for the dropped file
-	        onDrop(e) {
-		        e.preventDefault();
+				reader.readAsDataURL(file);
+			},
 
-		        // Loop through array of files and upload each file
-		        if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-			        for (var i = 0, f; f = e.dataTransfer.files[i]; i++) {
-				        document.querySelector('.media-browser').style.borderWidth = '0px';
-				        document.querySelector('.media-browser').style.borderStyle = 'solid';
-				        e.preventDefault();
-				        this.upload(f);
-			        }
-		        }
-		        document.querySelector('.media-browser').style.borderWidth = '0px';
-		        document.querySelector('.media-browser').style.borderStyle = 'solid';
-	        },
+			// Logic for the dropped file
+			onDrop(e) {
+				e.preventDefault();
 
-	        // Reset the drop area border
-	        onDragLeave(e) {
-		        e.stopPropagation();
-		        e.preventDefault();
-		        document.querySelector('.media-browser').style.borderWidth='0px';
-		        document.querySelector('.media-browser').style.borderStyle='solid';
+				// Loop through array of files and upload each file
+				if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+					for (let i = 0, f; f = e.dataTransfer.files[i]; i++) {
+						document.querySelector('.media-browser').style.borderWidth = '0px';
+						document.querySelector('.media-browser').style.borderStyle = 'solid';
+						this.upload(f);
+					}
+				}
+				document.querySelector('.media-browser').style.borderWidth = '0px';
+				document.querySelector('.media-browser').style.borderStyle = 'solid';
+			},
 
-		        return false;
-	        },
-        },
-        created() {
-            document.body.addEventListener('click', this.unselectAllBrowserItems, false);
-        },
-        beforeDestroy() {
-            document.body.removeEventListener('click', this.unselectAllBrowserItems, false);
-        }
-    }
+			// Reset the drop area border
+			onDragLeave(e) {
+				e.stopPropagation();
+				e.preventDefault();
+				document.querySelector('.media-browser').style.borderWidth='0px';
+				document.querySelector('.media-browser').style.borderStyle='solid';
+				return false;
+			},
+		},
+		created() {
+			document.body.addEventListener('click', this.unselectAllBrowserItems, false);
+		},
+		beforeDestroy() {
+			document.body.removeEventListener('click', this.unselectAllBrowserItems, false);
+		}
+	}
 </script>
