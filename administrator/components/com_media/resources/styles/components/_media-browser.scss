@@ -215,25 +215,13 @@
     transition-delay: 0s;
     .upload-icon {
       opacity: 1;
-      // transition-delay: .1s;
       transform: translateY(0);
     }
     p {
-      // transition-delay: .2s;
       transition-delay: .2s;
       opacity: 1;
     }
   }
-  // &:after {
-  //   position: absolute;
-  //   top: 50%;
-  //   left: 50%;
-  //   content: "\f0ee";
-  //   font-family: FontAwesome;
-  //   font-size: 8rem;
-  //   color: #1C3D5C;
-  //   transform: translate(-50%,-50%);
-  // }
 }
 
 @media only screen and (max-width: 1420px) {
