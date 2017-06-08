@@ -88,6 +88,15 @@ class MediaControllerApi extends Controller
 
 		try
 		{
+			// Error handling
+			// Move error handling to a base class
+			set_error_handler(array($this, 'handleError'));
+
+			if ($error = error_get_last())
+			{
+				throw new Exception($error['message']);
+			}
+
 			// Check token for requests which do modify files (all except get requests)
 			if ($method != 'get' && !JSession::checkToken('json'))
 			{
@@ -186,6 +195,21 @@ class MediaControllerApi extends Controller
 	}
 
 	/**
+	 * The error handler.
+	 *
+	 * @param   integer  $errno   The error number
+	 * @param   string   $errstr  The error string
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function handleError($errno, $errstr)
+	{
+		throw new Exception($errstr, $errno);
+	}
+
+	/**
 	 * Method to get a model object, loading it if required.
 	 *
 	 * @param   string  $name    The model name. Optional.
@@ -209,8 +233,9 @@ class MediaControllerApi extends Controller
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function checkContent($name, $mediaContent)
 	{
