@@ -62,7 +62,7 @@ class MediaModelApi extends Model
 			$results = $app->triggerEvent('onFileSystemGetAdapters');
 			$adapters = array();
 
-			for ($i = 0; $i < count($results); $i++)
+			for ($i = 0, $len = count($results); $i < $len; $i++)
 			{
 				$adapters[$this->providers[$i]->name] = $results[$i];
 			}
@@ -100,11 +100,9 @@ class MediaModelApi extends Model
 		{
 			return $this->adapters[$name];
 		}
-		else
-		{
-			// Todo Use a translated string
-			throw new Exception('Requested media file adapter was not found', 300);
-		}
+
+		// Todo Use a translated string
+		throw new Exception('Requested media file adapter was not found', 300);
 	}
 
 	/**
