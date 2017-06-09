@@ -81,11 +81,11 @@ class MediaControllerApi extends Controller
 	public function files()
 	{
 		// Get the required variables
-		$pathInfo = explode(':', $this->input->getString('path', 'local:/'));
+		$pathInfo    = explode(':', $this->input->getString('path', 'local:/'));
 		$adapterInfo = explode('-', $pathInfo[0]);
-		$path = $pathInfo[1];
-		$adapter = $adapterInfo[0];
-		$accountID = "";
+		$path        = $pathInfo[1];
+		$adapter     = $adapterInfo[0];
+		$accountID   = "";
 
 		// If account id is set obtain it
 		if (isset($adapterInfo[1]))
