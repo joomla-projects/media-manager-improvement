@@ -21,15 +21,15 @@ $params = JComponentHelper::getParams('com_media');
 function getProviderInfo()
 {
 	$providerInfo = JPluginHelper::getPlugin('filesystem');
-	$results = array();
+	$results      = array();
 
 	foreach ($providerInfo as $provider)
 	{
-		$params = new JRegistry($provider->params);
-		$info = new stdClass;
-		$info->name = $provider->name;
+		$params            = new JRegistry($provider->params);
+		$info              = new stdClass;
+		$info->name        = $provider->name;
 		$info->displayName = $params->get('display_name');
-		$results[] = $info;
+		$results[]         = $info;
 	}
 
 	return json_encode((array) $results);
