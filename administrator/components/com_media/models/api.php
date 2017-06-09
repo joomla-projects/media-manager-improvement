@@ -85,10 +85,13 @@ class MediaModelApi extends Model
 
 
 	/**
+	 * Return the requested adapter
+	 *
 	 * @param   string  $name  Name of the adapter
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @return MediaFileAdapterInterface
+	 *
 	 * @throws Exception
 	 */
 	private function getAdapter($name)
@@ -108,8 +111,8 @@ class MediaModelApi extends Model
 	 * Returns the requested file or folder information. More information
 	 * can be found in MediaFileAdapterInterface::getFile().
 	 *
-	 * @param   string  $adapter The adapter
-	 * @param   string  $path    The path to the file or folder
+	 * @param   string  $adapter  The adapter
+	 * @param   string  $path     The path to the file or folder
 	 *
 	 * @return  stdClass[]
 	 *
@@ -126,9 +129,9 @@ class MediaModelApi extends Model
 	 * Returns the folders and files for the given path. More information
 	 * can be found in MediaFileAdapterInterface::getFiles().
 	 *
-	 * @param   string  $adapter The adapter
-	 * @param   string  $path    The folder
-	 * @param   string  $filter  The filter
+	 * @param   string  $adapter  The adapter
+	 * @param   string  $path     The folder
+	 * @param   string  $filter   The filter
 	 *
 	 * @return  stdClass[]
 	 *
