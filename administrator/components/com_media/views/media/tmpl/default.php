@@ -15,6 +15,7 @@ $params = JComponentHelper::getParams('com_media');
  * Obtain list of supported providers
  *
  * @return string
+ *
  * @since __DEPLOY_VERSION__
  */
 function getProviderInfo()
