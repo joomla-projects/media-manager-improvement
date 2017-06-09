@@ -13,4 +13,18 @@
 		<filename plugin="local">local.php</filename>
 		<folder>adapter</folder>
 	</files>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+						name="display_name"
+						type="text"
+						label="Display Name"
+						description="Local Filesystem plugin"
+						default="Local"
+				/>
+			</fieldset>
+		</fields>
+	</config>
 </extension>
