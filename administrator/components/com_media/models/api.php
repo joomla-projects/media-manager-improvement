@@ -102,7 +102,7 @@ class MediaModelApi extends Model
 		}
 
 		// Todo Use a translated string
-		throw new Exception('Requested media file adapter was not found', 300);
+		throw new Exception('Requested media file adapter was not found', 500);
 	}
 
 	/**
