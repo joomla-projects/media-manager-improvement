@@ -18,6 +18,28 @@ use Joomla\CMS\View\HtmlView;
 class MediaViewMedia extends HtmlView
 {
 	/**
+	 * @var array|string Holds a list of providers
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $providers = array();
+
+	/**
+	 * MediaViewMedia constructor.
+	 *
+	 * @param   array  $config  Configuration array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(array $config = array())
+	{
+		parent::__construct($config);
+
+		$this->providers = $this->getProviders();
+	}
+
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -33,6 +55,7 @@ class MediaViewMedia extends HtmlView
 
 		parent::display($tpl);
 	}
+
 
 	/**
 	 * Prepare the toolbar.
@@ -84,5 +107,29 @@ class MediaViewMedia extends HtmlView
 		}
 
 		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
+	}
+
+	/**
+	 * Obtain list of supported providers
+	 *
+	 * @return string
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getProviders()
+	{
+		$providerInfo = JPluginHelper::getPlugin('filesystem');
+		$results      = array();
+
+		foreach ($providerInfo as $provider)
+		{
+			$params            = new Joomla\Registry\Registry($provider->params);
+			$info              = new stdClass;
+			$info->name        = $provider->name;
+			$info->displayName = $params->get('display_name');
+			$results[]         = $info;
+		}
+
+		return json_encode((array) $results);
 	}
 }
