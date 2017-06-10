@@ -118,7 +118,7 @@ class MediaViewMedia extends HtmlView
 	 */
 	public function getProviders()
 	{
-		$providerInfo = JPluginHelper::getPlugin('filesystem');
+		$providerInfo = Joomla\CMS\Plugin\PluginHelper::getPlugin('filesystem');
 		$results      = array();
 
 		foreach ($providerInfo as $provider)
