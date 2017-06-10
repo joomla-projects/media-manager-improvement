@@ -14,20 +14,20 @@
 		<folder>adapter</folder>
 	</files>
 
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_filesystem_local.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_filesystem_local.sys.ini</language>
-    </languages>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_filesystem_local.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_filesystem_local.sys.ini</language>
+	</languages>
 
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-                        name="display_name"
-						type="text"
-						label="PLG_FILESYSTEM_LOCAL_DISPLAY_NAME_LABEL"
-						description="PLG_FILESYSTEM_LOCAL_DISPLAY_NAME_DESC"
-                        default="Local"
+					name="display_name"
+					type="text"
+					label="PLG_FILESYSTEM_LOCAL_DISPLAY_NAME_LABEL"
+					description="PLG_FILESYSTEM_LOCAL_DISPLAY_NAME_DESC"
+					default="Local"
 				/>
 			</fieldset>
 		</fields>
