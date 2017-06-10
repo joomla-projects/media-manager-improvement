@@ -11,30 +11,6 @@ defined('_JEXEC') or die;
 $doc    = JFactory::getDocument();
 $params = JComponentHelper::getParams('com_media');
 
-/**
- * Obtain list of supported providers
- *
- * @return string
- *
- * @since __DEPLOY_VERSION__
- */
-function getProviderInfo()
-{
-	$providerInfo = JPluginHelper::getPlugin('filesystem');
-	$results      = array();
-
-	foreach ($providerInfo as $provider)
-	{
-		$params            = new JRegistry($provider->params);
-		$info              = new stdClass;
-		$info->name        = $provider->name;
-		$info->displayName = $params->get('display_name');
-		$results[]         = $info;
-	}
-
-	return json_encode((array) $results);
-}
-
 // Make sure core.js is loaded before media scripts
 JHtml::_('behavior.core');
 JHtml::_('behavior.keepalive');
@@ -68,7 +44,7 @@ $config = array(
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
 	'defaultFileSystem'       => 'local',
-	'providers'               => getProviderInfo(),
+	'providers'               => $this->get('providers'),
 );
 $doc->addScriptOptions('com_media', $config);
 ?>
