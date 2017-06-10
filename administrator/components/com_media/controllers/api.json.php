@@ -81,8 +81,8 @@ class MediaControllerApi extends Controller
 	public function files()
 	{
 		// Get the required variables
-		list($adapterInfo, $path)    = explode(':', $this->input->getString('path', 'local:/'));
-		list($adapter, $account) = array_merge(explode('-', $adapterInfo), array(""));
+		list($adapterInfo, $path) = explode(':', $this->input->getString('path', 'local:/'));
+		list($adapter, $account)  = array_merge(explode('-', $adapterInfo), array(""));
 
 		// Determine the method
 		$method = strtolower($this->input->getMethod() ? : 'GET');
