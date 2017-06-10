@@ -48,14 +48,14 @@ class MediaModelApi extends Model
 
 		if (!isset($config['providers']))
 		{
-			$config['providers'] = JPluginHelper::getPlugin('filesystem');
+			$config['providers'] = Joomla\CMS\Plugin\PluginHelper::getPlugin('filesystem');
 			$this->providers = $config['providers'];
 		}
 
 		if (!isset($config['fileadapter']))
 		{
 			// Import enabled file system plugins
-			JPluginHelper::importPlugin('filesystem');
+			Joomla\CMS\Plugin\PluginHelper::importPlugin('filesystem');
 
 			$app = JFactory::getApplication();
 
