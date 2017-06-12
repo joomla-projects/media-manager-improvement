@@ -39,7 +39,7 @@ class MediaViewMedia extends HtmlView
 		$this->prepareToolbar();
 
 		// Get enabled adapters
-		$this->providers = $this->get('Providers', array());
+		$this->providers = $this->get('Providers');
 
 		parent::display($tpl);
 	}
