@@ -129,11 +129,6 @@ class MediaModelApi extends Model
 	 */
 	public function getFiles($adapter, $path = '/', $filter = '')
 	{
-		if (!isset($this->adapters[$adapter]))
-		{
-			return array();
-		}
-
 		return $this->getAdapter($adapter)->getFiles($path, $filter);
 	}
 
