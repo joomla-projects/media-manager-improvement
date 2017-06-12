@@ -16,7 +16,7 @@ use Joomla\CMS\Model\Model;
  *
  * @since  __DEPLOY_VERSION__
  */
-class MediaModelView extends Model
+class MediaModelMedia extends Model
 {
 	/**
 	 * @var array|string Holds a list of providers
