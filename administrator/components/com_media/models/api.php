@@ -49,10 +49,11 @@ class MediaModelApi extends Model
 		if (!isset($config['providers']))
 		{
 			$config['providers'] = Joomla\CMS\Plugin\PluginHelper::getPlugin('filesystem');
-			$this->providers = $config['providers'];
 		}
 
-		if (!isset($config['fileadapter']))
+		$this->providers = $config['providers'];
+
+		if (!isset($config['fileadapters']))
 		{
 			// Import enabled file system plugins
 			Joomla\CMS\Plugin\PluginHelper::importPlugin('filesystem');
@@ -67,9 +68,10 @@ class MediaModelApi extends Model
 				$adapters[$this->providers[$i]->name] = $results[$i];
 			}
 
-			$config['fileadapter'] = $adapters;
-			$this->adapters = $adapters;
+			$config['fileadapters'] = $adapters;
 		}
+
+		$this->adapters = $config['fileadapters'];
 	}
 
 	/**
