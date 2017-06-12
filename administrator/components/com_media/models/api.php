@@ -75,18 +75,6 @@ class MediaModelApi extends Model
 	}
 
 	/**
-	 * Returns the enabled adapter list with their properties
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @return stdClass[]
-	 */
-	public function getProviders()
-	{
-		return $this->providers;
-	}
-
-
-	/**
 	 * Return the requested adapter
 	 *
 	 * @param   string  $name  Name of the adapter
