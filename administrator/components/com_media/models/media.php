@@ -19,13 +19,6 @@ use Joomla\CMS\Model\Model;
 class MediaModelMedia extends Model
 {
 	/**
-	 * @var array|string Holds a list of providers
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected $providers = null;
-
-	/**
 	 * Obtain list of supported providers
 	 *
 	 * @return array
