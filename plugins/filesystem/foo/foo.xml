@@ -17,11 +17,11 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-						name="display_name"
-						type="text"
-						label="Display Name"
-						description="Foo Filesystem plugin"
-						default="Foo Filesystem"
+					name="display_name"
+					type="text"
+					label="Display Name"
+					description="Foo Filesystem plugin"
+					default="Foo Filesystem"
 				/>
 			</fieldset>
 		</fields>
