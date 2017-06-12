@@ -152,6 +152,7 @@ class MediaHelper
 
 			return false;
 		}
+		$file['name'] = str_replace(' ', '', $file['name']);
 
 		jimport('joomla.filesystem.file');
 
