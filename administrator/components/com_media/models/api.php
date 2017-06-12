@@ -27,14 +27,6 @@ class MediaModelApi extends Model
 	protected $adapters = null;
 
 	/**
-	 * Stores providers for filesystem plugin group
-	 *
-	 * @var    stdClass[]
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $providers = null;
-
-	/**
 	 * Constructor
 	 *
 	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
@@ -51,7 +43,7 @@ class MediaModelApi extends Model
 			$config['providers'] = Joomla\CMS\Plugin\PluginHelper::getPlugin('filesystem');
 		}
 
-		$this->providers = $config['providers'];
+		$providers = $config['providers'];
 
 		if (!isset($config['fileadapters']))
 		{
@@ -65,7 +57,7 @@ class MediaModelApi extends Model
 
 			for ($i = 0, $len = count($results); $i < $len; $i++)
 			{
-				$adapters[$this->providers[$i]->name] = $results[$i];
+				$adapters[$providers[$i]->name] = $results[$i];
 			}
 
 			$config['fileadapters'] = $adapters;
