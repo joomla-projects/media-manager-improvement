@@ -565,7 +565,7 @@ abstract class JLoader
 		if ($segments[1] == 'Plugin')
 		{
 			$key = '';
-		}print_r(self::$extensionRootFolders);print_R($key);
+		}
 
 		// Check if it is an extension class
 		if (!key_exists($key, self::$extensionRootFolders))
