@@ -43,7 +43,6 @@
 
 <script>
     // TODO DN: transition and advanced styling
-    // TODO DN: perhaps use a better modal than the b2 modal
     import * as types from "./../../store/mutation-types";
     export default {
         name: 'media-modal',
