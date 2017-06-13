@@ -41,6 +41,8 @@ class LocalAdapterTest extends TestCaseDatabase
 		JLoader::register('JFile', JPATH_PLATFORM . '/joomla/filesystem/file.php');
 		JLoader::register('JFolder', JPATH_PLATFORM . '/joomla/filesystem/folder.php');
 
+		JLoader::import('filesystem.local.Adapter.LocalAdapter', JPATH_PLUGINS);
+
 		// Set up the temp root folder
 		$this->root = JPath::clean(JPATH_TESTS . '/tmp/test/');
 		JFolder::create($this->root);
