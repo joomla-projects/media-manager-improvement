@@ -1,3 +1,4 @@
+import 'es6-promise/auto'
 import Vue from "vue";
 import Event from './app/Event';
 import App from "./components/app.vue";
