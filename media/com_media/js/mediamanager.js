@@ -8895,6 +8895,9 @@ exports.default = {
             fullHeight: ''
         };
     },
+    compouted: function compouted() {
+        disks: this.$store.state.disks;
+    },
 
     methods: {
         setFullHeight: function setFullHeight() {
@@ -8930,8 +8933,8 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-container row",style:({minHeight: _vm.fullHeight})},[_c('div',{staticClass:"media-sidebar col-md-2 hidden-sm-down"},[_c('media-tree',{attrs:{"root":'/'}})],1),_vm._v(" "),_c('div',{staticClass:"col-md-10"},[_c('div',{staticClass:"media-main"},[_c('media-toolbar'),_vm._v(" "),_c('media-browser'),_vm._v(" "),_c('media-infobar')],1)]),_vm._v(" "),_c('media-upload'),_vm._v(" "),_c('media-create-folder-modal')],1)}
-__vue__options__.staticRenderFns = []
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-container row",style:({minHeight: _vm.fullHeight})},[_c('div',{staticClass:"media-sidebar col-md-2 hidden-sm-down"},_vm._l((_vm.disks),function(disk){return _c('div',{staticClass:"disk"},[_vm._v("\n            "+_vm._s(disk.displayName)+"\n            "),_c('media-tree',{attrs:{"root":'/'}})],1)})),_vm._v(" "),_vm._m(0),_vm._v(" "),_c('media-upload'),_vm._v(" "),_c('media-create-folder-modal')],1)}
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"col-md-10"},[_c('div',{staticClass:"media-main"})])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
@@ -10179,9 +10182,14 @@ if (options.providers === undefined || options.providers.length === 0) {
     throw new TypeError('Media providers are not defined.');
 }
 
-console.log(options);
 // The initial state
 exports.default = _defineProperty({
+    // Will hold the activated filesystem disks
+    disks: options.providers.map(function (disk) {
+        return Object.assign(disk, {
+            root: disk.name + ':/'
+        });
+    }),
     // The loaded directories
     directories: options.providers.map(function (disk) {
         return { path: disk.name + ':/', name: disk.displayName, directories: [], files: [], directory: null };
