@@ -9,7 +9,6 @@ export default {
     render: function (createElement, context) {
 
         const store = context.parent.$store;
-        const selectedItems = store.state.selectedItems;
         const item = context.props.item;
 
         /**
@@ -43,7 +42,7 @@ export default {
          * @param event
          */
         function handleClick(event) {
-            var e = this.createEvent('onMediaFileSelected');
+            var e = createEvent('onMediaFileSelected');
             e.item = item;
             window.parent.document.dispatchEvent(e);
 

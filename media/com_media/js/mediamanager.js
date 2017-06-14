@@ -16451,7 +16451,6 @@ exports.default = {
     render: function render(createElement, context) {
 
         var store = context.parent.$store;
-        var selectedItems = store.state.selectedItems;
         var item = context.props.item;
 
         /**
@@ -16487,7 +16486,7 @@ exports.default = {
          * @param event
          */
         function handleClick(event) {
-            var e = this.createEvent('onMediaFileSelected');
+            var e = createEvent('onMediaFileSelected');
             e.item = item;
             window.parent.document.dispatchEvent(e);
 
