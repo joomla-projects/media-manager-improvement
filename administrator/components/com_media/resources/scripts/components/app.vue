@@ -1,10 +1,7 @@
 <template>
     <div class="media-container row" :style="{minHeight: fullHeight}">
         <div class="media-sidebar col-md-2 hidden-sm-down">
-            <div class="disk" v-for="disk in disks">
-                {{ disk.displayName }}
-                <media-tree :root="'/'" ></media-tree>
-            </div>
+            <media-disk v-for="disk in disks" :disk="disk"></media-disk>
         </div>
         <div class="col-md-10">
             <div class="media-main">
@@ -29,8 +26,10 @@
                 fullHeight: '',
             };
         },
-        compouted() {
-            disks: this.$store.state.disks;
+        computed: {
+            disks() {
+                return this.$store.state.disks;
+            }
         },
         methods: {
             /* Set the full height on the app container */

@@ -130,6 +130,10 @@ class Api {
 
         item.directory = path.dirname(item.path);
 
+        if(item.directory.indexOf(':', item.directory.length - 1) !== -1) {
+            item.directory += '/';
+        }
+
         return item;
     }
 
