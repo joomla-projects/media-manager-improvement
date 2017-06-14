@@ -164,16 +164,15 @@ class Api {
      * @TODO DN improve error handling
      */
     _handleError(error) {
-        // alert(error.status + ' ' + error.statusText);
         switch (error.status) {
             case 404:
                 break;
             case 401:
             case 403:
             case 500:
-                // window.location.href = window.location.pathname;
+                window.location.href = window.location.pathname;
             default:
-                // window.location.href = window.location.pathname;
+                window.location.href = window.location.pathname;
         }
 
         throw error;

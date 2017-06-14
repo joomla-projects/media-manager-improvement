@@ -16,7 +16,6 @@
                 this.$store.state.selectedDirectory.split('/')
                     .filter(crumb => crumb.length !== 0)
                     .forEach(crumb => {
-                        console.log(crumb);
                         items.push({
                             name: crumb,
                             path: this.$store.state.selectedDirectory.split(crumb)[0] + crumb,
