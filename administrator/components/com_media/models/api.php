@@ -105,6 +105,7 @@ class MediaModelApi extends Model
 		// Add adapter info to the file returned
 		$file = $this->getAdapter($adapter)->getFile($path);
 		$file->path = $adapter . ":" . $file->path;
+
 		return $file;
 	}
 
