@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Controller\Controller;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 
 \JLoader::import('joomla.filesystem.file');
 
@@ -104,7 +105,20 @@ class Api extends Controller
 			switch ($method)
 			{
 				case 'get':
-					$data = $this->getModel()->getFiles($adapter, $path, $this->input->getWord('filter'));
+					$option = $this->input->getWord('opt');
+
+					switch ($option)
+					{
+						case 'permalink':
+							$data = $this->getModel()->getPermalink($adapter, $path);
+							break;
+
+						default:
+							$data = $this->getModel()->getFiles($adapter, $path, $this->input->getWord('filter'));
+							break;
+
+					}
+
 					break;
 				case 'delete':
 					$this->getModel()->delete($adapter, $path);
@@ -150,7 +164,7 @@ class Api extends Controller
 			// Return the data
 			$this->sendResponse($data);
 		}
-		catch (MediaFileAdapterFilenotfoundexception $e)
+		catch (FileNotFoundException $e)
 		{
 			$this->sendResponse($e, 404);
 		}
