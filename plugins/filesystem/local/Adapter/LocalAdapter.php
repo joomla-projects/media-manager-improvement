@@ -295,6 +295,7 @@ class LocalAdapter implements AdapterInterface
 			$props       = Image::getImageFileProperties($path);
 			$obj->width  = $props->width;
 			$obj->height = $props->height;
+			$obj->thumb_path = $this->getPermalink($obj->path);
 		}
 
 		return $obj;
