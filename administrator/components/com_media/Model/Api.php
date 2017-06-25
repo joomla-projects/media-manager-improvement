@@ -15,6 +15,7 @@ use Joomla\CMS\Model\Model;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
+use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 
 /**
  * Api Model
@@ -294,5 +295,18 @@ class Api extends Model
 	public function move($adapter, $sourcePath, $destinationPath, $force = false)
 	{
 		$this->getAdapter($adapter)->move($sourcePath, $destinationPath, $force);
+	}
+
+	/**
+	 * @param   string  $adapter  The adapter
+	 * @param   string  $path     The relative path for the file
+	 *
+	 * @return string  Permalink to the relative file
+	 * @since   __DEPLOY_VERSION__
+	 * @throws FileNotFoundException
+	 */
+	public function getPermalink($adapter, $path)
+	{
+		return $this->getAdapter($adapter)->getPermalink($path);
 	}
 }
