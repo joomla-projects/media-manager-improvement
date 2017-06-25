@@ -15,6 +15,7 @@ use Joomla\CMS\Helper\MediaHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 use Joomla\Image\Image;
+use Joomla\Uri\Uri;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -544,4 +545,9 @@ class LocalAdapter implements AdapterInterface
 			throw new \Exception($value);
 		}
 	}
+
+	public function getPermalink( $path ) {
+		return \Joomla\CMS\Uri\Uri::root(). \JPath::clean('images' . $path);
+	}
+
 }
