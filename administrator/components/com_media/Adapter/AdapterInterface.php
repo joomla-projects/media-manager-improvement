@@ -149,4 +149,16 @@ interface AdapterInterface
 	 * @throws  \Exception
 	 */
 	public function copy($sourcePath, $destinationPath, $force = false);
+
+
+	/**
+	 * Returns a permanent link for media file.
+	 *
+	 * @param   string  $path  The path to file
+	 *
+	 * @return mixed
+	 * @since   __DEPLOY_VERSION__
+	 * @throws FileNotFoundException
+	 */
+	public function getPermalink($path);
 }
