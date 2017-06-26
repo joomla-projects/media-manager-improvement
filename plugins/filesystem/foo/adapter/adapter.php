@@ -16,4 +16,5 @@ defined('_JEXEC') or die;
  */
 class MediaFileAdapterFoo extends \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter
 {
+
 }
