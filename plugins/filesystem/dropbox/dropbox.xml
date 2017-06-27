@@ -19,8 +19,8 @@
 
 	<!-- Language files -->
 	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.plg_system_dropbox.ini</language>
-		<language tag="en-GB">en-GB/en-GB.plg_system_dropbox.sys.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_filesystem_dropbox.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_filesystem_dropbox.sys.ini</language>
 	</languages>
 
 	<!-- Config parameter -->
@@ -30,16 +30,16 @@
 				<field
 					name="display_name"
 					type="text"
-					label="PLG_FILESYSTEM_LOCAL_DISPLAY_NAME_LABEL"
-					description="PLG_FILESYSTEM_LOCAL_DISPLAY_NAME_DESC"
+					label="PLG_FILESYSTEM_DROPBOX_DISPLAY_NAME_LABEL"
+					description="PLG_FILESYSTEM_DROPBOX_DISPLAY_NAME_DESC"
 					default="Local"
 				/>
 				<field
-					name="api-token"
+					name="api_token"
 					type="text"
 					default=""
-					label="PLG_DROPBOX_TOKEN_LABEL"
-					description="PLG_DROPBOX_TOKEN_DESCRIPTION"
+					label="PLG_FILESYSTEM_DROPBOX_API_TOKEN_LABEL"
+					description="PLG_FILESYSTEM_DROPBOX_API_TOKEN_DESCRIPTION"
 				/>
 			</fieldset>
 		</fields>

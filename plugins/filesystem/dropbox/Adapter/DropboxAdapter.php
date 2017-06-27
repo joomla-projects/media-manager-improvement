@@ -21,9 +21,9 @@ class DropboxAdapter implements AdapterInterface
 	 * DropboxAdapter constructor.
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct()
+	public function __construct($apiToken)
 	{
-
+		var_dump($apiToken);
 	}
 
 	/**
