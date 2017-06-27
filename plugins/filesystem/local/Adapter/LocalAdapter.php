@@ -12,10 +12,10 @@ namespace Joomla\Plugin\Filesystem\Local\Adapter;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 use Joomla\Image\Image;
-use Joomla\Uri\Uri;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
