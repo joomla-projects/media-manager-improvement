@@ -549,7 +549,7 @@ class LocalAdapter implements AdapterInterface
 
 	public function getPermalink( $path )
 	{
-		return \Joomla\CMS\Uri\Uri::root(). \JPath::clean('images' . $path);
+		return Uri::root(). \JPath::clean('images' . $path);
 	}
 
 }
