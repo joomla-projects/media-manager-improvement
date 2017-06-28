@@ -10,20 +10,28 @@ namespace Joomla\Plugin\Filesystem\Dropbox\Adapter;
 
 defined('_JEXEC') or die;
 
+\JLoader::import('filesystem.dropbox.vendor.autoload', JPATH_PLUGINS);
+
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
-use Joomla\Component\Media\Administrator\Adapter\binary;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 
-
-class DropboxAdapter implements AdapterInterface
+class JoomlaDropboxAdapter implements AdapterInterface
 {
+	private $client = null;
+	private $adapter = null;
+	private $filesystem = null;
+
 	/**
 	 * DropboxAdapter constructor.
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($apiToken)
 	{
-		var_dump($apiToken);
+		$this->client = new \Srmklive\Dropbox\Client\DropboxClient($apiToken);
+
+		$this->adapter = new \Srmklive\Dropbox\Adapter\DropboxAdapter($this->client);
+
+		$this->filesystem = new \League\Flysystem\Filesystem($this->adapter);
 	}
 
 	/**
