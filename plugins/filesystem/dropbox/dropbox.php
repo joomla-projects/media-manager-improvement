@@ -13,7 +13,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * FileSystem Dropbox plugin.
- * The plugin used to manipulate local filesystem in Media Manager
+ * The plugin used to manipulate dropbox filesystem in Media Manager
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -30,13 +30,19 @@ class PlgFileSystemDropbox extends CMSPlugin
 	/**
 	 * Returns a dropbox media adapter to the caller which can be used to manipulate files
 	 *
-	 * @return   \Joomla\Plugin\Filesystem\Dropbox\Adapter\DropboxAdapter
+	 * @return   \Joomla\Plugin\Filesystem\Dropbox\Adapter\JoomlaDropboxAdapter
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
 	public function onFileSystemGetAdapters()
 	{
 		$apiToken = $this->params->get('api_token');
-		return new \Joomla\Plugin\Filesystem\Dropbox\Adapter\DropboxAdapter($apiToken);
+
+		if (!$apiToken || strlen($apiToken) <= 0)
+		{
+			throw new \Exception("API token was not found");
+		}
+
+		return new \Joomla\Plugin\Filesystem\Dropbox\Adapter\JoomlaDropboxAdapter($apiToken);
 	}
 }

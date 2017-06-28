@@ -32,7 +32,7 @@
 					type="text"
 					label="PLG_FILESYSTEM_DROPBOX_DISPLAY_NAME_LABEL"
 					description="PLG_FILESYSTEM_DROPBOX_DISPLAY_NAME_DESC"
-					default="Local"
+					default="Dropbox"
 				/>
 				<field
 					name="api_token"
