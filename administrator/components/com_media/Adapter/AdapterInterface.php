@@ -157,6 +157,7 @@ interface AdapterInterface
 	 * @param   string  $path  The path to file
 	 *
 	 * @return string
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws FileNotFoundException
 	 */
