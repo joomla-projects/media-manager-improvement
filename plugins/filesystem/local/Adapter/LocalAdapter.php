@@ -295,6 +295,7 @@ class LocalAdapter implements AdapterInterface
 			$props       = Image::getImageFileProperties($path);
 			$obj->width  = $props->width;
 			$obj->height = $props->height;
+			// Todo : Change this path to an actual one
 			$obj->thumb_path = $this->getPermalink($obj->path);
 		}
 
@@ -549,7 +550,7 @@ class LocalAdapter implements AdapterInterface
 
 	public function getPermalink( $path )
 	{
-		return Uri::root(). \JPath::clean('images' . $path);
+		return \JPath::clean( $this->rootPath. $path);
 	}
 
 }
