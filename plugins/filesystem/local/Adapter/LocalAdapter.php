@@ -35,13 +35,21 @@ class LocalAdapter implements AdapterInterface
 	private $rootPath = null;
 
 	/**
+	 * The file_path of media directory related to site
+	 *
+	 * @var string
+	 */
+	private $filePath = null;
+
+	/**
 	 * The absolute root path in the local file system.
 	 *
 	 * @param   string  $rootPath  The root path
+	 * @param   string  $filePath  The file path of media folder
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($rootPath)
+	public function __construct($rootPath, $filePath)
 	{
 		if (!file_exists($rootPath))
 		{
@@ -49,6 +57,7 @@ class LocalAdapter implements AdapterInterface
 		}
 
 		$this->rootPath = \JPath::clean($rootPath, '/');
+		$this->filePath = $filePath;
 	}
 
 	/**
@@ -546,9 +555,17 @@ class LocalAdapter implements AdapterInterface
 		}
 	}
 
-	public function getPermalink( $path )
+	/**
+	 * Returns a absolute url to caller
+	 *
+	 * @param   string  $path  Path of the file relative to adapter
+	 *
+	 * @return string
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getPermalink($path)
 	{
-		return \Joomla\CMS\Uri\Uri::root(). \JPath::clean('images' . $path);
+		return \Joomla\CMS\Uri\Uri::root(). \JPath::clean($this->filePath . $path);
 	}
 
 }
