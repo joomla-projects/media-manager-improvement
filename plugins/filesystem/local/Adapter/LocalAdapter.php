@@ -12,10 +12,10 @@ namespace Joomla\Plugin\Filesystem\Local\Adapter;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 use Joomla\Image\Image;
-use Joomla\Uri\Uri;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -69,7 +69,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @param   string  $path  The path to the file or folder
 	 *
-	 * @return  \stdClass[]
+	 * @return  \stdClass
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
@@ -549,7 +549,7 @@ class LocalAdapter implements AdapterInterface
 
 	public function getPermalink( $path )
 	{
-		return \Joomla\CMS\Uri\Uri::root(). \JPath::clean('images' . $path);
+		return Uri::root(). \JPath::clean('images' . $path);
 	}
 
 }
