@@ -261,10 +261,13 @@ class Api extends Model
 	}
 
 	/**
+	 * Returns a permalink to selected file
+	 *
 	 * @param   string  $adapter  The adapter
 	 * @param   string  $path     The relative path for the file
 	 *
 	 * @return string  Permalink to the relative file
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws FileNotFoundException
 	 */
