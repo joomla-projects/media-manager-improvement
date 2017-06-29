@@ -69,7 +69,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @param   string  $path  The path to the file or folder
 	 *
-	 * @return  \stdClass[]
+	 * @return  \stdClass
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
