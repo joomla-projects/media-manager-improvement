@@ -182,6 +182,7 @@ class Api extends Model
 	public function createFile($adapter, $name, $path, $data)
 	{
 		$this->getAdapter($adapter)->createFile($name, $path, $data);
+
 		return $name;
 	}
 
