@@ -99,7 +99,7 @@ class Api extends Model
 	 * @param   string  $adapter  The adapter
 	 * @param   string  $path     The path to the file or folder
 	 *
-	 * @return  \stdClass
+	 * @return  \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
@@ -157,6 +157,8 @@ class Api extends Model
 	 */
 	public function createFolder($adapter, $name, $path)
 	{
+		$name = $this->getSafeName($name);
+
 		$this->getAdapter($adapter)->createFolder($name, $path);
 
 		return $name;
@@ -179,6 +181,8 @@ class Api extends Model
 	 */
 	public function createFile($adapter, $name, $path, $data)
 	{
+		$name = $this->getSafeName($name);
+
 		$this->getAdapter($adapter)->createFile($name, $path, $data);
 
 		return $name;
