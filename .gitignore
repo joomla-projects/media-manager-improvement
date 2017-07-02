@@ -209,7 +209,6 @@ Desktop.ini
 /libraries/vendor/zendframework/zend-diactoros/CONTRIBUTING.md
 /libraries/vendor/zendframework/zend-diactoros/mkdocs.yml
 /libraries/vendor/zendframework/zend-diactoros/README.md
-/plugins/filesystem/dropbox/composer.lock
 
 # System Test related files
 tests/codeception/acceptance.suite.yml
