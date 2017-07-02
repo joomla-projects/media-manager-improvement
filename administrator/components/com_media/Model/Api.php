@@ -99,7 +99,7 @@ class Api extends Model
 	 * @param   string  $adapter  The adapter
 	 * @param   string  $path     The path to the file or folder
 	 *
-	 * @return  \stdClass
+	 * @return  \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
@@ -261,15 +261,18 @@ class Api extends Model
 	}
 
 	/**
+	 * Returns a permalink to selected file
+	 *
 	 * @param   string  $adapter  The adapter
 	 * @param   string  $path     The relative path for the file
 	 *
 	 * @return string  Permalink to the relative file
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws FileNotFoundException
 	 */
-	public function getPermalink($adapter, $path)
+	public function getUrl($adapter, $path)
 	{
-		return $this->getAdapter($adapter)->getPermalink($path);
+		return $this->getAdapter($adapter)->getUrl($path);
 	}
 }
