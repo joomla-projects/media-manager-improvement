@@ -157,8 +157,6 @@ class Api extends Model
 	 */
 	public function createFolder($adapter, $name, $path)
 	{
-		$name = $this->getSafeName($name);
-
 		$this->getAdapter($adapter)->createFolder($name, $path);
 
 		return $name;
