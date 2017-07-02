@@ -271,8 +271,8 @@ class Api extends Model
 	 * @since   __DEPLOY_VERSION__
 	 * @throws FileNotFoundException
 	 */
-	public function getPermalink($adapter, $path)
+	public function getUrl($adapter, $path)
 	{
-		return $this->getAdapter($adapter)->getPermalink($path);
+		return $this->getAdapter($adapter)->getUrl($path);
 	}
 }

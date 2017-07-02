@@ -110,7 +110,7 @@ class Api extends Controller
 					switch ($option)
 					{
 						case 'permalink':
-							$data = $this->getModel()->getPermalink($adapter, $path);
+							$data = $this->getModel()->getUrl($adapter, $path);
 							break;
 
 						default:
