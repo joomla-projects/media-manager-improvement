@@ -305,7 +305,7 @@ class LocalAdapter implements AdapterInterface
 			$obj->width  = $props->width;
 			$obj->height = $props->height;
 			// Todo : Change this path to an actual one
-			$obj->thumb_path = $this->getPermalink($obj->path);
+			$obj->thumb_path = $this->getUrl($obj->path);
 		}
 
 		return $obj;
