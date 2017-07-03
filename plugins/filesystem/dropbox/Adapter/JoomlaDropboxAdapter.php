@@ -14,12 +14,14 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
+use League\Flysystem\Plugin\GetWithMetadata;
+use League\Flysystem\Plugin\ListPaths;
 
 class JoomlaDropboxAdapter implements AdapterInterface
 {
 	private $client = null;
 	private $adapter = null;
-	private $filesystem = null;
+	private $dropbox = null;
 
 	/**
 	 * DropboxAdapter constructor.
@@ -31,7 +33,9 @@ class JoomlaDropboxAdapter implements AdapterInterface
 
 		$this->adapter = new \Srmklive\Dropbox\Adapter\DropboxAdapter($this->client);
 
-		$this->filesystem = new \League\Flysystem\Filesystem($this->adapter);
+		$this->dropbox = new \League\Flysystem\Filesystem($this->adapter);
+
+		$this->dropbox->addPlugin(new GetWithMetadata());
 	}
 
 	/**
@@ -86,10 +90,16 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function getFiles( $path = '/', $filter = '' )
+	public function getFiles($path = '/', $filter = '')
 	{
-		// TODO: Implement getFiles() method.
+		if ($path != '/' && !$this->dropbox->has($path))
+		{
+			throw new FileNotFoundException("File not found");
+		}
+
+		return $this->dropbox->listContents($path);
 	}
+
 
 	/**
 	 * Creates a folder with the given name in the given path.
@@ -199,7 +209,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws FileNotFoundException
 	 */
-	public function getPermalink( $path )
+	public function getUrl( $path )
 	{
 		// TODO: Implement getPermalink() method.
 	}
