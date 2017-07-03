@@ -109,14 +109,13 @@ class Api extends Controller
 
 					switch ($option)
 					{
-						case 'permalink':
+						case 'url':
 							$data = $this->getModel()->getUrl($adapter, $path);
 							break;
 
 						default:
 							$data = $this->getModel()->getFiles($adapter, $path, $this->input->getWord('filter'));
 							break;
-
 					}
 
 					break;
