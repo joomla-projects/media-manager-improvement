@@ -107,7 +107,7 @@ class Api extends Model
 	 */
 	public function getFile($adapter, $path = '/')
 	{
-		// Add adapter info to the file returned
+		// Add adapter prefix to the file returned
 		$file = $this->getAdapter($adapter)->getFile($path);
 		$file->path = $adapter . ":" . $file->path;
 
@@ -130,7 +130,7 @@ class Api extends Model
 	 */
 	public function getFiles($adapter, $path = '/', $filter = '')
 	{
-		// Add adapter info to all the files to be returned
+		// Add adapter prefix to all the files to be returned
 		$files = $this->getAdapter($adapter)->getFiles($path, $filter);
 
 		foreach ($files as $file)
