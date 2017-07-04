@@ -121,6 +121,7 @@ class Api extends Model
 	 * @param   string  $adapter  The adapter
 	 * @param   string  $path     The folder
 	 * @param   string  $filter   The filter
+	 * @param   array   $options  The options
 	 *
 	 * @return  \stdClass[]
 	 *
@@ -128,10 +129,10 @@ class Api extends Model
 	 * @throws  \Exception
 	 * @see     AdapterInterface::getFile()
 	 */
-	public function getFiles($adapter, $path = '/', $filter = '')
+	public function getFiles($adapter, $path = '/', $filter = '', $options = array())
 	{
 		// Add adapter prefix to all the files to be returned
-		$files = $this->getAdapter($adapter)->getFiles($path, $filter);
+		$files = $this->getAdapter($adapter)->getFiles($path, $filter, $options);
 
 		foreach ($files as $file)
 		{
