@@ -35,14 +35,13 @@ interface AdapterInterface
 	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
 	 * @param   string  $path     The path to the file or folder
-	 * @param   array   $options  The options
 	 *
 	 * @return  \stdClass
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function getFile($path = '/', $options = array());
+	public function getFile($path = '/');
 
 	/**
 	 * Returns the folders and files for the given path. The returned objects
