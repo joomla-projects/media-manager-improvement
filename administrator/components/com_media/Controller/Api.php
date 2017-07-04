@@ -108,7 +108,7 @@ class Api extends Controller
 					$options = array();
 					$options[] = $this->input->getWord('opt');
 
-					$this->getModel()->getFiles($adapter, $path, $this->input->getWord('filter'), $options);
+					$data = $this->getModel()->getFiles($adapter, $path, $this->input->getWord('filter'), $options);
 
 					break;
 				case 'delete':
