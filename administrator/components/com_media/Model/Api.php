@@ -136,13 +136,14 @@ class Api extends Model
 
 		foreach ($files as $file)
 		{
+			// If requested add options
+			if(isset($options['url']) && $options['url'] == 'true' && $file->type == 'file')
+			{
+				$file->url = $this->getUrl($adapter, $file->path);
+			}
+
 			$file->path = $adapter . ":" . $file->path;
 
-			// If requested add options
-			if(isset($options['url']) && $options['url'] == 'true')
-			{
-				$file->url = $this->getUrl($adapter, $path);
-			}
 		}
 
 
