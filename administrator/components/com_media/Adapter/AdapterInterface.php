@@ -34,7 +34,7 @@ interface AdapterInterface
 	 *
 	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
-	 * @param   string  $path     The path to the file or folder
+	 * @param   string  $path  The path to the file or folder
 	 *
 	 * @return  \stdClass
 	 *
@@ -59,9 +59,9 @@ interface AdapterInterface
 	 *
 	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
-	 * @param   string  $path    The folder
-	 * @param   string  $filter  The filter
-	 * @param   array   $options The options
+	 * @param   string  $path     The folder
+	 * @param   string  $filter   The filter
+	 * @param   array   $options  The options
 	 *
 	 * @return  \stdClass[]
 	 *
