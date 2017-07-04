@@ -139,11 +139,6 @@ class Api extends Model
 			$file->path = $adapter . ":" . $file->path;
 		}
 
-		// Add url info to a file when option is set
-		if (in_array("url", $options) && count($files) === 1 && $files[0]->type == "file")
-		{
-			$files[0]->url = $this->getUrl($adapter, $path);
-		}
 
 		return $files;
 	}
