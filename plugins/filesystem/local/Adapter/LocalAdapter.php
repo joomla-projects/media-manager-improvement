@@ -115,14 +115,13 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @param   string  $path     The folder
 	 * @param   string  $filter   The filter
-	 * @param   array   $options  The options
 	 *
 	 * @return  \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function getFiles($path = '/', $filter = '', $options = array())
+	public function getFiles($path = '/', $filter = '')
 	{
 		// Set up the path correctly
 		$basePath = \JPath::clean($this->rootPath . '/' . $path);
@@ -136,15 +135,7 @@ class LocalAdapter implements AdapterInterface
 		// Check if the path points to a file
 		if (is_file($basePath))
 		{
-			$pathInfo = $this->getPathInformation($basePath);
-
-			// Check options for url and if it is needed send it along
-			if (in_array("url", $options))
-			{
-				$pathInfo->url = $this->getUrl($path);
-			}
-
-			return array($pathInfo);
+			return array($this->getPathInformation($basePath));
 		}
 
 		// The data to return
