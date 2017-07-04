@@ -113,15 +113,16 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
-	 * @param   string  $path    The folder
-	 * @param   string  $filter  The filter
+	 * @param   string  $path     The folder
+	 * @param   string  $filter   The filter
+	 * @param   array   $options  The options
 	 *
 	 * @return  \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function getFiles($path = '/', $filter = '')
+	public function getFiles($path = '/', $filter = '', $options = array())
 	{
 		// Set up the path correctly
 		$basePath = \JPath::clean($this->rootPath . '/' . $path);
@@ -135,7 +136,15 @@ class LocalAdapter implements AdapterInterface
 		// Check if the path points to a file
 		if (is_file($basePath))
 		{
-			return array($this->getPathInformation($basePath));
+			$pathInfo = $this->getPathInformation($basePath);
+
+			// Check options for url and if it is needed send it along
+			if (isset($options['url']))
+			{
+				$pathInfo->url = $this->getUrl($path);
+			}
+
+			return array($pathInfo);
 		}
 
 		// The data to return
