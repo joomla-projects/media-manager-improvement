@@ -61,14 +61,13 @@ interface AdapterInterface
 	 *
 	 * @param   string  $path     The folder
 	 * @param   string  $filter   The filter
-	 * @param   array   $options  The options
 	 *
 	 * @return  \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function getFiles($path = '/', $filter = '', $options = array());
+	public function getFiles($path = '/', $filter = '');
 
 	/**
 	 * Creates a folder with the given name in the given path.

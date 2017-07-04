@@ -132,11 +132,17 @@ class Api extends Model
 	public function getFiles($adapter, $path = '/', $filter = '', $options = array())
 	{
 		// Add adapter prefix to all the files to be returned
-		$files = $this->getAdapter($adapter)->getFiles($path, $filter, $options);
+		$files = $this->getAdapter($adapter)->getFiles($path, $filter);
 
 		foreach ($files as $file)
 		{
 			$file->path = $adapter . ":" . $file->path;
+		}
+
+		// Add url info to a file when option is set
+		if (in_array("url", $options) && sizeof($files) === 1 && $files[0]->type == "file")
+		{
+			$files[0]->url = $this->getUrl($adapter, $path);
 		}
 
 		return $files;
