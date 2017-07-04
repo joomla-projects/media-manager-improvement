@@ -270,7 +270,8 @@ class Api extends Model
 	}
 
 	/**
-	 * Returns a permalink to selected file
+	 * Returns an url for serve media files from adapter.
+	 * Url must provide a valid image type to be displayed on Joomla! site.
 	 *
 	 * @param   string  $adapter  The adapter
 	 * @param   string  $path     The relative path for the file

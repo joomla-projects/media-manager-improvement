@@ -556,7 +556,7 @@ class LocalAdapter implements AdapterInterface
 	}
 
 	/**
-	 * Returns a absolute url to caller
+	 * Returns an url which can be used to display an image from "images" directory
 	 *
 	 * @param   string  $path  Path of the file relative to adapter
 	 *

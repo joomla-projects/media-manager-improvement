@@ -151,7 +151,8 @@ interface AdapterInterface
 	public function copy($sourcePath, $destinationPath, $force = false);
 
 	/**
-	 * Returns a permanent link for media file.
+	 * Returns an url for serve media files from adapter.
+	 * Url must provide a valid image type to be displayed on Joomla! site.
 	 *
 	 * @param   string  $path  The path to file
 	 *
