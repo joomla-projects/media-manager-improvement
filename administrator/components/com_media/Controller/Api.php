@@ -105,8 +105,9 @@ class Api extends Controller
 			switch ($method)
 			{
 				case 'get':
+					// Grab options
 					$options = array();
-					$options['url'] = $this->input->getWord('url', false);
+					$options['url'] = $this->input->getWord('url', '');
 
 					$data = $this->getModel()->getFiles($adapter, $path, $this->input->getWord('filter'), $options);
 
