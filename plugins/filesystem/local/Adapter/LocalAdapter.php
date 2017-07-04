@@ -15,7 +15,7 @@ use Joomla\CMS\Helper\MediaHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 use Joomla\Image\Image;
-use Joomla\Uri\Uri;
+use Joomla\CMS\Uri\Uri;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -139,7 +139,7 @@ class LocalAdapter implements AdapterInterface
 			$pathInfo = $this->getPathInformation($basePath);
 
 			// Check options for url and if it is needed send it along
-			if (isset($options['url']))
+			if (in_array("url", $options))
 			{
 				$pathInfo->url = $this->getUrl($path);
 			}
