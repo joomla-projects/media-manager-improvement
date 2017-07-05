@@ -23,4 +23,6 @@ export default {
     selectedDirectory: options.providers[0].name + ':/',
     // The currently selected items
     selectedItems: [],
+    // The currently selected items
+    selectedItems: [],
 }
