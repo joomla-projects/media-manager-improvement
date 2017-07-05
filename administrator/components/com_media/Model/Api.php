@@ -143,9 +143,7 @@ class Api extends Model
 			}
 
 			$file->path = $adapter . ":" . $file->path;
-
 		}
-
 
 		return $files;
 	}
