@@ -105,19 +105,11 @@ class Api extends Controller
 			switch ($method)
 			{
 				case 'get':
-					$option = $this->input->getWord('opt');
+					// Grab options
+					$options = array();
+					$options['url'] = $this->input->getWord('url', '');
 
-					switch ($option)
-					{
-						case 'permalink':
-							$data = $this->getModel()->getUrl($adapter, $path);
-							break;
-
-						default:
-							$data = $this->getModel()->getFiles($adapter, $path, $this->input->getWord('filter'));
-							break;
-
-					}
+					$data = $this->getModel()->getFiles($adapter, $path, $this->input->getWord('filter'), $options);
 
 					break;
 				case 'delete':
