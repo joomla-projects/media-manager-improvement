@@ -346,7 +346,7 @@ $export.P = 8;   // proto
 $export.B = 16;  // bind
 $export.W = 32;  // wrap
 $export.U = 64;  // safe
-$export.R = 128; // real proto method for `library` 
+$export.R = 128; // real proto method for `library`
 module.exports = $export;
 },{"./_core":26,"./_ctx":28,"./_global":36,"./_hide":38}],34:[function(require,module,exports){
 module.exports = function(exec){
@@ -1945,7 +1945,7 @@ module.exports = function(NAME, wrapper, methods, common, IS_MAP, IS_WEAK){
         while(index--)$instance[ADDER](index, index);
         return !$instance.has(-0);
       });
-    if(!ACCEPT_ITERABLES){ 
+    if(!ACCEPT_ITERABLES){
       C = wrapper(function(target, iterable){
         anInstance(target, C, NAME);
         var that = inheritIfRequired(new Base, target, C);
@@ -2056,7 +2056,7 @@ $export.P = 8;   // proto
 $export.B = 16;  // bind
 $export.W = 32;  // wrap
 $export.U = 64;  // safe
-$export.R = 128; // real proto method for `library` 
+$export.R = 128; // real proto method for `library`
 module.exports = $export;
 },{"./_core":110,"./_ctx":112,"./_global":125,"./_hide":127,"./_redefine":174}],120:[function(require,module,exports){
 var MATCH = require('./_wks')('match');
@@ -3901,7 +3901,7 @@ var $export = require('./_export')
 $export($export.S + $export.F * !($acosh
   // V8 bug: https://code.google.com/p/v8/issues/detail?id=3509
   && Math.floor($acosh(Number.MAX_VALUE)) == 710
-  // Tor Browser bug: Math.acosh(Infinity) -> NaN 
+  // Tor Browser bug: Math.acosh(Infinity) -> NaN
   && $acosh(Infinity) == Infinity
 ), 'Math', {
   acosh: function acosh(x){
@@ -3919,14 +3919,14 @@ function asinh(x){
   return !isFinite(x = +x) || x == 0 ? x : x < 0 ? -asinh(-x) : Math.log(x + Math.sqrt(x * x + 1));
 }
 
-// Tor Browser bug: Math.asinh(0) -> -0 
+// Tor Browser bug: Math.asinh(0) -> -0
 $export($export.S + $export.F * !($asinh && 1 / $asinh(0) > 0), 'Math', {asinh: asinh});
 },{"./_export":119}],239:[function(require,module,exports){
 // 20.2.2.7 Math.atanh(x)
 var $export = require('./_export')
   , $atanh  = Math.atanh;
 
-// Tor Browser bug: Math.atanh(-0) -> 0 
+// Tor Browser bug: Math.atanh(-0) -> 0
 $export($export.S + $export.F * !($atanh && 1 / $atanh(-0) < 0), 'Math', {
   atanh: function atanh(x){
     return (x = +x) == 0 ? x : Math.log((1 + x) / (1 - x)) / 2;
@@ -4364,7 +4364,7 @@ $export($export.P + $export.F * ($fails(function(){
 })), 'Number', {
   toPrecision: function toPrecision(precision){
     var that = aNumberValue(this, 'Number#toPrecision: incorrect invocation!');
-    return precision === undefined ? $toPrecision.call(that) : $toPrecision.call(that, precision); 
+    return precision === undefined ? $toPrecision.call(that) : $toPrecision.call(that, precision);
   }
 });
 },{"./_a-number-value":91,"./_export":119,"./_fails":121}],266:[function(require,module,exports){
@@ -6863,7 +6863,7 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],385:[function(require,module,exports){
-(function (global){
+(function (process,global){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -6882,7 +6882,6 @@ process.umask = function() { return 0; };
   var undefined; // More compressible than void 0.
   var $Symbol = typeof Symbol === "function" ? Symbol : {};
   var iteratorSymbol = $Symbol.iterator || "@@iterator";
-  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
   var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
 
   var inModule = typeof module === "object";
@@ -7056,8 +7055,8 @@ process.umask = function() { return 0; };
       }
     }
 
-    if (typeof global.process === "object" && global.process.domain) {
-      invoke = global.process.domain.bind(invoke);
+    if (typeof process === "object" && process.domain) {
+      invoke = process.domain.bind(invoke);
     }
 
     var previousPromise;
@@ -7096,9 +7095,6 @@ process.umask = function() { return 0; };
   }
 
   defineIteratorMethods(AsyncIterator.prototype);
-  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
-    return this;
-  };
   runtime.AsyncIterator = AsyncIterator;
 
   // Note that simple async functions are implemented on top of
@@ -7281,15 +7277,6 @@ process.umask = function() { return 0; };
   defineIteratorMethods(Gp);
 
   Gp[toStringTagSymbol] = "Generator";
-
-  // A Generator should always return itself as the iterator object when the
-  // @@iterator function is called on it. Some browsers' implementations of the
-  // iterator prototype chain incorrectly implement this, causing the Generator
-  // object to not be returned from this call. This ensures that doesn't happen.
-  // See https://github.com/facebook/regenerator/issues/274 for more details.
-  Gp[iteratorSymbol] = function() {
-    return this;
-  };
 
   Gp.toString = function() {
     return "[object Generator]";
@@ -7601,8 +7588,8 @@ process.umask = function() { return 0; };
   typeof self === "object" ? self : this
 );
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],386:[function(require,module,exports){
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"_process":384}],386:[function(require,module,exports){
 'use strict';
 
 var Vue = require('vue');
@@ -15953,6 +15940,10 @@ var Api = function () {
 
             item.directory = path.dirname(item.path);
 
+            if (item.directory.indexOf(':', item.directory.length - 1) !== -1) {
+                item.directory += '/';
+            }
+
             return item;
         }
 
@@ -15996,7 +15987,6 @@ var Api = function () {
     }, {
         key: '_handleError',
         value: function _handleError(error) {
-            alert(error.status + ' ' + error.statusText);
             switch (error.status) {
                 case 404:
                     break;
@@ -16105,6 +16095,11 @@ exports.default = {
         };
     },
 
+    computed: {
+        disks: function disks() {
+            return this.$store.state.disks;
+        }
+    },
     methods: {
         setFullHeight: function setFullHeight() {
             this.fullHeight = window.innerHeight - this.$el.getBoundingClientRect().top + 'px';
@@ -16139,19 +16134,19 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-container row",style:({minHeight: _vm.fullHeight})},[_c('div',{staticClass:"media-sidebar col-md-2 hidden-sm-down"},[_c('media-tree',{attrs:{"root":'/'}})],1),_vm._v(" "),_c('div',{staticClass:"col-md-10"},[_c('div',{staticClass:"media-main"},[_c('media-toolbar'),_vm._v(" "),_c('media-browser'),_vm._v(" "),_c('media-infobar')],1)]),_vm._v(" "),_c('media-upload'),_vm._v(" "),_c('media-create-folder-modal')],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-container row",style:({minHeight: _vm.fullHeight})},[_c('div',{staticClass:"media-sidebar col-md-2 hidden-sm-down"},_vm._l((_vm.disks),function(disk){return _c('media-disk',{attrs:{"disk":disk}})})),_vm._v(" "),_c('div',{staticClass:"col-md-10"},[_c('div',{staticClass:"media-main"},[_c('media-toolbar'),_vm._v(" "),_c('media-browser'),_vm._v(" "),_c('media-infobar')],1)]),_vm._v(" "),_c('media-upload'),_vm._v(" "),_c('media-create-folder-modal')],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-02393475", __vue__options__)
+    hotAPI.createRecord("data-v-1e444e05", __vue__options__)
   } else {
-    hotAPI.reload("data-v-02393475", __vue__options__)
+    hotAPI.reload("data-v-1e444e05", __vue__options__)
   }
 })()}
-},{"./../store/mutation-types":411,"vue":388,"vue-hot-reload-api":387}],394:[function(require,module,exports){
+},{"./../store/mutation-types":412,"vue":388,"vue-hot-reload-api":387}],394:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16182,6 +16177,9 @@ exports.default = {
     },
     methods: {
         goTo: function goTo(path) {
+            if (path.indexOf(':', path.length - 1) !== -1) {
+                path += '/';
+            }
             this.$store.dispatch('getContents', path);
         }
     }
@@ -16190,16 +16188,16 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('ol',{staticClass:"media-breadcrumb breadcrumb mr-auto"},[_c('li',{staticClass:"breadcrumb-item"},[_c('a',{on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.goTo('/')}}},[_vm._v("Home")])]),_vm._v(" "),_vm._l((_vm.crumbs),function(crumb){return _c('li',{staticClass:"breadcrumb-item"},[_c('a',{on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.goTo(crumb.path)}}},[_vm._v(_vm._s(crumb.name))])])})],2)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('ol',{staticClass:"media-breadcrumb breadcrumb mr-auto"},_vm._l((_vm.crumbs),function(crumb){return _c('li',{staticClass:"breadcrumb-item"},[_c('a',{on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.goTo(crumb.path)}}},[_vm._v(_vm._s(crumb.name))])])}))}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5a2cfde3", __vue__options__)
+    hotAPI.createRecord("data-v-064a591a", __vue__options__)
   } else {
-    hotAPI.reload("data-v-5a2cfde3", __vue__options__)
+    hotAPI.reload("data-v-064a591a", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],395:[function(require,module,exports){
@@ -16307,12 +16305,12 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-cd88c8d6", __vue__options__)
+    hotAPI.createRecord("data-v-1bc645b6", __vue__options__)
   } else {
-    hotAPI.reload("data-v-cd88c8d6", __vue__options__)
+    hotAPI.reload("data-v-1bc645b6", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":411,"babel-runtime/helpers/toConsumableArray":11,"vue":388,"vue-hot-reload-api":387}],396:[function(require,module,exports){
+},{"./../../store/mutation-types":412,"babel-runtime/helpers/toConsumableArray":11,"vue":388,"vue-hot-reload-api":387}],396:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16339,9 +16337,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3c2c1b4b", __vue__options__)
+    hotAPI.createRecord("data-v-2a8a664a", __vue__options__)
   } else {
-    hotAPI.reload("data-v-3c2c1b4b", __vue__options__)
+    hotAPI.reload("data-v-2a8a664a", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],397:[function(require,module,exports){
@@ -16366,9 +16364,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-744344e4", __vue__options__)
+    hotAPI.createRecord("data-v-59aa1c04", __vue__options__)
   } else {
-    hotAPI.reload("data-v-744344e4", __vue__options__)
+    hotAPI.reload("data-v-59aa1c04", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],398:[function(require,module,exports){
@@ -16413,9 +16411,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-12aad239", __vue__options__)
+    hotAPI.createRecord("data-v-a21e686e", __vue__options__)
   } else {
-    hotAPI.reload("data-v-12aad239", __vue__options__)
+    hotAPI.reload("data-v-a21e686e", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],399:[function(require,module,exports){
@@ -16539,7 +16537,7 @@ exports.default = {
     }
 };
 
-},{"./../../../store/mutation-types":411,"./directory.vue":396,"./file.vue":397,"./image.vue":398}],400:[function(require,module,exports){
+},{"./../../../store/mutation-types":412,"./directory.vue":396,"./file.vue":397,"./image.vue":398}],400:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16575,9 +16573,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-06984c8f", __vue__options__)
+    hotAPI.createRecord("data-v-5f798e1f", __vue__options__)
   } else {
-    hotAPI.reload("data-v-06984c8f", __vue__options__)
+    hotAPI.reload("data-v-5f798e1f", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],401:[function(require,module,exports){
@@ -16642,12 +16640,12 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1e731972", __vue__options__)
+    hotAPI.createRecord("data-v-e447843c", __vue__options__)
   } else {
-    hotAPI.reload("data-v-1e731972", __vue__options__)
+    hotAPI.reload("data-v-e447843c", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":411,"vue":388,"vue-focus":386,"vue-hot-reload-api":387}],402:[function(require,module,exports){
+},{"./../../store/mutation-types":412,"vue":388,"vue-focus":386,"vue-hot-reload-api":387}],402:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/** TODO DN extract styles **/\n.modal-body {\n    width: auto;\n    padding: 15px;\n}\n\n.media-modal-backdrop {\n    position: fixed;\n    z-index: 1040;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, .5);\n    display: table;\n    transition: opacity .3s ease;\n}")
 ;(function(){
 'use strict';
@@ -16710,12 +16708,12 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-afa4aac0", __vue__options__)
+    hotAPI.createRecord("data-v-7dde5310", __vue__options__)
   } else {
-    hotAPI.reload("data-v-afa4aac0", __vue__options__)
+    hotAPI.reload("data-v-7dde5310", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":411,"vue":388,"vue-hot-reload-api":387,"vueify/lib/insert-css":389}],403:[function(require,module,exports){
+},{"./../../store/mutation-types":412,"vue":388,"vue-hot-reload-api":387,"vueify/lib/insert-css":389}],403:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16736,12 +16734,44 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2ba1163b", __vue__options__)
+    hotAPI.createRecord("data-v-f6fb506a", __vue__options__)
   } else {
-    hotAPI.reload("data-v-2ba1163b", __vue__options__)
+    hotAPI.reload("data-v-f6fb506a", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],404:[function(require,module,exports){
+;(function(){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    name: 'media-disk',
+    props: ['disk'],
+    methods: {
+        selectDisk: function selectDisk() {
+            this.$store.dispatch('getContents', this.disk.root);
+        }
+    }
+};
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-disk",on:{"click":_vm.selectDisk}},[_c('div',{staticClass:"media-disk-name"},[_vm._v(_vm._s(_vm.disk.displayName))]),_vm._v(" "),_c('media-tree',{attrs:{"root":_vm.disk.root}})],1)}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-08794c5c", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-08794c5c", __vue__options__)
+  }
+})()}
+},{"vue":388,"vue-hot-reload-api":387}],405:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16786,12 +16816,12 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4c306eb8", __vue__options__)
+    hotAPI.createRecord("data-v-31461c48", __vue__options__)
   } else {
-    hotAPI.reload("data-v-4c306eb8", __vue__options__)
+    hotAPI.reload("data-v-31461c48", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],405:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],406:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16824,12 +16854,12 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-58a029c3", __vue__options__)
+    hotAPI.createRecord("data-v-3db5d753", __vue__options__)
   } else {
-    hotAPI.reload("data-v-58a029c3", __vue__options__)
+    hotAPI.reload("data-v-3db5d753", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],406:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],407:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16936,12 +16966,12 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-f6c333ba", __vue__options__)
+    hotAPI.createRecord("data-v-6502cbb3", __vue__options__)
   } else {
-    hotAPI.reload("data-v-f6c333ba", __vue__options__)
+    hotAPI.reload("data-v-6502cbb3", __vue__options__)
   }
 })()}
-},{"babel-runtime/core-js/get-iterator":3,"vue":388,"vue-hot-reload-api":387}],407:[function(require,module,exports){
+},{"babel-runtime/core-js/get-iterator":3,"vue":388,"vue-hot-reload-api":387}],408:[function(require,module,exports){
 "use strict";
 
 require("babel-polyfill");
@@ -16957,6 +16987,10 @@ var _Event2 = _interopRequireDefault(_Event);
 var _app = require("./components/app.vue");
 
 var _app2 = _interopRequireDefault(_app);
+
+var _disk = require("./components/tree/disk.vue");
+
+var _disk2 = _interopRequireDefault(_disk);
 
 var _tree = require("./components/tree/tree.vue");
 
@@ -17012,6 +17046,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _vue2.default.use(_translate2.default);
 
 // Register the vue components
+_vue2.default.component('media-disk', _disk2.default);
 _vue2.default.component('media-tree', _tree2.default);
 _vue2.default.component('media-tree-item', _item2.default);
 _vue2.default.component('media-toolbar', _toolbar2.default);
@@ -17039,7 +17074,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     });
 });
 
-},{"./app/Event":392,"./components/app.vue":393,"./components/breadcrumb/breadcrumb.vue":394,"./components/browser/browser.vue":395,"./components/browser/items/item":399,"./components/infobar/infobar.vue":400,"./components/modals/create-folder-modal.vue":401,"./components/modals/modal.vue":402,"./components/toolbar/toolbar.vue":403,"./components/tree/item.vue":404,"./components/tree/tree.vue":405,"./components/upload/upload.vue":406,"./plugins/translate":408,"./store/store":414,"babel-polyfill":1,"vue":388}],408:[function(require,module,exports){
+},{"./app/Event":392,"./components/app.vue":393,"./components/breadcrumb/breadcrumb.vue":394,"./components/browser/browser.vue":395,"./components/browser/items/item":399,"./components/infobar/infobar.vue":400,"./components/modals/create-folder-modal.vue":401,"./components/modals/modal.vue":402,"./components/toolbar/toolbar.vue":403,"./components/tree/disk.vue":404,"./components/tree/item.vue":405,"./components/tree/tree.vue":406,"./components/upload/upload.vue":407,"./plugins/translate":409,"./store/store":415,"babel-polyfill":1,"vue":388}],409:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17063,7 +17098,7 @@ Translate.install = function (Vue, options) {
 
 exports.default = Translate;
 
-},{}],409:[function(require,module,exports){
+},{}],410:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17184,7 +17219,7 @@ var deleteSelectedItems = exports.deleteSelectedItems = function deleteSelectedI
     }
 };
 
-},{"../app/Api":391,"./mutation-types":411}],410:[function(require,module,exports){
+},{"../app/Api":391,"./mutation-types":412}],411:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17228,7 +17263,7 @@ var getSelectedDirectoryFiles = exports.getSelectedDirectoryFiles = function get
     });
 };
 
-},{}],411:[function(require,module,exports){
+},{}],412:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17251,7 +17286,7 @@ var HIDE_CREATE_FOLDER_MODAL = exports.HIDE_CREATE_FOLDER_MODAL = 'HIDE_CREATE_F
 // Delete items
 var DELETE_SUCCESS = exports.DELETE_SUCCESS = 'DELETE_SUCCESS';
 
-},{}],412:[function(require,module,exports){
+},{}],413:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17412,22 +17447,51 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
     state.showCreateFolderModal = false;
 }), _types$SELECT_DIRECTO);
 
-},{"./mutation-types":411,"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10,"babel-runtime/helpers/toConsumableArray":11}],413:[function(require,module,exports){
+},{"./mutation-types":412,"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10,"babel-runtime/helpers/toConsumableArray":11}],414:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-// The initial state
-exports.default = {
-    selectedDirectory: '/',
-    directories: [{ path: '/', name: 'PLACEHOLDER', directories: [], files: [], directory: null }],
-    files: [],
-    showCreateFolderModal: false,
-    selectedItems: []
-};
 
-},{}],414:[function(require,module,exports){
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+var _assign = require('babel-runtime/core-js/object/assign');
+
+var _assign2 = _interopRequireDefault(_assign);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Get the disks from joomla option storage
+var options = Joomla.getOptions('com_media', {});
+if (options.providers === undefined || options.providers.length === 0) {
+    throw new TypeError('Media providers are not defined.');
+}
+
+// The initial state
+exports.default = (0, _defineProperty3.default)({
+    // Will hold the activated filesystem disks
+    disks: options.providers.map(function (disk) {
+        return (0, _assign2.default)(disk, {
+            root: disk.name + ':/'
+        });
+    }),
+    // The loaded directories
+    directories: options.providers.map(function (disk) {
+        return { path: disk.name + ':/', name: disk.displayName, directories: [], files: [], directory: null };
+    }),
+    // The loaded files
+    files: [],
+    // The selected disk. Providers are ordered by plugin ordering, so we set the first provider
+    // in the list as the default provider.
+    selectedDirectory: options.providers[0].name + ':/',
+    // The currently selected items
+    selectedItems: []
+}, 'selectedItems', []);
+
+},{"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10}],415:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17474,4 +17538,4 @@ _vue2.default.use(_vuex2.default
     strict: true
 });
 
-},{"./actions":409,"./getters":410,"./mutations":412,"./state":413,"vue":388,"vuex":390}]},{},[407]);
+},{"./actions":410,"./getters":411,"./mutations":413,"./state":414,"vue":388,"vuex":390}]},{},[408]);
