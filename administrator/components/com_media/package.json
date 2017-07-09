@@ -10,9 +10,7 @@
     "build-js": "browserify ./resources/scripts/mediamanager.js > ../../../media/com_media/js/mediamanager.js"
   },
   "dependencies": {
-    "amdefine": "^1.0.1",
     "babel-polyfill": "^6.23.0",
-    "has-flag": "^2.0.0",
     "vue": "^2.2.4",
     "vue-focus": "^2.1.0",
     "vuex": "^2.2.1"
