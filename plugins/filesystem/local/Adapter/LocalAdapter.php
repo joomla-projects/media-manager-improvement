@@ -263,6 +263,7 @@ class LocalAdapter implements AdapterInterface
 	 * - mime_type:     The mime type
 	 * - width:         The width, when available
 	 * - height:        The height, when available
+	 * - thumb_path     The thumbnail path of file, when available
 	 *
 	 * @param   string  $path  The folder
 	 *
@@ -304,7 +305,8 @@ class LocalAdapter implements AdapterInterface
 			$props       = Image::getImageFileProperties($path);
 			$obj->width  = $props->width;
 			$obj->height = $props->height;
-			// Todo : Change this path to an actual one
+
+			// Todo : Change this path to an actual thumbnail path
 			$obj->thumb_path = $this->getUrl($obj->path);
 		}
 
@@ -558,7 +560,7 @@ class LocalAdapter implements AdapterInterface
 	}
 
 	/**
-	 * Returns a absolute url to caller
+	 * Returns an url which can be used to display an image from "images" directory
 	 *
 	 * @param   string  $path  Path of the file relative to adapter
 	 *
