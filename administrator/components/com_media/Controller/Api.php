@@ -87,7 +87,8 @@ class Api extends Controller
 	public function files()
 	{
 		// Get the required variables
-		$path = $this->input->getPath('path', '/', 'path');
+		list($adapterInfo, $path) = explode(':', $this->input->getString('path', ''));
+		$adapter = $adapterInfo;
 
 		// Determine the method
 		$method = strtolower($this->input->getMethod() ? : 'GET');
@@ -104,10 +105,15 @@ class Api extends Controller
 			switch ($method)
 			{
 				case 'get':
-					$data = $this->getModel()->getFiles($path, $this->input->getWord('filter'));
+					// Grab options
+					$options = array();
+					$options['url'] = $this->input->getBool('url', false);
+
+					$data = $this->getModel()->getFiles($adapter, $path, $this->input->getWord('filter'), $options);
+
 					break;
 				case 'delete':
-					$this->getModel()->delete($path);
+					$this->getModel()->delete($adapter, $path);
 
 					// Define this for capability with other cases
 					$data = null;
@@ -123,15 +129,15 @@ class Api extends Controller
 						$this->checkContent($name, $mediaContent);
 
 						// A file needs to be created
-						$name = $this->getModel()->createFile($name, $path, $mediaContent);
+						$this->getModel()->createFile($adapter, $name, $path, $mediaContent);
 					}
 					else
 					{
 						// A file needs to be created
-						$name = $this->getModel()->createFolder($name, $path);
+						$this->getModel()->createFolder($adapter, $name, $path);
 					}
 
-					$data = $this->getModel()->getFile($path . '/' . $name);
+					$data = $this->getModel()->getFile($adapter, $path . '/' . $name);
 					break;
 				case 'put':
 					$content      = $this->input->json;
@@ -140,9 +146,9 @@ class Api extends Controller
 
 					$this->checkContent($name, $mediaContent);
 
-					$this->getModel()->updateFile($name, str_replace($name, '', $path), $mediaContent);
+					$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
 
-					$data = $this->getModel()->getFile($path);
+					$data = $this->getModel()->getFile($adapter, $path);
 					break;
 				default:
 					throw new \BadMethodCallException('Method not supported yet!');
