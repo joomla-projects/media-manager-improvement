@@ -213,6 +213,7 @@ class DropboxClient
     {
         $this->setupRequest([
             'path' => $this->normalizePath($path),
+            'include_media_info' => true,
         ]);
 
         $this->apiEndpoint = 'files/get_metadata';
