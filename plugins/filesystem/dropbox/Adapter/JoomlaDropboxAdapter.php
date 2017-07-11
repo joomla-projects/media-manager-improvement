@@ -15,13 +15,37 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
-use League\Flysystem\Plugin\GetWithMetadata;
-use League\Flysystem\Plugin\ListPaths;
 
+/**
+ * Class JoomlaDropboxAdapter
+ * @package Joomla\Plugin\Filesystem\Dropbox\Adapter
+ */
 class JoomlaDropboxAdapter implements AdapterInterface
 {
+	private $supportedImageFormats = array('jpg', 'jpeg', 'png', 'tiff', 'tif', 'gif' , 'bmp');
+
+	/**
+	 * Dropbox client to work with
+	 *
+	 * @var \Srmklive\Dropbox\Client\DropboxClient
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private $client = null;
+
+	/**
+	 * Dropbox adapter to work with
+	 *
+	 * @var \Srmklive\Dropbox\Adapter\DropboxAdapter
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private $adapter = null;
+
+	/**
+	 * Flysystem driver
+	 *
+	 * @var \League\Flysystem\Filesystem
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private $dropbox = null;
 
 	/**
@@ -35,8 +59,6 @@ class JoomlaDropboxAdapter implements AdapterInterface
 		$this->adapter = new \Srmklive\Dropbox\Adapter\DropboxAdapter($this->client);
 
 		$this->dropbox = new \League\Flysystem\Filesystem($this->adapter);
-
-		$this->dropbox->addPlugin(new GetWithMetadata());
 	}
 
 	/**
@@ -57,14 +79,21 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 *
 	 * @param   string $path The path to the file or folder
 	 *
-	 * @return  \stdClass[]
+	 * @return  \stdClass
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function getFile( $path = '/' )
+	public function getFile($path = '/')
 	{
-		// TODO: Implement getFile() method.
+		$path = \JPath::clean($path);
+		if (!$this->dropbox->has($path))
+		{
+			throw new FileNotFoundException("File not found");
+		}
+
+		$meta = $this->client->getMetaData($path);
+		return $this->getFileInfo($meta);
 	}
 
 	/**
@@ -109,19 +138,27 @@ class JoomlaDropboxAdapter implements AdapterInterface
 		return $files;
 	}
 
+	/**
+	 * @param $fileEntry
+	 *
+	 * @return \stdClass
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function getFileInfo($fileEntry)
 	{
-		$file = new \stdClass;
-
-		$file->type = ($fileEntry['.tag'] == 'file' ? 'file' : 'dir');
-		$file->name = $fileEntry['name'];
-		$file->path = $fileEntry['path_display'];
-		$file->size = 0;
-		$file->width = 0;
-		$file->height = 0;
-		$file->create_date_formatted = '';
+		$file                          = new \stdClass;
+		$file->type                    = ($fileEntry['.tag'] == 'file' ? 'file' : 'dir');
+		$file->name                    = $fileEntry['name'];
+		$file->path                    = $fileEntry['path_display'];
+		$file->size                    = 0;
+		$file->width                   = 0;
+		$file->height                  = 0;
+		$file->create_date_formatted   = '';
 		$file->modified_date_formatted = '';
-
+		$file->create_date             = '';
+		$file->modified_date           = '';
+		$file->extension               = '';
+		$file->thumb_path              = '';
 
 		if (isset($fileEntry['size']))
 		{
@@ -129,10 +166,16 @@ class JoomlaDropboxAdapter implements AdapterInterface
 		}
 
 		if (isset($fileEntry['client_modified']))
+		{
 			$file->create_date_formatted = $fileEntry['client_modified'];
+			$file->create_date = $fileEntry['client_modified'];
+		}
 
 		if (isset($fileEntry['server_modified']))
+		{
 			$file->modified_date_formatted = $fileEntry['server_modified'];
+			$file->modified_date = $fileEntry['server_modified'];
+		}
 
 		if (isset($fileEntry['media_info']))
 		{
@@ -145,31 +188,45 @@ class JoomlaDropboxAdapter implements AdapterInterface
 					$dimensions = $metaData['dimensions'];
 					$file->width = $dimensions['width'];
 					$file->height = $dimensions['height'];
-					$file->thumb_path = $this->getDropboxThumbnailUrl($fileEntry['id'], strtotime($file->modified_date_formatted) , $file->path);
 				}
 			}
 		}
 
 		if ($file->type == 'file')
+		{
 			$file->extension = substr(strrchr($file->name,'.'),1);
+		}
 
+		if (in_array($file->extension, $this->supportedImageFormats))
+		{
+			$file->thumb_path = $this->getThumbnailUrl($fileEntry['id'], $file->modified_date_formatted , $file->path);
+		}
 
 		return $file;
 	}
 
-	public function getDropboxThumbnailUrl($id, $timestamp , $path)
+	/**
+	 * @param $id
+	 * @param $timeModified
+	 * @param $path
+	 *
+	 * @return string
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getThumbnailUrl($id, $timeModified , $path)
 	{
 
 		$name = explode(":", $id)[1];
-		$filePath = \JPath::clean(JPATH_PLUGINS . '/filesystem/dropbox/.thumb_cache/' . $name . $timestamp . '.jpg' , '/');
+		$timeStamp = strtotime($timeModified);
+		$filePath = \JPath::clean(JPATH_PLUGINS . '/filesystem/dropbox/.thumb_cache/' . $name . $timeStamp . '.jpg' , '/');
 
 		if (!\JFile::exists($filePath))
 		{
-			$content = $this->client->getThumbnail($path);
+			$content = $this->client->getThumbnail($path, 'jpeg', 'w128h128');
 			\JFile::write($filePath, $content);
 		}
 
-		return Uri::root() . \JPath::clean( 'plugins/filesystem/dropbox/.thumb_cache/'. $name . $timestamp . '.jpg', '/');
+		return Uri::root() . \JPath::clean( 'plugins/filesystem/dropbox/.thumb_cache/'. $name . $timeStamp . '.jpg', '/');
 	}
 
 
@@ -186,7 +243,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 */
 	public function createFolder( $name, $path )
 	{
-		// TODO: Implement createFolder() method.
+		$this->client->createFolder(\JPath::clean($path . '/' .$name));
 	}
 
 	/**
@@ -203,7 +260,14 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 */
 	public function createFile( $name, $path, $data )
 	{
-		// TODO: Implement createFile() method.
+		$filePath = \JPath::clean($path . '/' . $name);
+
+		$response = $this->client->upload($filePath, $data);
+
+		if (!isset($response['.tag']))
+		{
+			throw new \Exception("Upload failed");
+		}
 	}
 
 	/**
@@ -220,7 +284,17 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 */
 	public function updateFile( $name, $path, $data )
 	{
-		// TODO: Implement updateFile() method.
+		if (!$this->dropbox->has($path . '/' . $name))
+		{
+			throw new FileNotFoundException("File not found");
+		}
+
+		$response = $this->client->upload($path . '/' . $name, $data, 'update');
+
+		if ($response->getStatusCode() != 200)
+		{
+			throw new \Exception("Deletion failed");
+		}
 	}
 
 	/**
@@ -233,9 +307,14 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function delete( $path )
+	public function delete($path)
 	{
-		// TODO: Implement delete() method.
+		$response =	$this->client->delete($path);
+
+		if ($response->getStatusCode() != 200)
+		{
+			throw new \Exception("Deletion failed");
+		}
 	}
 
 	/**
@@ -252,7 +331,12 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 */
 	public function move( $sourcePath, $destinationPath, $force = false )
 	{
-		// TODO: Implement move() method.
+		$response = $this->client->move($sourcePath, $destinationPath);
+
+		if ($response != 200)
+		{
+			throw new \Exception("Move failed");
+		}
 	}
 
 	/**
@@ -269,7 +353,12 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 */
 	public function copy( $sourcePath, $destinationPath, $force = false )
 	{
-		// TODO: Implement copy() method.
+		$response = $this->client->copy($sourcePath, $destinationPath);
+
+		if ($response != 200)
+		{
+			throw new \Exception("Move failed");
+		}
 	}
 
 	/**
@@ -281,9 +370,9 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws FileNotFoundException
 	 */
-	public function getUrl( $path )
+	public function getUrl($path)
 	{
-		// TODO: Implement getPermalink() method.
+		return $this->client->getTemporaryLink($path);
 	}
 
 }
