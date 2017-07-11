@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 \JLoader::import('filesystem.dropbox.vendor.autoload', JPATH_PLUGINS);
 
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 use League\Flysystem\Plugin\GetWithMetadata;
@@ -97,7 +98,78 @@ class JoomlaDropboxAdapter implements AdapterInterface
 			throw new FileNotFoundException("File not found");
 		}
 
-		return $this->dropbox->listContents($path);
+		$response = $this->client->listFolder($path);
+		$files = [];
+
+		foreach ($response['entries'] as $fileEntry)
+		{
+			$files[] = $this->getFileInfo($fileEntry);
+		}
+
+		return $files;
+	}
+
+	private function getFileInfo($fileEntry)
+	{
+		$file = new \stdClass;
+
+		$file->type = ($fileEntry['.tag'] == 'file' ? 'file' : 'dir');
+		$file->name = $fileEntry['name'];
+		$file->path = $fileEntry['path_display'];
+		$file->size = 0;
+		$file->width = 0;
+		$file->height = 0;
+		$file->create_date_formatted = '';
+		$file->modified_date_formatted = '';
+
+
+		if (isset($fileEntry['size']))
+		{
+			$file->size = $fileEntry['size'];
+		}
+
+		if (isset($fileEntry['client_modified']))
+			$file->create_date_formatted = $fileEntry['client_modified'];
+
+		if (isset($fileEntry['server_modified']))
+			$file->modified_date_formatted = $fileEntry['server_modified'];
+
+		if (isset($fileEntry['media_info']))
+		{
+			$mediaInfo = $fileEntry['media_info'];
+			if (isset($mediaInfo['metadata']))
+			{
+				$metaData = $mediaInfo['metadata'];
+				if (isset($metaData['dimensions']))
+				{
+					$dimensions = $metaData['dimensions'];
+					$file->width = $dimensions['width'];
+					$file->height = $dimensions['height'];
+					$file->thumb_path = $this->getDropboxThumbnailUrl($fileEntry['id'], strtotime($file->modified_date_formatted) , $file->path);
+				}
+			}
+		}
+
+		if ($file->type == 'file')
+			$file->extension = substr(strrchr($file->name,'.'),1);
+
+
+		return $file;
+	}
+
+	public function getDropboxThumbnailUrl($id, $timestamp , $path)
+	{
+
+		$name = explode(":", $id)[1];
+		$filePath = \JPath::clean(JPATH_PLUGINS . '/filesystem/dropbox/.thumb_cache/' . $name . $timestamp . '.jpg' , '/');
+
+		if (!\JFile::exists($filePath))
+		{
+			$content = $this->client->getThumbnail($path);
+			\JFile::write($filePath, $content);
+		}
+
+		return Uri::root() . \JPath::clean( 'plugins/filesystem/dropbox/.thumb_cache/'. $name . $timestamp . '.jpg', '/');
 	}
 
 
