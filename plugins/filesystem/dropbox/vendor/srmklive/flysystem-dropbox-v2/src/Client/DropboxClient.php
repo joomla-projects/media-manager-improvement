@@ -291,11 +291,12 @@ class DropboxClient
      *
      * @link https://www.dropbox.com/developers/documentation/http/documentation#files-list_folder
      */
-    public function listFolder($path = '', $recursive = false)
+    public function listFolder($path = '', $media_info = true ,$recursive = false)
     {
         $this->setupRequest([
             'path'      => $this->normalizePath($path),
             'recursive' => $recursive,
+	        'include_media_info' => $media_info,
         ]);
 
         $this->apiEndpoint = 'files/list_folder';
