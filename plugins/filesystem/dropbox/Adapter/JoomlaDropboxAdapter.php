@@ -22,7 +22,13 @@ use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
  */
 class JoomlaDropboxAdapter implements AdapterInterface
 {
-	private $supportedImageFormats = array('jpg', 'jpeg', 'png', 'tiff', 'tif', 'gif' , 'bmp');
+	/**
+	 * Supported extension for thumbnails
+	 *
+	 * @var array
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private $supportedThumbnailImageFormats = array('jpg', 'jpeg', 'png', 'tiff', 'tif', 'gif' , 'bmp');
 
 	/**
 	 * Dropbox client to work with
@@ -139,7 +145,9 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	}
 
 	/**
-	 * @param $fileEntry
+	 * Extract file information from an entry of dropbox
+	 *
+	 * @param   array  $fileEntry  File entry from dropbox
 	 *
 	 * @return \stdClass
 	 * @since   __DEPLOY_VERSION__
@@ -159,6 +167,9 @@ class JoomlaDropboxAdapter implements AdapterInterface
 		$file->modified_date           = '';
 		$file->extension               = '';
 		$file->thumb_path              = '';
+
+		// Dropbox does not support Mime Types
+		$file->mime_type               = '';
 
 		if (isset($fileEntry['size']))
 		{
@@ -197,7 +208,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 			$file->extension = substr(strrchr($file->name,'.'),1);
 		}
 
-		if (in_array($file->extension, $this->supportedImageFormats))
+		if (in_array($file->extension, $this->supportedThumbnailImageFormats))
 		{
 			$file->thumb_path = $this->getThumbnailUrl($fileEntry['id'], $file->modified_date_formatted , $file->path);
 		}
@@ -206,9 +217,9 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	}
 
 	/**
-	 * @param $id
-	 * @param $timeModified
-	 * @param $path
+	 * @param   string  $id            File ID provided by dropbox
+	 * @param   string  $timeModified  Time modified
+	 * @param   string  $path          Path to file
 	 *
 	 * @return string
 	 * @since   __DEPLOY_VERSION__
@@ -366,7 +377,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 *
 	 * @param   string $path The path to file
 	 *
-	 * @return mixed
+	 * @return string
 	 * @since   __DEPLOY_VERSION__
 	 * @throws FileNotFoundException
 	 */
