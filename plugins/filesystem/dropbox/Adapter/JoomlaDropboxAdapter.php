@@ -60,10 +60,8 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 */
 	public function __construct($apiToken)
 	{
-		$this->client = new \Srmklive\Dropbox\Client\DropboxClient($apiToken);
-
+		$this->client  = new \Srmklive\Dropbox\Client\DropboxClient($apiToken);
 		$this->adapter = new \Srmklive\Dropbox\Adapter\DropboxAdapter($this->client);
-
 		$this->dropbox = new \League\Flysystem\Filesystem($this->adapter);
 	}
 
@@ -93,6 +91,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	public function getFile($path = '/')
 	{
 		$path = \JPath::clean($path);
+
 		if (!$this->dropbox->has($path))
 		{
 			throw new FileNotFoundException("File not found");
@@ -196,8 +195,8 @@ class JoomlaDropboxAdapter implements AdapterInterface
 				$metaData = $mediaInfo['metadata'];
 				if (isset($metaData['dimensions']))
 				{
-					$dimensions = $metaData['dimensions'];
-					$file->width = $dimensions['width'];
+					$dimensions   = $metaData['dimensions'];
+					$file->width  = $dimensions['width'];
 					$file->height = $dimensions['height'];
 				}
 			}
@@ -252,7 +251,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function createFolder( $name, $path )
+	public function createFolder($name, $path)
 	{
 		$this->client->createFolder(\JPath::clean($path . '/' .$name));
 	}
@@ -269,7 +268,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function createFile( $name, $path, $data )
+	public function createFile($name, $path, $data)
 	{
 		$filePath = \JPath::clean($path . '/' . $name);
 
@@ -293,7 +292,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function updateFile( $name, $path, $data )
+	public function updateFile($name, $path, $data)
 	{
 		if (!$this->dropbox->has($path . '/' . $name))
 		{
@@ -340,7 +339,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function move( $sourcePath, $destinationPath, $force = false )
+	public function move($sourcePath, $destinationPath, $force = false)
 	{
 		$response = $this->client->move($sourcePath, $destinationPath);
 
@@ -362,7 +361,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function copy( $sourcePath, $destinationPath, $force = false )
+	public function copy( $sourcePath, $destinationPath, $force = false)
 	{
 		$response = $this->client->copy($sourcePath, $destinationPath);
 
