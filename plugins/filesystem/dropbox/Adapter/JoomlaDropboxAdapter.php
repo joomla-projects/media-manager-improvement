@@ -319,7 +319,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 */
 	public function delete($path)
 	{
-		$response =	$this->client->delete($path);
+		$response = $this->client->delete($path);
 
 		if ($response->getStatusCode() != 200)
 		{
