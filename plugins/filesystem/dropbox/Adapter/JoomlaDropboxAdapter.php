@@ -60,9 +60,24 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 */
 	public function __construct($apiToken)
 	{
-		$this->client  = new \Srmklive\Dropbox\Client\DropboxClient($apiToken);
-		$this->adapter = new \Srmklive\Dropbox\Adapter\DropboxAdapter($this->client);
-		$this->dropbox = new \League\Flysystem\Filesystem($this->adapter);
+		$this->client  = $this->getClient($apiToken);
+		$this->adapter = $this->getAdapter($this->client);
+		$this->dropbox = $this->getDropbox($this->adapter);
+	}
+
+	private function getClient($apiToken)
+	{
+		return new \Srmklive\Dropbox\Client\DropboxClient($apiToken);
+	}
+
+	private function getAdapter($client)
+	{
+		return new \Srmklive\Dropbox\Adapter\DropboxAdapter($client);
+	}
+
+	private function getDropbox($adapter)
+	{
+		return new \League\Flysystem\Filesystem($adapter);
 	}
 
 	/**
@@ -228,7 +243,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 
 		$name = explode(":", $id)[1];
 		$timeStamp = strtotime($timeModified);
-		$filePath = \JPath::clean(JPATH_PLUGINS . '/filesystem/dropbox/.thumb_cache/' . $name . $timeStamp . '.jpg' , '/');
+		$filePath = \JPath::clean(JPATH_SITE . '/media/plg_filesystem_dropbox/.thumb_cache/' . $name . $timeStamp . '.jpg' , '/');
 
 		if (!\JFile::exists($filePath))
 		{
@@ -236,7 +251,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 			\JFile::write($filePath, $content);
 		}
 
-		return Uri::root() . \JPath::clean( 'plugins/filesystem/dropbox/.thumb_cache/'. $name . $timeStamp . '.jpg', '/');
+		return Uri::root() . \JPath::clean( 'media/plg_filesystem_dropbox/.thumb_cache/'. $name . $timeStamp . '.jpg', '/');
 	}
 
 
