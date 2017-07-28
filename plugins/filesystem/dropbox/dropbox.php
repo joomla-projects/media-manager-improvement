@@ -38,11 +38,6 @@ class PlgFileSystemDropbox extends CMSPlugin
 	{
 		$apiToken = $this->params->get('api_token');
 
-		if (!$apiToken || strlen($apiToken) <= 0)
-		{
-			throw new \Exception("API token was not found");
-		}
-
 		return new \Joomla\Plugin\Filesystem\Dropbox\Adapter\JoomlaDropboxAdapter($apiToken);
 	}
 }
