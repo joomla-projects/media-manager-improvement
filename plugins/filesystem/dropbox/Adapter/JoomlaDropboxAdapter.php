@@ -56,6 +56,8 @@ class JoomlaDropboxAdapter implements AdapterInterface
 
 	/**
 	 * DropboxAdapter constructor.
+	 *
+	 * @param   string $apiToken  API Token received from dropbox API
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($apiToken)
@@ -65,16 +67,40 @@ class JoomlaDropboxAdapter implements AdapterInterface
 		$this->dropbox = $this->getDropbox($this->adapter);
 	}
 
+	/**
+	 * Returns a client for dropbox
+	 *
+	 * @param   string  $apiToken API Token obtained from the dropbox API
+	 *
+	 * @return \Srmklive\Dropbox\Client\DropboxClient
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function getClient($apiToken)
 	{
 		return new \Srmklive\Dropbox\Client\DropboxClient($apiToken);
 	}
 
+	/**
+	 * Returns an adapter for flysystem
+	 *
+	 * @param   \Srmklive\Dropbox\Client\DropboxClient $client Client object
+	 *
+	 * @return \Srmklive\Dropbox\Adapter\DropboxAdapter
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function getAdapter($client)
 	{
 		return new \Srmklive\Dropbox\Adapter\DropboxAdapter($client);
 	}
 
+	/**
+	 * Returns a flysystem adapter
+	 *
+	 * @param   \Srmklive\Dropbox\Adapter\DropboxAdapter $adapter Adapter object
+	 *
+	 * @return \League\Flysystem\Filesystem
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function getDropbox($adapter)
 	{
 		return new \League\Flysystem\Filesystem($adapter);
