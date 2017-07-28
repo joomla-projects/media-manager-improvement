@@ -40,6 +40,7 @@
 					default=""
 					label="PLG_FILESYSTEM_DROPBOX_API_TOKEN_LABEL"
 					description="PLG_FILESYSTEM_DROPBOX_API_TOKEN_DESCRIPTION"
+					required="true"
 				/>
 			</fieldset>
 		</fields>
