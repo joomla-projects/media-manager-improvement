@@ -44,4 +44,10 @@ class PlgFileSystemLocal extends CMSPlugin
 
 		return new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter($root, $filePath);
 	}
+
+	public function onFilesystemOAuthCallback($event)
+	{
+		$result = "ok";
+		return $result;
+	}
 }

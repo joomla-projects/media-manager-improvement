@@ -40,4 +40,9 @@ class PlgFileSystemDropbox extends CMSPlugin
 
 		return new \Joomla\Plugin\Filesystem\Dropbox\Adapter\JoomlaDropboxAdapter($apiToken);
 	}
+
+	public function onFilesystemOAuthCallback($event)
+	{
+		return array('some data');
+	}
 }
