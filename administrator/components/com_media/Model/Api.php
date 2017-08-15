@@ -11,6 +11,7 @@ namespace Joomla\Component\Media\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Model\Model;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -57,7 +58,7 @@ class Api extends Model
 			// Import enabled file system plugins
 			PluginHelper::importPlugin('filesystem');
 
-			$results = \JFactory::getApplication()->triggerEvent('onFileSystemGetAdapters');
+			$results = Factory::getApplication()->triggerEvent('onFileSystemGetAdapters');
 			$adapters = array();
 
 			for ($i = 0, $len = count($results); $i < $len; $i++)
