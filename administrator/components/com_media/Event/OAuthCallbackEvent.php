@@ -40,6 +40,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	 * Get the event context
 	 *
 	 * @return string
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getContext()
@@ -51,6 +52,9 @@ class OAuthCallbackEvent extends AbstractEvent
 	 * Set the event context
 	 *
 	 * @param   string  $context  Event context
+	 *
+	 * @return void
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function setContext($context)
@@ -62,6 +66,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	 * Get the event parameters
 	 *
 	 * @return array
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getParameters()
@@ -73,6 +78,9 @@ class OAuthCallbackEvent extends AbstractEvent
 	 * Set the event parameters
 	 *
 	 * @param   array  $parameters  Event parameters
+	 *
+	 * @return void
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function setParameters($parameters)
