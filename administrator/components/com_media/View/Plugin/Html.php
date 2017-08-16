@@ -21,5 +21,5 @@ use Joomla\CMS\View\HtmlView;
  */
 class Html extends HtmlView
 {
-
+	// Inherit all from parent
 }
