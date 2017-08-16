@@ -147,7 +147,7 @@ class Plugin extends Controller
 
 				// Redirect browser to control panel with a warning when no action specified
 				default:
-					$this->displayResponse('Unknown action ' . $action .' was defined in ' . $pluginName, 'warning');
+					$this->displayResponse('Unknown action ' . $action . ' was defined in ' . $pluginName, 'warning');
 					break;
 			}
 		}
