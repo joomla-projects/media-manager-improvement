@@ -13,53 +13,70 @@ use Joomla\CMS\Event\AbstractEvent;
 
 defined('_JEXEC') or die;
 
+/**
+ * Event object for retreving OAuthCallbacks
+ *
+ * @since  __DEPLOY_VERSION__
+ */
 class OAuthCallbackEvent extends AbstractEvent
 {
-	public $result = array();
-
+	/**
+	 * The event context
+	 *
+	 * @var string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	private $context = null;
 
+	/**
+	 * The event parameters
+	 *
+	 * @var array
+	 * @since  __DEPLOY_VERSION__
+	 */
 	private $parameters = null;
 
 	/**
-	 * @return null
+	 * Get the event context
+	 *
+	 * @return string
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getContext() {
+	public function getContext()
+	{
 		return $this->context;
 	}
 
 	/**
-	 * @param null $context
+	 * Set the event context
+	 *
+	 * @param   string  $context  Event context
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function setContext( $context ) {
+	public function setContext($context)
+	{
 		$this->context = $context;
 	}
 
 	/**
-	 * @return null
+	 * Get the event parameters
+	 *
+	 * @return array
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getParameters() {
+	public function getParameters()
+	{
 		return $this->parameters;
 	}
 
 	/**
-	 * @param null $parameters
+	 * Set the event parameters
+	 *
+	 * @param   array  $parameters  Event parameters
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function setParameters( $parameters ) {
+	public function setParameters($parameters)
+	{
 		$this->parameters = $parameters;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getResult(): array {
-		return $this->result;
-	}
-
-	/**
-	 * @param array $result
-	 */
-	public function setResult( array $result ) {
-		$this->result = $result;
 	}
 }
