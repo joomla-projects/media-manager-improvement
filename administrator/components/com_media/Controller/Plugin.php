@@ -12,6 +12,7 @@ namespace Joomla\Component\Media\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent;
 
@@ -80,7 +81,7 @@ class Plugin extends Controller
 			$event = new OAuthCallbackEvent('onFilesystemOAuthCallback', $eventParameters);
 
 			// Get results from event
-			$eventResults = (array) \JFactory::getApplication()->triggerEvent('onFilesystemOAuthCallback', $event);
+			$eventResults = (array) Factory::getApplication()->triggerEvent('onFilesystemOAuthCallback', $event);
 
 			// If event was not triggered in the selected Plugin, raise a warning and fallback to Control Panel
 			if (!$eventResults)
@@ -104,7 +105,7 @@ class Plugin extends Controller
 				$message = $eventResults['message'];
 				$messageType = (isset($eventResults['message_type']) ? $eventResults['message_type'] : '');
 
-				\JFactory::getApplication()->enqueueMessage($message, $messageType);
+				Factory::getApplication()->enqueueMessage($message, $messageType);
 			}
 
 			/**
@@ -146,14 +147,14 @@ class Plugin extends Controller
 
 				// Redirect browser to control panel with a warning when no action specified
 				default:
-					$this->displayResponse('Unknown action ' . $action . ' was defined in ' . $pluginName, 'warning');
+					throw new \Exception('Unknown action ' . $action . ' was defined in ' . $pluginName);
 					break;
 			}
 		}
 		catch (\Exception $e)
 		{
 			// Display any error
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			$this->setRedirect(\JRoute::_('index.php', false));
 		}
 
