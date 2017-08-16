@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Controller\Controller;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent;
-use League\Flysystem\Exception;
 
 /**
  * Plugin Controller for OAuth2.0 callbacks
