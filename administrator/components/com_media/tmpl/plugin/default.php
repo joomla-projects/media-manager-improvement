@@ -1,5 +1,7 @@
 <?php
-// Get action
+/**
+ * Get the action from the input
+ */
 $action = JFactory::getApplication()->input->getWord('action');
 
 /**
