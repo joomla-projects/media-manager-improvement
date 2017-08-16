@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 //Get the action from the input
 $action = JFactory::getApplication()->input->getWord('action');
 
