@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Controller\Controller;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent;
+use League\Flysystem\Exception;
 
 /**
  * Plugin Controller for OAuth2.0 callbacks
@@ -54,23 +55,24 @@ class Plugin extends Controller
 			jexit("Invalid CSRF token");
 		}
 
-		// Load plugin names
-		$pluginName = $this->input->request->getString('plugin', null);
-		$plugins = PluginHelper::getPlugin('filesystem');
-
-		// If plugin name was not found in parameters redirect back to control panel
-		if (!$pluginName || !$this->containsPlugin($plugins, $pluginName))
+		try
 		{
-			$this->displayResponse('Plugin not found!.', 'error');
-		}
+			// Load plugin names
+			$pluginName = $this->input->request->getString('plugin', null);
+			$plugins = PluginHelper::getPlugin('filesystem');
 
-		// Check if the plugin is disabled, if so redirect to control panel
-		if (!PluginHelper::isEnabled('filesystem', $pluginName))
-		{
-			$this->displayResponse('Plugin ' . $pluginName . ' is disabled.', 'error');
-		}
+			// If plugin name was not found in parameters redirect back to control panel
+			if (!$pluginName || !$this->containsPlugin($plugins, $pluginName))
+			{
+				throw new \Exception('Plugin not found!.', 'error');
+			}
 
-		try{
+			// Check if the plugin is disabled, if so redirect to control panel
+			if (!PluginHelper::isEnabled('filesystem', $pluginName))
+			{
+				throw new \Exception('Plugin ' . $pluginName . ' is disabled.', 'error');
+			}
+
 			// Only import our required plugin, not entire group
 			PluginHelper::importPlugin('filesystem', $pluginName);
 
@@ -79,19 +81,19 @@ class Plugin extends Controller
 			$event = new OAuthCallbackEvent('onFilesystemOAuthCallback', $eventParameters);
 
 			// Get results from event
-			$eventResults = (array)\JFactory::getApplication()->triggerEvent('onFilesystemOAuthCallback', $event);
+			$eventResults = (array) \JFactory::getApplication()->triggerEvent('onFilesystemOAuthCallback', $event);
 
 			// If event was not triggered in the selected Plugin, raise a warning and fallback to Control Panel
 			if (!$eventResults)
 			{
-				$this->displayResponse('Plugin ' . $pluginName . ' should have implemented '
+				throw new \Exception('Plugin ' . $pluginName . ' should have implemented '
 					. 'onFilesystemOAuthCallback method');
 			}
 
 			// Check if any action is specified
 			if (!isset($eventResults['action']))
 			{
-				$this->displayResponse('Action must be set in '. $pluginName, 'error');
+				throw new \Exception('Action must be set in ' . $pluginName);
 			}
 
 			$action = $eventResults['action'];
@@ -128,7 +130,7 @@ class Plugin extends Controller
 				case 'redirect':
 					if (!isset($eventResults['redirect_uri']))
 					{
-						$this->displayResponse('Redirect Uri must be set in '. $pluginName, 'error');
+						throw new \Exception("Redirect URI must be set in the plugin");
 					}
 					$this->setRedirect(($eventResults['redirect_uri']));
 					break;
@@ -148,28 +150,15 @@ class Plugin extends Controller
 					$this->displayResponse('Unknown action '. $action .' was defined in ' . $pluginName, 'warning');
 					break;
 			}
-
-			$this->redirect();
 		}
 		catch (\Exception $e)
 		{
 			// Display any error
-			$this->displayResponse($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$this->setRedirect(\JRoute::_('index.php', false));
 		}
-	}
 
-	/**
-	 * @param   string   $message  Message to be displayed
-	 * @param   string   $type     Message type [error, warning, notice or empty it]
-	 *
-	 * @return void
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private function displayResponse($message, $type = 'error')
-	{
-		\JFactory::getApplication()->enqueueMessage($message, $type);
-		$this->setRedirect(\JRoute::_('index.php', false));
+		// Redirect
 		$this->redirect();
 	}
 
