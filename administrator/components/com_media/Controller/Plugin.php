@@ -52,7 +52,7 @@ class Plugin extends Controller
 		// Check if token match with the session
 		if (\JSession::getFormToken() != $input['state'])
 		{
-			jexit("Invalid CSRF token");
+			jexit("Invalid CSRF token found. Try again");
 		}
 
 		try
