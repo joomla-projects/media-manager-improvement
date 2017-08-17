@@ -44,13 +44,13 @@ class Plugin extends Controller
 		$input = $this->input->request->getArray();
 
 		// Check if CSRF was set in status or reject
-		if (!isset($input['status']))
+		if (!isset($input['state']))
 		{
 			jexit("CSRF token was not found");
 		}
 
 		// Check if token match with the session
-		if (\JSession::getFormToken() != $input['status'])
+		if (\JSession::getFormToken() != $input['state'])
 		{
 			jexit("Invalid CSRF token");
 		}
