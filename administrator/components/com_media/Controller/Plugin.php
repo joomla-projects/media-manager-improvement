@@ -43,18 +43,6 @@ class Plugin extends Controller
 		// Get the input
 		$input = $this->input->request->getArray();
 
-		// Check if CSRF was set in status or reject
-		if (!isset($input['state']))
-		{
-			jexit("CSRF token was not found");
-		}
-
-		// Check if token match with the session
-		if (\JSession::getFormToken() != $input['state'])
-		{
-			jexit("Invalid CSRF token found. Try again");
-		}
-
 		try
 		{
 			// Load plugin names
