@@ -163,7 +163,6 @@ interface AdapterInterface
 	 */
 	public function getUrl($path);
 
-
 	/**
 	 * Return the name of the adapter.
 	 * It will be shown in the Media Manager
