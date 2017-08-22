@@ -86,15 +86,20 @@ class Api extends Controller
 	 */
 	public function files()
 	{
-		// Get the required variables
-		list($adapterInfo, $path) = explode(':', $this->input->getString('path', ''));
-		$adapter = $adapterInfo;
-
-		// Determine the method
-		$method = strtolower($this->input->getMethod() ? : 'GET');
-
 		try
 		{
+			// Get the required variables
+			list($adapterInfo, $path) = explode(':', $this->input->getString('path', ''));
+			list($adapter, $account) = array_pad(explode('-', $adapterInfo, 2), 2, null);
+
+			if ($account == null)
+			{
+				throw new \Exception('Account was not set');
+			}
+
+			// Determine the method
+			$method = strtolower($this->input->getMethod() ? : 'GET');
+
 			// Check token for requests which do modify files (all except get requests)
 			if ($method != 'get' && !\JSession::checkToken('json'))
 			{
@@ -108,16 +113,16 @@ class Api extends Controller
 					// Grab options
 					$options = array();
 					$options['url'] = $this->input->getBool('url', false);
-
-					$data = $this->getModel()->getFiles($adapter, $path, $this->input->getWord('filter'), $options);
-
+					$data = $this->getModel()->getFiles($adapter, $account, $path, $this->input->getWord('filter'), $options);
 					break;
+
 				case 'delete':
-					$this->getModel()->delete($adapter, $path);
+					$this->getModel()->delete($adapter, $account, $path);
 
 					// Define this for capability with other cases
 					$data = null;
 					break;
+
 				case 'post':
 					$content      = $this->input->json;
 					$name         = $content->getString('name');
@@ -129,16 +134,17 @@ class Api extends Controller
 						$this->checkContent($name, $mediaContent);
 
 						// A file needs to be created
-						$this->getModel()->createFile($adapter, $name, $path, $mediaContent);
+						$this->getModel()->createFile($adapter, $account, $name, $path, $mediaContent);
 					}
 					else
 					{
 						// A file needs to be created
-						$this->getModel()->createFolder($adapter, $name, $path);
+						$this->getModel()->createFolder($adapter, $account, $name, $path);
 					}
 
-					$data = $this->getModel()->getFile($adapter, $path . '/' . $name);
+					$data = $this->getModel()->getFile($adapter, $account, $path . '/' . $name);
 					break;
+
 				case 'put':
 					$content      = $this->input->json;
 					$name         = basename($path);
@@ -146,10 +152,11 @@ class Api extends Controller
 
 					$this->checkContent($name, $mediaContent);
 
-					$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
+					$this->getModel()->updateFile($adapter, $account, $name, str_replace($name, '', $path), $mediaContent);
 
-					$data = $this->getModel()->getFile($adapter, $path);
+					$data = $this->getModel()->getFile($adapter, $account, $path);
 					break;
+
 				default:
 					throw new \BadMethodCallException('Method not supported yet!');
 			}
