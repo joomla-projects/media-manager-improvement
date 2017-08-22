@@ -224,7 +224,6 @@ class Api extends Model
 	 *
 	 * @param   string  $adapter  The adapter
 	 * @param   string  $account  The account for adapter
-	 * @param   string  $account  The account for adapter
 	 * @param   string  $path     The path to the file or folder
 	 *
 	 * @return  void
