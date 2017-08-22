@@ -17482,21 +17482,21 @@ exports.default = {
     // Will hold the activated filesystem disks
     disks: options.providers.map(function (disk) {
         return (0, _assign2.default)(disk, {
-            root: disk.name + ':/'
+            root: disk.name + '-0:/'
         });
     }),
     // The loaded directories
     directories: options.providers.map(function (disk) {
-        return { path: disk.name + ':/', name: disk.displayName, directories: [], files: [], directory: null };
+        return { path: disk.name + '-0:/', name: disk.displayName, directories: [], files: [], directory: null };
     }),
     // The loaded files
     files: [],
     // The selected disk. Providers are ordered by plugin ordering, so we set the first provider
     // in the list as the default provider.
-    selectedDirectory: options.providers[0].name + ':/',
+    selectedDirectory: options.providers[0].name + '-0:/',
     // The currently selected items
     selectedItems: [],
-    // The state of cre
+    // The state of create folder model
     showCreateFolderModal: false
 };
 
