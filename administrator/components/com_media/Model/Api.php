@@ -111,7 +111,7 @@ class Api extends Model
 	{
 		// Add adapter prefix to the file returned
 		$file = $this->getAdapter($adapter, $account)->getFile($path);
-		$file->path = $adapter . ":" . $file->path;
+		$file->path = $adapter . '-' . $account . ":" . $file->path;
 
 		return $file;
 	}
@@ -146,7 +146,7 @@ class Api extends Model
 				$file->url = $this->getUrl($adapter, $account, $file->path);
 			}
 
-			$file->path = $adapter . ":" . $file->path;
+			$file->path = $adapter . '-' . $account . ":" . $file->path;
 		}
 
 		return $files;
