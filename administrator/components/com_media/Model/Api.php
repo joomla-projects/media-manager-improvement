@@ -27,7 +27,7 @@ class Api extends Model
 	/**
 	 * Holds avaliable media file adapters
 	 *
-	 * @var   AdapterInterface[]
+	 * @var   AdapterInterface[][]
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $adapters = null;
@@ -104,7 +104,6 @@ class Api extends Model
 	 * can be found in AdapterInterface::getFile().
 	 *
 	 * @param   string  $adapter  The adapter
-	 * @param   string  $account  The account for adapter
 	 * @param   string  $path     The path to the file or folder
 	 *
 	 * @return  \stdClass
