@@ -98,6 +98,7 @@ class Api extends Model
 	 * can be found in AdapterInterface::getFile().
 	 *
 	 * @param   string  $adapter  The adapter
+	 * @param   string  $account  The account for adapter
 	 * @param   string  $path     The path to the file or folder
 	 *
 	 * @return  \stdClass[]
@@ -120,6 +121,7 @@ class Api extends Model
 	 * can be found in AdapterInterface::getFiles().
 	 *
 	 * @param   string  $adapter  The adapter
+	 * @param   string  $account  The account for adapter
 	 * @param   string  $path     The folder
 	 * @param   string  $filter   The filter
 	 * @param   array   $options  The options
@@ -155,6 +157,7 @@ class Api extends Model
 	 * can be found in AdapterInterface::createFolder().
 	 *
 	 * @param   string  $adapter  The adapter
+	 * @param   string  $account  The account for adapter
 	 * @param   string  $name     The name
 	 * @param   string  $path     The folder
 	 *
@@ -176,6 +179,7 @@ class Api extends Model
 	 * can be found in AdapterInterface::createFile().
 	 *
 	 * @param   string  $adapter  The adapter
+	 * @param   string  $account  The account for adapter
 	 * @param   string  $name     The name
 	 * @param   string  $path     The folder
 	 * @param   binary  $data     The data
@@ -198,6 +202,7 @@ class Api extends Model
 	 * can be found in AdapterInterface::updateFile().
 	 *
 	 * @param   string  $adapter  The adapter
+	 * @param   string  $account  The account for adapter
 	 * @param   string  $name     The name
 	 * @param   string  $path     The folder
 	 * @param   binary  $data     The data
@@ -218,6 +223,8 @@ class Api extends Model
 	 * can be found in AdapterInterface::delete().
 	 *
 	 * @param   string  $adapter  The adapter
+	 * @param   string  $account  The account for adapter
+	 * @param   string  $account  The account for adapter
 	 * @param   string  $path     The path to the file or folder
 	 *
 	 * @return  void
@@ -236,6 +243,7 @@ class Api extends Model
 	 * If forced, existing files/folders would be overwritten
 	 *
 	 * @param   string  $adapter          The adapter
+	 * @param   string  $account          The account for adapter
 	 * @param   string  $sourcePath       Source path of the file or folder (relative)
 	 * @param   string  $destinationPath  Destination path(relative)
 	 * @param   bool    $force            Force to overwrite
@@ -255,6 +263,7 @@ class Api extends Model
 	 * If forced, existing files/folders would be overwritten
 	 *
 	 * @param   string  $adapter          The adapter
+	 * @param   string  $account          The account for adapter
 	 * @param   string  $sourcePath       Source path of the file or folder (relative)
 	 * @param   string  $destinationPath  Destination path(relative)
 	 * @param   bool    $force            Force to overwrite
@@ -274,6 +283,7 @@ class Api extends Model
 	 * Url must provide a valid image type to be displayed on Joomla! site.
 	 *
 	 * @param   string  $adapter  The adapter
+	 * @param   string  $account  The account for adapter
 	 * @param   string  $path     The relative path for the file
 	 *
 	 * @return string  Permalink to the relative file
