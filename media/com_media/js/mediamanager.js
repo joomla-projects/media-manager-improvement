@@ -17464,13 +17464,6 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _assign = require('babel-runtime/core-js/object/assign');
-
-var _assign2 = _interopRequireDefault(_assign);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 // Get the disks from joomla option storage
 var options = Joomla.getOptions('com_media', {});
 if (options.providers === undefined || options.providers.length === 0) {
@@ -17480,31 +17473,21 @@ if (options.providers === undefined || options.providers.length === 0) {
 // The initial state
 exports.default = {
     // Will hold the activated filesystem disks
-    disks: options.providers.map(function (disk) {
-        var real = [];
-        var tmp = (0, _assign2.default)(disk, {
-            displayName: disk.displayName,
-            adapterNames: disk.adapterNames
-        });
+    disks: options.providers.map(function (provider) {
+        var result = {};
+        result.displayName = provider.displayName;
+        result.adapters = [];
 
-        for (var j = 0; j < tmp.length; j++) {
-            var some = {};
-            some.displayName = tmp[j].displayName;
-            var adapterNames = tmp[j].adapterNames;
-            some.adapters = [];
-            for (var i = 0; i < adapterNames.length; i++) {
+        for (var i = 0; i < provider.adapterNames.length; i++) {
+            var adapter = {
+                root: provider.name + '-' + i + ':/',
+                displayName: provider.adapterNames[i]
+            };
 
-                var z = {};
-                z.displayName = adapterNames[i];
-                z.root = disk.name + '-' + i + ':/';
-
-                some.adapters.push(z);
-            }
-
-            real.push(some);
+            result.adapters.push(adapter);
         }
 
-        return real;
+        return result;
     }),
     // The loaded directories
     directories: options.providers.map(function (disk) {
@@ -17521,7 +17504,7 @@ exports.default = {
     showCreateFolderModal: false
 };
 
-},{"babel-runtime/core-js/object/assign":5}],415:[function(require,module,exports){
+},{}],415:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

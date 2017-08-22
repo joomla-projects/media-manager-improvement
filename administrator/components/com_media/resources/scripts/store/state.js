@@ -7,34 +7,22 @@ if (options.providers === undefined || options.providers.length === 0) {
 // The initial state
 export default {
     // Will hold the activated filesystem disks
-    disks: options.providers.map((disk) => {
-        var real = [];
-        var tmp = Object.assign(disk, {
-            displayName : disk.displayName,
-            adapterNames : disk.adapterNames,
-        });
+    disks: options.providers.map((provider) => {
+        let result = {};
+        result.displayName = provider.displayName;
+        result.adapters = [];
 
-        for (var j = 0; j < tmp.length; j++)
+        for(let i = 0; i < provider.adapterNames.length; i++)
         {
-            var some = {};
-            some.displayName = tmp[j].displayName;
-            var adapterNames = tmp[j].adapterNames;
-            some.adapters = [];
-            for(var i = 0; i < adapterNames.length; i++)
-            {
+            let adapter = {
+                root : provider.name + '-' + i + ':/',
+                displayName : provider.adapterNames[i],
+            };
 
-                var z = {};
-                z.displayName = adapterNames[i];
-                z.root = disk.name + '-' + i + ':/';
-
-                some.adapters.push(z);
-            }
-
-            real.push(some);
+            result.adapters.push(adapter);
         }
 
-
-        return real;
+        return result;
     }),
     // The loaded directories
     directories: options.providers.map((disk) => {
