@@ -10,16 +10,16 @@ export default {
     disks: options.providers.map((provider) => {
         let result = {};
         result.displayName = provider.displayName;
-        result.adapters = [];
+        result.accounts = [];
 
         for(let i = 0; i < provider.adapterNames.length; i++)
         {
-            let adapter = {
+            let account = {
                 root : provider.name + '-' + i + ':/',
                 displayName : provider.adapterNames[i],
             };
 
-            result.adapters.push(adapter);
+            result.accounts.push(account);
         }
 
         return result;
