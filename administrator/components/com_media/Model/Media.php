@@ -44,7 +44,7 @@ class Media extends Model
 			$info->displayName = $params->get('display_name');
 			$adapters          = $adapterInfo[$i];
 
-			for ($adapter = 0, $adapterCount = count($adapters); $adapter < $adapterCount ;$adapter++)
+			for ($adapter = 0, $adapterCount = count($adapters); $adapter < $adapterCount; $adapter++)
 			{
 				$info->adapterNames[] = $adapters[$adapter]->getAdapterName();
 			}
