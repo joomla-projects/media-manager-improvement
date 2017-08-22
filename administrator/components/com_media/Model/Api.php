@@ -143,7 +143,7 @@ class Api extends Model
 			// Url is only can be provided for a file
 			if (isset($options['url']) && $options['url'] && $file->type == 'file')
 			{
-				$file->url = $this->getUrl($adapter, $file->path);
+				$file->url = $this->getUrl($adapter, $account, $file->path);
 			}
 
 			$file->path = $adapter . ":" . $file->path;
