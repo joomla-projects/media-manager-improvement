@@ -101,7 +101,7 @@ class Api extends Model
 	 * @param   string  $account  The account for adapter
 	 * @param   string  $path     The path to the file or folder
 	 *
-	 * @return  \stdClass[]
+	 * @return  \stdClass
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
