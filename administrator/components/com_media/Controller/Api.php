@@ -89,13 +89,7 @@ class Api extends Controller
 		try
 		{
 			// Get the required variables
-			list($adapterInfo, $path) = explode(':', $this->input->getString('path', ''));
-			list($adapter, $account) = array_pad(explode('-', $adapterInfo, 2), 2, null);
-
-			if ($account == null)
-			{
-				throw new \Exception('Account was not set');
-			}
+			list($adapter, $path) = explode(':', $this->input->getString('path', ''));
 
 			// Determine the method
 			$method = strtolower($this->input->getMethod() ? : 'GET');
@@ -113,11 +107,11 @@ class Api extends Controller
 					// Grab options
 					$options = array();
 					$options['url'] = $this->input->getBool('url', false);
-					$data = $this->getModel()->getFiles($adapter, $account, $path, $this->input->getWord('filter'), $options);
+					$data = $this->getModel()->getFiles($adapter, $path, $this->input->getWord('filter'), $options);
 					break;
 
 				case 'delete':
-					$this->getModel()->delete($adapter, $account, $path);
+					$this->getModel()->delete($adapter, $path);
 
 					// Define this for capability with other cases
 					$data = null;
@@ -134,15 +128,15 @@ class Api extends Controller
 						$this->checkContent($name, $mediaContent);
 
 						// A file needs to be created
-						$this->getModel()->createFile($adapter, $account, $name, $path, $mediaContent);
+						$this->getModel()->createFile($adapter, $name, $path, $mediaContent);
 					}
 					else
 					{
 						// A file needs to be created
-						$this->getModel()->createFolder($adapter, $account, $name, $path);
+						$this->getModel()->createFolder($adapter, $name, $path);
 					}
 
-					$data = $this->getModel()->getFile($adapter, $account, $path . '/' . $name);
+					$data = $this->getModel()->getFile($adapter, $path . '/' . $name);
 					break;
 
 				case 'put':
@@ -152,9 +146,9 @@ class Api extends Controller
 
 					$this->checkContent($name, $mediaContent);
 
-					$this->getModel()->updateFile($adapter, $account, $name, str_replace($name, '', $path), $mediaContent);
+					$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
 
-					$data = $this->getModel()->getFile($adapter, $account, $path);
+					$data = $this->getModel()->getFile($adapter, $path);
 					break;
 
 				default:
