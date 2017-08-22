@@ -42,6 +42,6 @@ class PlgFileSystemLocal extends CMSPlugin
 		$root = JPATH_ROOT . '/' . $filePath;
 		$root = rtrim($root) . '/';
 
-		return [new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter($root, $filePath)];
+		return [new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter($root, $filePath), new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter($root, $filePath)];
 	}
 }

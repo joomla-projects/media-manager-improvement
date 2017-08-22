@@ -8,9 +8,33 @@ if (options.providers === undefined || options.providers.length === 0) {
 export default {
     // Will hold the activated filesystem disks
     disks: options.providers.map((disk) => {
-        return Object.assign(disk, {
-            root: disk.name + '-0:/',
-        })
+        var real = [];
+        var tmp = Object.assign(disk, {
+            displayName : disk.displayName,
+            adapterNames : disk.adapterNames,
+        });
+
+        for (var j = 0; j < tmp.length; j++)
+        {
+            var some = {};
+            some.displayName = tmp[j].displayName;
+            var adapterNames = tmp[j].adapterNames;
+            some.adapters = [];
+            for(var i = 0; i < adapterNames.length; i++)
+            {
+
+                var z = {};
+                z.displayName = adapterNames[i];
+                z.root = disk.name + '-' + i + ':/';
+
+                some.adapters.push(z);
+            }
+
+            real.push(some);
+        }
+
+
+        return real;
     }),
     // The loaded directories
     directories: options.providers.map((disk) => {
