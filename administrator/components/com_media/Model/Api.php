@@ -74,7 +74,7 @@ class Api extends Model
 	/**
 	 * Return the requested adapter
 	 *
-	 * @param   string   $name     Name of the provider
+	 * @param   string  $name  Name of the provider
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @return AdapterInterface
