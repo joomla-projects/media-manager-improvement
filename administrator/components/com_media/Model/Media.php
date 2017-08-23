@@ -33,7 +33,7 @@ class Media extends Model
 	{
 		PluginHelper::importPlugin('filesystem');
 		$providerInfo = PluginHelper::getPlugin('filesystem');
-		$adapterInfo = \JFactory::getApplication()->triggerEvent('onFileSystemGetAdapters');
+		$adapterInfo  = \JFactory::getApplication()->triggerEvent('onFileSystemGetAdapters');
 		$results      = array();
 
 		for ($i = 0, $len = count($providerInfo); $i < $len; $i++)

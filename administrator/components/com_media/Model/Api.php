@@ -27,7 +27,7 @@ class Api extends Model
 	/**
 	 * Holds avaliable media file adapters
 	 *
-	 * @var   AdapterInterface[]
+	 * @var   AdapterInterface[][]
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $adapters = null;
@@ -74,19 +74,25 @@ class Api extends Model
 	/**
 	 * Return the requested adapter
 	 *
-	 * @param   string   $name     Name of the provider
-	 * @param   integer  $account  Account of the adapter
+	 * @param   string  $name  Name of the provider
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @return AdapterInterface
 	 *
 	 * @throws \Exception
 	 */
-	private function getAdapter($name, $account = 0)
+	private function getAdapter($name)
 	{
-		if (isset($this->adapters[$name][$account]))
+		list($adapter, $account) = array_pad(explode('-', $name, 2), 2, null);
+
+		if ($account == null)
 		{
-			return $this->adapters[$name][$account];
+			throw new \Exception('Account was not set');
+		}
+
+		if (isset($this->adapters[$adapter][$account]))
+		{
+			return $this->adapters[$adapter][$account];
 		}
 
 		// Todo Use a translated string
@@ -98,7 +104,6 @@ class Api extends Model
 	 * can be found in AdapterInterface::getFile().
 	 *
 	 * @param   string  $adapter  The adapter
-	 * @param   string  $account  The account for adapter
 	 * @param   string  $path     The path to the file or folder
 	 *
 	 * @return  \stdClass
@@ -107,11 +112,11 @@ class Api extends Model
 	 * @throws  \Exception
 	 * @see     AdapterInterface::getFile()
 	 */
-	public function getFile($adapter, $account, $path = '/')
+	public function getFile($adapter, $path = '/')
 	{
 		// Add adapter prefix to the file returned
-		$file = $this->getAdapter($adapter, $account)->getFile($path);
-		$file->path = $adapter . '-' . $account . ":" . $file->path;
+		$file = $this->getAdapter($adapter)->getFile($path);
+		$file->path = $adapter . ":" . $file->path;
 
 		return $file;
 	}
@@ -121,7 +126,6 @@ class Api extends Model
 	 * can be found in AdapterInterface::getFiles().
 	 *
 	 * @param   string  $adapter  The adapter
-	 * @param   string  $account  The account for adapter
 	 * @param   string  $path     The folder
 	 * @param   string  $filter   The filter
 	 * @param   array   $options  The options
@@ -132,10 +136,10 @@ class Api extends Model
 	 * @throws  \Exception
 	 * @see     AdapterInterface::getFile()
 	 */
-	public function getFiles($adapter, $account, $path = '/', $filter = '', $options = array())
+	public function getFiles($adapter, $path = '/', $filter = '', $options = array())
 	{
 		// Add adapter prefix to all the files to be returned
-		$files = $this->getAdapter($adapter, $account)->getFiles($path, $filter);
+		$files = $this->getAdapter($adapter)->getFiles($path, $filter);
 
 		foreach ($files as $file)
 		{
@@ -143,10 +147,10 @@ class Api extends Model
 			// Url is only can be provided for a file
 			if (isset($options['url']) && $options['url'] && $file->type == 'file')
 			{
-				$file->url = $this->getUrl($adapter, $account, $file->path);
+				$file->url = $this->getUrl($adapter, $file->path);
 			}
 
-			$file->path = $adapter . '-' . $account . ":" . $file->path;
+			$file->path = $adapter . ":" . $file->path;
 		}
 
 		return $files;
@@ -157,7 +161,6 @@ class Api extends Model
 	 * can be found in AdapterInterface::createFolder().
 	 *
 	 * @param   string  $adapter  The adapter
-	 * @param   string  $account  The account for adapter
 	 * @param   string  $name     The name
 	 * @param   string  $path     The folder
 	 *
@@ -167,9 +170,9 @@ class Api extends Model
 	 * @throws  \Exception
 	 * @see     AdapterInterface::createFolder()
 	 */
-	public function createFolder($adapter, $account, $name, $path)
+	public function createFolder($adapter, $name, $path)
 	{
-		$this->getAdapter($adapter, $account)->createFolder($name, $path);
+		$this->getAdapter($adapter)->createFolder($name, $path);
 
 		return $name;
 	}
@@ -179,7 +182,6 @@ class Api extends Model
 	 * can be found in AdapterInterface::createFile().
 	 *
 	 * @param   string  $adapter  The adapter
-	 * @param   string  $account  The account for adapter
 	 * @param   string  $name     The name
 	 * @param   string  $path     The folder
 	 * @param   binary  $data     The data
@@ -190,9 +192,9 @@ class Api extends Model
 	 * @throws  \Exception
 	 * @see     AdapterInterface::createFile()
 	 */
-	public function createFile($adapter, $account, $name, $path, $data)
+	public function createFile($adapter, $name, $path, $data)
 	{
-		$this->getAdapter($adapter, $account)->createFile($name, $path, $data);
+		$this->getAdapter($adapter)->createFile($name, $path, $data);
 
 		return $name;
 	}
@@ -202,7 +204,6 @@ class Api extends Model
 	 * can be found in AdapterInterface::updateFile().
 	 *
 	 * @param   string  $adapter  The adapter
-	 * @param   string  $account  The account for adapter
 	 * @param   string  $name     The name
 	 * @param   string  $path     The folder
 	 * @param   binary  $data     The data
@@ -213,9 +214,9 @@ class Api extends Model
 	 * @throws  \Exception
 	 * @see     AdapterInterface::updateFile()
 	 */
-	public function updateFile($adapter, $account, $name, $path, $data)
+	public function updateFile($adapter, $name, $path, $data)
 	{
-		$this->getAdapter($adapter, $account)->updateFile($name, $path, $data);
+		$this->getAdapter($adapter)->updateFile($name, $path, $data);
 	}
 
 	/**
@@ -223,7 +224,6 @@ class Api extends Model
 	 * can be found in AdapterInterface::delete().
 	 *
 	 * @param   string  $adapter  The adapter
-	 * @param   string  $account  The account for adapter
 	 * @param   string  $path     The path to the file or folder
 	 *
 	 * @return  void
@@ -232,9 +232,9 @@ class Api extends Model
 	 * @throws  \Exception
 	 * @see     AdapterInterface::delete()
 	 */
-	public function delete($adapter, $account, $path)
+	public function delete($adapter, $path)
 	{
-		$this->getAdapter($adapter, $account)->delete($path);
+		$this->getAdapter($adapter)->delete($path);
 	}
 
 	/**
@@ -242,7 +242,6 @@ class Api extends Model
 	 * If forced, existing files/folders would be overwritten
 	 *
 	 * @param   string  $adapter          The adapter
-	 * @param   string  $account          The account for adapter
 	 * @param   string  $sourcePath       Source path of the file or folder (relative)
 	 * @param   string  $destinationPath  Destination path(relative)
 	 * @param   bool    $force            Force to overwrite
@@ -252,9 +251,9 @@ class Api extends Model
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function copy($adapter, $account, $sourcePath, $destinationPath, $force = false)
+	public function copy($adapter, $sourcePath, $destinationPath, $force = false)
 	{
-		$this->getAdapter($adapter, $account)->copy($sourcePath, $destinationPath, $force);
+		$this->getAdapter($adapter)->copy($sourcePath, $destinationPath, $force);
 	}
 
 	/**
@@ -262,7 +261,6 @@ class Api extends Model
 	 * If forced, existing files/folders would be overwritten
 	 *
 	 * @param   string  $adapter          The adapter
-	 * @param   string  $account          The account for adapter
 	 * @param   string  $sourcePath       Source path of the file or folder (relative)
 	 * @param   string  $destinationPath  Destination path(relative)
 	 * @param   bool    $force            Force to overwrite
@@ -272,9 +270,9 @@ class Api extends Model
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function move($adapter, $account, $sourcePath, $destinationPath, $force = false)
+	public function move($adapter, $sourcePath, $destinationPath, $force = false)
 	{
-		$this->getAdapter($adapter, $account)->move($sourcePath, $destinationPath, $force);
+		$this->getAdapter($adapter)->move($sourcePath, $destinationPath, $force);
 	}
 
 	/**
@@ -282,7 +280,6 @@ class Api extends Model
 	 * Url must provide a valid image type to be displayed on Joomla! site.
 	 *
 	 * @param   string  $adapter  The adapter
-	 * @param   string  $account  The account for adapter
 	 * @param   string  $path     The relative path for the file
 	 *
 	 * @return string  Permalink to the relative file
@@ -290,8 +287,8 @@ class Api extends Model
 	 * @since   __DEPLOY_VERSION__
 	 * @throws FileNotFoundException
 	 */
-	public function getUrl($adapter, $account, $path)
+	public function getUrl($adapter, $path)
 	{
-		return $this->getAdapter($adapter, $account)->getUrl($path);
+		return $this->getAdapter($adapter)->getUrl($path);
 	}
 }
