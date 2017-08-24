@@ -7,22 +7,14 @@ if (options.providers === undefined || options.providers.length === 0) {
 // The initial state
 export default {
     // Will hold the activated filesystem disks
-    disks: options.providers.map((provider) => {
-        let result = {};
-        result.displayName = provider.displayName;
-        result.accounts = [];
-
-        for(let i = 0; i < provider.adapterNames.length; i++)
-        {
-            let account = {
-                root : provider.name + '-' + i + ':/',
-                displayName : provider.adapterNames[i],
-            };
-
-            result.accounts.push(account);
+    disks: options.providers.map((disk) => {
+        return {
+            displayName : disk.displayName,
+            drives : disk.adapterNames.map((account, index) => {
+                    return {root : disk.name + '-' + index + ':/', displayName : account,}
+                }
+            ),
         }
-
-        return result;
     }),
     // The loaded directories
     directories: options.providers.map((disk) => {

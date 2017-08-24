@@ -16758,28 +16758,23 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
-    name: 'media-adapter',
-    props: ['account'],
-    methods: {
-        selectAdapter: function selectAdapter() {
-            this.$store.dispatch('getContents', this.account.root);
-        }
-    }
+    name: 'media-disk',
+    props: ['disk']
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-adapter",on:{"click":_vm.selectAdapter}},[_c('div',{staticClass:"media-adapter-name"},[_vm._v(_vm._s(_vm.account.displayName))]),_vm._v(" "),_c('media-tree',{attrs:{"root":_vm.account.root}})],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-disk"},[_c('div',{staticClass:"media-disk-name"},[_vm._v(_vm._s(_vm.disk.displayName))]),_vm._v(" "),_vm._l((_vm.disk.drives),function(drive){return _c('media-drive',{attrs:{"drive":drive}})})],2)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-625a952a", __vue__options__)
+    hotAPI.createRecord("data-v-08794c5c", __vue__options__)
   } else {
-    hotAPI.reload("data-v-625a952a", __vue__options__)
+    hotAPI.reload("data-v-08794c5c", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],405:[function(require,module,exports){
@@ -16790,23 +16785,28 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
-    name: 'media-disk',
-    props: ['disk']
+    name: 'media-drive',
+    props: ['drive'],
+    methods: {
+        selectDrive: function selectDrive() {
+            this.$store.dispatch('getContents', this.drive.root);
+        }
+    }
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-disk"},[_c('div',{staticClass:"media-disk-name"},[_vm._v(_vm._s(_vm.disk.displayName))]),_vm._v(" "),_vm._l((_vm.disk.accounts),function(account){return _c('media-adapter',{attrs:{"account":account}})})],2)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-drive",on:{"click":_vm.selectDrive}},[_c('div',{staticClass:"media-drive-name"},[_vm._v(_vm._s(_vm.drive.displayName))]),_vm._v(" "),_c('media-tree',{attrs:{"root":_vm.drive.root}})],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-08794c5c", __vue__options__)
+    hotAPI.createRecord("data-v-283fcaa5", __vue__options__)
   } else {
-    hotAPI.reload("data-v-08794c5c", __vue__options__)
+    hotAPI.reload("data-v-283fcaa5", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],406:[function(require,module,exports){
@@ -17030,9 +17030,9 @@ var _disk = require("./components/tree/disk.vue");
 
 var _disk2 = _interopRequireDefault(_disk);
 
-var _adapter = require("./components/tree/adapter.vue");
+var _drive = require("./components/tree/drive.vue");
 
-var _adapter2 = _interopRequireDefault(_adapter);
+var _drive2 = _interopRequireDefault(_drive);
 
 var _tree = require("./components/tree/tree.vue");
 
@@ -17088,7 +17088,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _vue2.default.use(_translate2.default);
 
 // Register the vue components
-_vue2.default.component('media-adapter', _adapter2.default);
+_vue2.default.component('media-drive', _drive2.default);
 _vue2.default.component('media-disk', _disk2.default);
 _vue2.default.component('media-tree', _tree2.default);
 _vue2.default.component('media-tree-item', _item2.default);
@@ -17117,7 +17117,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     });
 });
 
-},{"./app/Event":392,"./components/app.vue":393,"./components/breadcrumb/breadcrumb.vue":394,"./components/browser/browser.vue":395,"./components/browser/items/item":399,"./components/infobar/infobar.vue":400,"./components/modals/create-folder-modal.vue":401,"./components/modals/modal.vue":402,"./components/toolbar/toolbar.vue":403,"./components/tree/adapter.vue":404,"./components/tree/disk.vue":405,"./components/tree/item.vue":406,"./components/tree/tree.vue":407,"./components/upload/upload.vue":408,"./plugins/translate":410,"./store/store":416,"babel-polyfill":1,"vue":388}],410:[function(require,module,exports){
+},{"./app/Event":392,"./components/app.vue":393,"./components/breadcrumb/breadcrumb.vue":394,"./components/browser/browser.vue":395,"./components/browser/items/item":399,"./components/infobar/infobar.vue":400,"./components/modals/create-folder-modal.vue":401,"./components/modals/modal.vue":402,"./components/toolbar/toolbar.vue":403,"./components/tree/disk.vue":404,"./components/tree/drive.vue":405,"./components/tree/item.vue":406,"./components/tree/tree.vue":407,"./components/upload/upload.vue":408,"./plugins/translate":410,"./store/store":416,"babel-polyfill":1,"vue":388}],410:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17505,21 +17505,13 @@ if (options.providers === undefined || options.providers.length === 0) {
 // The initial state
 exports.default = {
     // Will hold the activated filesystem disks
-    disks: options.providers.map(function (provider) {
-        var result = {};
-        result.displayName = provider.displayName;
-        result.accounts = [];
-
-        for (var i = 0; i < provider.adapterNames.length; i++) {
-            var account = {
-                root: provider.name + '-' + i + ':/',
-                displayName: provider.adapterNames[i]
-            };
-
-            result.accounts.push(account);
-        }
-
-        return result;
+    disks: options.providers.map(function (disk) {
+        return {
+            displayName: disk.displayName,
+            drives: disk.adapterNames.map(function (account, index) {
+                return { root: disk.name + '-' + index + ':/', displayName: account };
+            })
+        };
     }),
     // The loaded directories
     directories: options.providers.map(function (disk) {

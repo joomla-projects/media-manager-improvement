@@ -1,7 +1,7 @@
 <template>
     <div class="media-disk">
         <div class="media-disk-name">{{ disk.displayName }}</div>
-        <media-adapter v-for="account in disk.accounts" :account="account"></media-adapter>
+        <media-drive v-for="drive in disk.drives" :drive="drive"></media-drive>
     </div>
 </template>
 
