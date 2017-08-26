@@ -40,4 +40,13 @@ class PlgFileSystemDropbox extends CMSPlugin
 
 		return [new \Joomla\Plugin\Filesystem\Dropbox\Adapter\JoomlaDropboxAdapter($apiToken)];
 	}
+
+	public function onFilesystemOAuthCallback(\Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent $event)
+	{
+		// your code
+
+		$result = $event->getArguments('result', []); // prevent overwriting existing results if any
+		$result[] = 'your result';
+		$event->setArguments('result', $result);
+	}
 }

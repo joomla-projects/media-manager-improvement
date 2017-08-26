@@ -15,6 +15,7 @@
 		<filename plugin="dropbox">dropbox.php</filename>
 		<folder>language</folder>
 		<folder>Adapter</folder>
+		<folder>field</folder>
 	</files>
 
 	<!-- Language files -->
@@ -25,7 +26,7 @@
 
 	<!-- Config parameter -->
 	<config>
-		<fields name="params">
+		<fields name="params" addfieldpath="plugins/filesystem/dropbox/field">
 			<fieldset name="basic">
 				<field
 					name="display_name"
@@ -49,6 +50,10 @@
 					label="PLG_FILESYSTEM_DROPBOX_API_TOKEN_LABEL"
 					description="PLG_FILESYSTEM_DROPBOX_API_TOKEN_DESC"
 					required="true"
+				/>
+				<field
+					name="auth_btn"
+					type="field.AuthButton"
 				/>
 			</fieldset>
 		</fields>
