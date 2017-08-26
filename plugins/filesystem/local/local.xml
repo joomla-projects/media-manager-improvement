@@ -12,6 +12,8 @@
 	<files>
 		<filename plugin="local">local.php</filename>
 		<folder>Adapter</folder>
+		<folder>forms</folder>
+		<filename>forms/directory_list_form.xml</filename>
 	</files>
 
 	<languages>
@@ -29,6 +31,19 @@
 					description="PLG_FILESYSTEM_LOCAL_DISPLAY_NAME_DESC"
 					default="Local"
 				/>
+				<field
+					name="directories"
+					type="subform"
+					label="Directories"
+					description="Directories to be mounted on Media Manager(Relative to Joomla root)"
+					multiple="true"
+					layout="joomla.form.field.subform.repeatable"
+					buttons="add,remove,move"
+				>
+					<form>
+						<field name="directory" type="folderlist" default="images" label="Directory" filter="" exclude="" stripext="" />
+					</form>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
