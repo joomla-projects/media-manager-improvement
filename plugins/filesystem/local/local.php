@@ -38,7 +38,7 @@ class PlgFileSystemLocal extends CMSPlugin
 	public function onFileSystemGetAdapters()
 	{
 		$adapters = [];
-		$directories = $this->params->get('directories', []);
+		$directories = $this->params->get('directories', '[{"directory":{"directory": "images"}}]');
 
 		// Do a check if default settings are not saved by user
 		// If not initialize them manually
