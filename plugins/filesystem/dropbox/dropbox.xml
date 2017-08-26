@@ -53,7 +53,7 @@
 				/>
 				<field
 					name="auth_btn"
-					type="field.AuthButton"
+					type="authbutton"
 				/>
 			</fieldset>
 		</fields>
