@@ -35,11 +35,19 @@
 					default="Dropbox"
 				/>
 				<field
+					name="app_secret"
+					type="text"
+					default=""
+					required="true"
+					description="App secret"
+					label="App Secret"
+				/>
+				<field
 					name="api_token"
 					type="text"
 					default=""
 					label="PLG_FILESYSTEM_DROPBOX_API_TOKEN_LABEL"
-					description="PLG_FILESYSTEM_DROPBOX_API_TOKEN_DESCRIPTION"
+					description="PLG_FILESYSTEM_DROPBOX_API_TOKEN_DESC"
 					required="true"
 				/>
 			</fieldset>
