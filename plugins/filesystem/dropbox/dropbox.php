@@ -54,7 +54,7 @@ class PlgFileSystemDropbox extends CMSPlugin
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
-	public function onFilesystemOAuthCallback(\Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent $event)
+	public function onFileSystemOAuthCallback(\Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent $event)
 	{
 		// Set default result to be returned
 		$result = [

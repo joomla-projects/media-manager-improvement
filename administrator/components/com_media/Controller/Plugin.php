@@ -66,7 +66,7 @@ class Plugin extends Controller
 			$event = new OAuthCallbackEvent('onFilesystemOAuthCallback', $eventParameters);
 
 			// Get results from event
-			$eventResults = (array) Factory::getApplication()->triggerEvent('onFilesystemOAuthCallback', $event);
+			$eventResults = (array) Factory::getApplication()->triggerEvent('onFileSystemOAuthCallback', $event);
 
 			// If event was not triggered in the selected Plugin, raise a warning and fallback to Control Panel
 			if (!$eventResults)
