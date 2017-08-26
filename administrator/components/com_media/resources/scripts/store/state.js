@@ -16,6 +16,10 @@ let loadedDisks = options.providers.map((disk) => {
     }
 });
 
+if (loadedDisks[0].drives[0] === undefined || loadedDisks[0].drives.length === 0){
+    throw new TypeError("No default media drive was found");
+}
+
 // The initial state
 export default {
     // Will hold the activated filesystem disks
