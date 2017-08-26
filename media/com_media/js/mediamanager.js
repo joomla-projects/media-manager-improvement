@@ -17502,26 +17502,33 @@ if (options.providers === undefined || options.providers.length === 0) {
     throw new TypeError('Media providers are not defined.');
 }
 
+// Load disks from options
+var loadedDisks = options.providers.map(function (disk) {
+    return {
+        displayName: disk.displayName,
+        drives: disk.adapterNames.map(function (account, index) {
+            return { root: disk.name + '-' + index + ':/', displayName: account };
+        })
+    };
+});
+
+if (loadedDisks[0].drives[0] === undefined || loadedDisks[0].drives.length === 0) {
+    throw new TypeError("No default media drive was found");
+}
+
 // The initial state
 exports.default = {
     // Will hold the activated filesystem disks
-    disks: options.providers.map(function (disk) {
-        return {
-            displayName: disk.displayName,
-            drives: disk.adapterNames.map(function (account, index) {
-                return { root: disk.name + '-' + index + ':/', displayName: account };
-            })
-        };
-    }),
+    disks: loadedDisks,
     // The loaded directories
-    directories: options.providers.map(function (disk) {
-        return { path: disk.name + '-0:/', name: disk.displayName, directories: [], files: [], directory: null };
+    directories: loadedDisks.map(function (disk) {
+        return { path: disk.drives[0].root, name: disk.displayName, directories: [], files: [], directory: null };
     }),
     // The loaded files
     files: [],
     // The selected disk. Providers are ordered by plugin ordering, so we set the first provider
-    // in the list as the default provider.
-    selectedDirectory: options.providers[0].name + '-0:/',
+    // in the list as the default provider and loads first drive on it as default
+    selectedDirectory: loadedDisks[0].drives[0].root,
     // The currently selected items
     selectedItems: [],
     // The state of create folder model
