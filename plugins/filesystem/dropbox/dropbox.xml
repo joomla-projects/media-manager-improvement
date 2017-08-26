@@ -34,24 +34,41 @@
 					label="PLG_FILESYSTEM_DROPBOX_DISPLAY_NAME_LABEL"
 					description="PLG_FILESYSTEM_DROPBOX_DISPLAY_NAME_DESC"
 					default="Dropbox"
+					required="true"
 				/>
 				<field
-					name="app_secret"
+					type="text"
+					name="account_name"
+					label="PLG_FILESYSTEM_DROPBOX_ACCOUNT_NAME_LABEL"
+					description="PLG_FILESYSTEM_DROPBOX_ACCOUNT_NAME_DESC"
+					default="Your Dropbox"
+					required="true"
+				/>
+				<field
+					name="client_id"
 					type="text"
 					default=""
 					required="true"
-					description="App secret"
-					label="App Secret"
+					label="PLG_FILESYSTEM_DROPBOX_CLIENT_ID_LABEL"
+					description="PLG_FILESYSTEM_DROPBOX_CLIENT_ID_DESC"
 				/>
 				<field
-					name="api_token"
+					name="client_secret"
+					type="text"
+					default=""
+					required="true"
+					description="PLG_FILESYSTEM_DROPBOX_CLIENT_SECRET_DESC"
+					label="PLG_FILESYSTEM_DROPBOX_CLIENT_SECRET_LABEL"
+				/>
+				<field
+					name="access_token"
 					type="text"
 					default=""
 					label="PLG_FILESYSTEM_DROPBOX_API_TOKEN_LABEL"
 					description="PLG_FILESYSTEM_DROPBOX_API_TOKEN_DESC"
 				/>
 				<field
-					name="auth_btn"
+					name="auth_button"
 					type="authbutton"
 				/>
 			</fieldset>
