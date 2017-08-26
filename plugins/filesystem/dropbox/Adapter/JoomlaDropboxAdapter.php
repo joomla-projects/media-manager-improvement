@@ -1,9 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: kasun
- * Date: 6/27/17
- * Time: 11:16 PM
+ * @package     Joomla.Plugin
+ * @subpackage  FileSystem.Dropbox
+ *
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\Filesystem\Dropbox\Adapter;
@@ -18,10 +19,21 @@ use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 
 /**
  * Class JoomlaDropboxAdapter
+ *
  * @package Joomla\Plugin\Filesystem\Dropbox\Adapter
+ *
+ * @since   __DEPLOY_VERSION__
  */
 class JoomlaDropboxAdapter implements AdapterInterface
 {
+	/**
+	 * Account name
+	 *
+	 * @var string
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private $accountName = 'Your Dropbox';
+
 	/**
 	 * Supported extension for thumbnails
 	 *
@@ -435,6 +447,18 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 */
 	public function getAdapterName()
 	{
-		return "Dropbox Adapter";
+		return $this->accountName;
+	}
+
+	/**
+	 * Sets the account name
+	 *
+	 * @param   string $name The account name of user
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setAccountName($name)
+	{
+		$this->accountName = $name;
 	}
 }
