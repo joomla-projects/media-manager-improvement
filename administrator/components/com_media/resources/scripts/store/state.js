@@ -28,7 +28,7 @@ export default {
     files: [],
     // The selected disk. Providers are ordered by plugin ordering, so we set the first provider
     // in the list as the default provider.
-    selectedDirectory: options.providers[0].name + '-0:/',
+    selectedDirectory: loadedDisks[0].drives[0].root,
     // The currently selected items
     selectedItems: [],
     // The state of create folder model
