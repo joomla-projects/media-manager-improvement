@@ -34,8 +34,8 @@
 				<field
 					name="directories"
 					type="subform"
-					label="Directories"
-					description="Directories to be mounted on Media Manager(Relative to Joomla root)"
+					label="PLG_FILESYSTEM_LOCAL_DIRECTORIES_LABEL"
+					description="PLG_FILESYSTEM_LOCAL_DIRECTORIES_DESC"
 					multiple="true"
 					layout="joomla.form.field.subform.repeatable"
 					buttons="add,remove,move"
