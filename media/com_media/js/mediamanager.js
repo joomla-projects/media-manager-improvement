@@ -17502,20 +17502,23 @@ if (options.providers === undefined || options.providers.length === 0) {
     throw new TypeError('Media providers are not defined.');
 }
 
+// Load disks from options
+var loadedDisks = options.providers.map(function (disk) {
+    return {
+        displayName: disk.displayName,
+        drives: disk.adapterNames.map(function (account, index) {
+            return { root: disk.name + '-' + index + ':/', displayName: account };
+        })
+    };
+});
+
 // The initial state
 exports.default = {
     // Will hold the activated filesystem disks
-    disks: options.providers.map(function (disk) {
-        return {
-            displayName: disk.displayName,
-            drives: disk.adapterNames.map(function (account, index) {
-                return { root: disk.name + '-' + index + ':/', displayName: account };
-            })
-        };
-    }),
+    disks: loadedDisks,
     // The loaded directories
-    directories: options.providers.map(function (disk) {
-        return { path: disk.name + '-0:/', name: disk.displayName, directories: [], files: [], directory: null };
+    directories: loadedDisks.map(function (disk) {
+        return { path: disk.drives[0].root, name: disk.displayName, directories: [], files: [], directory: null };
     }),
     // The loaded files
     files: [],
