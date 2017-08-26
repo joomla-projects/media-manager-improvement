@@ -27,7 +27,7 @@ export default {
     // The loaded files
     files: [],
     // The selected disk. Providers are ordered by plugin ordering, so we set the first provider
-    // in the list as the default provider.
+    // in the list as the default provider and loads first drive on it as default
     selectedDirectory: loadedDisks[0].drives[0].root,
     // The currently selected items
     selectedItems: [],
