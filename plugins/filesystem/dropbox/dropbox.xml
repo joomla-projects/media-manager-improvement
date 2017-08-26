@@ -49,7 +49,6 @@
 					default=""
 					label="PLG_FILESYSTEM_DROPBOX_API_TOKEN_LABEL"
 					description="PLG_FILESYSTEM_DROPBOX_API_TOKEN_DESC"
-					required="true"
 				/>
 				<field
 					name="auth_btn"

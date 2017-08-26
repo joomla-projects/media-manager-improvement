@@ -15,10 +15,12 @@ class JFormFieldAuthButton extends JFormField
 
 	public function getInput()
 	{
-		$params = \Joomla\CMS\Plugin\PluginHelper::getPlugin('dropbox');
-		$token  = '';
+		$formData  = $this->form->getData();
+		$formData  = $formData->data;
+		$app_secret = '';
 
-		$html   = '<a href="https://www.dropbox.com/oauth2/authorize?response_type=code&client_id="'. $token . '&redirect_uri="'. urldecode('http://localhost/media-manager-improvement/administrator/index.php?option=com_media&task=plugin.oauthcallback&plugin=dropbox') . '">Button</a>';
+
+		$html   = '<a href="https://www.dropbox.com/oauth2/authorize?response_type=code&redirect_uri='. urlencode('http://localhost/media-manager-improvement/administrator/index.php?option=com_media&task=plugin.oauthcallback&plugin=dropbox') . '&client_id=' . $app_secret . '">Button</a>';
 		return $html;
 	}
 }
