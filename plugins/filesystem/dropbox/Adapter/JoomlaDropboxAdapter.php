@@ -298,7 +298,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 			\JFile::write($filePath, $content);
 		}
 
-		return Uri::root() . \JPath::clean( 'media/plg_filesystem_dropbox/.thumb_cache/' . $name . $timeStamp . '.jpg', '/');
+		return Uri::root() . \JPath::clean('media/plg_filesystem_dropbox/.thumb_cache/' . $name . $timeStamp . '.jpg', '/');
 	}
 
 
@@ -463,7 +463,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	/**
 	 * Sets the account name
 	 *
-	 * @param   string $name The account name of user
+	 * @param   string  $name  The account name of user
 	 *
 	 * @return void
 	 *
