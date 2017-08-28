@@ -52,6 +52,8 @@ class PlgFileSystemDropbox extends CMSPlugin
 	 *
 	 * @param   \Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent $event  The event object
 	 *
+	 * @return  void
+	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
 	public function onFileSystemOAuthCallback(\Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent $event)
@@ -74,7 +76,7 @@ class PlgFileSystemDropbox extends CMSPlugin
 			$dropbox      = new \Kunnu\Dropbox\Dropbox($app);
 			$helper       = $dropbox->getAuthHelper();
 			$redirectURI  = Joomla\CMS\Uri\Uri::root() . 'administrator/' .
-			                'index.php?option=com_media&task=plugin.oauthcallback&plugin=dropbox';
+							'index.php?option=com_media&task=plugin.oauthcallback&plugin=dropbox';
 			$tokenData    = $helper->getAccessToken($code, null, $redirectURI);
 			$accessToken  = $tokenData->getToken();
 
@@ -87,10 +89,10 @@ class PlgFileSystemDropbox extends CMSPlugin
 
 			$db = \Joomla\CMS\Factory::getDbo();
 			$query = $db->getQuery(true)
-			            ->update($db->qn('#__extensions'))
-			            ->set($db->qn('params') . '=' . $db->q($this->params->toString()))
-			            ->where($db->qn('element') . '=' . $db->q('dropbox'))
-			            ->where($db->qn('type') . '=' . $db->q('plugin'));
+						->update($db->qn('#__extensions'))
+						->set($db->qn('params') . '=' . $db->q($this->params->toString()))
+						->where($db->qn('element') . '=' . $db->q('dropbox'))
+						->where($db->qn('type') . '=' . $db->q('plugin'));
 			$db->setQuery($query);
 			$db->execute();
 
