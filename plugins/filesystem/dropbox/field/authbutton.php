@@ -63,7 +63,7 @@ class JFormFieldAuthButton extends JFormField
 			Joomla\CMS\Uri\Uri::root() . 'administrator/index.php' . '?option=com_media&task=plugin.oauthcallback&plugin=dropbox'
 		);
 
-		$html  = '<a class="btn btn-info" href="'. $redirectUri .'">Get Access Token</a>';
+		$html  = '<a class="btn btn-info" href="' . $redirectUri . '">Get Access Token</a>';
 		$html .= '<br><p><b>*Use this button after saving client credentials</b></p>';
 
 		return $html;
