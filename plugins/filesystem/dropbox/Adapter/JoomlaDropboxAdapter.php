@@ -263,18 +263,20 @@ class JoomlaDropboxAdapter implements AdapterInterface
 
 		if ($file->type == 'file')
 		{
-			$file->extension = substr(strrchr($file->name,'.'),1);
+			$file->extension = substr(strrchr($file->name, '.'),1);
 		}
 
 		if (in_array($file->extension, $this->supportedThumbnailImageFormats))
 		{
-			$file->thumb_path = $this->getThumbnailUrl($fileEntry['id'], $file->modified_date_formatted , $file->path);
+			$file->thumb_path = $this->getThumbnailUrl($fileEntry['id'], $file->modified_date_formatted, $file->path);
 		}
 
 		return $file;
 	}
 
 	/**
+	 * Returns a url for thumbnails
+	 *
 	 * @param   string  $id            File ID provided by dropbox
 	 * @param   string  $timeModified  Time modified
 	 * @param   string  $path          Path to file
