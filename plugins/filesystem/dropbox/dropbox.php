@@ -50,7 +50,7 @@ class PlgFileSystemDropbox extends CMSPlugin
 	/**
 	 * Handle OAuthCallback request
 	 *
-	 * @param   \Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent $event  The event object
+	 * @param   \Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent  $event  The event object
 	 *
 	 * @return  void
 	 *
