@@ -73,7 +73,7 @@ class PlgFileSystemDropbox extends CMSPlugin
 			$app          = new \Kunnu\Dropbox\DropboxApp($clientID, $clientSecret);
 			$dropbox      = new \Kunnu\Dropbox\Dropbox($app);
 			$helper       = $dropbox->getAuthHelper();
-			$redirectURI  = 'http://localhost/media-manager-improvement/administrator/'.
+			$redirectURI  = Joomla\CMS\Uri\Uri::root() . 'administrator/' .
 			                'index.php?option=com_media&task=plugin.oauthcallback&plugin=dropbox';
 			$tokenData    = $helper->getAccessToken($code, null, $redirectURI);
 			$accessToken  = $tokenData->getToken();

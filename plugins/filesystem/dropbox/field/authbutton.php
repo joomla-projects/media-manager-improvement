@@ -59,7 +59,7 @@ class JFormFieldAuthButton extends JFormField
 		$dropbox = new \Kunnu\Dropbox\Dropbox($app);
 
 		$helper = $dropbox->getAuthHelper();
-		$redirectUri = $helper->getAuthUrl('http://localhost/media-manager-improvement/administrator/index.php'
+		$redirectUri = $helper->getAuthUrl(Joomla\CMS\Uri\Uri::root() . 'administrator/index.php'
 		                                   .'?option=com_media&task=plugin.oauthcallback&plugin=dropbox');
 
 
