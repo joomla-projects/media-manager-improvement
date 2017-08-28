@@ -59,7 +59,9 @@ class JFormFieldAuthButton extends JFormField
 		$dropbox = new \Kunnu\Dropbox\Dropbox($app);
 
 		$helper      = $dropbox->getAuthHelper();
-		$redirectUri = $helper->getAuthUrl(Joomla\CMS\Uri\Uri::root() . 'administrator/index.php' . '?option=com_media&task=plugin.oauthcallback&plugin=dropbox');
+		$redirectUri = $helper->getAuthUrl(
+			Joomla\CMS\Uri\Uri::root() . 'administrator/index.php' . '?option=com_media&task=plugin.oauthcallback&plugin=dropbox'
+		);
 
 		$html  = '<a class="btn btn-info" href="'. $redirectUri .'">Get Access Token</a>';
 		$html .= '<br><p><b>*Use this button after saving client credentials</b></p>';
