@@ -20,9 +20,9 @@ use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 /**
  * Class JoomlaDropboxAdapter
  *
- * @package Joomla\Plugin\Filesystem\Dropbox\Adapter
+ * @package  Joomla\Plugin\Filesystem\Dropbox\Adapter
  *
- * @since   __DEPLOY_VERSION__
+ * @since    __DEPLOY_VERSION__
  */
 class JoomlaDropboxAdapter implements AdapterInterface
 {
@@ -69,7 +69,8 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	/**
 	 * DropboxAdapter constructor.
 	 *
-	 * @param   string $apiToken  API Token received from dropbox API
+	 * @param   string  $apiToken  API Token received from dropbox API
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($apiToken)
@@ -85,6 +86,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 * @param   string  $apiToken API Token obtained from the dropbox API
 	 *
 	 * @return \Srmklive\Dropbox\Client\DropboxClient
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getClient($apiToken)
