@@ -263,7 +263,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 
 		if ($file->type == 'file')
 		{
-			$file->extension = substr(strrchr($file->name, '.'),1);
+			$file->extension = substr(strrchr($file->name, '.'), 1);
 		}
 
 		if (in_array($file->extension, $this->supportedThumbnailImageFormats))
@@ -290,7 +290,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 
 		$name = explode(":", $id)[1];
 		$timeStamp = strtotime($timeModified);
-		$filePath = \JPath::clean(JPATH_SITE . '/media/plg_filesystem_dropbox/.thumb_cache/' . $name . $timeStamp . '.jpg' , '/');
+		$filePath = \JPath::clean(JPATH_SITE . '/media/plg_filesystem_dropbox/.thumb_cache/' . $name . $timeStamp . '.jpg', '/');
 
 		if (!\JFile::exists($filePath))
 		{
@@ -298,7 +298,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 			\JFile::write($filePath, $content);
 		}
 
-		return Uri::root() . \JPath::clean( 'media/plg_filesystem_dropbox/.thumb_cache/'. $name . $timeStamp . '.jpg', '/');
+		return Uri::root() . \JPath::clean( 'media/plg_filesystem_dropbox/.thumb_cache/' . $name . $timeStamp . '.jpg', '/');
 	}
 
 
@@ -315,7 +315,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 */
 	public function createFolder($name, $path)
 	{
-		$this->client->createFolder(\JPath::clean($path . '/' .$name));
+		$this->client->createFolder(\JPath::clean($path . '/' . $name));
 	}
 
 	/**
