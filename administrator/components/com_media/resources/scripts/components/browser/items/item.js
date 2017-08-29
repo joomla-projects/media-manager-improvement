@@ -47,9 +47,29 @@ export default {
          * @param event
          */
         function handleClick(event) {
-            var e = createEvent('onMediaFileSelected');
-            e.item = item;
-            window.parent.document.dispatchEvent(e);
+            const rootPath = Joomla.getOptions('com_media').fileBaseRelativeUrl;
+            const cloudRootPath = Joomla.getOptions('com_media').fileBaseRelativeUrl; //@todo return the cloud root...
+            const isCloud = false; //@todo return true if file is on the cloud
+	        let path = false;
+
+            if (item.type === 'file') {
+                if (isCloud) {
+                    path = cloudRootPath + item.path;
+                } else {
+	                path = rootPath + item.path;
+                }
+            }
+
+	        const data = {
+		        path: path,
+		        thumb: false,
+		        fileType: item.mime_type ? item.mime_type : false,
+		        extension: item.extension ? item.extension : false,
+	        };
+
+	        const ev = new CustomEvent('onMediaFileSelected', {"bubbles":true, "cancelable":false, "detail": data});
+
+            window.parent.document.dispatchEvent(ev);
 
             // Handle clicks when the item was not selected
             if (!isSelected()) {
@@ -67,23 +87,6 @@ export default {
                 store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
                 store.commit(types.SELECT_BROWSER_ITEM, item);
             }
-        }
-
-        /**
-         * Create an event
-         * @param eventName
-         */
-        function createEvent(eventName) {
-            if (typeof(Event) === 'function') {
-                // Modern browsers
-                var event = new Event(eventName);
-            } else {
-                // IE
-                var event = document.createEvent('Event');
-                event.initEvent(eventName, true, true);
-            }
-
-            return event;
         }
 
         return createElement('div', {
