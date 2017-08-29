@@ -31,6 +31,24 @@
 		/>
 
 		<field
+			name="file_path"
+			type="text"
+			label="COM_MEDIA_FIELD_PATH_FILE_FOLDER_LABEL"
+			description="COM_MEDIA_FIELD_PATH_FILE_FOLDER_DESC"
+			size="50"
+			default="images"
+		/>
+
+		<field
+			name="image_path"
+			type="text"
+			label="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_LABEL"
+			description="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_DESC"
+			size="50"
+			default="images"
+		/>
+
+		<field
 			name="restrict_uploads"
 			type="radio"
 			label="COM_MEDIA_FIELD_RESTRICT_UPLOADS_LABEL"
