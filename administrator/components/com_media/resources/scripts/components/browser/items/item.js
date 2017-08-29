@@ -1,7 +1,6 @@
 import Directory from "./directory.vue";
 import File from "./file.vue";
 import Image from "./image.vue";
-import Video from "./video.vue";
 import Row from "./row.vue";
 import * as types from "./../../../store/mutation-types";
 
@@ -22,7 +21,6 @@ export default {
             }
 
             let imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-            let videoExtensions = ['mp4'];
 
             // Render directory items
             if (item.type === 'dir') return Directory;
@@ -32,27 +30,8 @@ export default {
                 return Image;
             }
 
-            // Render video items
-            if (item.extension && videoExtensions.indexOf(item.extension.toLowerCase()) !== -1) {
-                return Video;
-            }
-
             // Default to file type
             return File;
-        }
-
-        /**
-         * Get the styles for the media browser item
-         * @returns {{}}
-         */
-        function styles() {
-            if (store.state.listView == 'table') {
-                return {};
-            }
-
-            return {
-                'width': 'calc(' + store.state.gridSize + '% - 20px)',
-            };
         }
 
         /**
@@ -64,63 +43,33 @@ export default {
         }
 
         /**
-         * Create and dispatch onMediaFileSelected Event
-         *
-         * @param {object}  data  The data for the detail
-         *
-         * @returns {void}
-         */
-        function sendEvent(data) {
-            const ev = new CustomEvent('onMediaFileSelected', {"bubbles": true, "cancelable": false, "detail": data});
-            window.parent.document.dispatchEvent(ev);
-        }
-
-        /**
          * Handle the click event
          * @param event
          */
         function handleClick(event) {
-            let path = false;
-            const data = {
-                path: path,
-                thumb: false,
-                fileType: item.mime_type ? item.mime_type : false,
-                extension: item.extension ? item.extension : false,
-            };
+            const rootPath = Joomla.getOptions('com_media').fileBaseRelativeUrl;
+            const cloudRootPath = Joomla.getOptions('com_media').fileBaseRelativeUrl; //@todo return the cloud root...
+            const isCloud = false; //@todo return true if file is on the cloud
+	        let path = false;
 
             if (item.type === 'file') {
-                const csrf = Joomla.getOptions('com_media').csrfToken;
-                const apiBaseUrl = Joomla.getOptions('com_media').apiBaseUrl;
-                Joomla.request({
-                    url: `${apiBaseUrl}&task=api.files&url=true&path=${item.path}&${csrf}=1`,
-                    method: 'GET',
-                    perform: true,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    onSuccess: (response) => {
-                        const resp = JSON.parse(response);
-                        if (resp.success === true) {
-                            if (resp.data[0].url) {
-                                if (/local-/.test(item.path)) {
-                                    const server = Joomla.getOptions('system.paths').rootFull;
-                                    const newPath = resp.data[0].url.split(server)[1];
-
-                                    data.path = newPath;
-                                    if (resp.data[0]['thumb_path'])
-                                        data.thumb = resp.data[0].thumb_path;
-                                } else {
-                                    data.path = path;
-                                    if (resp.data[0]['thumb_path'])
-                                        data.thumb = resp.data[0].thumb_path;
-                                }
-                            }
-                        }
-                        sendEvent(data)
-                    },
-                    onError: () => {
-                        sendEvent(data)
-                    },
-                });
+                if (isCloud) {
+                    path = cloudRootPath + item.path;
+                } else {
+	                path = rootPath + item.path;
+                }
             }
+
+	        const data = {
+		        path: path,
+		        thumb: false,
+		        fileType: item.mime_type ? item.mime_type : false,
+		        extension: item.extension ? item.extension : false,
+	        };
+
+	        const ev = new CustomEvent('onMediaFileSelected', {"bubbles":true, "cancelable":false, "detail": data});
+
+            window.parent.document.dispatchEvent(ev);
 
             // Handle clicks when the item was not selected
             if (!isSelected()) {

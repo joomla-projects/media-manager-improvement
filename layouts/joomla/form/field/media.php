@@ -50,13 +50,18 @@ switch ($preview)
 	case 'false':
 	case 'none':
 		$showPreview = false;
+		$showAsTooltip = false;
 		break;
 	case 'yes': // Deprecated parameter value
 	case 'true':
 	case 'show':
+		$showPreview = true;
+		$showAsTooltip = false;
+		break;
 	case 'tooltip':
 	default:
 		$showPreview = true;
+		$showAsTooltip = true;
 		break;
 }
 
@@ -69,27 +74,14 @@ if ($showPreview)
 	}
 	else
 	{
-		$src = '';
+		$src = JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY');
 	}
-	$width = $previewWidth;
-	$height = $previewHeight;
-	$style = '';
-	$style .= ($width > 0) ? 'max-width:' . $width . 'px;' : '';
-	$style .= ($height > 0) ? 'max-height:' . $height . 'px;' : '';
 
-	$imgattr = array(
-		'id' => $id . '_preview',
-		'class' => 'media-preview',
-		'style' => $style,
-	);
-
-	$img = JHtml::_('image', $src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
-
-	$previewImg = '<div id="' . $id . '_preview_img"' . '>' . $img . '</div>';
-	$previewImgEmpty = '<div id="' . $id . '_preview_empty"' . ($src ? ' style="display:none"' : '') . '>'
-		. JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
-
-	$showPreview = 'static';
+	if ($showAsTooltip) {
+		$showPreview = 'tooltip';
+	} else {
+		$showPreview = 'static';
+	}
 }
 
 // The url for the modal
@@ -100,21 +92,21 @@ $url    = ($readonly ? ''
 	. '&amp;fieldid={field-media-id}&amp;path=' . $folder);
 ?>
 <joomla-field-media class="field-media-wrapper"
-		type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?>
-		base-path="<?php echo JUri::root(); ?>"
-		root-folder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>"
-		url="<?php echo $url; ?>"
-		modal-container=".modal"
-		modal-width="100%"
-		modal-height="400px"
-		input=".field-media-input"
-		button-select=".button-select"
-		button-clear=".button-clear"
-		button-save-selected=".button-save-selected"
-		preview="static"
-		preview-container=".field-media-preview"
-		preview-width="<?php echo $previewWidth; ?>"
-		preview-height="<?php echo $previewHeight; ?>"
+	type="image" <? // @TODO add this attribute to the field in order to use it for all media types ?>
+	base-path="<?php echo JUri::root(); ?>"
+	root-folder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>"
+	url="<?php echo $url; ?>"
+	modal-container=".modal"
+	modal-width="100%"
+	modal-height="400px"
+	input=".field-media-input"
+	button-select=".button-select"
+	button-clear=".button-clear"
+	button-save-selected=".button-save-selected"
+	preview="<?php echo $showPreview; ?>"
+	preview-container=".field-media-preview"
+	preview-width="<?php echo $previewWidth; ?>"
+	preview-height="<?php echo $previewHeight; ?>"
 >
 	<?php
 	// Render the modal
@@ -135,13 +127,14 @@ $url    = ($readonly ? ''
 	JHtml::_('webcomponent', ['joomla-field-media' => 'system/joomla-field-media.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 	JText::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
 	?>
-	<?php if ($showPreview) : ?>
-		<div class="field-media-preview" style="height:auto">
-			<?php echo ' ' . $previewImgEmpty; ?>
-			<?php echo ' ' . $previewImg; ?>
-		</div>
-	<?php endif; ?>
 	<div class="input-group">
+		<?php if ($showPreview && $showAsTooltip) : ?>
+			<div rel="popover" class="input-group-addon pop-helper field-media-preview"
+				title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>"
+				data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
+				<span class="icon-eye" aria-hidden="true"></span>
+			</div>
+		<?php endif; ?>
 		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>>
 		<?php if ($disabled != true) : ?>
 			<div class="input-group-btn">
