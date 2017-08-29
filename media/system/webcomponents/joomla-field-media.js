@@ -1,39 +1,10 @@
 /** Include the relative styles */
-if (!document.head.querySelector('#joomla-modal-style')) {
-  const style = document.createElement('style');
-  style.id = 'joomla-modal-style';
-  style.innerHTML = `
-joomla-field-media .field-media-preview {
-  display: flex;
-  align-items: center; 
-    justify-content: center;
-  max-width: 336px;
-  height: 180px !important;
-  padding: 10px;
-  background-color: #F2F2F2;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-width: 1px 1px 0 1px;
-  border-radius: 0.25rem 0.25rem 0 0;
-  overflow: hidden;
-}
-joomla-field-media .field-media-preview-icon {
-  font-size: 5rem;
-  opacity: .25;
-}
-joomla-field-media .field-media-input {
-  border-top-left-radius: 0;
-}
-joomla-field-media .button-clear {
-  border-top-right-radius: 0;
-}
-joomla-field-media img {
-  max-height: 100%;
-    max-width: 100%;
-}
-
-  `;
-  document.head.appendChild(style);
-}
+// if (!document.head.querySelector('#joomla-modal-style')) {
+//   const style = document.createElement('style');
+//   style.id = 'joomla-modal-style';
+//   style.innerHTML = ``;
+//   document.head.appendChild(style);
+// }
 
 const Joomla = window.Joomla || {};
 
@@ -171,36 +142,44 @@ class JoomlaFieldMedia extends HTMLElement {
   }
 
   updatePreview() {
-    if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false') {
+    if (['true', 'tooltip', 'static'].indexOf(this.preview) === -1 || this.preview === 'false') {
       return;
     }
 
     // Reset tooltip and preview
     if (this.preview) {
-      const input = this.querySelector(this.input);
-      const value = input.value;
-      const div = this.querySelector('.field-media-preview');
+      const containerPreview = window.jQuery(this.querySelector(this.previewContainer));
+      const input = window.jQuery(this.querySelector(this.input));
+      const value = input.val();
+
+      containerPreview.popover('dispose');
+      input.tooltip('dispose');
 
       if (!value) {
-        div.innerHTML = '<span class="field-media-preview-icon fa fa-picture-o"></span>';
-        console.log('oops')
-        // containerPreview.popover({ content: Joomla.JText._('JLIB_FORM_MEDIA_PREVIEW_EMPTY'), html: true });
+        containerPreview.popover({ content: Joomla.JText._('JLIB_FORM_MEDIA_PREVIEW_EMPTY'), html: true });
       } else {
-        div.innerHTML = '';
+        const div = document.createElement('div');
         const imgPreview = new Image();
 
         switch (this.type) {
           case 'image':
             imgPreview.src = this.basePath + value;
             break;
-          default:
+            default:
             //imgPreview.src = dummy image path;
             break;
         }
 
         div.style.width = this.previewWidth;
+        imgPreview.style.width = '100%';
 
         div.appendChild(imgPreview);
+
+        containerPreview.popover({
+          html: true,
+          content: div,
+        });
+        input.tooltip({ placement: 'top', title: value });
       }
     }
   }
