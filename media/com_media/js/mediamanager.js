@@ -18287,23 +18287,22 @@ exports.default = {
         }
 
         /**
+         * Create and dispatch onMediaFileSelected Event
+         *
+         * @param {object}  data  The data for the detail
+         *
+         * @returns {void}
+         */
+        function sendEvent(data) {
+            var ev = new CustomEvent('onMediaFileSelected', { "bubbles": true, "cancelable": false, "detail": data });
+            window.parent.document.dispatchEvent(ev);
+        }
+        /**
          * Handle the click event
          * @param event
          */
         function handleClick(event) {
-            var rootPath = Joomla.getOptions('com_media').fileBaseRelativeUrl;
-            var cloudRootPath = Joomla.getOptions('com_media').fileBaseRelativeUrl; //@todo return the cloud root...
-            var isCloud = false; //@todo return true if file is on the cloud
             var path = false;
-
-            if (item.type === 'file') {
-                if (isCloud) {
-                    path = cloudRootPath + item.path;
-                } else {
-                    path = rootPath + item.path;
-                }
-            }
-
             var data = {
                 path: path,
                 thumb: false,
@@ -18311,9 +18310,37 @@ exports.default = {
                 extension: item.extension ? item.extension : false
             };
 
-            var ev = new CustomEvent('onMediaFileSelected', { "bubbles": true, "cancelable": false, "detail": data });
+            if (item.type === 'file') {
+                var csrf = Joomla.getOptions('com_media').csrfToken;
+                var apiBaseUrl = Joomla.getOptions('com_media').apiBaseUrl;
+                Joomla.request({
+                    url: apiBaseUrl + "&task=api.files&url=true&path=" + item.path + "&" + csrf + "=1",
+                    method: 'GET',
+                    perform: true,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    onSuccess: function onSuccess(response) {
+                        var resp = JSON.parse(response);
+                        if (resp.success === true) {
+                            if (resp.data[0].url) {
+                                if (/local-/.test(item.path)) {
+                                    var server = Joomla.getOptions('system.paths').rootFull;
+                                    var newPath = resp.data[0].url.split(server)[1];
 
-            window.parent.document.dispatchEvent(ev);
+                                    data.path = newPath;
+                                    if (resp.data[0]['thumb_path']) data.thumb = resp.data[0].thumb_path;
+                                } else {
+                                    data.path = path;
+                                    if (resp.data[0]['thumb_path']) data.thumb = resp.data[0].thumb_path;
+                                }
+                            }
+                        }
+                        sendEvent(data);
+                    },
+                    onError: function onError() {
+                        sendEvent(data);
+                    }
+                });
+            }
 
             // Handle clicks when the item was not selected
             if (!isSelected()) {
