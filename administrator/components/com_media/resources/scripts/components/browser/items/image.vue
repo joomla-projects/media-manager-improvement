@@ -29,7 +29,7 @@
         computed: {
             /* Get the item url */
             thumbUrl() {
-                return this.item.thumb_path;
+                return this.item.thumbPath;
             }
         },
         methods: {

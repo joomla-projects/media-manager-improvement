@@ -268,7 +268,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 
 		if (in_array($file->extension, $this->supportedThumbnailImageFormats))
 		{
-			$file->thumb_path = $this->getThumbnailUrl($fileEntry['id'], $file->modified_date_formatted, $file->path);
+			$file->thumbPath = $this->getThumbnailUrl($fileEntry['id'], $file->modified_date_formatted, $file->path);
 		}
 
 		return $file;
