@@ -17038,7 +17038,7 @@ var Api = function () {
         }
 
         this._baseUrl = options.apiBaseUrl;
-        this._csrfToken = options.csrfToken;
+        this._csrfToken = Joomla.getOptions('csrf.token');
     }
 
     /**
@@ -17053,15 +17053,23 @@ var Api = function () {
         value: function getContents(dir) {
             var _this = this;
 
-            // Wrap the jquery call into a real promise
+            // Wrap the ajax call into a real promise
             return new _promise2.default(function (resolve, reject) {
                 var url = _this._baseUrl + '&task=api.files&path=' + dir;
-                jQuery.getJSON(url).done(function (json) {
-                    return resolve(_this._normalizeArray(json.data));
-                }).fail(function (xhr, status, error) {
-                    reject(xhr);
+
+                Joomla.request({
+                    url: url,
+                    method: 'GET',
+                    perform: true,
+                    headers: { 'Content-Type': 'application/json' },
+                    onSuccess: function onSuccess(response) {
+                        resolve(_this._normalizeArray(JSON.parse(response).data));
+                    },
+                    onError: function onError(xhr) {
+                        reject(xhr);
+                    }
                 });
-            }).catch(this._handleError);
+            });
         }
 
         /**
@@ -17076,23 +17084,27 @@ var Api = function () {
         value: function createDirectory(name, parent) {
             var _this2 = this;
 
-            // Wrap the jquery call into a real promise
+            // Wrap the ajax call into a real promise
             return new _promise2.default(function (resolve, reject) {
                 var _data;
 
                 var url = _this2._baseUrl + '&task=api.files&path=' + parent;
                 var data = (_data = {}, (0, _defineProperty3.default)(_data, _this2._csrfToken, '1'), (0, _defineProperty3.default)(_data, 'name', name), _data);
-                jQuery.ajax({
+
+                Joomla.request({
                     url: url,
-                    type: "POST",
+                    method: 'POST',
                     data: (0, _stringify2.default)(data),
-                    contentType: "application/json"
-                }).done(function (json) {
-                    _Notifications.notifications.success('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS');
-                    resolve(_this2._normalizeItem(json.data));
-                }).fail(function (xhr, status, error) {
-                    _Notifications.notifications.error('COM_MEDIA_CREATE_NEW_FOLDER_ERROR');
-                    reject(xhr);
+                    perform: true,
+                    headers: { 'Content-Type': 'application/json' },
+                    onSuccess: function onSuccess(response) {
+                        _Notifications.notifications.success('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS');
+                        resolve(_this2._normalizeItem(JSON.parse(response).data));
+                    },
+                    onError: function onError(xhr) {
+                        _Notifications.notifications.error('COM_MEDIA_CREATE_NEW_FOLDER_ERROR');
+                        reject(xhr);
+                    }
                 });
             }).catch(this._handleError);
         }
@@ -17116,17 +17128,21 @@ var Api = function () {
 
                 var url = _this3._baseUrl + '&task=api.files&path=' + parent;
                 var data = (_data2 = {}, (0, _defineProperty3.default)(_data2, _this3._csrfToken, '1'), (0, _defineProperty3.default)(_data2, 'name', name), (0, _defineProperty3.default)(_data2, 'content', content), _data2);
-                jQuery.ajax({
+
+                Joomla.request({
                     url: url,
-                    type: "POST",
+                    method: 'POST',
                     data: (0, _stringify2.default)(data),
-                    contentType: "application/json"
-                }).done(function (json) {
-                    _Notifications.notifications.success('COM_MEDIA_UPDLOAD_SUCCESS');
-                    resolve(_this3._normalizeItem(json.data));
-                }).fail(function (xhr, status, error) {
-                    _Notifications.notifications.error('COM_MEDIA_UPDLOAD_ERROR');
-                    reject(xhr);
+                    perform: true,
+                    headers: { 'Content-Type': 'application/json' },
+                    onSuccess: function onSuccess(response) {
+                        _Notifications.notifications.success('COM_MEDIA_UPDLOAD_SUCCESS');
+                        resolve(_this3._normalizeItem(JSON.parse(response).data));
+                    },
+                    onError: function onError(xhr) {
+                        _Notifications.notifications.error('COM_MEDIA_UPDLOAD_ERROR');
+                        reject(xhr);
+                    }
                 });
             }).catch(this._handleError);
         }
@@ -17145,18 +17161,20 @@ var Api = function () {
             // Wrap the jquery call into a real promise
             return new _promise2.default(function (resolve, reject) {
                 var url = _this4._baseUrl + '&task=api.files&path=' + path;
-                var data = (0, _defineProperty3.default)({}, _this4._csrfToken, '1');
-                jQuery.ajax({
+
+                Joomla.request({
                     url: url,
-                    type: "DELETE",
-                    data: (0, _stringify2.default)(data),
-                    contentType: "application/json"
-                }).done(function (json) {
-                    _Notifications.notifications.success('COM_MEDIA_DELETE_SUCCESS');
-                    resolve();
-                }).fail(function (xhr, status, error) {
-                    _Notifications.notifications.error('COM_MEDIA_DELETE_ERROR');
-                    reject(xhr);
+                    method: 'DELETE',
+                    perform: true,
+                    headers: { 'Content-Type': 'application/json' },
+                    onSuccess: function onSuccess() {
+                        _Notifications.notifications.success('COM_MEDIA_DELETE_SUCCESS');
+                        resolve();
+                    },
+                    onError: function onError(xhr) {
+                        _Notifications.notifications.error('COM_MEDIA_DELETE_ERROR');
+                        reject(xhr);
+                    }
                 });
             }).catch(this._handleError);
         }
@@ -18932,7 +18950,7 @@ exports.default = {
     // The state of the infobar
     showInfoBar: true,
     // List view
-    listView: 'table'
+    listView: 'grid'
 };
 
 },{}],452:[function(require,module,exports){
