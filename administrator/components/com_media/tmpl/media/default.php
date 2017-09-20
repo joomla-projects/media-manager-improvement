@@ -30,8 +30,6 @@ $tmpl = JFactory::getApplication()->input->getCmd('tmpl');
 if ($tmpl == 'component')
 {
 	echo JToolbar::getInstance('toolbar')->render();
-
-	$tmpl = '&tmpl=' . $tmpl;
 }
 
 // Populate the media config
@@ -45,6 +43,7 @@ $config = array(
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
 	'providers'               => (array) $this->providers,
+	'isModal'                 => JFactory::getApplication()->input->getCmd('tmpl', '') === 'component' ? true : false,
 );
 $doc->addScriptOptions('com_media', $config);
 ?>
