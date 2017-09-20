@@ -10,7 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Component\Media\Administrator\Event\MediaAdapterEvent;
+use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
+use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
 
 /**
  * FileSystem Local plugin.
@@ -19,7 +20,7 @@ use Joomla\Component\Media\Administrator\Event\MediaAdapterEvent;
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgFileSystemLocal extends CMSPlugin
+class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -30,15 +31,51 @@ class PlgFileSystemLocal extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Setup AdapterManager with Local Adapters
+	 * Setup Providers for Local Adapter
 	 *
-	 * @param   MediaAdapterEvent  $event  Event for AdapterManager
+	 * @param   MediaProviderEvent $event Event for ProviderManager
 	 *
 	 * @return   void
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
-	public function onSetupAdapterManager(MediaAdapterEvent $event)
+	public function onSetupProviders(MediaProviderEvent $event)
+	{
+		$event->getProviderManager()->registerProvider($this);
+	}
+
+	/**
+	 * Returns the ID of the provider
+	 *
+	 * @return  string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getID()
+	{
+		return $this->_name;
+	}
+
+	/**
+	 * Returns the display name of the provider
+	 *
+	 * @return string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getDisplayName()
+	{
+		return $this->params->get('display_name');
+	}
+
+	/**
+	 * Returns and array of adapters
+	 *
+	 * @return  \Joomla\Component\Media\Administrator\Adapter\AdapterInterface[]
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getAdapters()
 	{
 		$adapters = [];
 		$directories = $this->params->get('directories', '[{"directory":{"directory": "images"}}]');
@@ -61,9 +98,6 @@ class PlgFileSystemLocal extends CMSPlugin
 			}
 		}
 
-		// Setup results
-		$result = $event->getArgument('result', []);
-		$result[] = $adapters;
-		$event->setArgument('result', $result);
+		return $adapters;
 	}
 }

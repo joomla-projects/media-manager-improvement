@@ -14,8 +14,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Media\Administrator\Event\MediaAdapterEvent;
-use Joomla\Registry\Registry;
+use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
+use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 
 /**
  * Media View Model
@@ -33,27 +33,28 @@ class Media extends BaseModel
 	 */
 	public function getProviders()
 	{
+		// Setup provider manager and event parameters
+		$providerManager = new ProviderManager;
+		$eventParameters = ['context' => 'AdapterManager', 'providerManager' => $providerManager];
+		$event           = new MediaProviderEvent('onSetupProviders', $eventParameters);
+		$results         = [];
+
+		// Import plugin group and fire the event
 		PluginHelper::importPlugin('filesystem');
-		$providerInfo = PluginHelper::getPlugin('filesystem');
-		$eventParameters = ['context' => 'AdapterManager'];
-		$event           = new MediaAdapterEvent('onSetupAdapterManager', $eventParameters);
-		$adapterInfo     = (array) Factory::getApplication()->triggerEvent('onSetupAdapterManager', $event);
-		$results         = array();
+		Factory::getApplication()->triggerEvent('onSetupProviders', $event);
 
-		for ($i = 0, $len = count($providerInfo); $i < $len; $i++)
+		foreach($providerManager->getProviders() as $provider)
 		{
-			$params            = new Registry($providerInfo[$i]->params);
-			$info              = new \stdClass;
-			$info->name        = $providerInfo[$i]->name;
-			$info->displayName = $params->get('display_name');
-			$adapters          = $adapterInfo[$i];
+			$result = new \stdClass;
+			$result->name = $provider->getID();
+			$result->displayName = $provider->getDisplayName();
 
-			for ($adapter = 0, $adapterCount = count($adapters); $adapter < $adapterCount; $adapter++)
+			foreach ($provider->getAdapters() as $adapter)
 			{
-				$info->adapterNames[] = $adapters[$adapter]->getAdapterName();
+				$result->adapterNames[] = $adapter->getAdapterName();
 			}
 
-			$results[] = $info;
+			$results[] = $result;
 		}
 
 		return $results;

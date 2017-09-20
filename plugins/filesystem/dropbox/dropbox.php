@@ -10,7 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Component\Media\Administrator\Event\MediaAdapterEvent;
+use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
+use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
 
 /**
  * FileSystem Dropbox plugin.
@@ -18,7 +19,7 @@ use Joomla\Component\Media\Administrator\Event\MediaAdapterEvent;
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgFileSystemDropbox extends CMSPlugin
+class PlgFileSystemDropbox extends CMSPlugin implements ProviderInterface
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -27,31 +28,6 @@ class PlgFileSystemDropbox extends CMSPlugin
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
-
-	/**
-	 * Setup AdapterManager with Dropbox Adapters
-	 *
-	 * @param   MediaAdapterEvent  $event  Event for AdapterManager
-	 *
-	 * @return   void
-	 *
-	 * @since    __DEPLOY_VERSION__
-	 */
-	public function onSetupAdapterManager(MediaAdapterEvent $event)
-	{
-		\JLoader::import('filesystem.dropbox.vendor.autoload', JPATH_PLUGINS);
-
-		$accessToken = $this->params->get('access_token');
-		$accountName = $this->params->get('account_name');
-
-		$dropbox = new \Joomla\Plugin\Filesystem\Dropbox\Adapter\JoomlaDropboxAdapter($accessToken);
-		$dropbox->setAccountName($accountName);
-
-		// Setup results
-		$result = $event->getArgument('result', []);
-		$result[] = [$dropbox];
-		$event->setArgument('result', $result);
-	}
 
 	/**
 	 * Handle OAuthCallback request
@@ -113,5 +89,64 @@ class PlgFileSystemDropbox extends CMSPlugin
 
 		// Pass back the result to event
 		$event->setArgument('result', $result);
+	}
+
+	/**
+	 * Setup ProviderManager with Dropbox
+	 *
+	 * @param   MediaProviderEvent $event Event for ProviderManager
+	 *
+	 * @return   void
+	 *
+	 * @since    __DEPLOY_VERSION__
+	 */
+	public function onSetupProviders(MediaProviderEvent $event)
+	{
+		$event->getProviderManager()->registerProvider($this);
+	}
+
+
+	/**
+	 * Returns the ID of the provider
+	 *
+	 * @return  string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getID()
+	{
+		return $this->_name;
+	}
+
+	/**
+	 * Returns the display name of the provider
+	 *
+	 * @return string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getDisplayName()
+	{
+		return $this->params->get('display_name');
+	}
+
+	/**
+	 * Returns and array of adapters
+	 *
+	 * @return \Joomla\Component\Media\Administrator\Adapter\AdapterInterface[]
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getAdapters()
+	{
+		\JLoader::import('filesystem.dropbox.vendor.autoload', JPATH_PLUGINS);
+
+		$accessToken = $this->params->get('access_token');
+		$accountName = $this->params->get('account_name');
+
+		$dropbox = new \Joomla\Plugin\Filesystem\Dropbox\Adapter\JoomlaDropboxAdapter($accessToken);
+		$dropbox->setAccountName($accountName);
+
+		return [$dropbox];
 	}
 }

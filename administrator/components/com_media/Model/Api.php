@@ -16,9 +16,9 @@ use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
-use Joomla\Component\Media\Administrator\Adapter\AdapterManager;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
-use Joomla\Component\Media\Administrator\Event\MediaAdapterEvent;
+use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
+use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 
 /**
  * Api Model
@@ -30,10 +30,10 @@ class Api extends BaseModel
 	/**
 	 * Holds available media file adapters.
 	 *
-	 * @var   AdapterManager
+	 * @var   ProviderManager
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $adapterManager = null;
+	protected $providerManager = null;
 
 	/**
 	 * Constructor
@@ -47,9 +47,6 @@ class Api extends BaseModel
 	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		parent::__construct($config, $factory);
-
-		// Setup adapters
-		$this->setupAdapters();
 	}
 
 	/**
@@ -59,25 +56,13 @@ class Api extends BaseModel
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function setupAdapters()
+	private function setupProviders()
 	{
-		// Get the providers
-		$providers = PluginHelper::getPlugin('filesystem');
-
 		// Fire the event to get the results
+		$eventParameters = ['context' => 'AdapterManager', 'providerManager' => $this->providerManager];
+		$event = new MediaProviderEvent('onSetupProviders', $eventParameters);
 		PluginHelper::importPlugin('filesystem');
-		$eventParameters = ['context' => 'AdapterManager'];
-		$event = new MediaAdapterEvent('onSetupAdapterManager', $eventParameters);
-		$results = (array) Factory::getApplication()->triggerEvent('onSetupAdapterManager', $event);
-
-		$adapters = array();
-
-		for ($i = 0, $len = count($results); $i < $len; $i++)
-		{
-			$adapters[$providers[$i]->name] = $results[$i];
-		}
-
-		$this->adapterManager = new AdapterManager($adapters);
+		Factory::getApplication()->triggerEvent('onSetupProviders', $event);
 	}
 
 	/**
@@ -92,22 +77,13 @@ class Api extends BaseModel
 	 */
 	private function getAdapter($name)
 	{
-		list($adapter, $account) = array_pad(explode('-', $name, 2), 2, null);
-
-		if ($account == null)
+		if($this->providerManager == null)
 		{
-			throw new \Exception('Account was not set');
+			$this->providerManager = new ProviderManager;
+			$this->setupProviders();
 		}
 
-		$adapters = $this->adapterManager->getAdapters();
-
-		if (isset($adapters[$adapter][$account]))
-		{
-			return $adapters[$adapter][$account];
-		}
-
-		// Todo Use a translated string
-		throw new \InvalidArgumentException('Requested media file adapter was not found', 500);
+		return $this->providerManager->getAdapter($name);
 	}
 
 	/**

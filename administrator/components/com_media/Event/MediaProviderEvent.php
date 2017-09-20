@@ -12,12 +12,32 @@ namespace Joomla\Component\Media\Administrator\Event;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 
 /**
  * Event object to retrieve Media Adapters.
  *
  * @since  __DEPLOY_VERSION__
  */
-class MediaAdapterEvent extends AbstractEvent
+class MediaProviderEvent extends AbstractEvent
 {
+	/**
+	 * The ProviderManager for event
+	 *
+	 * @var ProviderManager
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $providerManager = null;
+
+	/**
+	 * Return the ProviderManager
+	 *
+	 * @return  ProviderManager
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getProviderManager()
+	{
+		return $this->providerManager;
+	}
 }
