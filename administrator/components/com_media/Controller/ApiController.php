@@ -153,7 +153,6 @@ class ApiController extends BaseController
 
 				case 'patch':
 					// Rename or Move file and folders
-
 					$oldPath = $this->input->get('oldPath');
 					$newPath = $this->input->get('newPath');
 
