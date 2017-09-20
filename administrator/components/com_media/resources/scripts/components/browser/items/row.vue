@@ -1,21 +1,21 @@
 <template>
-    <tr>
-        <td class="media-browser-item-cell" :class="{selected: isSelected}">
+    <tr class="media-browser-item-row" :class="{selected: isSelected}">
+        <td>
             {{ item.name }}
         </td>
-        <td class="media-browser-item-cell" :class="{selected: isSelected}">
+        <td>
             {{ item.size }}
         </td>
-        <td class="media-browser-item-cell" :class="{selected: isSelected}">
+        <td>
             {{ dimension }}
         </td>
-        <td class="media-browser-item-cell" :class="{selected: isSelected}">
+        <td>
             {{ item.mime_type }}
         </td>
-        <td class="media-browser-item-cell" :class="{selected: isSelected}">
+        <td>
             {{ item.create_date_formatted }}
         </td>
-        <td class="media-browser-item-cell" :class="{selected: isSelected}">
+        <td>
             {{ item.modified_date_formatted }}
         </td>
     </tr>
