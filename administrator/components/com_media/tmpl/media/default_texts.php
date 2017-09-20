@@ -18,6 +18,7 @@ JText::script('COM_MEDIA_ERROR_NOT_AUTHORIZED', true);
 JText::script('COM_MEDIA_SERVER_ERROR', true);
 JText::script('COM_MEDIA_ERROR', true);
 JText::script('COM_MEDIA_FOLDER', true);
+JText::script('COM_MEDIA_MEDIA_NAME', true);
 JText::script('COM_MEDIA_MEDIA_TYPE', true);
 JText::script('COM_MEDIA_MEDIA_CREATED_AT', true);
 JText::script('COM_MEDIA_MEDIA_MODIFIED_AT', true);
