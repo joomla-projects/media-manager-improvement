@@ -17298,8 +17298,8 @@ function updateUrlPath(path) {
  * @param payload
  */
 var getContents = exports.getContents = function getContents(context, payload) {
-    // Update url params
-    // TODO use polyfill for ie11
+
+    // Update the url
     updateUrlPath(payload);
 
     _Api.api.getContents(payload).then(function (contents) {
@@ -17506,6 +17506,7 @@ var nodePath = require('path');
 exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.SELECT_DIRECTORY, function (state, payload) {
     state.selectedDirectory = payload;
 }), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.LOAD_CONTENTS_SUCCESS, function (state, payload) {
+
     var newDirectories = payload.directories.filter(function (directory) {
         return !state.directories.some(function (existing) {
             return existing.path === directory.path;
@@ -17517,49 +17518,45 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
         });
     });
 
+    /**
+     * Create the directory structure
+     * @param path
+     */
+    function createDirectoryStructureFromPath(path) {
+        var exists = state.directories.some(function (existing) {
+            return existing.path === path;
+        });
+        var directory = directoryFromPath(path);
+        if (!exists && directory.directory) {
+            createDirectoryStructureFromPath(directory.directory);
+            state.directories.push(directory);
+        }
+    }
+
+    /**
+     * Create a directory from a path
+     * @param path
+     */
+    function directoryFromPath(path) {
+        var parts = path.split('/');
+        var directory = nodePath.dirname(path);
+        if (directory.indexOf(':', directory.length - 1) !== -1) {
+            directory += '/';
+        }
+        return {
+            path: path,
+            name: parts[parts.length - 1],
+            directories: [],
+            files: [],
+            directory: directory !== '.' ? directory : null
+        };
+    }
+
     // Merge the directories
     if (newDirectories.length > 0) {
         var _state$directories;
 
-        /**
-         * Create the directory structure
-         * @param path
-         */
-        var createDirectoryStructureFromPath = function createDirectoryStructureFromPath(path) {
-            var exists = state.directories.some(function (existing) {
-                return existing.path === path;
-            });
-            var directory = directoryFromPath(path);
-            if (!exists && directory.directory) {
-                createDirectoryStructureFromPath(directory.directory);
-                state.directories.push(directory);
-            }
-        };
-
-        /**
-         * Create a directory from a path
-         * @param path
-         */
-
-
-        var directoryFromPath = function directoryFromPath(path) {
-            var parts = path.split('/');
-            var directory = nodePath.dirname(path);
-            if (directory.indexOf(':', directory.length - 1) !== -1) {
-                directory += '/';
-            }
-            return {
-                path: path,
-                name: parts[parts.length - 1],
-                directories: [],
-                files: [],
-                directory: directory !== '.' ? directory : null
-            };
-        };
-
         // Get the new directories
-
-
         var newDirectoryIds = newDirectories.map(function (directory) {
             return directory.path;
         });
@@ -17589,6 +17586,10 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
         var newFileIds = newFiles.map(function (file) {
             return file.path;
         });
+
+        // Create the parent directory structure if it does not exist
+        createDirectoryStructureFromPath(newFiles[0].directory);
+
         var _parentDirectory = state.directories.find(function (directory) {
             return directory.path === newFiles[0].directory;
         });

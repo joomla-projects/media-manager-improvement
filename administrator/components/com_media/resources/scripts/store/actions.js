@@ -25,8 +25,8 @@ function updateUrlPath(path) {
  * @param payload
  */
 export const getContents = (context, payload) => {
-    // Update url params
-    // TODO use polyfill for ie11
+
+    // Update the url
     updateUrlPath(payload);
 
     api.getContents(payload)
