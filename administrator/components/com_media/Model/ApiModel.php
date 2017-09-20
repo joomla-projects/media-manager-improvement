@@ -36,22 +36,6 @@ class ApiModel extends BaseModel
 	protected $providerManager = null;
 
 	/**
-	 * Setup the adapters for Media Manager
-	 *
-	 * @return  void
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private function setupProviders()
-	{
-		// Fire the event to get the results
-		$eventParameters = ['context' => 'AdapterManager', 'providerManager' => $this->providerManager];
-		$event = new MediaProviderEvent('onSetupProviders', $eventParameters);
-		PluginHelper::importPlugin('filesystem');
-		Factory::getApplication()->triggerEvent('onSetupProviders', $event);
-	}
-
-	/**
 	 * Return the requested adapter
 	 *
 	 * @param   string  $name  Name of the provider
@@ -66,7 +50,12 @@ class ApiModel extends BaseModel
 		if (!isset($this->providerManager) || $this->providerManager == null)
 		{
 			$this->providerManager = new ProviderManager;
-			$this->setupProviders();
+
+			// Fire the event to get the results
+			$eventParameters = ['context' => 'AdapterManager', 'providerManager' => $this->providerManager];
+			$event = new MediaProviderEvent('onSetupProviders', $eventParameters);
+			PluginHelper::importPlugin('filesystem');
+			Factory::getApplication()->triggerEvent('onSetupProviders', $event);
 		}
 
 		return $this->providerManager->getAdapter($name);
