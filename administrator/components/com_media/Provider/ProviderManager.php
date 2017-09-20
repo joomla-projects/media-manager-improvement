@@ -96,6 +96,11 @@ class ProviderManager
 			throw new \Exception('Account was not set');
 		}
 
+		if (!isset($this->getProvider($provider)->getAdapters()[$account]))
+		{
+			throw new \Exception("The account was not found");
+		}
+
 		return $this->getProvider($provider)->getAdapters()[$account];
 	}
 }
