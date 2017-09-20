@@ -142,23 +142,22 @@ class JoomlaFieldMedia extends HTMLElement {
   }
 
   updatePreview() {
-    if (['true', 'tooltip', 'static'].indexOf(this.preview) === -1 || this.preview === 'false') {
+    if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false') {
       return;
     }
 
     // Reset tooltip and preview
     if (this.preview) {
-      const containerPreview = window.jQuery(this.querySelector(this.previewContainer));
-      const input = window.jQuery(this.querySelector(this.input));
-      const value = input.val();
-
-      containerPreview.popover('dispose');
-      input.tooltip('dispose');
+      const input = this.querySelector(this.input);
+      const value = input.value;
 
       if (!value) {
-        containerPreview.popover({ content: Joomla.JText._('JLIB_FORM_MEDIA_PREVIEW_EMPTY'), html: true });
+
+        console.log('oops')
+        // containerPreview.popover({ content: Joomla.JText._('JLIB_FORM_MEDIA_PREVIEW_EMPTY'), html: true });
       } else {
-        const div = document.createElement('div');
+        const div = this.container.querySelector('.field-media-preview');
+        div.innerHTML = '';
         const imgPreview = new Image();
 
         switch (this.type) {
@@ -174,12 +173,6 @@ class JoomlaFieldMedia extends HTMLElement {
         imgPreview.style.width = '100%';
 
         div.appendChild(imgPreview);
-
-        containerPreview.popover({
-          html: true,
-          content: div,
-        });
-        input.tooltip({ placement: 'top', title: value });
       }
     }
   }
