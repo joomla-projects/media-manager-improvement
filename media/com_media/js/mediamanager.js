@@ -16028,7 +16028,7 @@ var Api = function () {
         value: function _handleError(error) {
             switch (error.status) {
                 case 404:
-                    _Notifications.notifications.error('COM_MEDIA_ERROR_PAGE_NOT_FOUND');
+                    _Notifications.notifications.error('COM_MEDIA_ERROR_NOT_FOUND');
                     break;
                 case 401:
                     _Notifications.notifications.error('COM_MEDIA_ERROR_NOT_AUTHENTICATED');
@@ -16163,7 +16163,7 @@ var Notifications = function () {
         key: 'error',
         value: function error(message, options) {
             notifications.notify(message, (0, _assign2.default)({
-                level: 'error',
+                level: 'danger',
                 dismiss: true
             }, options));
         }
@@ -16891,13 +16891,13 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 })()}
 },{"./../../store/mutation-types":415,"vue":388,"vue-hot-reload-api":387,"vueify/lib/insert-css":389}],405:[function(require,module,exports){
 ;(function(){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mutationTypes = require('../../store/mutation-types');
+var _mutationTypes = require("../../store/mutation-types");
 
 var types = _interopRequireWildcard(_mutationTypes);
 
@@ -16905,11 +16905,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 exports.default = {
     name: 'media-toolbar',
-    computed: {
-        toggleListViewBtnIcon: function toggleListViewBtnIcon() {
-            return this.$store.state.listView === 'grid' ? 'fa fa-th' : 'fa fa-list';
-        }
-    },
     methods: {
         toggleInfoBar: function toggleInfoBar() {
             if (this.$store.state.showInfoBar) {
@@ -16918,12 +16913,8 @@ exports.default = {
                 this.$store.commit(types.SHOW_INFOBAR);
             }
         },
-        changeListView: function changeListView() {
-            if (this.$store.state.listView === 'grid') {
-                this.$store.commit(types.CHANGE_LIST_VIEW, 'table');
-            } else {
-                this.$store.commit(types.CHANGE_LIST_VIEW, 'grid');
-            }
+        changeListView: function changeListView(view) {
+            this.$store.commit(types.CHANGE_LIST_VIEW, view);
         }
     }
 };
@@ -16931,7 +16922,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-toolbar"},[_c('media-breadcrumb'),_vm._v(" "),_c('div',{staticClass:"media-view-icons"},[_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":function($event){_vm.changeListView()}}},[_c('span',{class:_vm.toggleListViewBtnIcon,attrs:{"aria-hidden":"true"}})]),_vm._v(" "),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":_vm.toggleInfoBar}},[_c('span',{staticClass:"fa fa-info",attrs:{"aria-hidden":"true"}})])])],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-toolbar"},[_c('media-breadcrumb'),_vm._v(" "),_c('div',{staticClass:"media-view-icons"},[_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":function($event){_vm.changeListView('grid')}}},[_c('span',{staticClass:"fa fa-th",attrs:{"aria-hidden":"true"}})]),_vm._v(" "),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":function($event){_vm.changeListView('table')}}},[_c('span',{staticClass:"fa fa-list",attrs:{"aria-hidden":"true"}})]),_vm._v(" "),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":_vm.toggleInfoBar}},[_c('span',{staticClass:"fa fa-info",attrs:{"aria-hidden":"true"}})])])],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -17354,12 +17345,30 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 // - Instead of mutating the state, actions commit mutations.
 // - Actions can contain arbitrary asynchronous operations.
 
+function updateUrlPath(path) {
+    if (path == null) {
+        path = '';
+    }
+    var url = window.location.href;
+    var pattern = new RegExp('\\b(path=).*?(&|$)');
+
+    if (url.search(pattern) >= 0) {
+        history.pushState(null, '', url.replace(pattern, '$1' + path + '$2'));
+    } else {
+        history.pushState(null, '', url + (url.indexOf('?') > 0 ? '&' : '?') + 'path=' + path);
+    }
+}
+
 /**
  * Get contents of a directory from the api
  * @param commit
  * @param payload
  */
 var getContents = exports.getContents = function getContents(context, payload) {
+
+    // Update the url
+    updateUrlPath(payload);
+
     _Api.api.getContents(payload).then(function (contents) {
         context.commit(types.LOAD_CONTENTS_SUCCESS, contents);
         context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
@@ -17558,6 +17567,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var nodePath = require('path');
+
 // The only way to actually change state in a store is by committing a mutation.
 // Mutations are very similar to events: each mutation has a string type and a handler.
 // The handler function is where we perform actual state modifications, and it will receive the state as the first argument.
@@ -17565,6 +17576,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.SELECT_DIRECTORY, function (state, payload) {
     state.selectedDirectory = payload;
 }), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.LOAD_CONTENTS_SUCCESS, function (state, payload) {
+
     var newDirectories = payload.directories.filter(function (directory) {
         return !state.directories.some(function (existing) {
             return existing.path === directory.path;
@@ -17576,13 +17588,53 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
         });
     });
 
+    /**
+     * Create the directory structure
+     * @param path
+     */
+    function createDirectoryStructureFromPath(path) {
+        var exists = state.directories.some(function (existing) {
+            return existing.path === path;
+        });
+        var directory = directoryFromPath(path);
+        if (!exists && directory.directory) {
+            createDirectoryStructureFromPath(directory.directory);
+            state.directories.push(directory);
+        }
+    }
+
+    /**
+     * Create a directory from a path
+     * @param path
+     */
+    function directoryFromPath(path) {
+        var parts = path.split('/');
+        var directory = nodePath.dirname(path);
+        if (directory.indexOf(':', directory.length - 1) !== -1) {
+            directory += '/';
+        }
+        return {
+            path: path,
+            name: parts[parts.length - 1],
+            directories: [],
+            files: [],
+            directory: directory !== '.' ? directory : null
+        };
+    }
+
     // Merge the directories
     if (newDirectories.length > 0) {
         var _state$directories;
 
+        // Get the new directories
         var newDirectoryIds = newDirectories.map(function (directory) {
             return directory.path;
         });
+
+        // Create the parent directory structure if it does not exist
+        createDirectoryStructureFromPath(newDirectories[0].directory);
+
+        // Get the reference to the parent directory
         var parentDirectory = state.directories.find(function (directory) {
             return directory.path === newDirectories[0].directory;
         });
@@ -17604,6 +17656,10 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
         var newFileIds = newFiles.map(function (file) {
             return file.path;
         });
+
+        // Create the parent directory structure if it does not exist
+        createDirectoryStructureFromPath(newFiles[0].directory);
+
         var _parentDirectory = state.directories.find(function (directory) {
             return directory.path === newFiles[0].directory;
         });
@@ -17696,7 +17752,7 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
     state.listView = view;
 }), _types$SELECT_DIRECTO);
 
-},{"./mutation-types":415,"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10,"babel-runtime/helpers/toConsumableArray":11}],417:[function(require,module,exports){
+},{"./mutation-types":415,"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10,"babel-runtime/helpers/toConsumableArray":11,"path":383}],417:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17728,19 +17784,25 @@ exports.default = {
     disks: loadedDisks,
     // The loaded directories
     directories: loadedDisks.map(function (disk) {
-        return { path: disk.drives[0].root, name: disk.displayName, directories: [], files: [], directory: null };
+        return {
+            path: disk.drives[0].root,
+            name: disk.displayName,
+            directories: [],
+            files: [],
+            directory: null
+        };
     }),
     // The loaded files
     files: [],
     // The selected disk. Providers are ordered by plugin ordering, so we set the first provider
-    // in the list as the default provider and loads first drive on it as default
-    selectedDirectory: loadedDisks[0].drives[0].root,
+    // in the list as the default provider and load first drive on it as default
+    selectedDirectory: options.currentPath || loadedDisks[0].drives[0].root,
     // The currently selected items
     selectedItems: [],
     // The state of create folder model
     showCreateFolderModal: false,
     // The state of the infobar
-    showInfoBar: true,
+    showInfoBar: false,
     // List view
     listView: 'grid'
 };
