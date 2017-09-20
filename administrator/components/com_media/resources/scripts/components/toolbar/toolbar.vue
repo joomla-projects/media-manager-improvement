@@ -5,7 +5,7 @@
             <a href="#" class="media-toolbar-icon" @click="changeListView('grid')">
                 <span class="fa fa-th" aria-hidden="true"></span>
             </a>
-            <a href="#" class="media-toolbar-icon" @click="changeListView('list')">
+            <a href="#" class="media-toolbar-icon" @click="changeListView('table')">
                 <span class="fa fa-list" aria-hidden="true"></span>
             </a>
             <a href="#" class="media-toolbar-icon" @click="toggleInfoBar">

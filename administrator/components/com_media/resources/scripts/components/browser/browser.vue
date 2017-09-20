@@ -1,8 +1,16 @@
 <template>
-    <table v-if="listView === 'list'">
-        <tbody class="media-browser-list-items" ref="browserItems">
-            <media-browser-item v-for="item in items" :item="item" layout="list"></media-browser-item>
-        </tbody>
+    <table v-if="listView === 'table'" class="table table-stripped">
+        <thead>
+            <tr>
+                <th>{{ translate('COM_MEDIA_MEDIA_NAME') }}</th>
+                <th>{{ translate('COM_MEDIA_MEDIA_SIZE') }}</th>
+                <th>{{ translate('COM_MEDIA_MEDIA_DIMENSION') }}</th>
+                <th>{{ translate('COM_MEDIA_MEDIA_MIME_TYPE') }}</th>
+                <th>{{ translate('COM_MEDIA_MEDIA_CREATED_AT') }}</th>
+                <th>{{ translate('COM_MEDIA_MEDIA_MODIFIED_AT') }}</th>
+            </tr>
+        </thead>
+        <media-browser-item v-for="item in items" :item="item"></media-browser-item>
     </table>
     <div v-else-if="listView === 'grid'"
          class="media-browser"
@@ -54,7 +62,7 @@
         methods: {
             /* Unselect all browser items */
             unselectAllBrowserItems(event) {
-                const eventOutside = !this.$refs.browserItems.contains(event.target) || event.target === this.$refs.browserItems;
+                const eventOutside = (this.$refs.browserItems && !this.$refs.browserItems.contains(event.target)) || event.target === this.$refs.browserItems;
                 if (eventOutside) {
                     this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
                 }

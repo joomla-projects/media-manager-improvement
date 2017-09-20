@@ -40,5 +40,5 @@ export default {
     // The state of the infobar
     showInfoBar: true,
     // List view
-    listView: 'list'
+    listView: 'table'
 }
