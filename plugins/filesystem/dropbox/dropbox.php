@@ -94,7 +94,7 @@ class PlgFileSystemDropbox extends CMSPlugin implements ProviderInterface
 	/**
 	 * Setup ProviderManager with Dropbox
 	 *
-	 * @param   MediaProviderEvent $event Event for ProviderManager
+	 * @param   MediaProviderEvent  $event  Event for ProviderManager
 	 *
 	 * @return   void
 	 *

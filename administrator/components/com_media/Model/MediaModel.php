@@ -43,7 +43,7 @@ class MediaModel extends BaseModel
 		PluginHelper::importPlugin('filesystem');
 		Factory::getApplication()->triggerEvent('onSetupProviders', $event);
 
-		foreach($providerManager->getProviders() as $provider)
+		foreach ($providerManager->getProviders() as $provider)
 		{
 			$result = new \stdClass;
 			$result->name = $provider->getID();

@@ -69,7 +69,9 @@ class ProviderManager
 	public function getProvider($id)
 	{
 		if (!isset($this->providers[$id]))
+		{
 			throw new \Exception("Media Provider not found");
+		}
 
 		return $this->providers[$id];
 	}

@@ -33,7 +33,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	/**
 	 * Setup Providers for Local Adapter
 	 *
-	 * @param   MediaProviderEvent $event Event for ProviderManager
+	 * @param   MediaProviderEvent  $event  Event for ProviderManager
 	 *
 	 * @return   void
 	 *
