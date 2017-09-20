@@ -16822,20 +16822,36 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 })()}
 },{"./../../store/mutation-types":414,"vue":388,"vue-hot-reload-api":387,"vueify/lib/insert-css":389}],404:[function(require,module,exports){
 ;(function(){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _mutationTypes = require("../../store/mutation-types");
+
+var types = _interopRequireWildcard(_mutationTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 exports.default = {
-    name: 'media-toolbar'
+    name: 'media-toolbar',
+    methods: {
+        toggleInfoBar: function toggleInfoBar() {
+            if (this.$store.state.showInfoBar) {
+                this.$store.commit(types.HIDE_INFOBAR);
+            } else {
+                this.$store.commit(types.SHOW_INFOBAR);
+            }
+        }
+    }
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-toolbar"},[_c('media-breadcrumb'),_vm._v(" "),_vm._m(0)],1)}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-view-icons"},[_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-th",attrs:{"aria-hidden":"true"}})]),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-list",attrs:{"aria-hidden":"true"}})]),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-info",attrs:{"aria-hidden":"true"}})])])}]
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-toolbar"},[_c('media-breadcrumb'),_vm._v(" "),_c('div',{staticClass:"media-view-icons"},[_vm._m(0),_vm._m(1),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":_vm.toggleInfoBar}},[_c('span',{staticClass:"fa fa-info",attrs:{"aria-hidden":"true"}})])])],1)}
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-th",attrs:{"aria-hidden":"true"}})])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-list",attrs:{"aria-hidden":"true"}})])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
@@ -16846,7 +16862,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-2ba1163b", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],405:[function(require,module,exports){
+},{"../../store/mutation-types":414,"vue":388,"vue-hot-reload-api":387}],405:[function(require,module,exports){
 ;(function(){
 'use strict';
 
