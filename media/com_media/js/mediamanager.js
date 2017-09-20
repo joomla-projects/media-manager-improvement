@@ -17479,6 +17479,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var nodePath = require('path');
+
 // The only way to actually change state in a store is by committing a mutation.
 // Mutations are very similar to events: each mutation has a string type and a handler.
 // The handler function is where we perform actual state modifications, and it will receive the state as the first argument.
@@ -17501,9 +17503,50 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
     if (newDirectories.length > 0) {
         var _state$directories;
 
+        /**
+         * Create the directory structure
+         * @param path
+         */
+        var createDirectoryStructureFromPath = function createDirectoryStructureFromPath(path) {
+            var exists = state.directories.some(function (existing) {
+                return existing.path === path;
+            });
+            var directory = directoryFromPath(path);
+            if (!exists && directory.directory) {
+                createDirectoryStructureFromPath(directory.directory);
+                state.directories.push(directory);
+            }
+        };
+
+        /**
+         * Create a directory from a path
+         * @param path
+         */
+
+
+        var directoryFromPath = function directoryFromPath(path) {
+            var parts = path.split('/');
+            var directory = nodePath.dirname(path);
+            if (directory.indexOf(':', directory.length - 1) !== -1) {
+                directory += '/';
+            }
+            return {
+                path: path,
+                name: parts[parts.length - 1],
+                directories: [],
+                files: [],
+                directory: directory !== '.' ? directory : null
+            };
+        };
+
         var newDirectoryIds = newDirectories.map(function (directory) {
             return directory.path;
         });
+
+        // Create the parent directory structure if it does not exist
+        createDirectoryStructureFromPath(newDirectories[0].directory);
+
+        // Get the reference to the parent directory
         var parentDirectory = state.directories.find(function (directory) {
             return directory.path === newDirectories[0].directory;
         });
@@ -17615,7 +17658,7 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
     state.showInfoBar = false;
 }), _types$SELECT_DIRECTO);
 
-},{"./mutation-types":414,"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10,"babel-runtime/helpers/toConsumableArray":11}],416:[function(require,module,exports){
+},{"./mutation-types":414,"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10,"babel-runtime/helpers/toConsumableArray":11,"path":383}],416:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17647,7 +17690,13 @@ exports.default = {
     disks: loadedDisks,
     // The loaded directories
     directories: loadedDisks.map(function (disk) {
-        return { path: disk.drives[0].root, name: disk.displayName, directories: [], files: [], directory: null };
+        return {
+            path: disk.drives[0].root,
+            name: disk.displayName,
+            directories: [],
+            files: [],
+            directory: null
+        };
     }),
     // The loaded files
     files: [],
@@ -17659,7 +17708,7 @@ exports.default = {
     // The state of create folder model
     showCreateFolderModal: false,
     // The state of the infobar
-    showInfoBar: true
+    showInfoBar: false
 };
 
 },{}],417:[function(require,module,exports){

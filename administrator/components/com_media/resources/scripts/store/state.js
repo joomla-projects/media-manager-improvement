@@ -7,16 +7,16 @@ if (options.providers === undefined || options.providers.length === 0) {
 // Load disks from options
 let loadedDisks = options.providers.map((disk) => {
     return {
-        displayName : disk.displayName,
-        drives : disk.adapterNames.map(
+        displayName: disk.displayName,
+        drives: disk.adapterNames.map(
             (account, index) => {
-                return {root : disk.name + '-' + index + ':/', displayName : account,}
+                return {root: disk.name + '-' + index + ':/', displayName: account,}
             }
         ),
     }
 });
 
-if (loadedDisks[0].drives[0] === undefined || loadedDisks[0].drives.length === 0){
+if (loadedDisks[0].drives[0] === undefined || loadedDisks[0].drives.length === 0) {
     throw new TypeError("No default media drive was found");
 }
 
@@ -25,8 +25,14 @@ export default {
     // Will hold the activated filesystem disks
     disks: loadedDisks,
     // The loaded directories
-    directories : loadedDisks.map((disk) => {
-        return {path: disk.drives[0].root , name: disk.displayName, directories: [], files: [], directory: null}
+    directories: loadedDisks.map((disk) => {
+        return {
+            path: disk.drives[0].root,
+            name: disk.displayName,
+            directories: [],
+            files: [],
+            directory: null
+        }
     }),
     // The loaded files
     files: [],

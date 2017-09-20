@@ -158,7 +158,6 @@ class Api {
      * @private
      */
     _normalizeArray(data) {
-
         const directories = data.filter(item => (item.type === 'dir'))
             .map(directory => this._normalizeItem(directory));
         const files = data.filter(item => (item.type === 'file'))
