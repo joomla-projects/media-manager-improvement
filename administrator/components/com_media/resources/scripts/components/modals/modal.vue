@@ -1,49 +1,32 @@
 <template>
-    <div class="media-modal-backdrop" @click="close()">
-        <div class="modal" @click.stop style="display: block">
-            <div class="modal-dialog" :class="modalClass" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <slot name="header"></slot>
-                        <button type="button" v-if="showCloseButton" class="close" @click="close()" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <slot name="body"></slot>
-                    </div>
-                    <div class="modal-footer">
-                        <slot name="footer"></slot>
+    <transition name="fadeInUp">
+        <div class="media-modal-backdrop" @click="close()">
+            <div class="modal" @click.stop style="display: block">
+                <div class="modal-dialog" :class="modalClass" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <slot name="header"></slot>
+                            <button type="button" v-if="showCloseButton" class="close" @click="close()"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <slot name="body"></slot>
+                        </div>
+                        <div class="modal-footer">
+                            <slot name="footer"></slot>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </transition>
 </template>
 
-<style>
-    /** TODO DN extract styles **/
-    .modal-body {
-        width: auto;
-        padding: 15px;
-    }
-
-    .media-modal-backdrop {
-        position: fixed;
-        z-index: 1040;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, .5);
-        display: table;
-        transition: opacity .3s ease;
-    }
-</style>
-
 <script>
-    // TODO DN: transition and advanced styling
     import * as types from "./../../store/mutation-types";
+
     export default {
         name: 'media-modal',
         props: {
