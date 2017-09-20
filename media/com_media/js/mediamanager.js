@@ -16633,11 +16633,18 @@ exports.default = {
 
 },{"./../../../store/mutation-types":414,"./directory.vue":397,"./file.vue":398,"./image.vue":399}],401:[function(require,module,exports){
 ;(function(){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _mutationTypes = require("../../store/mutation-types");
+
+var types = _interopRequireWildcard(_mutationTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 exports.default = {
     name: 'media-infobar',
     computed: {
@@ -16653,6 +16660,14 @@ exports.default = {
             }
 
             return this.$store.getters.getSelectedDirectory;
+        },
+        showInfoBar: function showInfoBar() {
+            return this.$store.state.showInfoBar;
+        }
+    },
+    methods: {
+        hideInfoBar: function hideInfoBar() {
+            this.$store.commit(types.HIDE_INFOBAR);
         }
     }
 };
@@ -16660,7 +16675,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-infobar"},[_c('span',{staticClass:"infobar-close",attrs:{"aria-label":"Close Menu"}},[_vm._v("×")]),_vm._v(" "),_c('h2',[_vm._v(_vm._s(_vm.item.name))]),_vm._v(" "),(_vm.item.path === '/')?_c('div',{staticClass:"text-center"},[_c('span',{staticClass:"fa fa-file placeholder-icon"}),_vm._v("\n        Select file or folder to view its details.\n    ")]):_c('dl',{staticClass:"row"},[_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_FOLDER')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.directory))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_TYPE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.type || '-'))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_CREATED_AT')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.create_date_formatted))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_MODIFIED_AT')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.modified_date_formatted))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_DIMENSION')))]),_vm._v(" "),(_vm.item.width || _vm.item.height)?_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.width)+" x "+_vm._s(_vm.item.height))]):_c('dd',{staticClass:"col-sm-8"},[_vm._v("-")]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_SIZE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.size || '-'))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_MIME_TYPE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.mime_type))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_EXTENSION')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.extension || '-'))])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"infobar"}},[(_vm.showInfoBar)?_c('div',{staticClass:"media-infobar"},[_c('span',{staticClass:"infobar-close",on:{"click":function($event){_vm.hideInfoBar()}}},[_vm._v("×")]),_vm._v(" "),_c('h2',[_vm._v(_vm._s(_vm.item.name))]),_vm._v(" "),(_vm.item.path === '/')?_c('div',{staticClass:"text-center"},[_c('span',{staticClass:"fa fa-file placeholder-icon"}),_vm._v("\n            Select file or folder to view its details.\n        ")]):_c('dl',{staticClass:"row"},[_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_FOLDER')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.directory))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_TYPE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.type || '-'))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_CREATED_AT')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.create_date_formatted))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_MODIFIED_AT')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.modified_date_formatted))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_DIMENSION')))]),_vm._v(" "),(_vm.item.width || _vm.item.height)?_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.width)+" x "+_vm._s(_vm.item.height))]):_c('dd',{staticClass:"col-sm-8"},[_vm._v("-")]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_SIZE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.size || '-'))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_MIME_TYPE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.mime_type))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_EXTENSION')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.extension || '-'))])])]):_vm._e()])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -16672,7 +16687,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-06984c8f", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],402:[function(require,module,exports){
+},{"../../store/mutation-types":414,"vue":388,"vue-hot-reload-api":387}],402:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -17407,6 +17422,10 @@ var UPLOAD_SUCCESS = exports.UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 var SHOW_CREATE_FOLDER_MODAL = exports.SHOW_CREATE_FOLDER_MODAL = 'SHOW_CREATE_FOLDER_MODAL';
 var HIDE_CREATE_FOLDER_MODAL = exports.HIDE_CREATE_FOLDER_MODAL = 'HIDE_CREATE_FOLDER_MODAL';
 
+// Infobar
+var SHOW_INFOBAR = exports.SHOW_INFOBAR = 'SHOW_INFOBAR';
+var HIDE_INFOBAR = exports.HIDE_INFOBAR = 'HIDE_INFOBAR';
+
 // Delete items
 var DELETE_SUCCESS = exports.DELETE_SUCCESS = 'DELETE_SUCCESS';
 
@@ -17569,6 +17588,10 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
     state.showCreateFolderModal = true;
 }), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.HIDE_CREATE_FOLDER_MODAL, function (state) {
     state.showCreateFolderModal = false;
+}), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.SHOW_INFOBAR, function (state) {
+    state.showInfoBar = true;
+}), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.HIDE_INFOBAR, function (state) {
+    state.showInfoBar = false;
 }), _types$SELECT_DIRECTO);
 
 },{"./mutation-types":414,"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10,"babel-runtime/helpers/toConsumableArray":11}],416:[function(require,module,exports){
@@ -17613,7 +17636,9 @@ exports.default = {
     // The currently selected items
     selectedItems: [],
     // The state of create folder model
-    showCreateFolderModal: false
+    showCreateFolderModal: false,
+    // The state of the infobar
+    showInfoBar: true
 };
 
 },{}],417:[function(require,module,exports){
