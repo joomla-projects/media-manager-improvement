@@ -33,7 +33,7 @@ class ApiModel extends BaseModel
 	 * @var   ProviderManager
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $providerManager = null;
+	private $providerManager = null;
 
 	/**
 	 * Return the requested adapter
@@ -47,7 +47,7 @@ class ApiModel extends BaseModel
 	 */
 	private function getAdapter($name)
 	{
-		if (!isset($this->providerManager) || $this->providerManager == null)
+		if ($this->providerManager == null)
 		{
 			$this->providerManager = new ProviderManager;
 
