@@ -16087,6 +16087,49 @@ var Event = function () {
 exports.default = Event;
 
 },{"babel-runtime/helpers/classCallCheck":8,"babel-runtime/helpers/createClass":9,"vue":388}],393:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.notifications = undefined;
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Notifications = function () {
+    function Notifications() {
+        (0, _classCallCheck3.default)(this, Notifications);
+    }
+
+    (0, _createClass3.default)(Notifications, [{
+        key: 'notify',
+
+        /* Send a notification */
+        value: function notify(message, options) {
+
+            var alert = document.createElement('joomla-alert');
+            alert.setAttribute('level', options.level || 'info');
+            alert.setAttribute('dismiss', options.dismiss || true);
+            alert.innerHTML = message || '';
+
+            var messageContainer = document.getElementById('system-message');
+            messageContainer.appendChild(alert);
+        }
+    }]);
+    return Notifications;
+}();
+
+var notifications = exports.notifications = new Notifications();
+
+},{"babel-runtime/helpers/classCallCheck":8,"babel-runtime/helpers/createClass":9}],394:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16159,7 +16202,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-02393475", __vue__options__)
   }
 })()}
-},{"./../store/mutation-types":414,"vue":388,"vue-hot-reload-api":387}],394:[function(require,module,exports){
+},{"./../store/mutation-types":415,"vue":388,"vue-hot-reload-api":387}],395:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16213,7 +16256,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-5a2cfde3", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],395:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],396:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16323,7 +16366,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-cd88c8d6", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":414,"babel-runtime/helpers/toConsumableArray":11,"vue":388,"vue-hot-reload-api":387}],396:[function(require,module,exports){
+},{"./../../store/mutation-types":415,"babel-runtime/helpers/toConsumableArray":11,"vue":388,"vue-hot-reload-api":387}],397:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16355,7 +16398,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-3c2c1b4b", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],397:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],398:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16382,7 +16425,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-744344e4", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],398:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],399:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16427,7 +16470,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-12aad239", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],399:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],400:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16548,7 +16591,7 @@ exports.default = {
     }
 };
 
-},{"./../../../store/mutation-types":414,"./directory.vue":396,"./file.vue":397,"./image.vue":398}],400:[function(require,module,exports){
+},{"./../../../store/mutation-types":415,"./directory.vue":397,"./file.vue":398,"./image.vue":399}],401:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16589,7 +16632,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-06984c8f", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],401:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],402:[function(require,module,exports){
 ;(function(){
 "use strict";
 
@@ -16662,7 +16705,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-1e731972", __vue__options__)
   }
 })()}
-},{"../../plugins/notify":410,"./../../store/mutation-types":414,"vue":388,"vue-focus":386,"vue-hot-reload-api":387}],402:[function(require,module,exports){
+},{"../../plugins/notify":411,"./../../store/mutation-types":415,"vue":388,"vue-focus":386,"vue-hot-reload-api":387}],403:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/** TODO DN extract styles **/\n.modal-body {\n    width: auto;\n    padding: 15px;\n}\n\n.media-modal-backdrop {\n    position: fixed;\n    z-index: 1040;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, .5);\n    display: table;\n    transition: opacity .3s ease;\n}")
 ;(function(){
 'use strict';
@@ -16730,7 +16773,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-afa4aac0", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":414,"vue":388,"vue-hot-reload-api":387,"vueify/lib/insert-css":389}],403:[function(require,module,exports){
+},{"./../../store/mutation-types":415,"vue":388,"vue-hot-reload-api":387,"vueify/lib/insert-css":389}],404:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16756,7 +16799,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-2ba1163b", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],404:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],405:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16783,7 +16826,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-16adac42", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],405:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],406:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16815,7 +16858,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-6a9fc635", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],406:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],407:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16865,7 +16908,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-4c306eb8", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],407:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],408:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16903,7 +16946,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-58a029c3", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],408:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],409:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -17015,7 +17058,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-f6c333ba", __vue__options__)
   }
 })()}
-},{"babel-runtime/core-js/get-iterator":3,"vue":388,"vue-hot-reload-api":387}],409:[function(require,module,exports){
+},{"babel-runtime/core-js/get-iterator":3,"vue":388,"vue-hot-reload-api":387}],410:[function(require,module,exports){
 "use strict";
 
 require("babel-polyfill");
@@ -17123,7 +17166,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     });
 });
 
-},{"./app/Event":392,"./components/app.vue":393,"./components/breadcrumb/breadcrumb.vue":394,"./components/browser/browser.vue":395,"./components/browser/items/item":399,"./components/infobar/infobar.vue":400,"./components/modals/create-folder-modal.vue":401,"./components/modals/modal.vue":402,"./components/toolbar/toolbar.vue":403,"./components/tree/disk.vue":404,"./components/tree/drive.vue":405,"./components/tree/item.vue":406,"./components/tree/tree.vue":407,"./components/upload/upload.vue":408,"./plugins/translate":411,"./store/store":417,"babel-polyfill":1,"vue":388}],410:[function(require,module,exports){
+},{"./app/Event":392,"./components/app.vue":394,"./components/breadcrumb/breadcrumb.vue":395,"./components/browser/browser.vue":396,"./components/browser/items/item":400,"./components/infobar/infobar.vue":401,"./components/modals/create-folder-modal.vue":402,"./components/modals/modal.vue":403,"./components/toolbar/toolbar.vue":404,"./components/tree/disk.vue":405,"./components/tree/drive.vue":406,"./components/tree/item.vue":407,"./components/tree/tree.vue":408,"./components/upload/upload.vue":409,"./plugins/translate":412,"./store/store":418,"babel-polyfill":1,"vue":388}],411:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17134,6 +17177,8 @@ var _assign = require('babel-runtime/core-js/object/assign');
 
 var _assign2 = _interopRequireDefault(_assign);
 
+var _Notifications = require('../app/Notifications');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -17143,36 +17188,26 @@ var Notify = {
     methods: {
         /* Send and success notification */
         notifySuccess: function notifySuccess(message, options) {
-            this.notify(message, (0, _assign2.default)({
+            _Notifications.notifications.notify(message, (0, _assign2.default)({
                 level: 'success',
                 dismiss: true
             }, options));
         },
 
+
         /* Send an error notification */
         notifyError: function notifyError(message, options) {
-            this.notify(message, (0, _assign2.default)({
+            _Notifications.notifications.notify(message, (0, _assign2.default)({
                 level: 'error',
                 dismiss: true
             }, options));
-        },
-
-        /* Send a notification */
-        notify: function notify(message, options) {
-            var alert = document.createElement('joomla-alert');
-            alert.setAttribute('level', options.level || 'info');
-            alert.setAttribute('dismiss', options.dismiss || true);
-            alert.innerHTML = message || '';
-
-            var messageContainer = document.getElementById('system-message');
-            messageContainer.appendChild(alert);
         }
     }
 };
 
 exports.default = Notify;
 
-},{"babel-runtime/core-js/object/assign":5}],411:[function(require,module,exports){
+},{"../app/Notifications":393,"babel-runtime/core-js/object/assign":5}],412:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17196,7 +17231,7 @@ Translate.install = function (Vue, options) {
 
 exports.default = Translate;
 
-},{}],412:[function(require,module,exports){
+},{}],413:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17317,7 +17352,7 @@ var deleteSelectedItems = exports.deleteSelectedItems = function deleteSelectedI
     }
 };
 
-},{"../app/Api":391,"./mutation-types":414}],413:[function(require,module,exports){
+},{"../app/Api":391,"./mutation-types":415}],414:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17361,7 +17396,7 @@ var getSelectedDirectoryFiles = exports.getSelectedDirectoryFiles = function get
     });
 };
 
-},{}],414:[function(require,module,exports){
+},{}],415:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17384,7 +17419,7 @@ var HIDE_CREATE_FOLDER_MODAL = exports.HIDE_CREATE_FOLDER_MODAL = 'HIDE_CREATE_F
 // Delete items
 var DELETE_SUCCESS = exports.DELETE_SUCCESS = 'DELETE_SUCCESS';
 
-},{}],415:[function(require,module,exports){
+},{}],416:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17545,7 +17580,7 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
     state.showCreateFolderModal = false;
 }), _types$SELECT_DIRECTO);
 
-},{"./mutation-types":414,"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10,"babel-runtime/helpers/toConsumableArray":11}],416:[function(require,module,exports){
+},{"./mutation-types":415,"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10,"babel-runtime/helpers/toConsumableArray":11}],417:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17590,7 +17625,7 @@ exports.default = {
     showCreateFolderModal: false
 };
 
-},{}],417:[function(require,module,exports){
+},{}],418:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17637,4 +17672,4 @@ _vue2.default.use(_vuex2.default
     strict: true
 });
 
-},{"./actions":412,"./getters":413,"./mutations":415,"./state":416,"vue":388,"vuex":390}]},{},[409]);
+},{"./actions":413,"./getters":414,"./mutations":416,"./state":417,"vue":388,"vuex":390}]},{},[410]);
