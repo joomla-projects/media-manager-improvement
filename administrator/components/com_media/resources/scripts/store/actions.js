@@ -26,8 +26,8 @@ function updateUrlPath(path) {
  */
 export const getContents = (context, payload) => {
 
-	// Update the url
-	updateUrlPath(payload);
+    // Update the url
+    updateUrlPath(payload);
 
     api.getContents(payload, false)
         .then(contents => {
