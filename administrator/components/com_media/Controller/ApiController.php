@@ -151,6 +151,16 @@ class ApiController extends BaseController
 					$data = $this->getModel()->getFile($adapter, $path);
 					break;
 
+				case 'patch':
+					// Rename or Move file and folders
+
+					$oldPath = $this->input->get('oldPath');
+					$newPath = $this->input->get('newPath');
+
+					$this->getModel()->move($adapter, $oldPath, $newPath, true);
+					$data = $this->getModel()->getFile($adapter, $newPath);
+					break;
+
 				default:
 					throw new \BadMethodCallException('Method not supported yet!');
 			}
