@@ -12,6 +12,7 @@ namespace Joomla\Component\Media\Administrator\Event;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
 use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 
 /**
@@ -39,5 +40,19 @@ class MediaProviderEvent extends AbstractEvent
 	public function getProviderManager()
 	{
 		return $this->providerManager;
+	}
+
+	/**
+	 * Set the ProviderManager
+	 *
+	 * @param   ProviderManager  $providerManager  The Provider Manager to be set
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function setProviderManager($providerManager)
+	{
+		$this->providerManager = $providerManager;
 	}
 }

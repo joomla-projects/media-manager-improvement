@@ -77,7 +77,7 @@ class ApiModel extends BaseModel
 	 */
 	private function getAdapter($name)
 	{
-		if($this->providerManager == null)
+		if(!isset($this->providerManager) || $this->providerManager == null)
 		{
 			$this->providerManager = new ProviderManager;
 			$this->setupProviders();
