@@ -16154,9 +16154,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1e444e05", __vue__options__)
+    hotAPI.createRecord("data-v-02393475", __vue__options__)
   } else {
-    hotAPI.reload("data-v-1e444e05", __vue__options__)
+    hotAPI.reload("data-v-02393475", __vue__options__)
   }
 })()}
 },{"./../store/mutation-types":413,"vue":388,"vue-hot-reload-api":387}],394:[function(require,module,exports){
@@ -16208,9 +16208,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-064a591a", __vue__options__)
+    hotAPI.createRecord("data-v-5a2cfde3", __vue__options__)
   } else {
-    hotAPI.reload("data-v-064a591a", __vue__options__)
+    hotAPI.reload("data-v-5a2cfde3", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],395:[function(require,module,exports){
@@ -16318,9 +16318,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1bc645b6", __vue__options__)
+    hotAPI.createRecord("data-v-cd88c8d6", __vue__options__)
   } else {
-    hotAPI.reload("data-v-1bc645b6", __vue__options__)
+    hotAPI.reload("data-v-cd88c8d6", __vue__options__)
   }
 })()}
 },{"./../../store/mutation-types":413,"babel-runtime/helpers/toConsumableArray":11,"vue":388,"vue-hot-reload-api":387}],396:[function(require,module,exports){
@@ -16350,9 +16350,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2a8a664a", __vue__options__)
+    hotAPI.createRecord("data-v-3c2c1b4b", __vue__options__)
   } else {
-    hotAPI.reload("data-v-2a8a664a", __vue__options__)
+    hotAPI.reload("data-v-3c2c1b4b", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],397:[function(require,module,exports){
@@ -16377,9 +16377,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-59aa1c04", __vue__options__)
+    hotAPI.createRecord("data-v-744344e4", __vue__options__)
   } else {
-    hotAPI.reload("data-v-59aa1c04", __vue__options__)
+    hotAPI.reload("data-v-744344e4", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],398:[function(require,module,exports){
@@ -16422,9 +16422,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-a21e686e", __vue__options__)
+    hotAPI.createRecord("data-v-12aad239", __vue__options__)
   } else {
-    hotAPI.reload("data-v-a21e686e", __vue__options__)
+    hotAPI.reload("data-v-12aad239", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],399:[function(require,module,exports){
@@ -16584,9 +16584,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5f798e1f", __vue__options__)
+    hotAPI.createRecord("data-v-06984c8f", __vue__options__)
   } else {
-    hotAPI.reload("data-v-5f798e1f", __vue__options__)
+    hotAPI.reload("data-v-06984c8f", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],401:[function(require,module,exports){
@@ -16624,7 +16624,6 @@ exports.default = {
         },
         save: function save() {
             if (!this.isValid()) {
-                Joomla.renderMessages({ "error": [this.translate('JLIB_FORM_FIELD_REQUIRED_VALUE')] });
                 return;
             }
 
@@ -16651,9 +16650,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-e447843c", __vue__options__)
+    hotAPI.createRecord("data-v-1e731972", __vue__options__)
   } else {
-    hotAPI.reload("data-v-e447843c", __vue__options__)
+    hotAPI.reload("data-v-1e731972", __vue__options__)
   }
 })()}
 },{"./../../store/mutation-types":413,"vue":388,"vue-focus":386,"vue-hot-reload-api":387}],402:[function(require,module,exports){
@@ -16719,9 +16718,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7dde5310", __vue__options__)
+    hotAPI.createRecord("data-v-afa4aac0", __vue__options__)
   } else {
-    hotAPI.reload("data-v-7dde5310", __vue__options__)
+    hotAPI.reload("data-v-afa4aac0", __vue__options__)
   }
 })()}
 },{"./../../store/mutation-types":413,"vue":388,"vue-hot-reload-api":387,"vueify/lib/insert-css":389}],403:[function(require,module,exports){
@@ -16745,9 +16744,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-f6fb506a", __vue__options__)
+    hotAPI.createRecord("data-v-2ba1163b", __vue__options__)
   } else {
-    hotAPI.reload("data-v-f6fb506a", __vue__options__)
+    hotAPI.reload("data-v-2ba1163b", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],404:[function(require,module,exports){
@@ -16772,9 +16771,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-08794c5c", __vue__options__)
+    hotAPI.createRecord("data-v-16adac42", __vue__options__)
   } else {
-    hotAPI.reload("data-v-08794c5c", __vue__options__)
+    hotAPI.reload("data-v-16adac42", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],405:[function(require,module,exports){
@@ -16804,9 +16803,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-283fcaa5", __vue__options__)
+    hotAPI.createRecord("data-v-6a9fc635", __vue__options__)
   } else {
-    hotAPI.reload("data-v-283fcaa5", __vue__options__)
+    hotAPI.reload("data-v-6a9fc635", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],406:[function(require,module,exports){
@@ -16854,9 +16853,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-31461c48", __vue__options__)
+    hotAPI.createRecord("data-v-4c306eb8", __vue__options__)
   } else {
-    hotAPI.reload("data-v-31461c48", __vue__options__)
+    hotAPI.reload("data-v-4c306eb8", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],407:[function(require,module,exports){
@@ -16892,9 +16891,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3db5d753", __vue__options__)
+    hotAPI.createRecord("data-v-58a029c3", __vue__options__)
   } else {
-    hotAPI.reload("data-v-3db5d753", __vue__options__)
+    hotAPI.reload("data-v-58a029c3", __vue__options__)
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],408:[function(require,module,exports){
@@ -17004,9 +17003,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6502cbb3", __vue__options__)
+    hotAPI.createRecord("data-v-f6c333ba", __vue__options__)
   } else {
-    hotAPI.reload("data-v-6502cbb3", __vue__options__)
+    hotAPI.reload("data-v-f6c333ba", __vue__options__)
   }
 })()}
 },{"babel-runtime/core-js/get-iterator":3,"vue":388,"vue-hot-reload-api":387}],409:[function(require,module,exports){
