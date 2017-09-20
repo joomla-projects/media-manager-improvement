@@ -16010,7 +16010,7 @@ var Api = function () {
         value: function _handleError(error) {
             switch (error.status) {
                 case 404:
-                    _Notifications.notifications.error('COM_MEDIA_ERROR_PAGE_NOT_FOUND');
+                    _Notifications.notifications.error('COM_MEDIA_ERROR_NOT_FOUND');
                     break;
                 case 401:
                     _Notifications.notifications.error('COM_MEDIA_ERROR_NOT_AUTHENTICATED');
@@ -16145,7 +16145,7 @@ var Notifications = function () {
         key: 'error',
         value: function error(message, options) {
             notifications.notify(message, (0, _assign2.default)({
-                level: 'error',
+                level: 'danger',
                 dismiss: true
             }, options));
         }
