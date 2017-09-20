@@ -15794,6 +15794,8 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
+var _Notifications = require('./Notifications');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var path = require('path');
@@ -15869,8 +15871,10 @@ var Api = function () {
                     data: (0, _stringify2.default)(data),
                     contentType: "application/json"
                 }).done(function (json) {
-                    return resolve(_this2._normalizeItem(json.data));
+                    _Notifications.notifications.success('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS');
+                    resolve(_this2._normalizeItem(json.data));
                 }).fail(function (xhr, status, error) {
+                    _Notifications.notifications.error('COM_MEDIA_CREATE_NEW_FOLDER_ERROR');
                     reject(xhr);
                 });
             }).catch(this._handleError);
@@ -15901,8 +15905,10 @@ var Api = function () {
                     data: (0, _stringify2.default)(data),
                     contentType: "application/json"
                 }).done(function (json) {
-                    return resolve(_this3._normalizeItem(json.data));
+                    _Notifications.notifications.success('COM_MEDIA_UPDLOAD_SUCCESS');
+                    resolve(_this3._normalizeItem(json.data));
                 }).fail(function (xhr, status, error) {
+                    _Notifications.notifications.error('COM_MEDIA_UPDLOAD_ERROR');
                     reject(xhr);
                 });
             }).catch(this._handleError);
@@ -15929,8 +15935,10 @@ var Api = function () {
                     data: (0, _stringify2.default)(data),
                     contentType: "application/json"
                 }).done(function (json) {
-                    return resolve();
+                    _Notifications.notifications.success('COM_MEDIA_DELETE_SUCCESS');
+                    resolve();
                 }).fail(function (xhr, status, error) {
+                    _Notifications.notifications.error('COM_MEDIA_DELETE_ERROR');
                     reject(xhr);
                 });
             }).catch(this._handleError);
@@ -16002,13 +16010,19 @@ var Api = function () {
         value: function _handleError(error) {
             switch (error.status) {
                 case 404:
+                    _Notifications.notifications.error('COM_MEDIA_ERROR_PAGE_NOT_FOUND');
                     break;
                 case 401:
+                    _Notifications.notifications.error('COM_MEDIA_ERROR_NOT_AUTHENTICATED');
+                    break;
                 case 403:
+                    _Notifications.notifications.error('COM_MEDIA_ERROR_NOT_AUTHORIZED');
+                    break;
                 case 500:
-                    window.location.href = window.location.pathname;
+                    _Notifications.notifications.error('COM_MEDIA_SERVER_ERROR');
+                    break;
                 default:
-                    window.location.href = window.location.pathname;
+                    _Notifications.notifications.error('COM_MEDIA_ERROR');
             }
 
             throw error;
@@ -16019,7 +16033,7 @@ var Api = function () {
 
 var api = exports.api = new Api();
 
-},{"babel-runtime/core-js/json/stringify":4,"babel-runtime/core-js/promise":7,"babel-runtime/helpers/classCallCheck":8,"babel-runtime/helpers/createClass":9,"babel-runtime/helpers/defineProperty":10,"path":383}],392:[function(require,module,exports){
+},{"./Notifications":393,"babel-runtime/core-js/json/stringify":4,"babel-runtime/core-js/promise":7,"babel-runtime/helpers/classCallCheck":8,"babel-runtime/helpers/createClass":9,"babel-runtime/helpers/defineProperty":10,"path":383}],392:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16094,6 +16108,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.notifications = undefined;
 
+var _assign = require('babel-runtime/core-js/object/assign');
+
+var _assign2 = _interopRequireDefault(_assign);
+
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -16110,15 +16128,37 @@ var Notifications = function () {
     }
 
     (0, _createClass3.default)(Notifications, [{
-        key: 'notify',
+        key: 'success',
+
+
+        /* Send and success notification */
+        value: function success(message, options) {
+            notifications.notify(message, (0, _assign2.default)({
+                level: 'success',
+                dismiss: true
+            }, options));
+        }
+
+        /* Send an error notification */
+
+    }, {
+        key: 'error',
+        value: function error(message, options) {
+            notifications.notify(message, (0, _assign2.default)({
+                level: 'error',
+                dismiss: true
+            }, options));
+        }
 
         /* Send a notification */
-        value: function notify(message, options) {
 
+    }, {
+        key: 'notify',
+        value: function notify(message, options) {
             var alert = document.createElement('joomla-alert');
             alert.setAttribute('level', options.level || 'info');
             alert.setAttribute('dismiss', options.dismiss || true);
-            alert.innerHTML = message || '';
+            alert.innerHTML = Joomla.JText._(message, message) || '';
 
             var messageContainer = document.getElementById('system-message');
             messageContainer.appendChild(alert);
@@ -16129,7 +16169,7 @@ var Notifications = function () {
 
 var notifications = exports.notifications = new Notifications();
 
-},{"babel-runtime/helpers/classCallCheck":8,"babel-runtime/helpers/createClass":9}],394:[function(require,module,exports){
+},{"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/classCallCheck":8,"babel-runtime/helpers/createClass":9}],394:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16202,7 +16242,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-02393475", __vue__options__)
   }
 })()}
-},{"./../store/mutation-types":415,"vue":388,"vue-hot-reload-api":387}],395:[function(require,module,exports){
+},{"./../store/mutation-types":414,"vue":388,"vue-hot-reload-api":387}],395:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16366,7 +16406,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-cd88c8d6", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":415,"babel-runtime/helpers/toConsumableArray":11,"vue":388,"vue-hot-reload-api":387}],397:[function(require,module,exports){
+},{"./../../store/mutation-types":414,"babel-runtime/helpers/toConsumableArray":11,"vue":388,"vue-hot-reload-api":387}],397:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16591,7 +16631,7 @@ exports.default = {
     }
 };
 
-},{"./../../../store/mutation-types":415,"./directory.vue":397,"./file.vue":398,"./image.vue":399}],401:[function(require,module,exports){
+},{"./../../../store/mutation-types":414,"./directory.vue":397,"./file.vue":398,"./image.vue":399}],401:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16634,30 +16674,23 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],402:[function(require,module,exports){
 ;(function(){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mutationTypes = require("./../../store/mutation-types");
+var _mutationTypes = require('./../../store/mutation-types');
 
 var types = _interopRequireWildcard(_mutationTypes);
 
-var _vueFocus = require("vue-focus");
-
-var _notify = require("../../plugins/notify");
-
-var _notify2 = _interopRequireDefault(_notify);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _vueFocus = require('vue-focus');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 exports.default = {
     name: 'media-create-folder-modal',
     directives: { focus: _vueFocus.focus },
-    mixins: [_notify2.default],
     data: function data() {
         return {
             folder: ''
@@ -16681,7 +16714,6 @@ exports.default = {
                 name: this.folder,
                 parent: this.$store.state.selectedDirectory
             });
-            this.notifySuccess(this.translate('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS'));
             this.reset();
         },
         reset: function reset() {
@@ -16705,7 +16737,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-1e731972", __vue__options__)
   }
 })()}
-},{"../../plugins/notify":411,"./../../store/mutation-types":415,"vue":388,"vue-focus":386,"vue-hot-reload-api":387}],403:[function(require,module,exports){
+},{"./../../store/mutation-types":414,"vue":388,"vue-focus":386,"vue-hot-reload-api":387}],403:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/** TODO DN extract styles **/\n.modal-body {\n    width: auto;\n    padding: 15px;\n}\n\n.media-modal-backdrop {\n    position: fixed;\n    z-index: 1040;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, .5);\n    display: table;\n    transition: opacity .3s ease;\n}")
 ;(function(){
 'use strict';
@@ -16773,7 +16805,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-afa4aac0", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":415,"vue":388,"vue-hot-reload-api":387,"vueify/lib/insert-css":389}],404:[function(require,module,exports){
+},{"./../../store/mutation-types":414,"vue":388,"vue-hot-reload-api":387,"vueify/lib/insert-css":389}],404:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -17166,48 +17198,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     });
 });
 
-},{"./app/Event":392,"./components/app.vue":394,"./components/breadcrumb/breadcrumb.vue":395,"./components/browser/browser.vue":396,"./components/browser/items/item":400,"./components/infobar/infobar.vue":401,"./components/modals/create-folder-modal.vue":402,"./components/modals/modal.vue":403,"./components/toolbar/toolbar.vue":404,"./components/tree/disk.vue":405,"./components/tree/drive.vue":406,"./components/tree/item.vue":407,"./components/tree/tree.vue":408,"./components/upload/upload.vue":409,"./plugins/translate":412,"./store/store":418,"babel-polyfill":1,"vue":388}],411:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _assign = require('babel-runtime/core-js/object/assign');
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _Notifications = require('../app/Notifications');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Notify mixin
- */
-var Notify = {
-    methods: {
-        /* Send and success notification */
-        notifySuccess: function notifySuccess(message, options) {
-            _Notifications.notifications.notify(message, (0, _assign2.default)({
-                level: 'success',
-                dismiss: true
-            }, options));
-        },
-
-
-        /* Send an error notification */
-        notifyError: function notifyError(message, options) {
-            _Notifications.notifications.notify(message, (0, _assign2.default)({
-                level: 'error',
-                dismiss: true
-            }, options));
-        }
-    }
-};
-
-exports.default = Notify;
-
-},{"../app/Notifications":393,"babel-runtime/core-js/object/assign":5}],412:[function(require,module,exports){
+},{"./app/Event":392,"./components/app.vue":394,"./components/breadcrumb/breadcrumb.vue":395,"./components/browser/browser.vue":396,"./components/browser/items/item":400,"./components/infobar/infobar.vue":401,"./components/modals/create-folder-modal.vue":402,"./components/modals/modal.vue":403,"./components/toolbar/toolbar.vue":404,"./components/tree/disk.vue":405,"./components/tree/drive.vue":406,"./components/tree/item.vue":407,"./components/tree/tree.vue":408,"./components/upload/upload.vue":409,"./plugins/translate":411,"./store/store":417,"babel-polyfill":1,"vue":388}],411:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17231,7 +17222,7 @@ Translate.install = function (Vue, options) {
 
 exports.default = Translate;
 
-},{}],413:[function(require,module,exports){
+},{}],412:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17352,7 +17343,7 @@ var deleteSelectedItems = exports.deleteSelectedItems = function deleteSelectedI
     }
 };
 
-},{"../app/Api":391,"./mutation-types":415}],414:[function(require,module,exports){
+},{"../app/Api":391,"./mutation-types":414}],413:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17396,7 +17387,7 @@ var getSelectedDirectoryFiles = exports.getSelectedDirectoryFiles = function get
     });
 };
 
-},{}],415:[function(require,module,exports){
+},{}],414:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17419,7 +17410,7 @@ var HIDE_CREATE_FOLDER_MODAL = exports.HIDE_CREATE_FOLDER_MODAL = 'HIDE_CREATE_F
 // Delete items
 var DELETE_SUCCESS = exports.DELETE_SUCCESS = 'DELETE_SUCCESS';
 
-},{}],416:[function(require,module,exports){
+},{}],415:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17580,7 +17571,7 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
     state.showCreateFolderModal = false;
 }), _types$SELECT_DIRECTO);
 
-},{"./mutation-types":415,"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10,"babel-runtime/helpers/toConsumableArray":11}],417:[function(require,module,exports){
+},{"./mutation-types":414,"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10,"babel-runtime/helpers/toConsumableArray":11}],416:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17625,7 +17616,7 @@ exports.default = {
     showCreateFolderModal: false
 };
 
-},{}],418:[function(require,module,exports){
+},{}],417:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17672,4 +17663,4 @@ _vue2.default.use(_vuex2.default
     strict: true
 });
 
-},{"./actions":413,"./getters":414,"./mutations":416,"./state":417,"vue":388,"vuex":390}]},{},[410]);
+},{"./actions":412,"./getters":413,"./mutations":415,"./state":416,"vue":388,"vuex":390}]},{},[410]);

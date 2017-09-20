@@ -21,12 +21,10 @@
 <script>
     import * as types from "./../../store/mutation-types";
     import {focus} from 'vue-focus';
-    import Notify from "../../plugins/notify";
 
     export default {
         name: 'media-create-folder-modal',
         directives: {focus: focus},
-        mixins: [Notify],
         data() {
             return {
                 folder: '',
@@ -56,7 +54,6 @@
                     name: this.folder,
                     parent: this.$store.state.selectedDirectory,
                 });
-                this.notifySuccess(this.translate('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS'));
                 this.reset();
             },
             /* Reset the form */
