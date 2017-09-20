@@ -140,34 +140,34 @@ class ApiController extends BaseController
 					break;
 
 				case 'put':
-					$action = $this->input->get('action');
+					$content      = $this->input->json;
+					$name         = basename($path);
+					$mediaContent = base64_decode($content->get('content', '', 'raw'));
+					$newPath      = $content->get('newPath', null);
+					$move         = $content->get('move', true);
 
-					switch ($action)
+					if ($newPath != null)
 					{
-						case 'update':
-							$content      = $this->input->json;
-							$name         = basename($path);
-							$mediaContent = base64_decode($content->get('content', '', 'raw'));
+						if ($move)
+						{
+							$this->getModel()->move($adapter, $path, $newPath, true);
+						}
+						else
+						{
+							$this->getModel()->copy($adapter, $path, $newPath, true);
+						}
 
-							$this->checkContent($name, $mediaContent);
-
-							$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
-
-							$data = $this->getModel()->getFile($adapter, $path);
-							break;
-
-						case 'move':
-							// Rename or Move file and folders
-							$oldPath = $this->input->get('oldPath');
-							$newPath = $this->input->get('newPath');
-
-							$this->getModel()->move($adapter, $oldPath, $newPath, true);
-							$data = $this->getModel()->getFile($adapter, $newPath);
-							break;
-
-						default:
-							throw new \BadMethodCallException('Action not supported yet!');
+						$path = $newPath;
 					}
+					else
+					{
+						$this->checkContent($name, $mediaContent);
+
+						$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
+
+					}
+
+					$data = $this->getModel()->getFile($adapter, $path);
 					break;
 
 				default:
