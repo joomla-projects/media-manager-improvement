@@ -9,9 +9,9 @@
 
 namespace Joomla\Component\Media\Administrator\Provider;
 
-use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
-
 defined('_JEXEC') or die;
+
+use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 
 /**
  * Media Adapter Manager
@@ -96,11 +96,13 @@ class ProviderManager
 			throw new \Exception('Account was not set');
 		}
 
-		if (!isset($this->getProvider($provider)->getAdapters()[$account]))
+		$adapters = $this->getProvider($provider)->getAdapters();
+
+		if (!isset($adapters[$account]))
 		{
 			throw new \Exception("The account was not found");
 		}
 
-		return $this->getProvider($provider)->getAdapters()[$account];
+		return $adapters[$account];
 	}
 }

@@ -9,9 +9,9 @@
 
 namespace Joomla\Component\Media\Administrator\Provider;
 
-use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
-
 defined('_JEXEC') or die;
+
+use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 
 /**
  * Media provider interface.
