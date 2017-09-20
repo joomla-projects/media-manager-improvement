@@ -16301,7 +16301,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+    value: true
 });
 
 var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
@@ -16317,84 +16317,89 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-	name: 'media-browser',
-	computed: {
-		items: function items() {
-			var directories = this.$store.getters.getSelectedDirectoryDirectories.sort(function (a, b) {
-				return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
-			});
-			var files = this.$store.getters.getSelectedDirectoryFiles.sort(function (a, b) {
-				return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
-			});
+    name: 'media-browser',
+    computed: {
+        items: function items() {
+            var directories = this.$store.getters.getSelectedDirectoryDirectories.sort(function (a, b) {
+                return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
+            });
+            var files = this.$store.getters.getSelectedDirectoryFiles.sort(function (a, b) {
+                return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
+            });
 
-			return [].concat((0, _toConsumableArray3.default)(directories), (0, _toConsumableArray3.default)(files));
-		}
-	},
-	methods: {
-		unselectAllBrowserItems: function unselectAllBrowserItems(event) {
-			var eventOutside = !this.$refs.browserItems.contains(event.target) || event.target === this.$refs.browserItems;
-			if (eventOutside) {
-				this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-			}
-		},
-		onDragEnter: function onDragEnter(e) {
-			e.stopPropagation();
-			return false;
-		},
-		onDragOver: function onDragOver(e) {
-			e.preventDefault();
-			document.querySelector('.media-dragoutline').classList.add('active');
-			return false;
-		},
-		upload: function upload(file) {
-			var _this = this;
+            return [].concat((0, _toConsumableArray3.default)(directories), (0, _toConsumableArray3.default)(files));
+        },
+        mediaBrowserStyles: function mediaBrowserStyles() {
+            return {
+                width: this.$store.state.showInfoBar ? '75%' : '100%'
+            };
+        }
+    },
+    methods: {
+        unselectAllBrowserItems: function unselectAllBrowserItems(event) {
+            var eventOutside = !this.$refs.browserItems.contains(event.target) || event.target === this.$refs.browserItems;
+            if (eventOutside) {
+                this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+            }
+        },
+        onDragEnter: function onDragEnter(e) {
+            e.stopPropagation();
+            return false;
+        },
+        onDragOver: function onDragOver(e) {
+            e.preventDefault();
+            document.querySelector('.media-dragoutline').classList.add('active');
+            return false;
+        },
+        upload: function upload(file) {
+            var _this = this;
 
-			var reader = new FileReader();
+            var reader = new FileReader();
 
-			reader.onload = function (progressEvent) {
-				var result = progressEvent.target.result,
-				    splitIndex = result.indexOf('base64') + 7,
-				    content = result.slice(splitIndex, result.length);
+            reader.onload = function (progressEvent) {
+                var result = progressEvent.target.result,
+                    splitIndex = result.indexOf('base64') + 7,
+                    content = result.slice(splitIndex, result.length);
 
-				_this.$store.dispatch('uploadFile', {
-					name: file.name,
-					parent: _this.$store.state.selectedDirectory,
-					content: content
-				});
-			};
+                _this.$store.dispatch('uploadFile', {
+                    name: file.name,
+                    parent: _this.$store.state.selectedDirectory,
+                    content: content
+                });
+            };
 
-			reader.readAsDataURL(file);
-		},
-		onDrop: function onDrop(e) {
-			e.preventDefault();
+            reader.readAsDataURL(file);
+        },
+        onDrop: function onDrop(e) {
+            e.preventDefault();
 
-			if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-				for (var i = 0, f; f = e.dataTransfer.files[i]; i++) {
-					document.querySelector('.media-dragoutline').classList.remove('active');
-					this.upload(f);
-				}
-			}
-			document.querySelector('.media-dragoutline').classList.remove('active');
-		},
-		onDragLeave: function onDragLeave(e) {
-			e.stopPropagation();
-			e.preventDefault();
-			document.querySelector('.media-dragoutline').classList.remove('active');
-			return false;
-		}
-	},
-	created: function created() {
-		document.body.addEventListener('click', this.unselectAllBrowserItems, false);
-	},
-	beforeDestroy: function beforeDestroy() {
-		document.body.removeEventListener('click', this.unselectAllBrowserItems, false);
-	}
+            if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                for (var i = 0, f; f = e.dataTransfer.files[i]; i++) {
+                    document.querySelector('.media-dragoutline').classList.remove('active');
+                    this.upload(f);
+                }
+            }
+            document.querySelector('.media-dragoutline').classList.remove('active');
+        },
+        onDragLeave: function onDragLeave(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            document.querySelector('.media-dragoutline').classList.remove('active');
+            return false;
+        }
+    },
+    created: function created() {
+        document.body.addEventListener('click', this.unselectAllBrowserItems, false);
+    },
+    beforeDestroy: function beforeDestroy() {
+        document.body.removeEventListener('click', this.unselectAllBrowserItems, false);
+    }
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser",on:{"dragenter":_vm.onDragEnter,"drop":_vm.onDrop,"dragover":_vm.onDragOver,"dragleave":_vm.onDragLeave}},[_vm._m(0),_vm._v(" "),_c('div',{ref:"browserItems",staticClass:"media-browser-items"},_vm._l((_vm.items),function(item){return _c('media-browser-item',{attrs:{"item":item}})}))])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser",style:(_vm.mediaBrowserStyles),on:{"dragenter":_vm.onDragEnter,"drop":_vm.onDrop,"dragover":_vm.onDragOver,"dragleave":_vm.onDragLeave}},[_vm._m(0),_vm._v(" "),_c('div',{ref:"browserItems",staticClass:"media-browser-items"},_vm._l((_vm.items),function(item){return _c('media-browser-item',{attrs:{"item":item}})}))])}
 __vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-dragoutline"},[_c('span',{staticClass:"fa fa-cloud-upload upload-icon",attrs:{"aria-hidden":"true"}}),_vm._v(" "),_c('p',[_vm._v("Drop file(s) to Upload")])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
