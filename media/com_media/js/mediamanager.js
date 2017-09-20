@@ -17884,15 +17884,21 @@ exports.default = Event;
 
 },{"babel-runtime/helpers/classCallCheck":334,"babel-runtime/helpers/createClass":335,"vue":420}],425:[function(require,module,exports){
 ;(function(){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mutationTypes = require('./../store/mutation-types');
+var _mutationTypes = require("./../store/mutation-types");
 
 var types = _interopRequireWildcard(_mutationTypes);
+
+var _Api = require("./../app/Api");
+
+var _Api2 = _interopRequireDefault(_Api);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -17907,6 +17913,9 @@ exports.default = {
     computed: {
         disks: function disks() {
             return this.$store.state.disks;
+        },
+        isModal: function isModal() {
+            return Joomla.getOptions('com_media', {}).isModal;
         }
     },
     methods: {
@@ -17943,7 +17952,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-container row",style:({minHeight: _vm.fullHeight})},[_c('div',{staticClass:"media-sidebar col-md-2 hidden-sm-down"},_vm._l((_vm.disks),function(disk){return _c('media-disk',{attrs:{"disk":disk}})})),_vm._v(" "),_c('div',{staticClass:"col-md-10"},[_c('div',{staticClass:"media-main"},[_c('media-toolbar'),_vm._v(" "),_c('media-browser'),_vm._v(" "),_c('media-infobar')],1)]),_vm._v(" "),_c('media-upload'),_vm._v(" "),_c('media-create-folder-modal')],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-container row",style:({minHeight: _vm.fullHeight})},[_c('div',{staticClass:"media-sidebar col-md-2 hidden-sm-down"},_vm._l((_vm.disks),function(disk){return _c('media-disk',{attrs:{"disk":disk}})})),_vm._v(" "),_c('div',{staticClass:"col-md-10"},[_c('div',{staticClass:"media-main"},[_c('media-toolbar'),_vm._v(" "),_c('media-browser'),_vm._v(" "),(!this.isModal)?_c('media-infobar'):_vm._e()],1)]),_vm._v(" "),_c('media-upload'),_vm._v(" "),_c('media-create-folder-modal')],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -17955,7 +17964,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-82153b42", __vue__options__)
   }
 })()}
-},{"./../store/mutation-types":445,"vue":420,"vue-hot-reload-api":419}],426:[function(require,module,exports){
+},{"./../app/Api":423,"./../store/mutation-types":445,"vue":420,"vue-hot-reload-api":419}],426:[function(require,module,exports){
 ;(function(){
 'use strict';
 

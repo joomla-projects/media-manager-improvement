@@ -41,7 +41,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
@@ -77,11 +77,11 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function prepareToolbar()
 	{
-		$tmpl = Factory::getApplication()->input->getCmd('tmpl');
+		$tmpl = \JFactory::getApplication()->input->getCmd('tmpl');
 
 		// Get the toolbar object instance
 		$bar  = Toolbar::getInstance('toolbar');
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 
 		if ($tmpl === 'component')
 		{
