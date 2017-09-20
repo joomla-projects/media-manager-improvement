@@ -30,13 +30,13 @@ class PlgFileSystemLocal extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Returns a local media adapter array which can be used to manipulate files.
+	 * Setup AdapterManager with Local Adapters
 	 *
-	 * @return   \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter[]
+	 * @return   void
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
-	public function onFileSystemGetAdapters()
+	public function onSetupAdapterManager(\Joomla\Component\Media\Administrator\Event\MediaAdapterEvent $event)
 	{
 		$adapters = [];
 		$directories = $this->params->get('directories', '[{"directory":{"directory": "images"}}]');
@@ -59,6 +59,9 @@ class PlgFileSystemLocal extends CMSPlugin
 			}
 		}
 
-		return $adapters;
+		// Setup results
+		$result = $event->getArgument('result', []);
+		$result[] = $adapters;
+		$event->setArgument('result', $result);
 	}
 }

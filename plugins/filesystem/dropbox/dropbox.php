@@ -28,13 +28,13 @@ class PlgFileSystemDropbox extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Returns a dropbox media adapter to the caller which can be used to manipulate files
+	 * Setup AdapterManager with Dropbox Adapters
 	 *
-	 * @return   \Joomla\Plugin\Filesystem\Dropbox\Adapter\JoomlaDropboxAdapter[]
+	 * @return   void
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
-	public function onFileSystemGetAdapters()
+	public function onSetupAdapterManager(\Joomla\Component\Media\Administrator\Event\MediaAdapterEvent $event)
 	{
 		\JLoader::import('filesystem.dropbox.vendor.autoload', JPATH_PLUGINS);
 
@@ -44,7 +44,10 @@ class PlgFileSystemDropbox extends CMSPlugin
 		$dropbox = new \Joomla\Plugin\Filesystem\Dropbox\Adapter\JoomlaDropboxAdapter($accessToken);
 		$dropbox->setAccountName($accountName);
 
-		return [$dropbox];
+		// Setup results
+		$result = $event->getArgument('result', []);
+		$result[] = [$dropbox];
+		$event->setArgument('result', $result);
 	}
 
 	/**

@@ -15,6 +15,7 @@ use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
+use Joomla\Component\Media\Administrator\Adapter\AdapterManager;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 
 /**
@@ -45,31 +46,10 @@ class Api extends BaseModel
 	{
 		parent::__construct($config, $factory);
 
-		if (!isset($config['providers']))
-		{
-			$config['providers'] = PluginHelper::getPlugin('filesystem');
-		}
-
-		$providers = $config['providers'];
-
-		if (!isset($config['fileadapters']))
-		{
-			// Import enabled file system plugins
-			PluginHelper::importPlugin('filesystem');
-
-			// @Todo change to Joomla 4 event system
-			$results = \JFactory::getApplication()->triggerEvent('onFileSystemGetAdapters');
-			$adapters = array();
-
-			for ($i = 0, $len = count($results); $i < $len; $i++)
-			{
-				$adapters[$providers[$i]->name] = $results[$i];
-			}
-
-			$config['fileadapters'] = $adapters;
-		}
-
-		$this->adapters = $config['fileadapters'];
+		// Setup adapters
+		$adapterManager = new AdapterManager();
+		$adapterManager->setupAdapters();
+		$this->adapters = $adapterManager->getAdapters();
 	}
 
 	/**
