@@ -17278,12 +17278,30 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 // - Instead of mutating the state, actions commit mutations.
 // - Actions can contain arbitrary asynchronous operations.
 
+function updateUrlPath(path) {
+    if (path == null) {
+        path = '';
+    }
+    var url = window.location.href;
+    var pattern = new RegExp('\\b(path=).*?(&|$)');
+
+    if (url.search(pattern) >= 0) {
+        history.pushState(null, '', url.replace(pattern, '$1' + path + '$2'));
+    } else {
+        history.pushState(null, '', url + (url.indexOf('?') > 0 ? '&' : '?') + 'path=' + path);
+    }
+}
+
 /**
  * Get contents of a directory from the api
  * @param commit
  * @param payload
  */
 var getContents = exports.getContents = function getContents(context, payload) {
+    // Update url params
+    // TODO use polyfill for ie11
+    updateUrlPath(payload);
+
     _Api.api.getContents(payload).then(function (contents) {
         context.commit(types.LOAD_CONTENTS_SUCCESS, contents);
         context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
@@ -17538,6 +17556,9 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
                 directory: directory !== '.' ? directory : null
             };
         };
+
+        // Get the new directories
+
 
         var newDirectoryIds = newDirectories.map(function (directory) {
             return directory.path;
