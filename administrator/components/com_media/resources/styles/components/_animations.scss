@@ -14,12 +14,12 @@
   opacity: 0;
 }
 
-// infobar
+// Infobar
 .infobar-enter-active {
-  animation: slideOutRight .3s reverse;
+  animation: slideOutRight .2s reverse;
 }
 .infobar-leave-active {
-  animation: slideOutRight .3s;
+  animation: slideOutRight .2s;
 }
 
 // Slide out right animation
