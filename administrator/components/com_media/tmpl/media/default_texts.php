@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 JText::script('COM_MEDIA_CREATE_NEW_FOLDER', true);
+JText::script('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS', true);
 JText::script('COM_MEDIA_FOLDER', true);
 JText::script('COM_MEDIA_MEDIA_TYPE', true);
 JText::script('COM_MEDIA_MEDIA_CREATED_AT', true);
