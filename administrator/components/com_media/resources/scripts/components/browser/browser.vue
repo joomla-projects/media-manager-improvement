@@ -1,5 +1,11 @@
 <template>
-    <div class="media-browser"
+    <table v-if="listView === 'list'">
+        <tbody class="media-browser-list-items" ref="browserItems">
+            <media-browser-item v-for="item in items" :item="item" layout="list"></media-browser-item>
+        </tbody>
+    </table>
+    <div v-else-if="listView === 'grid'"
+         class="media-browser"
          @dragenter="onDragEnter"
          @drop="onDrop"
          @dragover="onDragOver"
@@ -34,11 +40,15 @@
 
                 return [...directories, ...files];
             },
-            /* The styles for the media-browser elemen */
+            /* The styles for the media-browser element */
             mediaBrowserStyles() {
                 return {
                     width: this.$store.state.showInfoBar ? '75%' : '100%'
                 }
+            },
+            /* The styles for the media-browser elemen */
+            listView() {
+                return this.$store.state.listView
             }
         },
         methods: {
