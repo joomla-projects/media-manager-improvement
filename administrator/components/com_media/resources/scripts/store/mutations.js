@@ -212,7 +212,7 @@ export default {
      * @param state
      */
     [types.SHOW_PREVIEW_MODAL]: (state) => {
-        state.showPreviewModal = false;
+        state.showPreviewModal = true;
     },
 
     /**
@@ -220,6 +220,6 @@ export default {
      * @param state
      */
     [types.HIDE_PREVIEW_MODAL]: (state) => {
-        state.showPreviewModal = true;
+        state.showPreviewModal = false;
     },
 }

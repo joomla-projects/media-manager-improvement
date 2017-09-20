@@ -18137,10 +18137,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 exports.default = {
     name: 'media-preview-modal',
-    data: function data() {
-        return { source: '' };
-    },
-
     computed: {
         item: function item() {
             return this.$store.state.previewItem;
@@ -18156,7 +18152,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.item)?_c('media-modal',{attrs:{"size":'sm'},on:{"close":function($event){_vm.close()}}},[_c('h3',{staticClass:"modal-title",attrs:{"slot":"header"},slot:"header"},[_vm._v(_vm._s(_vm.item.name))]),_vm._v(" "),_c('div',{attrs:{"slot":"body"},slot:"body"},[_vm._v("\n        "+_vm._s(_vm.item.url)+"\n    ")]),_vm._v(" "),_c('div',{attrs:{"slot":"footer"},slot:"footer"},[_c('button',{staticClass:"btn btn-link",on:{"click":function($event){_vm.close()}}},[_vm._v(_vm._s(_vm.translate('JCANCEL')))])])]):_vm._e()}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.$store.state.showPreviewModal && _vm.item)?_c('media-modal',{attrs:{"size":'md'},on:{"close":function($event){_vm.close()}}},[_c('h3',{staticClass:"modal-title",attrs:{"slot":"header"},slot:"header"},[_vm._v(_vm._s(_vm.item.name))]),_vm._v(" "),_c('div',{attrs:{"slot":"body"},slot:"body"},[_c('img',{attrs:{"src":_vm.item.url}})]),_vm._v(" "),_c('div',{attrs:{"slot":"footer"},slot:"footer"},[_c('button',{staticClass:"btn btn-link",on:{"click":function($event){_vm.close()}}},[_vm._v(_vm._s(_vm.translate('JCANCEL')))])])]):_vm._e()}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18986,9 +18982,9 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
 }), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.LOAD_FULL_CONTENTS_SUCCESS, function (state, payload) {
     state.previewItem = payload;
 }), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.SHOW_PREVIEW_MODAL, function (state) {
-    state.showPreviewModal = false;
-}), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.HIDE_PREVIEW_MODAL, function (state) {
     state.showPreviewModal = true;
+}), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.HIDE_PREVIEW_MODAL, function (state) {
+    state.showPreviewModal = false;
 }), _types$SELECT_DIRECTO);
 
 },{"./mutation-types":450,"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10,"babel-runtime/helpers/toConsumableArray":11}],452:[function(require,module,exports){
