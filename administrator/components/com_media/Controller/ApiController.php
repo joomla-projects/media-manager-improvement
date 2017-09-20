@@ -143,10 +143,29 @@ class ApiController extends BaseController
 					$content      = $this->input->json;
 					$name         = basename($path);
 					$mediaContent = base64_decode($content->get('content', '', 'raw'));
+					$newPath      = $content->get('newPath', null);
+					$move         = $content->get('move', true);
 
-					$this->checkContent($name, $mediaContent);
+					if ($mediaContent != null)
+					{
+						$this->checkContent($name, $mediaContent);
 
-					$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
+						$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
+					}
+
+					if ($newPath != null)
+					{
+						if ($move)
+						{
+							$this->getModel()->move($adapter, $path, $newPath, true);
+						}
+						else
+						{
+							$this->getModel()->copy($adapter, $path, $newPath, true);
+						}
+
+						$path = $newPath;
+					}
 
 					$data = $this->getModel()->getFile($adapter, $path);
 					break;
@@ -190,13 +209,15 @@ class ApiController extends BaseController
 	protected function sendResponse($data = null, $responseCode = 200)
 	{
 		// Set the correct content type
-		\JFactory::getApplication()->setHeader('Content-Type', 'application/json');
+		$this->app->setHeader('Content-Type', 'application/json');
 
 		// Set the status code for the response
 		http_response_code($responseCode);
 
 		// Send the data
 		echo new JsonResponse($data);
+
+		$this->app->close();
 	}
 
 	/**
@@ -247,7 +268,7 @@ class ApiController extends BaseController
 		}
 
 		// @todo find a better way to check the input, by not writing the file to the disk
-		$tmpFile = \JFactory::getApplication()->getConfig()->get('tmp_path') . '/' . uniqid() . $name;
+		$tmpFile = $this->app->getConfig()->get('tmp_path') . '/' . uniqid() . $name;
 
 		if (!\JFile::write($tmpFile, $mediaContent))
 		{
