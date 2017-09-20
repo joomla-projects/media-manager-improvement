@@ -38,5 +38,5 @@ export default {
     // The state of create folder model
     showCreateFolderModal: false,
     // The state of the infobar
-    showInfoBar: true,
+    showInfoBar: true,  
 }
