@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Media\Administrator\Event\MediaAdapterEvent;
 
 /**
  * FileSystem Dropbox plugin.
@@ -30,11 +31,13 @@ class PlgFileSystemDropbox extends CMSPlugin
 	/**
 	 * Setup AdapterManager with Dropbox Adapters
 	 *
+	 * @param   MediaAdapterEvent  $event  Event for AdapterManager
+	 *
 	 * @return   void
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
-	public function onSetupAdapterManager(\Joomla\Component\Media\Administrator\Event\MediaAdapterEvent $event)
+	public function onSetupAdapterManager(MediaAdapterEvent $event)
 	{
 		\JLoader::import('filesystem.dropbox.vendor.autoload', JPATH_PLUGINS);
 

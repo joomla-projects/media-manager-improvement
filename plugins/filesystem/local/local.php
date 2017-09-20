@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Component\Media\Administrator\Event\MediaAdapterEvent;
 
 /**
  * FileSystem Local plugin.
@@ -32,11 +32,13 @@ class PlgFileSystemLocal extends CMSPlugin
 	/**
 	 * Setup AdapterManager with Local Adapters
 	 *
+	 * @param   MediaAdapterEvent  $event  Event for AdapterManager
+	 *
 	 * @return   void
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
-	public function onSetupAdapterManager(\Joomla\Component\Media\Administrator\Event\MediaAdapterEvent $event)
+	public function onSetupAdapterManager(MediaAdapterEvent $event)
 	{
 		$adapters = [];
 		$directories = $this->params->get('directories', '[{"directory":{"directory": "images"}}]');

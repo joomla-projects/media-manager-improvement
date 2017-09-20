@@ -11,12 +11,14 @@ namespace Joomla\Component\Media\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Adapter\AdapterManager;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
+use Joomla\Component\Media\Administrator\Event\MediaAdapterEvent;
 
 /**
  * Api Model
@@ -28,10 +30,10 @@ class Api extends BaseModel
 	/**
 	 * Holds available media file adapters.
 	 *
-	 * @var   AdapterInterface[][]
+	 * @var   AdapterManager
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $adapters = null;
+	protected $adapterManager = null;
 
 	/**
 	 * Constructor
@@ -47,9 +49,35 @@ class Api extends BaseModel
 		parent::__construct($config, $factory);
 
 		// Setup adapters
-		$adapterManager = new AdapterManager();
-		$adapterManager->setupAdapters();
-		$this->adapters = $adapterManager->getAdapters();
+		$this->setupAdapters();
+	}
+
+	/**
+	 * Setup the adapters for Media Manager
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private function setupAdapters()
+	{
+		// Get the providers
+		$providers = PluginHelper::getPlugin('filesystem');
+
+		// Fire the event to get the results
+		PluginHelper::importPlugin('filesystem');
+		$eventParameters = ['context' => 'AdapterManager'];
+		$event = new MediaAdapterEvent('onSetupAdapterManager', $eventParameters);
+		$results = (array) Factory::getApplication()->triggerEvent('onSetupAdapterManager', $event);
+
+		$adapters = array();
+
+		for ($i = 0, $len = count($results); $i < $len; $i++)
+		{
+			$adapters[$providers[$i]->name] = $results[$i];
+		}
+
+		$this->adapterManager = new AdapterManager($adapters);
 	}
 
 	/**
@@ -71,9 +99,11 @@ class Api extends BaseModel
 			throw new \Exception('Account was not set');
 		}
 
-		if (isset($this->adapters[$adapter][$account]))
+		$mediaAdapter = $this->adapterManager->getAdapters()[$adapter][$account];
+
+		if (isset($mediaAdapter))
 		{
-			return $this->adapters[$adapter][$account];
+			return $mediaAdapter;
 		}
 
 		// Todo Use a translated string

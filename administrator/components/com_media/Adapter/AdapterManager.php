@@ -9,10 +9,6 @@
 
 namespace Joomla\Component\Media\Administrator\Adapter;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Media\Administrator\Event\MediaAdapterEvent;
-
 defined('_JEXEC') or die;
 
 /**
@@ -30,32 +26,17 @@ class AdapterManager
 	private $adapters = array();
 
 	/**
-	 * Setup the adapters for Media Manager
+	 * AdapterManager constructor.
 	 *
-	 * @return  void
+	 * @param   array  $adapters  Adapters to hold
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function setupAdapters()
+	public function __construct(array $adapters)
 	{
-		// Get the providers
-		$providers = PluginHelper::getPlugin('filesystem');
-
-		// Fire the event to get the results
-		PluginHelper::importPlugin('filesystem');
-		$eventParameters = ['context' => 'AdapterManager'];
-		$event = new MediaAdapterEvent('onSetupAdapterManager', $eventParameters);
-		$results = (array) Factory::getApplication()->triggerEvent('onSetupAdapterManager', $event);
-
-		$adapters = array();
-
-		for ($i = 0, $len = count($results); $i < $len; $i++)
-		{
-			$adapters[$providers[$i]->name] = $results[$i];
-		}
-
-		$this->adapters = $adapters;
+		$this->setAdapters($adapters);
 	}
+
 
 	/**
 	 * Returns an associative array of adapters with provider name as the key
@@ -67,5 +48,19 @@ class AdapterManager
 	public function getAdapters()
 	{
 		return $this->adapters;
+	}
+
+	/**
+	 * Sets adapters for AdapterManager
+	 *
+	 * @param   array  $adapters  An array of adapters to be hold
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function setAdapters($adapters)
+	{
+		$this->adapters = $adapters;
 	}
 }
