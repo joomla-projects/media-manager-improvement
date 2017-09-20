@@ -99,11 +99,11 @@ class Api extends BaseModel
 			throw new \Exception('Account was not set');
 		}
 
-		$mediaAdapter = $this->adapterManager->getAdapters()[$adapter][$account];
+		$adapters = $this->adapterManager->getAdapters();
 
-		if (isset($mediaAdapter))
+		if (isset($adapters[$adapter][$account]))
 		{
-			return $mediaAdapter;
+			return $adapters[$adapter][$account];
 		}
 
 		// Todo Use a translated string

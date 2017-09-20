@@ -11,8 +11,10 @@ namespace Joomla\Component\Media\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Media\Administrator\Event\MediaAdapterEvent;
 use Joomla\Registry\Registry;
 
 /**
@@ -33,8 +35,10 @@ class Media extends BaseModel
 	{
 		PluginHelper::importPlugin('filesystem');
 		$providerInfo = PluginHelper::getPlugin('filesystem');
-		$adapterInfo  = \JFactory::getApplication()->triggerEvent('onFileSystemGetAdapters');
-		$results      = array();
+		$eventParameters = ['context' => 'AdapterManager'];
+		$event           = new MediaAdapterEvent('onSetupAdapterManager', $eventParameters);
+		$adapterInfo     = (array) Factory::getApplication()->triggerEvent('onSetupAdapterManager', $event);
+		$results         = array();
 
 		for ($i = 0, $len = count($providerInfo); $i < $len; $i++)
 		{
