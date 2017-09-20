@@ -106,7 +106,6 @@ class Api extends BaseModel
 	 *
 	 * @param   string  $adapter  The adapter
 	 * @param   string  $path     The path to the file or folder
-	 * @param   array   $options  The options
 	 *
 	 * @return  \stdClass
 	 *
@@ -114,18 +113,11 @@ class Api extends BaseModel
 	 * @throws  \Exception
 	 * @see     AdapterInterface::getFile()
 	 */
-	public function getFile($adapter, $path = '/', $options = array())
+	public function getFile($adapter, $path = '/')
 	{
 		// Add adapter prefix to the file returned
 		$file = $this->getAdapter($adapter)->getFile($path);
-
-		if (isset($options['url']) && $options['url'] && $file->type == 'file')
-		{
-			$file->url = $this->getUrl($adapter, $file->path);
-		}
-
-		$file->path    = $adapter . ":" . $file->path;
-		$file->adapter = $adapter;
+		$file->path = $adapter . ":" . $file->path;
 
 		return $file;
 	}
@@ -153,14 +145,13 @@ class Api extends BaseModel
 		foreach ($files as $file)
 		{
 			// If requested add options
-			// Url can be provided for a file
+			// Url is only can be provided for a file
 			if (isset($options['url']) && $options['url'] && $file->type == 'file')
 			{
 				$file->url = $this->getUrl($adapter, $file->path);
 			}
 
-			$file->path    = $adapter . ":" . $file->path;
-			$file->adapter = $adapter;
+			$file->path = $adapter . ":" . $file->path;
 		}
 
 		return $files;
