@@ -17465,7 +17465,19 @@ exports.default = {
             var _this = this;
 
             var items = [];
-            this.$store.state.selectedDirectory.split('/').filter(function (crumb) {
+
+            var parts = this.$store.state.selectedDirectory.split('/');
+
+            if (parts) {
+                var drive = this.findDrive(parts[0]);
+
+                if (drive) {
+                    items.push(drive);
+                    parts.shift();
+                }
+            }
+
+            parts.filter(function (crumb) {
                 return crumb.length !== 0;
             }).forEach(function (crumb) {
                 items.push({
@@ -17486,6 +17498,19 @@ exports.default = {
                 path += '/';
             }
             this.$store.dispatch('getContents', path);
+        },
+        findDrive: function findDrive(adapter) {
+            var driveObject = null;
+
+            this.$store.state.disks.forEach(function (disk) {
+                disk.drives.forEach(function (drive) {
+                    if (drive.root.startsWith(adapter)) {
+                        driveObject = { name: drive.displayName, path: drive.root };
+                    }
+                });
+            });
+
+            return driveObject;
         }
     }
 };
