@@ -15903,6 +15903,42 @@ var Api = function () {
         }
 
         /**
+         * Rename an item
+         * @param path
+         * @param newName
+         * @return {Promise.<T>}
+         */
+
+    }, {
+        key: 'rename',
+        value: function rename(path, newPath) {
+            var _this4 = this;
+
+            // Wrap the jquery call into a real promise
+            return new _promise2.default(function (resolve, reject) {
+                var _data3;
+
+                var url = _this4._baseUrl + '&task=api.files&path=' + path;
+                var data = (_data3 = {}, (0, _defineProperty3.default)(_data3, _this4._csrfToken, '1'), (0, _defineProperty3.default)(_data3, 'newPath', newPath), _data3);
+
+                Joomla.request({
+                    url: url,
+                    method: 'PUT',
+                    data: (0, _stringify2.default)(data),
+                    headers: { 'Content-Type': 'application/json' },
+                    onSuccess: function onSuccess(response) {
+                        _Notifications.notifications.success('COM_MEDIA_RENAME_SUCCESS');
+                        resolve(_this4._normalizeItem(JSON.parse(response).data));
+                    },
+                    onError: function onError(xhr) {
+                        _Notifications.notifications.error('COM_MEDIA_RENAME_ERROR');
+                        reject(xhr);
+                    }
+                });
+            }).catch(this._handleError);
+        }
+
+        /**
          * Upload a file
          * @param path
          * @return {Promise.<T>}
@@ -15911,13 +15947,13 @@ var Api = function () {
     }, {
         key: 'delete',
         value: function _delete(path) {
-            var _this4 = this;
+            var _this5 = this;
 
             // Wrap the jquery call into a real promise
             return new _promise2.default(function (resolve, reject) {
 
-                var url = _this4._baseUrl + '&task=api.files&path=' + path;
-                var data = (0, _defineProperty3.default)({}, _this4._csrfToken, '1');
+                var url = _this5._baseUrl + '&task=api.files&path=' + path;
+                var data = (0, _defineProperty3.default)({}, _this5._csrfToken, '1');
 
                 Joomla.request({
                     url: url,
@@ -15970,17 +16006,17 @@ var Api = function () {
     }, {
         key: '_normalizeArray',
         value: function _normalizeArray(data) {
-            var _this5 = this;
+            var _this6 = this;
 
             var directories = data.filter(function (item) {
                 return item.type === 'dir';
             }).map(function (directory) {
-                return _this5._normalizeItem(directory);
+                return _this6._normalizeItem(directory);
             });
             var files = data.filter(function (item) {
                 return item.type === 'file';
             }).map(function (file) {
-                return _this5._normalizeItem(file);
+                return _this6._normalizeItem(file);
             });
 
             return {
@@ -16942,13 +16978,13 @@ exports.default = {
     name: 'media-rename-modal',
     directives: { focus: _vueFocus.focus },
     computed: {
-        name: function name() {
-            return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1].name;
+        item: function item() {
+            return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];
         }
     },
     methods: {
         isValid: function isValid() {
-            return this.name;
+            return this.item.name.length > 0;
         },
         close: function close() {
             this.reset();
@@ -16959,8 +16995,9 @@ exports.default = {
                 return;
             }
 
-            this.$store.dispatch('rename', {
-                name: this.name
+            this.$store.dispatch('renameItem', {
+                path: this.item.path,
+                newPath: this.item.directory + this.item.name
             });
             this.reset();
         },
@@ -16973,7 +17010,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.$store.state.showRenameModal)?_c('media-modal',{attrs:{"size":'sm'},on:{"close":function($event){_vm.close()}}},[_c('h3',{staticClass:"modal-title",slot:"header"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_RENAME')))]),_vm._v(" "),_c('div',{slot:"body"},[_c('form',{staticClass:"form",attrs:{"novalidate":""},on:{"submit":function($event){$event.preventDefault();_vm.save($event)}}},[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"name"}},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_NAME')))]),_vm._v(" "),_c('input',{directives:[{name:"focus",rawName:"v-focus",value:(true),expression:"true"},{name:"model",rawName:"v-model.trim",value:(_vm.name),expression:"name",modifiers:{"trim":true}}],staticClass:"form-control",attrs:{"id":"name","placeholder":"Name","required":"","autocomplete":"off"},domProps:{"value":(_vm.name)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.name=$event.target.value.trim()},function($event){_vm.name = $event.target.value}],"blur":function($event){_vm.$forceUpdate()}}})])])]),_vm._v(" "),_c('div',{slot:"footer"},[_c('button',{staticClass:"btn btn-link",on:{"click":function($event){_vm.close()}}},[_vm._v(_vm._s(_vm.translate('JCANCEL')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-success",attrs:{"disabled":!_vm.isValid()},on:{"click":function($event){_vm.save()}}},[_vm._v(_vm._s(_vm.translate('JAPPLY'))+"\n        ")])])]):_vm._e()}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.$store.state.showRenameModal)?_c('media-modal',{attrs:{"size":'sm'},on:{"close":function($event){_vm.close()}}},[_c('h3',{staticClass:"modal-title",slot:"header"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_RENAME')))]),_vm._v(" "),_c('div',{slot:"body"},[_c('form',{staticClass:"form",attrs:{"novalidate":""},on:{"submit":function($event){$event.preventDefault();_vm.save($event)}}},[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"name"}},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_NAME')))]),_vm._v(" "),_c('input',{directives:[{name:"focus",rawName:"v-focus",value:(true),expression:"true"},{name:"model",rawName:"v-model.trim",value:(_vm.item.name),expression:"item.name",modifiers:{"trim":true}}],staticClass:"form-control",attrs:{"id":"name","placeholder":"Name","required":"","autocomplete":"off"},domProps:{"value":(_vm.item.name)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.item.name=$event.target.value.trim()},function($event){_vm.name = $event.target.value}],"blur":function($event){_vm.$forceUpdate()}}})])])]),_vm._v(" "),_c('div',{slot:"footer"},[_c('button',{staticClass:"btn btn-link",on:{"click":function($event){_vm.close()}}},[_vm._v(_vm._s(_vm.translate('JCANCEL')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-success",attrs:{"disabled":!_vm.isValid()},on:{"click":function($event){_vm.save()}}},[_vm._v(_vm._s(_vm.translate('JAPPLY'))+"\n        ")])])]):_vm._e()}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -17455,7 +17492,7 @@ exports.default = Translate;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.deleteSelectedItems = exports.deleteItem = exports.uploadFile = exports.createDirectory = exports.toggleBrowserItemSelect = exports.getFullContents = exports.getContents = undefined;
+exports.deleteSelectedItems = exports.renameItem = exports.deleteItem = exports.uploadFile = exports.createDirectory = exports.toggleBrowserItemSelect = exports.getFullContents = exports.getContents = undefined;
 
 var _Api = require("../app/Api");
 
@@ -17581,6 +17618,25 @@ var deleteItem = exports.deleteItem = function deleteItem(context, payload) {
     _Api.api.delete(item.path).then(function () {
         context.commit(types.DELETE_SUCCESS, item);
         context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+        context.commit(types.SET_IS_LOADING, false);
+    }).catch(function (error) {
+        // TODO error handling
+        context.commit(types.SET_IS_LOADING, false);
+        console.log("error", error);
+    });
+};
+
+/**
+ * Rename an item
+ * @param context
+ * @param payload object: the old and the new path
+ */
+var renameItem = exports.renameItem = function renameItem(context, payload) {
+    console.log(payload);
+    context.commit(types.SET_IS_LOADING, true);
+    _Api.api.rename(payload.path, payload.newPath).then(function (item) {
+        // context.commit(types.RENAME_SUCCESS, item);
+        context.commit(types.HIDE_RENAME_MODAL);
         context.commit(types.SET_IS_LOADING, false);
     }).catch(function (error) {
         // TODO error handling
@@ -18035,7 +18091,7 @@ _vue2.default.use(_vuex2.default
     getters: getters,
     actions: actions,
     mutations: _mutations2.default,
-    strict: true
+    strict: false
 });
 
 },{"./actions":414,"./getters":415,"./mutations":417,"./state":418,"vue":388,"vuex":389}]},{},[412]);

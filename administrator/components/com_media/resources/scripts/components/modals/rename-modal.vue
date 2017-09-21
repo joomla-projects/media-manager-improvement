@@ -6,7 +6,7 @@
                 <div class="form-group">
                     <label for="name">{{ translate('COM_MEDIA_NAME') }}</label>
                     <input id="name" class="form-control" placeholder="Name"
-                           v-focus="true" v-model.trim="name" @input="name = $event.target.value"
+                           v-focus="true" v-model.trim="item.name" @input="name = $event.target.value"
                            required autocomplete="off">
                 </div>
             </form>
@@ -27,14 +27,22 @@
         name: 'media-rename-modal',
         directives: {focus: focus},
         computed: {
-            name() {
-                return this.$store.state.selectedItems[this.$store.state.selectedItems.length -1].name;
-            }
+            item() {
+                // TODO @DN this is not allowed in vuex strict mode!
+                return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];
+            },
+            name: {
+                get() {
+                },
+                set() {
+
+                }
+            },
         },
         methods: {
             /* Check if the the form is valid */
             isValid() {
-                return (this.name);
+                return this.item.name.length > 0;
             },
             /* Close the modal instance */
             close() {
@@ -49,9 +57,10 @@
                     return;
                 }
 
-                // Create the directory
-                this.$store.dispatch('rename', {
-                    name: this.name,
+                // Rename the item
+                this.$store.dispatch('renameItem', {
+                    path: this.item.path,
+                    newPath: this.item.directory + this.item.name,
                 });
                 this.reset();
             },

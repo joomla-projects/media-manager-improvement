@@ -112,6 +112,39 @@ class Api {
     }
 
     /**
+     * Rename an item
+     * @param path
+     * @param newName
+     * @return {Promise.<T>}
+     */
+    rename(path, newPath) {
+        // Wrap the jquery call into a real promise
+        return new Promise((resolve, reject) => {
+            const url = this._baseUrl + '&task=api.files&path=' + path;
+            const data = {
+                [this._csrfToken]: '1',
+                newPath: newPath,
+            };
+
+            Joomla.request({
+                url:    url,
+                method: 'PUT',
+                data:    JSON.stringify(data),
+                headers: {'Content-Type': 'application/json'},
+                onSuccess: (response) => {
+                    notifications.success('COM_MEDIA_RENAME_SUCCESS');
+                    resolve(this._normalizeItem(JSON.parse(response).data))
+                },
+                onError: (xhr) => {
+                    notifications.error('COM_MEDIA_RENAME_ERROR');
+                    reject(xhr)
+                }
+            });
+
+        }).catch(this._handleError);
+    }
+
+    /**
      * Upload a file
      * @param path
      * @return {Promise.<T>}
