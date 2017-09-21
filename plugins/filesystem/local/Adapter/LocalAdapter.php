@@ -584,4 +584,49 @@ class LocalAdapter implements AdapterInterface
 	{
 		return $this->filePath;
 	}
+
+	/**
+	 * Returns a public url for the given path. This function can be used by the cloud
+	 * adapter to publish the media file and create a permanent public accessible
+	 * url.
+	 *
+	 * @param   string  $path       The base path for the search
+	 * @param   string  $needle     The path to file
+	 * @param   bool    $recursive  Do a recursive search
+	 *
+	 * @return \stdClass[]
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function search($path = '/', $needle, $recursive = true)
+	{
+		$pattern = \JPath::clean($this->rootPath . '/' . $path . '/*' . $needle . '*');
+
+		if ($recursive)
+		{
+			$results = $this->rglob($pattern);
+		}
+		else
+		{
+			$results = glob($pattern);
+		}
+
+		$searchResults = [];
+
+		foreach ($results as $result)
+		{
+			$searchResults[] = $this->getPathInformation($result);
+		}
+
+		return $searchResults;
+	}
+
+	private function rglob($pattern, $flags = 0)
+	{
+		$files = glob($pattern, $flags);
+		foreach (glob(dirname($pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
+			$files = array_merge($files, $this->rglob($dir.'/'.basename($pattern), $flags));
+		}
+		return $files;
+	}
 }

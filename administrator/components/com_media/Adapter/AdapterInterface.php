@@ -173,4 +173,19 @@ interface AdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getAdapterName();
+
+	/**
+	 * Returns a public url for the given path. This function can be used by the cloud
+	 * adapter to publish the media file and create a permanent public accessible
+	 * url.
+	 *
+	 * @param   string  $path       The base path for the search
+	 * @param   string  $needle     The path to file
+	 * @param   bool    $recursive  Do a recursive search
+	 *
+	 * @return \stdClass[]
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function search($path = '/', $needle, $recursive = true);
 }
