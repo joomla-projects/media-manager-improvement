@@ -31,6 +31,8 @@ class LocalAdapter implements AdapterInterface
 	 * The root path to gather file information from.
 	 *
 	 * @var string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $rootPath = null;
 
@@ -38,6 +40,8 @@ class LocalAdapter implements AdapterInterface
 	 * The file_path of media directory related to site
 	 *
 	 * @var string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $filePath = null;
 
@@ -114,7 +118,6 @@ class LocalAdapter implements AdapterInterface
 	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
 	 * @param   string  $path    The folder
-	 * @param   string  $filter  The filter
 	 *
 	 * @return  \stdClass[]
 	 *
@@ -586,9 +589,7 @@ class LocalAdapter implements AdapterInterface
 	}
 
 	/**
-	 * Returns a public url for the given path. This function can be used by the cloud
-	 * adapter to publish the media file and create a permanent public accessible
-	 * url.
+	 * Search for a pattern in a given path
 	 *
 	 * @param   string  $path       The base path for the search
 	 * @param   string  $needle     The path to file
@@ -621,6 +622,16 @@ class LocalAdapter implements AdapterInterface
 		return $searchResults;
 	}
 
+	/**
+	 * Do a recursive search on a given path
+	 *
+	 * @param   string  $pattern  The pattern for search
+	 * @param   int     $flags    Flags for search
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function rglob($pattern, $flags = 0)
 	{
 		$files = glob($pattern, $flags);

@@ -486,9 +486,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	}
 
 	/**
-	 * Returns a public url for the given path. This function can be used by the cloud
-	 * adapter to publish the media file and create a permanent public accessible
-	 * url.
+	 * Search for a pattern in a given path
 	 *
 	 * @param   string  $path       The base path for the search
 	 * @param   string  $needle     The path to file
