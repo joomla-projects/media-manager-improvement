@@ -18217,7 +18217,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+    value: true
 });
 
 var _mutationTypes = require("../../store/mutation-types");
@@ -18231,23 +18231,23 @@ var item = _interopRequireWildcard(_item);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 exports.default = {
-	name: 'media-preview-modal',
-	computed: {
-		item: function item() {
-			return this.$store.state.previewItem;
-		}
-	},
-	methods: {
-		close: function close() {
-			this.$store.commit(types.HIDE_PREVIEW_MODAL);
-		},
-		isImage: function isImage() {
-			return this.item.type == 'image';
-		},
-		isVideo: function isVideo() {
-			return this.item.mime_type.indexOf('video/') === 0;
-		}
-	}
+    name: 'media-preview-modal',
+    computed: {
+        item: function item() {
+            return this.$store.state.previewItem;
+        }
+    },
+    methods: {
+        close: function close() {
+            this.$store.commit(types.HIDE_PREVIEW_MODAL);
+        },
+        isImage: function isImage() {
+            return this.item.type == 'image';
+        },
+        isVideo: function isVideo() {
+            return this.item.mime_type.indexOf('video/') === 0;
+        }
+    }
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
