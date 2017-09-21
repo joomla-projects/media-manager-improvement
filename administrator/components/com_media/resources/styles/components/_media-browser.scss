@@ -295,6 +295,9 @@
   }
   li {
     padding: 0 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
   font-size: .9rem;
   line-height: 30px;
