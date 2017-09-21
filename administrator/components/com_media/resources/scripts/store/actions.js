@@ -140,11 +140,13 @@ export const deleteItem = (context, payload) => {
  * @param payload object: the old and the new path
  */
 export const renameItem = (context, payload) => {
-    console.log(payload);
     context.commit(types.SET_IS_LOADING, true);
     api.rename(payload.path, payload.newPath)
         .then((item) => {
-            // context.commit(types.RENAME_SUCCESS, item);
+            context.commit(types.RENAME_SUCCESS, {
+                item: item,
+                oldPath: payload.path,
+            });
             context.commit(types.HIDE_RENAME_MODAL);
             context.commit(types.SET_IS_LOADING, false);
         })

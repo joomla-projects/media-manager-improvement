@@ -17016,14 +17016,33 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 exports.default = {
     name: 'media-rename-modal',
     directives: { focus: _vueFocus.focus },
+    data: function data() {
+        return {
+            originalName: ''
+        };
+    },
+
     computed: {
         item: function item() {
             return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];
         },
 
         name: {
-            get: function get() {},
-            set: function set() {}
+            get: function get() {
+                if (this.originalName.length === 0) {
+                    this.originalName = this.item.name;
+                }
+                return this.item.name.replace('.' + this.item.extension, '');
+            },
+            set: function set(value) {
+                if (this.extension.length) {
+                    value += '.' + this.item.extension;
+                }
+                this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1].name = value;
+            }
+        },
+        extension: function extension() {
+            return this.item.extension;
         }
     },
     methods: {
@@ -17031,7 +17050,8 @@ exports.default = {
             return this.item.name.length > 0;
         },
         close: function close() {
-            this.reset();
+            this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1].name = this.originalName;
+            this.originalName = '';
             this.$store.commit(types.HIDE_RENAME_MODAL);
         },
         save: function save() {
@@ -17043,10 +17063,8 @@ exports.default = {
                 path: this.item.path,
                 newPath: this.item.directory + this.item.name
             });
-            this.reset();
-        },
-        reset: function reset() {
-            this.name = '';
+
+            this.originalName = '';
         }
     }
 };
@@ -17054,7 +17072,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.$store.state.showRenameModal)?_c('media-modal',{attrs:{"size":'sm'},on:{"close":function($event){_vm.close()}}},[_c('h3',{staticClass:"modal-title",slot:"header"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_RENAME')))]),_vm._v(" "),_c('div',{slot:"body"},[_c('form',{staticClass:"form",attrs:{"novalidate":""},on:{"submit":function($event){$event.preventDefault();_vm.save($event)}}},[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"name"}},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_NAME')))]),_vm._v(" "),_c('input',{directives:[{name:"focus",rawName:"v-focus",value:(true),expression:"true"},{name:"model",rawName:"v-model.trim",value:(_vm.item.name),expression:"item.name",modifiers:{"trim":true}}],staticClass:"form-control",attrs:{"id":"name","placeholder":"Name","required":"","autocomplete":"off"},domProps:{"value":(_vm.item.name)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.item.name=$event.target.value.trim()},function($event){_vm.name = $event.target.value}],"blur":function($event){_vm.$forceUpdate()}}})])])]),_vm._v(" "),_c('div',{slot:"footer"},[_c('button',{staticClass:"btn btn-link",on:{"click":function($event){_vm.close()}}},[_vm._v(_vm._s(_vm.translate('JCANCEL')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-success",attrs:{"disabled":!_vm.isValid()},on:{"click":function($event){_vm.save()}}},[_vm._v(_vm._s(_vm.translate('JAPPLY'))+"\n        ")])])]):_vm._e()}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.$store.state.showRenameModal)?_c('media-modal',{attrs:{"size":'sm'},on:{"close":function($event){_vm.close()}}},[_c('h3',{staticClass:"modal-title",slot:"header"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_RENAME')))]),_vm._v(" "),_c('div',{slot:"body"},[_c('form',{staticClass:"form",attrs:{"novalidate":""},on:{"submit":function($event){$event.preventDefault();_vm.save($event)}}},[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"name"}},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_NAME')))]),_vm._v(" "),_c('div',{class:{'input-group': _vm.extension.length}},[_c('input',{directives:[{name:"focus",rawName:"v-focus",value:(true),expression:"true"},{name:"model",rawName:"v-model.trim",value:(_vm.name),expression:"name",modifiers:{"trim":true}}],staticClass:"form-control",attrs:{"id":"name","placeholder":"Name","required":"","autocomplete":"off"},domProps:{"value":(_vm.name)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.name=$event.target.value.trim()},function($event){_vm.name = $event.target.value}],"blur":function($event){_vm.$forceUpdate()}}}),_vm._v(" "),(_vm.extension.length)?_c('span',{staticClass:"input-group-addon"},[_vm._v(_vm._s(_vm.extension))]):_vm._e()])])])]),_vm._v(" "),_c('div',{slot:"footer"},[_c('button',{staticClass:"btn btn-link",on:{"click":function($event){_vm.close()}}},[_vm._v(_vm._s(_vm.translate('JCANCEL')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-success",attrs:{"disabled":!_vm.isValid()},on:{"click":function($event){_vm.save()}}},[_vm._v(_vm._s(_vm.translate('JAPPLY'))+"\n        ")])])]):_vm._e()}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -17676,10 +17694,12 @@ var deleteItem = exports.deleteItem = function deleteItem(context, payload) {
  * @param payload object: the old and the new path
  */
 var renameItem = exports.renameItem = function renameItem(context, payload) {
-    console.log(payload);
     context.commit(types.SET_IS_LOADING, true);
     _Api.api.rename(payload.path, payload.newPath).then(function (item) {
-        // context.commit(types.RENAME_SUCCESS, item);
+        context.commit(types.RENAME_SUCCESS, {
+            item: item,
+            oldPath: payload.path
+        });
         context.commit(types.HIDE_RENAME_MODAL);
         context.commit(types.SET_IS_LOADING, false);
     }).catch(function (error) {
@@ -17801,6 +17821,7 @@ var HIDE_PREVIEW_MODAL = exports.HIDE_PREVIEW_MODAL = 'HIDE_PREVIEW_MODAL';
 // Rename modal
 var SHOW_RENAME_MODAL = exports.SHOW_RENAME_MODAL = 'SHOW_RENAME_MODAL';
 var HIDE_RENAME_MODAL = exports.HIDE_RENAME_MODAL = 'HIDE_RENAME_MODAL';
+var RENAME_SUCCESS = exports.RENAME_SUCCESS = 'RENAME_SUCCESS';
 
 },{}],417:[function(require,module,exports){
 'use strict';
@@ -17978,6 +17999,21 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
         state.directories.splice(parentDirectoryIndex, 1, (0, _assign2.default)({}, parentDirectory, {
             directories: [].concat((0, _toConsumableArray3.default)(parentDirectory.directories), [directory.path])
         }));
+    }
+}), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.RENAME_SUCCESS, function (state, payload) {
+
+    var item = payload.item;
+    var oldPath = payload.oldPath;
+    if (item.type === 'file') {
+        var index = state.files.findIndex(function (file) {
+            return file.path === oldPath;
+        });
+        state.files.splice(index, 1, item);
+    } else {
+        var _index = state.directories.findIndex(function (directory) {
+            return directory.path === oldPath;
+        });
+        state.directories.splice(_index, 1, item);
     }
 }), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.DELETE_SUCCESS, function (state, payload) {
     var item = payload;
