@@ -18813,7 +18813,7 @@ exports.default = {
             this.$store.commit(types.HIDE_PREVIEW_MODAL);
         },
         isImage: function isImage() {
-            return this.item.type == 'image';
+            return this.item.mime_type.indexOf('image/') === 0;
         },
         isVideo: function isVideo() {
             return this.item.mime_type.indexOf('video/') === 0;
@@ -18824,7 +18824,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.$store.state.showPreviewModal && _vm.item)?_c('media-modal',{staticClass:"media-preview-modal",attrs:{"size":'md'},on:{"close":function($event){_vm.close()}}},[_c('h3',{staticClass:"modal-title",slot:"header"},[_vm._v(_vm._s(_vm.item.name))]),_vm._v(" "),_c('div',{slot:"body"},[(_vm.isImage())?_c('img',{attrs:{"src":_vm.item.url}}):_vm._e(),_vm._v(" "),(_vm.isVideo())?_c('video',{attrs:{"controls":""}},[_c('source',{attrs:{"src":_vm.item.url,"type":_vm.item.mime_type}})]):_vm._e()]),_vm._v(" "),_c('a',{staticClass:"media-preview-close",on:{"click":function($event){_vm.close()}},slot:"backdrop-close"},[_c('span',{staticClass:"fa fa-times"})])]):_vm._e()}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.$store.state.showPreviewModal && _vm.item)?_c('media-modal',{staticClass:"media-preview-modal",attrs:{"size":'md'},on:{"close":function($event){_vm.close()}}},[_c('h3',{staticClass:"modal-title",slot:"header"},[_vm._v(_vm._s(_vm.item.name))]),_vm._v(" "),_c('div',{slot:"body"},[(_vm.isImage())?_c('img',{attrs:{"src":_vm.item.url,"type":_vm.item.mime_type}}):_vm._e(),_vm._v(" "),(_vm.isVideo())?_c('video',{attrs:{"controls":""}},[_c('source',{attrs:{"src":_vm.item.url,"type":_vm.item.mime_type}})]):_vm._e()]),_vm._v(" "),_c('a',{staticClass:"media-preview-close",on:{"click":function($event){_vm.close()}},slot:"backdrop-close"},[_c('span',{staticClass:"fa fa-times"})])]):_vm._e()}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
