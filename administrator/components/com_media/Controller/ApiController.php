@@ -12,6 +12,7 @@ namespace Joomla\Component\Media\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Response\JsonResponse;
@@ -146,7 +147,7 @@ class ApiController extends BaseController
 					$content      = $this->input->json;
 					$name         = basename($path);
 					$mediaContent = base64_decode($content->get('content', '', 'raw'));
-					$newPath      = $content->get('newPath', null);
+					$newPath      = $content->getString('newPath', null);
 					$move         = $content->get('move', true);
 
 					if ($mediaContent != null)
@@ -169,7 +170,7 @@ class ApiController extends BaseController
 							$this->getModel()->copy($adapter, $path, $destinationPath, true);
 						}
 
-						$path = $newPath;
+						$path = $destinationPath;
 					}
 
 					$data = $this->getModel()->getFile($adapter, $path);
@@ -254,7 +255,7 @@ class ApiController extends BaseController
 	 */
 	private function checkContent($name, $mediaContent)
 	{
-		if (!\JFactory::getUser()->authorise('core.create', 'com_media'))
+		if (!Factory::getUser()->authorise('core.create', 'com_media'))
 		{
 			throw new \Exception(\JText::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'), 403);
 		}
