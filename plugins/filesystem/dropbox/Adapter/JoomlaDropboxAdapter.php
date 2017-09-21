@@ -176,14 +176,13 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
 	 * @param   string  $path    The folder
-	 * @param   string  $filter  The filter
 	 *
 	 * @return  \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function getFiles($path = '/', $filter = '')
+	public function getFiles($path = '/')
 	{
 		// Check whether it is root or not
 		// Dropbox client has some issues

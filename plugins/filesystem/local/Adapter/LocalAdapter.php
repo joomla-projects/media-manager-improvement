@@ -121,7 +121,7 @@ class LocalAdapter implements AdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function getFiles($path = '/', $filter = '')
+	public function getFiles($path = '/')
 	{
 		// Set up the path correctly
 		$basePath = \JPath::clean($this->rootPath . '/' . $path);
@@ -142,13 +142,13 @@ class LocalAdapter implements AdapterInterface
 		$data = array();
 
 		// Read the folders
-		foreach (\JFolder::folders($basePath, $filter) as $folder)
+		foreach (\JFolder::folders($basePath) as $folder)
 		{
 			$data[] = $this->getPathInformation(\JPath::clean($basePath . '/' . $folder));
 		}
 
 		// Read the files
-		foreach (\JFolder::files($basePath, $filter) as $file)
+		foreach (\JFolder::files($basePath) as $file)
 		{
 			$data[] = $this->getPathInformation(\JPath::clean($basePath . '/' . $file));
 		}

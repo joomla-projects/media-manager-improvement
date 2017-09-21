@@ -60,14 +60,13 @@ interface AdapterInterface
 	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
 	 * @param   string  $path    The folder
-	 * @param   string  $filter  The filter
 	 *
 	 * @return  \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function getFiles($path = '/', $filter = '');
+	public function getFiles($path = '/');
 
 	/**
 	 * Creates a folder with the given name in the given path.

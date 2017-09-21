@@ -96,7 +96,6 @@ class ApiModel extends BaseModel
 	 *
 	 * @param   string  $adapter  The adapter
 	 * @param   string  $path     The folder
-	 * @param   string  $filter   The filter
 	 * @param   array   $options  The options
 	 *
 	 * @return  \stdClass[]
@@ -105,11 +104,21 @@ class ApiModel extends BaseModel
 	 * @throws  \Exception
 	 * @see     AdapterInterface::getFile()
 	 */
-	public function getFiles($adapter, $path = '/', $filter = '', $options = array())
+	public function getFiles($adapter, $path = '/', $options = array())
 	{
-		// Add adapter prefix to all the files to be returned
-		$files = $this->getAdapter($adapter)->getFiles($path, $filter);
+		// Check whether user searching
+		if ($options['search'] != null)
+		{
+			// Do search
+			$files = $this->search($adapter, $path ,$options['search'], $options['recursive']);
+		}
+		else
+		{
+			// Grab files for the path
+			$files = $this->getAdapter($adapter)->getFiles($path);
+		}
 
+		// Add adapter prefix to all the files to be returned
 		foreach ($files as $file)
 		{
 			// If requested add options
@@ -277,14 +286,6 @@ class ApiModel extends BaseModel
 	 */
 	public function search($adapter, $path = '/', $needle, $recursive = true)
 	{
-		$results = $this->getAdapter($adapter)->search($path, $needle, $recursive);
-
-		foreach ($results as $file)
-		{
-			$file->path    = $adapter . ":" . $file->path;
-			$file->adapter = $adapter;
-		}
-
-		return $results;
+		return $this->getAdapter($adapter)->search($path, $needle, $recursive);
 	}
 }
