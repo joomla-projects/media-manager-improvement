@@ -2,6 +2,9 @@
     <div class="media-toolbar">
         <media-breadcrumb></media-breadcrumb>
         <div class="media-view-icons">
+            <a href="#" class="media-toolbar-icon" @click="openRenameModal()">
+                <span class="fa fa-rename" aria-hidden="true"></span>
+            </a>
             <a href="#" class="media-toolbar-icon" @click="changeListView()">
                 <span :class="toggleListViewBtnIcon" aria-hidden="true"></span>
             </a>
