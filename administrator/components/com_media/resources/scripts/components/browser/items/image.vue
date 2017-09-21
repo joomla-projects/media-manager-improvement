@@ -1,9 +1,8 @@
 <template>
-    <div class="media-browser-image">
+    <div class="media-browser-image" @dblclick="openPreview()">
         <div class="media-browser-item-preview">
             <div class="image-brackground">
-                <div class="image-cropped" :style="{ backgroundImage: 'url(' + thumbUrl + ')' }"
-                 @dblclick="openEditView()"></div>
+                <div class="image-cropped" :style="{ backgroundImage: 'url(' + thumbUrl + ')' }"></div>
             </div>
         </div>
         <div class="media-browser-item-info">
@@ -14,7 +13,7 @@
             <a href="#" class="action-delete">
                 <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="deleteItem()"></span>
             </a>
-            <a href="#" class="action-edit">
+            <a href="#" class="action-edit" v-if="canEdit">
                 <span class="image-browser-action fa fa-pencil" aria-hidden="true" @click.stop="editItem()"></span>
             </a>
         </div>
@@ -22,7 +21,8 @@
 </template>
 
 <script>
-    // TODO DN get the base path and make the path dynamic
+    import * as types from './../../../store/mutation-types';
+
     export default {
         name: 'media-browser-item-image',
         props: ['item'],
@@ -30,10 +30,19 @@
             /* Get the item url */
             thumbUrl() {
                 return this.item.thumb_path;
+            },
+            /* Check if the item is an image to edit */
+            canEdit() {
+                return ['jpg', 'jpeg', 'png'].indexOf(this.item.extension.toLowerCase()) > -1;
             }
         },
         methods: {
-            /* Delete am item */
+            /* Preview an item */
+            openPreview() {
+                this.$store.commit(types.SHOW_PREVIEW_MODAL);
+                this.$store.dispatch('getFullContents', this.item);
+            },
+            /* Delete an item */
             deleteItem() {
                 this.$store.dispatch('deleteItem', this.item);
             },

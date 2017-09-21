@@ -5,20 +5,55 @@ import * as types from "./mutation-types";
 // - Instead of mutating the state, actions commit mutations.
 // - Actions can contain arbitrary asynchronous operations.
 
+function updateUrlPath(path) {
+    if (path == null) {
+        path = '';
+    }
+    let url = window.location.href;
+    var pattern = new RegExp('\\b(path=).*?(&|$)');
+
+    if (url.search(pattern) >= 0) {
+        history.pushState(null, '', url.replace(pattern, '$1' + path + '$2'));
+    } else {
+        history.pushState(null, '', url + (url.indexOf('?') > 0 ? '&' : '?') + 'path=' + path);
+    }
+}
+
 /**
  * Get contents of a directory from the api
  * @param commit
  * @param payload
  */
 export const getContents = (context, payload) => {
-    api.getContents(payload)
+
+    // Update the url
+    updateUrlPath(payload);
+    context.commit(types.SET_IS_LOADING, true);
+
+    api.getContents(payload, false)
         .then(contents => {
             context.commit(types.LOAD_CONTENTS_SUCCESS, contents);
             context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
             context.commit(types.SELECT_DIRECTORY, payload);
+            context.commit(types.SET_IS_LOADING, false);
         })
         .catch(error => {
             // TODO error handling
+            context.commit(types.SET_IS_LOADING, false);
+            console.log("error", error);
+        });
+}
+
+export const getFullContents = (context, payload) => {
+    context.commit(types.SET_IS_LOADING, true);
+    api.getContents(payload.path, true)
+        .then(contents => {
+            context.commit(types.LOAD_FULL_CONTENTS_SUCCESS, contents.files[0]);
+            context.commit(types.SET_IS_LOADING, false);
+        })
+        .catch(error => {
+            // TODO error handling
+            context.commit(types.SET_IS_LOADING, false);
             console.log("error", error);
         });
 }
@@ -44,13 +79,16 @@ export const toggleBrowserItemSelect = (context, payload) => {
  * @param payload object with the new folder name and its parent directory
  */
 export const createDirectory = (context, payload) => {
+    context.commit(types.SET_IS_LOADING, true);
     api.createDirectory(payload.name, payload.parent)
         .then(folder => {
             context.commit(types.CREATE_DIRECTORY_SUCCESS, folder);
             context.commit(types.HIDE_CREATE_FOLDER_MODAL);
+            context.commit(types.SET_IS_LOADING, false);
         })
         .catch(error => {
             // TODO error handling
+            context.commit(types.SET_IS_LOADING, false);
             console.log("error", error);
         })
 }
@@ -61,12 +99,15 @@ export const createDirectory = (context, payload) => {
  * @param payload object with the new folder name and its parent directory
  */
 export const uploadFile = (context, payload) => {
+    context.commit(types.SET_IS_LOADING, true);
     api.upload(payload.name, payload.parent, payload.content)
         .then(file => {
             context.commit(types.UPLOAD_SUCCESS, file);
+            context.commit(types.SET_IS_LOADING, false);
         })
         .catch(error => {
             // TODO error handling
+            context.commit(types.SET_IS_LOADING, false);
             console.log("error", error);
         })
 }
@@ -77,14 +118,17 @@ export const uploadFile = (context, payload) => {
  * @param payload object: the item to delete
  */
 export const deleteItem = (context, payload) => {
+    context.commit(types.SET_IS_LOADING, true);
     const item = payload;
     api.delete(item.path)
         .then(() => {
             context.commit(types.DELETE_SUCCESS, item);
             context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+            context.commit(types.SET_IS_LOADING, false);
         })
         .catch(error => {
             // TODO error handling
+            context.commit(types.SET_IS_LOADING, false);
             console.log("error", error);
         })
 }
@@ -95,6 +139,7 @@ export const deleteItem = (context, payload) => {
  * @param payload object
  */
 export const deleteSelectedItems = (context, payload) => {
+    context.commit(types.SET_IS_LOADING, true);
     // Get the selected items from the store
     const selectedItems = context.state.selectedItems;
     if (selectedItems.length > 0) {
@@ -103,9 +148,11 @@ export const deleteSelectedItems = (context, payload) => {
                 .then(() => {
                     context.commit(types.DELETE_SUCCESS, item);
                     context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+                    context.commit(types.SET_IS_LOADING, false);
                 })
                 .catch(error => {
                     // TODO error handling
+                    context.commit(types.SET_IS_LOADING, false);
                     console.log("error", error);
                 })
         })
