@@ -175,7 +175,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 *
 	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
-	 * @param   string  $path    The folder
+	 * @param   string  $path  The folder
 	 *
 	 * @return  \stdClass[]
 	 *
@@ -190,7 +190,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 		{
 			throw new FileNotFoundException("File not found");
 		}
-		else if($this->dropbox->has($path))
+		elseif ($this->dropbox->has($path))
 		{
 			// If this is a file just return the information
 			$pathInfo = $this->getFileInfo($this->client->getMetadata($path));

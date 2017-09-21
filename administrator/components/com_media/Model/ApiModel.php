@@ -110,7 +110,7 @@ class ApiModel extends BaseModel
 		if ($options['search'] != null)
 		{
 			// Do search
-			$files = $this->search($adapter, $path ,$options['search'], $options['recursive']);
+			$files = $this->search($adapter, $path, $options['search'], $options['recursive']);
 		}
 		else
 		{
@@ -274,6 +274,7 @@ class ApiModel extends BaseModel
 	/**
 	 * Search for a pattern in a given path
 	 *
+	 * @param   string  $adapter    The adapter to work on
 	 * @param   string  $path       The base path for the search
 	 * @param   string  $needle     The path to file
 	 * @param   bool    $recursive  Do a recursive search

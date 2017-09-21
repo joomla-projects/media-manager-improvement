@@ -117,7 +117,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
-	 * @param   string  $path    The folder
+	 * @param   string  $path  The folder
 	 *
 	 * @return  \stdClass[]
 	 *
@@ -635,9 +635,11 @@ class LocalAdapter implements AdapterInterface
 	private function rglob($pattern, $flags = 0)
 	{
 		$files = glob($pattern, $flags);
-		foreach (glob(dirname($pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
-			$files = array_merge($files, $this->rglob($dir.'/'.basename($pattern), $flags));
+		foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir)
+		{
+			$files = array_merge($files, $this->rglob($dir . '/' . basename($pattern), $flags));
 		}
+
 		return $files;
 	}
 }

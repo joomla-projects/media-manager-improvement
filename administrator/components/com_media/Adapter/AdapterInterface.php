@@ -59,7 +59,7 @@ interface AdapterInterface
 	 *
 	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
-	 * @param   string  $path    The folder
+	 * @param   string  $path  The folder
 	 *
 	 * @return  \stdClass[]
 	 *
