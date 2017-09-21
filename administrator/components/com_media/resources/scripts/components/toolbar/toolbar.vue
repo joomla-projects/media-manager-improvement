@@ -2,7 +2,7 @@
     <div class="media-toolbar">
         <media-breadcrumb></media-breadcrumb>
         <div class="media-view-icons">
-            <transition name="fadeIn">
+            <transition name="fade-in">
                 <a href="#" class="media-toolbar-icon" @click.stop="openRenameModal()" v-if="atLeastOneItemSelected">
                     <span class="fa fa-text-width" aria-hidden="true"></span>
                 </a>
@@ -13,7 +13,7 @@
             <a href="#" class="media-toolbar-icon" @click.stop="toggleInfoBar">
                 <span class="fa fa-info" aria-hidden="true"></span>
             </a>
-            <transition name="fadeIn">
+            <transition name="fade-in">
                 <a href="#" class="media-toolbar-icon" v-if="isLoading">
                     <span class="fa fa-spinner fa-spin" aria-hidden="true"></span>
                 </a>
