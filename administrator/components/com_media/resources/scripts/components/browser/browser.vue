@@ -1,5 +1,5 @@
 <template>
-    <div v-if="listView === 'table'" class="media-browser-list table table-stripped">
+    <div v-if="listView === 'table'" class="media-browser-list" :style="mediaBrowserStyles">
         <div class="media-browser-list-head">
             <ul>
                 <li class="type"></li>
