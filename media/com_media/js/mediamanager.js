@@ -16727,31 +16727,6 @@ module.exports = Vue$3;
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"_process":416}],421:[function(require,module,exports){
-var inserted = exports.cache = {}
-
-function noop () {}
-
-exports.insert = function (css) {
-  if (inserted[css]) return noop
-  inserted[css] = true
-
-  var elem = document.createElement('style')
-  elem.setAttribute('type', 'text/css')
-
-  if ('textContent' in elem) {
-    elem.textContent = css
-  } else {
-    elem.styleSheet.cssText = css
-  }
-
-  document.getElementsByTagName('head')[0].appendChild(elem)
-  return function () {
-    document.getElementsByTagName('head')[0].removeChild(elem)
-    inserted[css] = false
-  }
-}
-
-},{}],422:[function(require,module,exports){
 /**
  * vuex v2.3.0
  * (c) 2017 Evan You
@@ -17562,7 +17537,7 @@ return index;
 
 })));
 
-},{}],423:[function(require,module,exports){
+},{}],422:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17590,6 +17565,8 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
+var _Notifications = require('./Notifications');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var path = require('path');
@@ -17615,7 +17592,7 @@ var Api = function () {
         }
 
         this._baseUrl = options.apiBaseUrl;
-        this._csrfToken = options.csrfToken;
+        this._csrfToken = Joomla.getOptions('csrf.token');
     }
 
     /**
@@ -17627,18 +17604,25 @@ var Api = function () {
 
     (0, _createClass3.default)(Api, [{
         key: 'getContents',
-        value: function getContents(dir) {
+        value: function getContents(dir, full) {
             var _this = this;
 
-            // Wrap the jquery call into a real promise
+            // Wrap the ajax call into a real promise
             return new _promise2.default(function (resolve, reject) {
-                var url = _this._baseUrl + '&task=api.files&path=' + dir;
-                jQuery.getJSON(url).done(function (json) {
-                    return resolve(_this._normalizeArray(json.data));
-                }).fail(function (xhr, status, error) {
-                    reject(xhr);
+                var url = _this._baseUrl + '&task=api.files&path=' + dir + '&url=' + full;
+
+                Joomla.request({
+                    url: url,
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                    onSuccess: function onSuccess(response) {
+                        resolve(_this._normalizeArray(JSON.parse(response).data));
+                    },
+                    onError: function onError(xhr) {
+                        reject(xhr);
+                    }
                 });
-            }).catch(this._handleError);
+            });
         }
 
         /**
@@ -17653,21 +17637,26 @@ var Api = function () {
         value: function createDirectory(name, parent) {
             var _this2 = this;
 
-            // Wrap the jquery call into a real promise
+            // Wrap the ajax call into a real promise
             return new _promise2.default(function (resolve, reject) {
                 var _data;
 
                 var url = _this2._baseUrl + '&task=api.files&path=' + parent;
                 var data = (_data = {}, (0, _defineProperty3.default)(_data, _this2._csrfToken, '1'), (0, _defineProperty3.default)(_data, 'name', name), _data);
-                jQuery.ajax({
+
+                Joomla.request({
                     url: url,
-                    type: "POST",
+                    method: 'POST',
                     data: (0, _stringify2.default)(data),
-                    contentType: "application/json"
-                }).done(function (json) {
-                    return resolve(_this2._normalizeItem(json.data));
-                }).fail(function (xhr, status, error) {
-                    reject(xhr);
+                    headers: { 'Content-Type': 'application/json' },
+                    onSuccess: function onSuccess(response) {
+                        _Notifications.notifications.success('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS');
+                        resolve(_this2._normalizeItem(JSON.parse(response).data));
+                    },
+                    onError: function onError(xhr) {
+                        _Notifications.notifications.error('COM_MEDIA_CREATE_NEW_FOLDER_ERROR');
+                        reject(xhr);
+                    }
                 });
             }).catch(this._handleError);
         }
@@ -17691,15 +17680,20 @@ var Api = function () {
 
                 var url = _this3._baseUrl + '&task=api.files&path=' + parent;
                 var data = (_data2 = {}, (0, _defineProperty3.default)(_data2, _this3._csrfToken, '1'), (0, _defineProperty3.default)(_data2, 'name', name), (0, _defineProperty3.default)(_data2, 'content', content), _data2);
-                jQuery.ajax({
+
+                Joomla.request({
                     url: url,
-                    type: "POST",
+                    method: 'POST',
                     data: (0, _stringify2.default)(data),
-                    contentType: "application/json"
-                }).done(function (json) {
-                    return resolve(_this3._normalizeItem(json.data));
-                }).fail(function (xhr, status, error) {
-                    reject(xhr);
+                    headers: { 'Content-Type': 'application/json' },
+                    onSuccess: function onSuccess(response) {
+                        _Notifications.notifications.success('COM_MEDIA_UPDLOAD_SUCCESS');
+                        resolve(_this3._normalizeItem(JSON.parse(response).data));
+                    },
+                    onError: function onError(xhr) {
+                        _Notifications.notifications.error('COM_MEDIA_UPDLOAD_ERROR');
+                        reject(xhr);
+                    }
                 });
             }).catch(this._handleError);
         }
@@ -17717,17 +17711,23 @@ var Api = function () {
 
             // Wrap the jquery call into a real promise
             return new _promise2.default(function (resolve, reject) {
+
                 var url = _this4._baseUrl + '&task=api.files&path=' + path;
                 var data = (0, _defineProperty3.default)({}, _this4._csrfToken, '1');
-                jQuery.ajax({
+
+                Joomla.request({
                     url: url,
-                    type: "DELETE",
+                    method: 'DELETE',
                     data: (0, _stringify2.default)(data),
-                    contentType: "application/json"
-                }).done(function (json) {
-                    return resolve();
-                }).fail(function (xhr, status, error) {
-                    reject(xhr);
+                    headers: { 'Content-Type': 'application/json' },
+                    onSuccess: function onSuccess() {
+                        _Notifications.notifications.success('COM_MEDIA_DELETE_SUCCESS');
+                        resolve();
+                    },
+                    onError: function onError(xhr) {
+                        _Notifications.notifications.error('COM_MEDIA_DELETE_ERROR');
+                        reject(xhr);
+                    }
                 });
             }).catch(this._handleError);
         }
@@ -17798,13 +17798,19 @@ var Api = function () {
         value: function _handleError(error) {
             switch (error.status) {
                 case 404:
+                    _Notifications.notifications.error('COM_MEDIA_ERROR_NOT_FOUND');
                     break;
                 case 401:
+                    _Notifications.notifications.error('COM_MEDIA_ERROR_NOT_AUTHENTICATED');
+                    break;
                 case 403:
+                    _Notifications.notifications.error('COM_MEDIA_ERROR_NOT_AUTHORIZED');
+                    break;
                 case 500:
-                    window.location.href = window.location.pathname;
+                    _Notifications.notifications.error('COM_MEDIA_SERVER_ERROR');
+                    break;
                 default:
-                    window.location.href = window.location.pathname;
+                    _Notifications.notifications.error('COM_MEDIA_ERROR');
             }
 
             throw error;
@@ -17815,7 +17821,7 @@ var Api = function () {
 
 var api = exports.api = new Api();
 
-},{"babel-runtime/core-js/json/stringify":330,"babel-runtime/core-js/promise":333,"babel-runtime/helpers/classCallCheck":334,"babel-runtime/helpers/createClass":335,"babel-runtime/helpers/defineProperty":336,"path":415}],424:[function(require,module,exports){
+},{"./Notifications":424,"babel-runtime/core-js/json/stringify":330,"babel-runtime/core-js/promise":333,"babel-runtime/helpers/classCallCheck":334,"babel-runtime/helpers/createClass":335,"babel-runtime/helpers/defineProperty":336,"path":415}],423:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17882,7 +17888,76 @@ var Event = function () {
 
 exports.default = Event;
 
-},{"babel-runtime/helpers/classCallCheck":334,"babel-runtime/helpers/createClass":335,"vue":420}],425:[function(require,module,exports){
+},{"babel-runtime/helpers/classCallCheck":334,"babel-runtime/helpers/createClass":335,"vue":420}],424:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.notifications = undefined;
+
+var _assign = require('babel-runtime/core-js/object/assign');
+
+var _assign2 = _interopRequireDefault(_assign);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Notifications = function () {
+    function Notifications() {
+        (0, _classCallCheck3.default)(this, Notifications);
+    }
+
+    (0, _createClass3.default)(Notifications, [{
+        key: 'success',
+
+
+        /* Send and success notification */
+        value: function success(message, options) {
+            notifications.notify(message, (0, _assign2.default)({
+                level: 'success',
+                dismiss: true
+            }, options));
+        }
+
+        /* Send an error notification */
+
+    }, {
+        key: 'error',
+        value: function error(message, options) {
+            notifications.notify(message, (0, _assign2.default)({
+                level: 'danger',
+                dismiss: true
+            }, options));
+        }
+
+        /* Send a notification */
+
+    }, {
+        key: 'notify',
+        value: function notify(message, options) {
+            var alert = document.createElement('joomla-alert');
+            alert.setAttribute('level', options.level || 'info');
+            alert.setAttribute('dismiss', options.dismiss || true);
+            alert.innerHTML = Joomla.JText._(message, message) || '';
+
+            var messageContainer = document.getElementById('system-message');
+            messageContainer.appendChild(alert);
+        }
+    }]);
+    return Notifications;
+}();
+
+var notifications = exports.notifications = new Notifications();
+
+},{"babel-runtime/core-js/object/assign":331,"babel-runtime/helpers/classCallCheck":334,"babel-runtime/helpers/createClass":335}],425:[function(require,module,exports){
 ;(function(){
 "use strict";
 
@@ -17952,7 +18027,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-container row",style:({minHeight: _vm.fullHeight})},[_c('div',{staticClass:"media-sidebar col-md-2 hidden-sm-down"},_vm._l((_vm.disks),function(disk){return _c('media-disk',{attrs:{"disk":disk}})})),_vm._v(" "),_c('div',{staticClass:"col-md-10"},[_c('div',{staticClass:"media-main"},[_c('media-toolbar'),_vm._v(" "),_c('media-browser'),_vm._v(" "),(!this.isModal)?_c('media-infobar'):_vm._e()],1)]),_vm._v(" "),_c('media-upload'),_vm._v(" "),_c('media-create-folder-modal')],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-container row",style:({minHeight: _vm.fullHeight})},[_c('div',{staticClass:"media-sidebar col-md-2 hidden-sm-down"},_vm._l((_vm.disks),function(disk){return _c('media-disk',{attrs:{"disk":disk}})})),_vm._v(" "),_c('div',{staticClass:"col-md-10"},[_c('div',{staticClass:"media-main"},[_c('media-toolbar'),_vm._v(" "),_c('media-browser'),_vm._v(" "),(!this.isModal)?_c('media-infobar'):_vm._e()],1)]),_vm._v(" "),_c('media-upload'),_vm._v(" "),_c('media-create-folder-modal'),_vm._v(" "),_c('media-preview-modal')],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -17964,7 +18039,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-82153b42", __vue__options__)
   }
 })()}
-},{"./../app/Api":423,"./../store/mutation-types":445,"vue":420,"vue-hot-reload-api":419}],426:[function(require,module,exports){
+},{"./../app/Api":422,"./../store/mutation-types":447,"vue":420,"vue-hot-reload-api":419}],426:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -18023,7 +18098,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+    value: true
 });
 
 var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
@@ -18039,85 +18114,93 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-	name: 'media-browser',
-	computed: {
-		items: function items() {
-			var directories = this.$store.getters.getSelectedDirectoryDirectories.sort(function (a, b) {
-				return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
-			});
-			var files = this.$store.getters.getSelectedDirectoryFiles.sort(function (a, b) {
-				return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
-			});
+    name: 'media-browser',
+    computed: {
+        items: function items() {
+            var directories = this.$store.getters.getSelectedDirectoryDirectories.sort(function (a, b) {
+                return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
+            });
+            var files = this.$store.getters.getSelectedDirectoryFiles.sort(function (a, b) {
+                return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
+            });
 
-			return [].concat((0, _toConsumableArray3.default)(directories), (0, _toConsumableArray3.default)(files));
-		}
-	},
-	methods: {
-		unselectAllBrowserItems: function unselectAllBrowserItems(event) {
-			var eventOutside = !this.$refs.browserItems.contains(event.target) || event.target === this.$refs.browserItems;
-			if (eventOutside) {
-				this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-			}
-		},
-		onDragEnter: function onDragEnter(e) {
-			e.stopPropagation();
-			return false;
-		},
-		onDragOver: function onDragOver(e) {
-			e.preventDefault();
-			document.querySelector('.media-dragoutline').classList.add('active');
-			return false;
-		},
-		upload: function upload(file) {
-			var _this = this;
+            return [].concat((0, _toConsumableArray3.default)(directories), (0, _toConsumableArray3.default)(files));
+        },
+        mediaBrowserStyles: function mediaBrowserStyles() {
+            return {
+                width: this.$store.state.showInfoBar ? '75%' : '100%'
+            };
+        },
+        listView: function listView() {
+            return this.$store.state.listView;
+        }
+    },
+    methods: {
+        unselectAllBrowserItems: function unselectAllBrowserItems(event) {
+            var eventOutside = this.$refs.browserItems && !this.$refs.browserItems.contains(event.target) || event.target === this.$refs.browserItems;
+            if (eventOutside) {
+                this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+            }
+        },
+        onDragEnter: function onDragEnter(e) {
+            e.stopPropagation();
+            return false;
+        },
+        onDragOver: function onDragOver(e) {
+            e.preventDefault();
+            document.querySelector('.media-dragoutline').classList.add('active');
+            return false;
+        },
+        upload: function upload(file) {
+            var _this = this;
 
-			var reader = new FileReader();
+            var reader = new FileReader();
 
-			reader.onload = function (progressEvent) {
-				var result = progressEvent.target.result,
-				    splitIndex = result.indexOf('base64') + 7,
-				    content = result.slice(splitIndex, result.length);
+            reader.onload = function (progressEvent) {
+                var result = progressEvent.target.result,
+                    splitIndex = result.indexOf('base64') + 7,
+                    content = result.slice(splitIndex, result.length);
 
-				_this.$store.dispatch('uploadFile', {
-					name: file.name,
-					parent: _this.$store.state.selectedDirectory,
-					content: content
-				});
-			};
+                _this.$store.dispatch('uploadFile', {
+                    name: file.name,
+                    parent: _this.$store.state.selectedDirectory,
+                    content: content
+                });
+            };
 
-			reader.readAsDataURL(file);
-		},
-		onDrop: function onDrop(e) {
-			e.preventDefault();
+            reader.readAsDataURL(file);
+        },
+        onDrop: function onDrop(e) {
+            e.preventDefault();
 
-			if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-				for (var i = 0, f; f = e.dataTransfer.files[i]; i++) {
-					document.querySelector('.media-dragoutline').classList.remove('active');
-					this.upload(f);
-				}
-			}
-			document.querySelector('.media-dragoutline').classList.remove('active');
-		},
-		onDragLeave: function onDragLeave(e) {
-			e.stopPropagation();
-			e.preventDefault();
-			document.querySelector('.media-dragoutline').classList.remove('active');
-			return false;
-		}
-	},
-	created: function created() {
-		document.body.addEventListener('click', this.unselectAllBrowserItems, false);
-	},
-	beforeDestroy: function beforeDestroy() {
-		document.body.removeEventListener('click', this.unselectAllBrowserItems, false);
-	}
+            if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                for (var i = 0, f; f = e.dataTransfer.files[i]; i++) {
+                    document.querySelector('.media-dragoutline').classList.remove('active');
+                    this.upload(f);
+                }
+            }
+            document.querySelector('.media-dragoutline').classList.remove('active');
+        },
+        onDragLeave: function onDragLeave(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            document.querySelector('.media-dragoutline').classList.remove('active');
+            return false;
+        }
+    },
+    created: function created() {
+        document.body.addEventListener('click', this.unselectAllBrowserItems, false);
+    },
+    beforeDestroy: function beforeDestroy() {
+        document.body.removeEventListener('click', this.unselectAllBrowserItems, false);
+    }
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser",on:{"dragenter":_vm.onDragEnter,"drop":_vm.onDrop,"dragover":_vm.onDragOver,"dragleave":_vm.onDragLeave}},[_vm._m(0),_vm._v(" "),_c('div',{ref:"browserItems",staticClass:"media-browser-items"},_vm._l((_vm.items),function(item){return _c('media-browser-item',{attrs:{"item":item}})}))])}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-dragoutline"},[_c('span',{staticClass:"fa fa-cloud-upload upload-icon",attrs:{"aria-hidden":"true"}}),_vm._v(" "),_c('p',[_vm._v("Drop file(s) to Upload")])])}]
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.listView === 'table')?_c('div',{staticClass:"media-browser-list",style:(_vm.mediaBrowserStyles)},[_c('div',{staticClass:"media-browser-list-head"},[_c('ul',[_c('li',{staticClass:"type"}),_vm._v(" "),_c('li',{staticClass:"name"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_NAME')))]),_vm._v(" "),_c('li',{staticClass:"size"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_SIZE')))]),_vm._v(" "),_c('li',{staticClass:"dimension"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_DIMENSION')))]),_vm._v(" "),_c('li',{staticClass:"created"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_CREATED_AT')))]),_vm._v(" "),_c('li',{staticClass:"modified"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_MODIFIED_AT')))])])]),_vm._v(" "),_vm._l((_vm.items),function(item){return _c('media-browser-item',{attrs:{"item":item}})})],2):(_vm.listView === 'grid')?_c('div',{staticClass:"media-browser",style:(_vm.mediaBrowserStyles),on:{"dragenter":_vm.onDragEnter,"drop":_vm.onDrop,"dragover":_vm.onDragOver,"dragleave":_vm.onDragLeave}},[_c('div',{staticClass:"media-dragoutline"},[_c('span',{staticClass:"fa fa-cloud-upload upload-icon",attrs:{"aria-hidden":"true"}}),_vm._v(" "),_c('p',[_vm._v("Drop file(s) to Upload")])]),_vm._v(" "),_c('div',{ref:"browserItems",staticClass:"media-browser-items"},_vm._l((_vm.items),function(item){return _c('media-browser-item',{attrs:{"item":item}})}))]):_vm._e()}
+__vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
@@ -18128,7 +18211,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-27e03a7f", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":445,"babel-runtime/helpers/toConsumableArray":337,"vue":420,"vue-hot-reload-api":419}],428:[function(require,module,exports){
+},{"./../../store/mutation-types":447,"babel-runtime/helpers/toConsumableArray":337,"vue":420,"vue-hot-reload-api":419}],428:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -18194,15 +18277,29 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _mutationTypes = require('./../../../store/mutation-types');
+
+var types = _interopRequireWildcard(_mutationTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 exports.default = {
     name: 'media-browser-item-image',
     props: ['item'],
     computed: {
         thumbUrl: function thumbUrl() {
             return this.item.thumb_path;
+        },
+        canEdit: function canEdit() {
+            return ['jpg', 'jpeg', 'png'].indexOf(this.item.extension.toLowerCase()) > -1;
         }
     },
     methods: {
+        openPreview: function openPreview() {
+            this.$store.commit(types.SHOW_PREVIEW_MODAL);
+            this.$store.dispatch('getFullContents', this.item);
+        },
         deleteItem: function deleteItem() {
             this.$store.dispatch('deleteItem', this.item);
         },
@@ -18220,7 +18317,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-image"},[_c('div',{staticClass:"media-browser-item-preview"},[_c('div',{staticClass:"image-brackground"},[_c('div',{staticClass:"image-cropped",style:({ backgroundImage: 'url(' + _vm.thumbUrl + ')' }),on:{"dblclick":function($event){_vm.openEditView()}}})])]),_vm._v(" "),_c('div',{staticClass:"media-browser-item-info"},[_vm._v("\n        "+_vm._s(_vm.item.name)+" "+_vm._s(_vm.item.filetype)+"\n    ")]),_vm._v(" "),_c('div',{staticClass:"media-browser-select",on:{"click":function($event){$event.stopPropagation();_vm.toggleSelect()}}}),_vm._v(" "),_c('div',{staticClass:"media-browser-actions d-flex"},[_c('a',{staticClass:"action-delete",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-trash",attrs:{"aria-hidden":"true"},on:{"click":function($event){$event.stopPropagation();_vm.deleteItem()}}})]),_vm._v(" "),_c('a',{staticClass:"action-edit",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-pencil",attrs:{"aria-hidden":"true"},on:{"click":function($event){$event.stopPropagation();_vm.editItem()}}})])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-image",on:{"dblclick":function($event){_vm.openPreview()}}},[_c('div',{staticClass:"media-browser-item-preview"},[_c('div',{staticClass:"image-brackground"},[_c('div',{staticClass:"image-cropped",style:({ backgroundImage: 'url(' + _vm.thumbUrl + ')' })})])]),_vm._v(" "),_c('div',{staticClass:"media-browser-item-info"},[_vm._v("\n        "+_vm._s(_vm.item.name)+" "+_vm._s(_vm.item.filetype)+"\n    ")]),_vm._v(" "),_c('div',{staticClass:"media-browser-select",on:{"click":function($event){$event.stopPropagation();_vm.toggleSelect()}}}),_vm._v(" "),_c('div',{staticClass:"media-browser-actions d-flex"},[_c('a',{staticClass:"action-delete",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-trash",attrs:{"aria-hidden":"true"},on:{"click":function($event){$event.stopPropagation();_vm.deleteItem()}}})]),_vm._v(" "),(_vm.canEdit)?_c('a',{staticClass:"action-edit",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-pencil",attrs:{"aria-hidden":"true"},on:{"click":function($event){$event.stopPropagation();_vm.editItem()}}})]):_vm._e()])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18232,7 +18329,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-6eb1ec23", __vue__options__)
   }
 })()}
-},{"vue":420,"vue-hot-reload-api":419}],431:[function(require,module,exports){
+},{"./../../../store/mutation-types":447,"vue":420,"vue-hot-reload-api":419}],431:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18250,6 +18347,10 @@ var _file2 = _interopRequireDefault(_file);
 var _image = require("./image.vue");
 
 var _image2 = _interopRequireDefault(_image);
+
+var _row = require("./row.vue");
+
+var _row2 = _interopRequireDefault(_row);
 
 var _mutationTypes = require("./../../../store/mutation-types");
 
@@ -18271,6 +18372,10 @@ exports.default = {
          * Return the correct item type component
          */
         function itemType() {
+            if (store.state.listView == 'table') {
+                return _row2.default;
+            }
+
             var imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 
             // Render directory items
@@ -18383,13 +18488,55 @@ exports.default = {
     }
 };
 
-},{"./../../../store/mutation-types":445,"./directory.vue":428,"./file.vue":429,"./image.vue":430}],432:[function(require,module,exports){
+},{"./../../../store/mutation-types":447,"./directory.vue":428,"./file.vue":429,"./image.vue":430,"./row.vue":432}],432:[function(require,module,exports){
 ;(function(){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.default = {
+    name: 'media-browser-item-file',
+    props: ['item'],
+    computed: {
+        dimension: function dimension() {
+            if (!this.item.width) {
+                return '';
+            }
+            return this.item.width + ' x ' + this.item.height;
+        }
+    }
+};
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('ul',[_c('li',{staticClass:"type",attrs:{"data-type":_vm.item.extension}}),_vm._v(" "),_c('li',{staticClass:"name"},[_vm._v("\n        "+_vm._s(_vm.item.name)+"\n    ")]),_vm._v(" "),_c('li',{staticClass:"size"},[_vm._v("\n        "+_vm._s(_vm.item.size)+"\n    ")]),_vm._v(" "),_c('li',{staticClass:"dimension"},[_vm._v("\n        "+_vm._s(_vm.dimension)+"\n    ")]),_vm._v(" "),_c('li',{staticClass:"created"},[_vm._v("\n        "+_vm._s(_vm.item.create_date_formatted)+"\n    ")]),_vm._v(" "),_c('li',{staticClass:"modified"},[_vm._v("\n        "+_vm._s(_vm.item.modified_date_formatted)+"\n    ")])])}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6f405122", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-6f405122", __vue__options__)
+  }
+})()}
+},{"vue":420,"vue-hot-reload-api":419}],433:[function(require,module,exports){
+;(function(){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _mutationTypes = require("../../store/mutation-types");
+
+var types = _interopRequireWildcard(_mutationTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 exports.default = {
     name: 'media-infobar',
     computed: {
@@ -18405,6 +18552,14 @@ exports.default = {
             }
 
             return this.$store.getters.getSelectedDirectory;
+        },
+        showInfoBar: function showInfoBar() {
+            return this.$store.state.showInfoBar;
+        }
+    },
+    methods: {
+        hideInfoBar: function hideInfoBar() {
+            this.$store.commit(types.HIDE_INFOBAR);
         }
     }
 };
@@ -18412,7 +18567,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-infobar"},[_c('span',{staticClass:"infobar-close",attrs:{"aria-label":"Close Menu"}},[_vm._v("×")]),_vm._v(" "),_c('h2',[_vm._v(_vm._s(_vm.item.name))]),_vm._v(" "),(_vm.item.path === '/')?_c('div',{staticClass:"text-center"},[_c('span',{staticClass:"fa fa-file placeholder-icon"}),_vm._v("\n        Select file or folder to view its details.\n    ")]):_c('dl',{staticClass:"row"},[_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_FOLDER')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.directory))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_TYPE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.type || '-'))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_CREATED_AT')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.create_date_formatted))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_MODIFIED_AT')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.modified_date_formatted))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_DIMENSION')))]),_vm._v(" "),(_vm.item.width || _vm.item.height)?_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.width)+" x "+_vm._s(_vm.item.height))]):_c('dd',{staticClass:"col-sm-8"},[_vm._v("-")]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_SIZE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.size || '-'))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_MIME_TYPE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.mime_type))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_EXTENSION')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.extension || '-'))])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"infobar"}},[(_vm.showInfoBar)?_c('div',{staticClass:"media-infobar"},[_c('span',{staticClass:"infobar-close",on:{"click":function($event){_vm.hideInfoBar()}}},[_vm._v("×")]),_vm._v(" "),_c('h2',[_vm._v(_vm._s(_vm.item.name))]),_vm._v(" "),(_vm.item.path === '/')?_c('div',{staticClass:"text-center"},[_c('span',{staticClass:"fa fa-file placeholder-icon"}),_vm._v("\n            Select file or folder to view its details.\n        ")]):_c('dl',{staticClass:"row"},[_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_FOLDER')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.directory))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_TYPE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.type || '-'))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_CREATED_AT')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.create_date_formatted))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_MODIFIED_AT')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.modified_date_formatted))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_DIMENSION')))]),_vm._v(" "),(_vm.item.width || _vm.item.height)?_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.width)+" x "+_vm._s(_vm.item.height))]):_c('dd',{staticClass:"col-sm-8"},[_vm._v("-")]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_SIZE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.size || '-'))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_MIME_TYPE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.mime_type))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_EXTENSION')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.extension || '-'))])])]):_vm._e()])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18424,7 +18579,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-d586290e", __vue__options__)
   }
 })()}
-},{"vue":420,"vue-hot-reload-api":419}],433:[function(require,module,exports){
+},{"../../store/mutation-types":447,"vue":420,"vue-hot-reload-api":419}],434:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -18459,7 +18614,6 @@ exports.default = {
         },
         save: function save() {
             if (!this.isValid()) {
-                Joomla.renderMessages({ "error": [this.translate('JLIB_FORM_FIELD_REQUIRED_VALUE')] });
                 return;
             }
 
@@ -18467,7 +18621,6 @@ exports.default = {
                 name: this.folder,
                 parent: this.$store.state.selectedDirectory
             });
-
             this.reset();
         },
         reset: function reset() {
@@ -18479,7 +18632,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.$store.state.showCreateFolderModal)?_c('media-modal',{attrs:{"size":'sm'},on:{"close":function($event){_vm.close()}}},[_c('h3',{staticClass:"modal-title",slot:"header"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_CREATE_NEW_FOLDER')))]),_vm._v(" "),_c('div',{slot:"body"},[_c('form',{staticClass:"form",attrs:{"novalidate":""},on:{"submit":function($event){$event.preventDefault();_vm.save($event)}}},[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"folder"}},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_FOLDER')))]),_vm._v(" "),_c('input',{directives:[{name:"focus",rawName:"v-focus",value:(true),expression:"true"},{name:"model",rawName:"v-model.trim",value:(_vm.folder),expression:"folder",modifiers:{"trim":true}}],staticClass:"form-control",attrs:{"type":"text","id":"folder","placeholder":"Folder","required":"","autocomplete":"off"},domProps:{"value":(_vm.folder)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.folder=$event.target.value.trim()},function($event){_vm.folder = $event.target.value}],"blur":function($event){_vm.$forceUpdate()}}})])])]),_vm._v(" "),_c('div',{slot:"footer"},[_c('button',{staticClass:"btn btn-link",on:{"click":function($event){_vm.close()}}},[_vm._v(_vm._s(_vm.translate('JCANCEL')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-success",attrs:{"disabled":!_vm.isValid()},on:{"click":function($event){_vm.save()}}},[_vm._v(_vm._s(_vm.translate('JAPPLY')))])])]):_vm._e()}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.$store.state.showCreateFolderModal)?_c('media-modal',{attrs:{"size":'sm'},on:{"close":function($event){_vm.close()}}},[_c('h3',{staticClass:"modal-title",slot:"header"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_CREATE_NEW_FOLDER')))]),_vm._v(" "),_c('div',{slot:"body"},[_c('form',{staticClass:"form",attrs:{"novalidate":""},on:{"submit":function($event){$event.preventDefault();_vm.save($event)}}},[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"folder"}},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_FOLDER')))]),_vm._v(" "),_c('input',{directives:[{name:"focus",rawName:"v-focus",value:(true),expression:"true"},{name:"model",rawName:"v-model.trim",value:(_vm.folder),expression:"folder",modifiers:{"trim":true}}],staticClass:"form-control",attrs:{"id":"folder","placeholder":"Folder","required":"","autocomplete":"off"},domProps:{"value":(_vm.folder)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.folder=$event.target.value.trim()},function($event){_vm.folder = $event.target.value}],"blur":function($event){_vm.$forceUpdate()}}})])])]),_vm._v(" "),_c('div',{slot:"footer"},[_c('button',{staticClass:"btn btn-link",on:{"click":function($event){_vm.close()}}},[_vm._v(_vm._s(_vm.translate('JCANCEL')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-success",attrs:{"disabled":!_vm.isValid()},on:{"click":function($event){_vm.save()}}},[_vm._v(_vm._s(_vm.translate('JAPPLY'))+"\n        ")])])]):_vm._e()}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18491,8 +18644,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-6dc0e448", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":445,"vue":420,"vue-focus":418,"vue-hot-reload-api":419}],434:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/** TODO DN extract styles **/\n.modal-body {\n    width: auto;\n    padding: 15px;\n}\n\n.media-modal-backdrop {\n    position: fixed;\n    z-index: 1040;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, .5);\n    display: table;\n    transition: opacity .3s ease;\n}")
+},{"./../../store/mutation-types":447,"vue":420,"vue-focus":418,"vue-hot-reload-api":419}],435:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -18552,29 +18704,106 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.accept()
-  module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-9a14f814", __vue__options__)
   } else {
     hotAPI.reload("data-v-9a14f814", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":445,"vue":420,"vue-hot-reload-api":419,"vueify/lib/insert-css":421}],435:[function(require,module,exports){
+},{"./../../store/mutation-types":447,"vue":420,"vue-hot-reload-api":419}],436:[function(require,module,exports){
+;(function(){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _mutationTypes = require("../../store/mutation-types");
+
+var types = _interopRequireWildcard(_mutationTypes);
+
+var _item = require("../../components/browser/items/item");
+
+var item = _interopRequireWildcard(_item);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+exports.default = {
+    name: 'media-preview-modal',
+    computed: {
+        item: function item() {
+            return this.$store.state.previewItem;
+        }
+    },
+    methods: {
+        close: function close() {
+            this.$store.commit(types.HIDE_PREVIEW_MODAL);
+        }
+    }
+};
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.$store.state.showPreviewModal && _vm.item)?_c('media-modal',{attrs:{"size":'md'},on:{"close":function($event){_vm.close()}}},[_c('h3',{staticClass:"modal-title",slot:"header"},[_vm._v(_vm._s(_vm.item.name))]),_vm._v(" "),_c('div',{slot:"body"},[_c('img',{attrs:{"src":_vm.item.url}})]),_vm._v(" "),_c('div',{slot:"footer"},[_c('button',{staticClass:"btn btn-link",on:{"click":function($event){_vm.close()}}},[_vm._v(_vm._s(_vm.translate('JCANCEL')))])])]):_vm._e()}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-bb31219e", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-bb31219e", __vue__options__)
+  }
+})()}
+},{"../../components/browser/items/item":431,"../../store/mutation-types":447,"vue":420,"vue-hot-reload-api":419}],437:[function(require,module,exports){
 ;(function(){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _mutationTypes = require('../../store/mutation-types');
+
+var types = _interopRequireWildcard(_mutationTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 exports.default = {
-    name: 'media-toolbar'
+    name: 'media-toolbar',
+    computed: {
+        toggleListViewBtnIcon: function toggleListViewBtnIcon() {
+            return this.$store.state.listView === 'grid' ? 'fa fa-th' : 'fa fa-list';
+        },
+        isLoading: function isLoading() {
+            return this.$store.state.isLoading;
+        }
+    },
+    methods: {
+        toggleInfoBar: function toggleInfoBar() {
+            if (this.$store.state.showInfoBar) {
+                this.$store.commit(types.HIDE_INFOBAR);
+            } else {
+                this.$store.commit(types.SHOW_INFOBAR);
+            }
+        },
+        changeListView: function changeListView() {
+            if (this.$store.state.listView === 'grid') {
+                this.$store.commit(types.CHANGE_LIST_VIEW, 'table');
+            } else {
+                this.$store.commit(types.CHANGE_LIST_VIEW, 'grid');
+            }
+        }
+    }
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-toolbar"},[_c('media-breadcrumb'),_vm._v(" "),_vm._m(0)],1)}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-view-icons"},[_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-th",attrs:{"aria-hidden":"true"}})]),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-list",attrs:{"aria-hidden":"true"}})]),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-info",attrs:{"aria-hidden":"true"}})])])}]
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-toolbar"},[_c('media-breadcrumb'),_vm._v(" "),_c('div',{staticClass:"media-view-icons"},[_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":function($event){_vm.changeListView()}}},[_c('span',{class:_vm.toggleListViewBtnIcon,attrs:{"aria-hidden":"true"}})]),_vm._v(" "),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":_vm.toggleInfoBar}},[_c('span',{staticClass:"fa fa-info",attrs:{"aria-hidden":"true"}})]),_vm._v(" "),(_vm.isLoading)?_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-spinner fa-spin",attrs:{"aria-hidden":"true"}})]):_vm._e()])],1)}
+__vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
@@ -18585,7 +18814,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-8b7495b6", __vue__options__)
   }
 })()}
-},{"vue":420,"vue-hot-reload-api":419}],436:[function(require,module,exports){
+},{"../../store/mutation-types":447,"vue":420,"vue-hot-reload-api":419}],438:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -18612,7 +18841,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-294642ac", __vue__options__)
   }
 })()}
-},{"vue":420,"vue-hot-reload-api":419}],437:[function(require,module,exports){
+},{"vue":420,"vue-hot-reload-api":419}],439:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -18644,7 +18873,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-a9cc05ea", __vue__options__)
   }
 })()}
-},{"vue":420,"vue-hot-reload-api":419}],438:[function(require,module,exports){
+},{"vue":420,"vue-hot-reload-api":419}],440:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -18694,7 +18923,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-5ec90522", __vue__options__)
   }
 })()}
-},{"vue":420,"vue-hot-reload-api":419}],439:[function(require,module,exports){
+},{"vue":420,"vue-hot-reload-api":419}],441:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -18732,7 +18961,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-6b38c02d", __vue__options__)
   }
 })()}
-},{"vue":420,"vue-hot-reload-api":419}],440:[function(require,module,exports){
+},{"vue":420,"vue-hot-reload-api":419}],442:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -18844,7 +19073,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-5a5c90e6", __vue__options__)
   }
 })()}
-},{"babel-runtime/core-js/get-iterator":329,"vue":420,"vue-hot-reload-api":419}],441:[function(require,module,exports){
+},{"babel-runtime/core-js/get-iterator":329,"vue":420,"vue-hot-reload-api":419}],443:[function(require,module,exports){
 "use strict";
 
 require("babel-polyfill");
@@ -18901,6 +19130,10 @@ var _createFolderModal = require("./components/modals/create-folder-modal.vue");
 
 var _createFolderModal2 = _interopRequireDefault(_createFolderModal);
 
+var _previewModal = require("./components/modals/preview-modal.vue");
+
+var _previewModal2 = _interopRequireDefault(_previewModal);
+
 var _infobar = require("./components/infobar/infobar.vue");
 
 var _infobar2 = _interopRequireDefault(_infobar);
@@ -18933,6 +19166,7 @@ _vue2.default.component('media-browser', _browser2.default);
 _vue2.default.component('media-browser-item', _item4.default);
 _vue2.default.component('media-modal', _modal2.default);
 _vue2.default.component('media-create-folder-modal', _createFolderModal2.default);
+_vue2.default.component('media-preview-modal', _previewModal2.default);
 _vue2.default.component('media-infobar', _infobar2.default);
 _vue2.default.component('media-upload', _upload2.default);
 
@@ -18952,7 +19186,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     });
 });
 
-},{"./app/Event":424,"./components/app.vue":425,"./components/breadcrumb/breadcrumb.vue":426,"./components/browser/browser.vue":427,"./components/browser/items/item":431,"./components/infobar/infobar.vue":432,"./components/modals/create-folder-modal.vue":433,"./components/modals/modal.vue":434,"./components/toolbar/toolbar.vue":435,"./components/tree/disk.vue":436,"./components/tree/drive.vue":437,"./components/tree/item.vue":438,"./components/tree/tree.vue":439,"./components/upload/upload.vue":440,"./plugins/translate":442,"./store/store":448,"babel-polyfill":1,"vue":420}],442:[function(require,module,exports){
+},{"./app/Event":423,"./components/app.vue":425,"./components/breadcrumb/breadcrumb.vue":426,"./components/browser/browser.vue":427,"./components/browser/items/item":431,"./components/infobar/infobar.vue":433,"./components/modals/create-folder-modal.vue":434,"./components/modals/modal.vue":435,"./components/modals/preview-modal.vue":436,"./components/toolbar/toolbar.vue":437,"./components/tree/disk.vue":438,"./components/tree/drive.vue":439,"./components/tree/item.vue":440,"./components/tree/tree.vue":441,"./components/upload/upload.vue":442,"./plugins/translate":444,"./store/store":450,"babel-polyfill":1,"vue":420}],444:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18976,13 +19210,13 @@ Translate.install = function (Vue, options) {
 
 exports.default = Translate;
 
-},{}],443:[function(require,module,exports){
+},{}],445:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.deleteSelectedItems = exports.deleteItem = exports.uploadFile = exports.createDirectory = exports.toggleBrowserItemSelect = exports.getContents = undefined;
+exports.deleteSelectedItems = exports.deleteItem = exports.uploadFile = exports.createDirectory = exports.toggleBrowserItemSelect = exports.getFullContents = exports.getContents = undefined;
 
 var _Api = require("../app/Api");
 
@@ -18996,18 +19230,51 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 // - Instead of mutating the state, actions commit mutations.
 // - Actions can contain arbitrary asynchronous operations.
 
+function updateUrlPath(path) {
+    if (path == null) {
+        path = '';
+    }
+    var url = window.location.href;
+    var pattern = new RegExp('\\b(path=).*?(&|$)');
+
+    if (url.search(pattern) >= 0) {
+        history.pushState(null, '', url.replace(pattern, '$1' + path + '$2'));
+    } else {
+        history.pushState(null, '', url + (url.indexOf('?') > 0 ? '&' : '?') + 'path=' + path);
+    }
+}
+
 /**
  * Get contents of a directory from the api
  * @param commit
  * @param payload
  */
 var getContents = exports.getContents = function getContents(context, payload) {
-    _Api.api.getContents(payload).then(function (contents) {
+
+    // Update the url
+    updateUrlPath(payload);
+    context.commit(types.SET_IS_LOADING, true);
+
+    _Api.api.getContents(payload, false).then(function (contents) {
         context.commit(types.LOAD_CONTENTS_SUCCESS, contents);
         context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
         context.commit(types.SELECT_DIRECTORY, payload);
+        context.commit(types.SET_IS_LOADING, false);
     }).catch(function (error) {
         // TODO error handling
+        context.commit(types.SET_IS_LOADING, false);
+        console.log("error", error);
+    });
+};
+
+var getFullContents = exports.getFullContents = function getFullContents(context, payload) {
+    context.commit(types.SET_IS_LOADING, true);
+    _Api.api.getContents(payload.path, true).then(function (contents) {
+        context.commit(types.LOAD_FULL_CONTENTS_SUCCESS, contents.files[0]);
+        context.commit(types.SET_IS_LOADING, false);
+    }).catch(function (error) {
+        // TODO error handling
+        context.commit(types.SET_IS_LOADING, false);
         console.log("error", error);
     });
 };
@@ -19035,11 +19302,14 @@ var toggleBrowserItemSelect = exports.toggleBrowserItemSelect = function toggleB
  * @param payload object with the new folder name and its parent directory
  */
 var createDirectory = exports.createDirectory = function createDirectory(context, payload) {
+    context.commit(types.SET_IS_LOADING, true);
     _Api.api.createDirectory(payload.name, payload.parent).then(function (folder) {
         context.commit(types.CREATE_DIRECTORY_SUCCESS, folder);
         context.commit(types.HIDE_CREATE_FOLDER_MODAL);
+        context.commit(types.SET_IS_LOADING, false);
     }).catch(function (error) {
         // TODO error handling
+        context.commit(types.SET_IS_LOADING, false);
         console.log("error", error);
     });
 };
@@ -19050,10 +19320,13 @@ var createDirectory = exports.createDirectory = function createDirectory(context
  * @param payload object with the new folder name and its parent directory
  */
 var uploadFile = exports.uploadFile = function uploadFile(context, payload) {
+    context.commit(types.SET_IS_LOADING, true);
     _Api.api.upload(payload.name, payload.parent, payload.content).then(function (file) {
         context.commit(types.UPLOAD_SUCCESS, file);
+        context.commit(types.SET_IS_LOADING, false);
     }).catch(function (error) {
         // TODO error handling
+        context.commit(types.SET_IS_LOADING, false);
         console.log("error", error);
     });
 };
@@ -19064,12 +19337,15 @@ var uploadFile = exports.uploadFile = function uploadFile(context, payload) {
  * @param payload object: the item to delete
  */
 var deleteItem = exports.deleteItem = function deleteItem(context, payload) {
+    context.commit(types.SET_IS_LOADING, true);
     var item = payload;
     _Api.api.delete(item.path).then(function () {
         context.commit(types.DELETE_SUCCESS, item);
         context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+        context.commit(types.SET_IS_LOADING, false);
     }).catch(function (error) {
         // TODO error handling
+        context.commit(types.SET_IS_LOADING, false);
         console.log("error", error);
     });
 };
@@ -19080,6 +19356,7 @@ var deleteItem = exports.deleteItem = function deleteItem(context, payload) {
  * @param payload object
  */
 var deleteSelectedItems = exports.deleteSelectedItems = function deleteSelectedItems(context, payload) {
+    context.commit(types.SET_IS_LOADING, true);
     // Get the selected items from the store
     var selectedItems = context.state.selectedItems;
     if (selectedItems.length > 0) {
@@ -19087,8 +19364,10 @@ var deleteSelectedItems = exports.deleteSelectedItems = function deleteSelectedI
             _Api.api.delete(item.path).then(function () {
                 context.commit(types.DELETE_SUCCESS, item);
                 context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+                context.commit(types.SET_IS_LOADING, false);
             }).catch(function (error) {
                 // TODO error handling
+                context.commit(types.SET_IS_LOADING, false);
                 console.log("error", error);
             });
         });
@@ -19097,7 +19376,7 @@ var deleteSelectedItems = exports.deleteSelectedItems = function deleteSelectedI
     }
 };
 
-},{"../app/Api":423,"./mutation-types":445}],444:[function(require,module,exports){
+},{"../app/Api":422,"./mutation-types":447}],446:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19141,12 +19420,16 @@ var getSelectedDirectoryFiles = exports.getSelectedDirectoryFiles = function get
     });
 };
 
-},{}],445:[function(require,module,exports){
+},{}],447:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// Loading state
+var SET_IS_LOADING = exports.SET_IS_LOADING = 'SET_IS_LOADING';
+
+// Selecting media items
 var SELECT_DIRECTORY = exports.SELECT_DIRECTORY = 'SELECT_DIRECTORY';
 var SELECT_BROWSER_ITEM = exports.SELECT_BROWSER_ITEM = 'SELECT_BROWSER_ITEM';
 var UNSELECT_BROWSER_ITEM = exports.UNSELECT_BROWSER_ITEM = 'UNSELECT_BROWSER_ITEM';
@@ -19154,6 +19437,7 @@ var UNSELECT_ALL_BROWSER_ITEMS = exports.UNSELECT_ALL_BROWSER_ITEMS = 'UNSELECT_
 
 // Api handlers
 var LOAD_CONTENTS_SUCCESS = exports.LOAD_CONTENTS_SUCCESS = 'LOAD_CONTENTS_SUCCESS';
+var LOAD_FULL_CONTENTS_SUCCESS = exports.LOAD_FULL_CONTENTS_SUCCESS = 'LOAD_FULL_CONTENTS_SUCCESS';
 var CREATE_DIRECTORY_SUCCESS = exports.CREATE_DIRECTORY_SUCCESS = 'CREATE_DIRECTORY_SUCCESS';
 var UPLOAD_SUCCESS = exports.UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 
@@ -19161,10 +19445,21 @@ var UPLOAD_SUCCESS = exports.UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 var SHOW_CREATE_FOLDER_MODAL = exports.SHOW_CREATE_FOLDER_MODAL = 'SHOW_CREATE_FOLDER_MODAL';
 var HIDE_CREATE_FOLDER_MODAL = exports.HIDE_CREATE_FOLDER_MODAL = 'HIDE_CREATE_FOLDER_MODAL';
 
+// Infobar
+var SHOW_INFOBAR = exports.SHOW_INFOBAR = 'SHOW_INFOBAR';
+var HIDE_INFOBAR = exports.HIDE_INFOBAR = 'HIDE_INFOBAR';
+
 // Delete items
 var DELETE_SUCCESS = exports.DELETE_SUCCESS = 'DELETE_SUCCESS';
 
-},{}],446:[function(require,module,exports){
+// List view
+var CHANGE_LIST_VIEW = exports.CHANGE_LIST_VIEW = 'CHANGE_LIST_VIEW';
+
+// Preview modal
+var SHOW_PREVIEW_MODAL = exports.SHOW_PREVIEW_MODAL = 'SHOW_PREVIEW_MODAL';
+var HIDE_PREVIEW_MODAL = exports.HIDE_PREVIEW_MODAL = 'HIDE_PREVIEW_MODAL';
+
+},{}],448:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -19193,6 +19488,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var nodePath = require('path');
+
 // The only way to actually change state in a store is by committing a mutation.
 // Mutations are very similar to events: each mutation has a string type and a handler.
 // The handler function is where we perform actual state modifications, and it will receive the state as the first argument.
@@ -19200,6 +19497,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.SELECT_DIRECTORY, function (state, payload) {
     state.selectedDirectory = payload;
 }), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.LOAD_CONTENTS_SUCCESS, function (state, payload) {
+
     var newDirectories = payload.directories.filter(function (directory) {
         return !state.directories.some(function (existing) {
             return existing.path === directory.path;
@@ -19211,13 +19509,53 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
         });
     });
 
+    /**
+     * Create the directory structure
+     * @param path
+     */
+    function createDirectoryStructureFromPath(path) {
+        var exists = state.directories.some(function (existing) {
+            return existing.path === path;
+        });
+        var directory = directoryFromPath(path);
+        if (!exists && directory.directory) {
+            createDirectoryStructureFromPath(directory.directory);
+            state.directories.push(directory);
+        }
+    }
+
+    /**
+     * Create a directory from a path
+     * @param path
+     */
+    function directoryFromPath(path) {
+        var parts = path.split('/');
+        var directory = nodePath.dirname(path);
+        if (directory.indexOf(':', directory.length - 1) !== -1) {
+            directory += '/';
+        }
+        return {
+            path: path,
+            name: parts[parts.length - 1],
+            directories: [],
+            files: [],
+            directory: directory !== '.' ? directory : null
+        };
+    }
+
     // Merge the directories
     if (newDirectories.length > 0) {
         var _state$directories;
 
+        // Get the new directories
         var newDirectoryIds = newDirectories.map(function (directory) {
             return directory.path;
         });
+
+        // Create the parent directory structure if it does not exist
+        createDirectoryStructureFromPath(newDirectories[0].directory);
+
+        // Get the reference to the parent directory
         var parentDirectory = state.directories.find(function (directory) {
             return directory.path === newDirectories[0].directory;
         });
@@ -19239,6 +19577,10 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
         var newFileIds = newFiles.map(function (file) {
             return file.path;
         });
+
+        // Create the parent directory structure if it does not exist
+        createDirectoryStructureFromPath(newFiles[0].directory);
+
         var _parentDirectory = state.directories.find(function (directory) {
             return directory.path === newFiles[0].directory;
         });
@@ -19323,9 +19665,23 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
     state.showCreateFolderModal = true;
 }), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.HIDE_CREATE_FOLDER_MODAL, function (state) {
     state.showCreateFolderModal = false;
+}), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.SHOW_INFOBAR, function (state) {
+    state.showInfoBar = true;
+}), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.HIDE_INFOBAR, function (state) {
+    state.showInfoBar = false;
+}), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.CHANGE_LIST_VIEW, function (state, view) {
+    state.listView = view;
+}), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.LOAD_FULL_CONTENTS_SUCCESS, function (state, payload) {
+    state.previewItem = payload;
+}), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.SHOW_PREVIEW_MODAL, function (state) {
+    state.showPreviewModal = true;
+}), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.HIDE_PREVIEW_MODAL, function (state) {
+    state.showPreviewModal = false;
+}), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.SET_IS_LOADING, function (state, payload) {
+    state.isLoading = payload;
 }), _types$SELECT_DIRECTO);
 
-},{"./mutation-types":445,"babel-runtime/core-js/object/assign":331,"babel-runtime/helpers/defineProperty":336,"babel-runtime/helpers/toConsumableArray":337}],447:[function(require,module,exports){
+},{"./mutation-types":447,"babel-runtime/core-js/object/assign":331,"babel-runtime/helpers/defineProperty":336,"babel-runtime/helpers/toConsumableArray":337,"path":415}],449:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -19353,24 +19709,40 @@ if (loadedDisks[0].drives[0] === undefined || loadedDisks[0].drives.length === 0
 
 // The initial state
 exports.default = {
+    // The general loading state
+    isLoading: false,
     // Will hold the activated filesystem disks
     disks: loadedDisks,
     // The loaded directories
     directories: loadedDisks.map(function (disk) {
-        return { path: disk.drives[0].root, name: disk.displayName, directories: [], files: [], directory: null };
+        return {
+            path: disk.drives[0].root,
+            name: disk.displayName,
+            directories: [],
+            files: [],
+            directory: null
+        };
     }),
     // The loaded files
     files: [],
     // The selected disk. Providers are ordered by plugin ordering, so we set the first provider
-    // in the list as the default provider and loads first drive on it as default
-    selectedDirectory: loadedDisks[0].drives[0].root,
+    // in the list as the default provider and load first drive on it as default
+    selectedDirectory: options.currentPath || loadedDisks[0].drives[0].root,
     // The currently selected items
     selectedItems: [],
     // The state of create folder model
-    showCreateFolderModal: false
+    showCreateFolderModal: false,
+    // The state of the infobar
+    showInfoBar: false,
+    // List view
+    listView: 'grid',
+    // The state of preview model
+    showPreviewModal: false,
+    // The preview item
+    previewItem: null
 };
 
-},{}],448:[function(require,module,exports){
+},{}],450:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -19417,4 +19789,4 @@ exports.default = new _vuex2.default.Store({
     strict: true
 });
 
-},{"./actions":443,"./getters":444,"./mutations":446,"./state":447,"vue":420,"vuex":422}]},{},[441]);
+},{"./actions":445,"./getters":446,"./mutations":448,"./state":449,"vue":420,"vuex":421}]},{},[443]);
