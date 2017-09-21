@@ -64,7 +64,7 @@
   overflow-y: auto;
   padding: 15px 0 15px 15px;
   width: 75%;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
 .media-browser-items {
   display: flex;
@@ -289,7 +289,7 @@
       display: none; }
 
 .media-browser-list {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: .9rem;
   line-height: 30px; }
   .media-browser-list .media-browser-item {
