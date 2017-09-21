@@ -44,7 +44,7 @@ class Api {
 			        reject(xhr)
 		        }
 	        });
-        })
+        }).catch(this._handleError);
     }
 
     /**

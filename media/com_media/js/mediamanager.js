@@ -15826,7 +15826,7 @@ var Api = function () {
                         reject(xhr);
                     }
                 });
-            });
+            }).catch(this._handleError);
         }
 
         /**
@@ -16222,7 +16222,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-container row",style:({minHeight: _vm.fullHeight})},[_c('div',{staticClass:"media-sidebar col-md-2 hidden-sm-down"},_vm._l((_vm.disks),function(disk){return _c('media-disk',{attrs:{"disk":disk}})})),_vm._v(" "),_c('div',{staticClass:"col-md-10"},[_c('div',{staticClass:"media-main"},[_c('media-toolbar'),_vm._v(" "),_c('media-browser'),_vm._v(" "),_c('media-infobar')],1)]),_vm._v(" "),_c('media-upload'),_vm._v(" "),_c('media-create-folder-modal'),_vm._v(" "),_c('media-preview-modal')],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-container row",style:({minHeight: _vm.fullHeight})},[_c('div',{staticClass:"media-sidebar col-md-2 hidden-sm-down"},_vm._l((_vm.disks),function(disk){return _c('media-disk',{attrs:{"disk":disk}})})),_vm._v(" "),_c('div',{staticClass:"col-md-10"},[_c('div',{staticClass:"media-main"},[_c('media-toolbar'),_vm._v(" "),_c('media-browser'),_vm._v(" "),_c('media-infobar')],1)]),_vm._v(" "),_c('media-upload'),_vm._v(" "),_c('media-create-folder-modal'),_vm._v(" "),_c('media-preview-modal'),_vm._v(" "),_c('media-rename-modal')],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -16234,7 +16234,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-02393475", __vue__options__)
   }
 })()}
-},{"./../store/mutation-types":415,"vue":388,"vue-hot-reload-api":387}],394:[function(require,module,exports){
+},{"./../store/mutation-types":416,"vue":388,"vue-hot-reload-api":387}],394:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16406,7 +16406,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-cd88c8d6", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":415,"babel-runtime/helpers/toConsumableArray":11,"vue":388,"vue-hot-reload-api":387}],396:[function(require,module,exports){
+},{"./../../store/mutation-types":416,"babel-runtime/helpers/toConsumableArray":11,"vue":388,"vue-hot-reload-api":387}],396:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16524,7 +16524,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-12aad239", __vue__options__)
   }
 })()}
-},{"./../../../store/mutation-types":415,"vue":388,"vue-hot-reload-api":387}],399:[function(require,module,exports){
+},{"./../../../store/mutation-types":416,"vue":388,"vue-hot-reload-api":387}],399:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16653,7 +16653,7 @@ exports.default = {
     }
 };
 
-},{"./../../../store/mutation-types":415,"./directory.vue":396,"./file.vue":397,"./image.vue":398,"./row.vue":400}],400:[function(require,module,exports){
+},{"./../../../store/mutation-types":416,"./directory.vue":396,"./file.vue":397,"./image.vue":398,"./row.vue":400}],400:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16744,7 +16744,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-06984c8f", __vue__options__)
   }
 })()}
-},{"../../store/mutation-types":415,"vue":388,"vue-hot-reload-api":387}],402:[function(require,module,exports){
+},{"../../store/mutation-types":416,"vue":388,"vue-hot-reload-api":387}],402:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16809,7 +16809,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-1e731972", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":415,"vue":388,"vue-focus":386,"vue-hot-reload-api":387}],403:[function(require,module,exports){
+},{"./../../store/mutation-types":416,"vue":388,"vue-focus":386,"vue-hot-reload-api":387}],403:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16875,7 +16875,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-afa4aac0", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":415,"vue":388,"vue-hot-reload-api":387}],404:[function(require,module,exports){
+},{"./../../store/mutation-types":416,"vue":388,"vue-hot-reload-api":387}],404:[function(require,module,exports){
 ;(function(){
 "use strict";
 
@@ -16922,7 +16922,70 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-7d8b4bdb", __vue__options__)
   }
 })()}
-},{"../../components/browser/items/item":399,"../../store/mutation-types":415,"vue":388,"vue-hot-reload-api":387}],405:[function(require,module,exports){
+},{"../../components/browser/items/item":399,"../../store/mutation-types":416,"vue":388,"vue-hot-reload-api":387}],405:[function(require,module,exports){
+;(function(){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _mutationTypes = require('./../../store/mutation-types');
+
+var types = _interopRequireWildcard(_mutationTypes);
+
+var _vueFocus = require('vue-focus');
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+exports.default = {
+    name: 'media-rename-modal',
+    directives: { focus: _vueFocus.focus },
+    computed: {
+        name: function name() {
+            return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1].name;
+        }
+    },
+    methods: {
+        isValid: function isValid() {
+            return this.name;
+        },
+        close: function close() {
+            this.reset();
+            this.$store.commit(types.HIDE_RENAME_MODAL);
+        },
+        save: function save() {
+            if (!this.isValid()) {
+                return;
+            }
+
+            this.$store.dispatch('rename', {
+                name: this.name
+            });
+            this.reset();
+        },
+        reset: function reset() {
+            this.name = '';
+        }
+    }
+};
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.$store.state.showRenameModal)?_c('media-modal',{attrs:{"size":'sm'},on:{"close":function($event){_vm.close()}}},[_c('h3',{staticClass:"modal-title",slot:"header"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_RENAME')))]),_vm._v(" "),_c('div',{slot:"body"},[_c('form',{staticClass:"form",attrs:{"novalidate":""},on:{"submit":function($event){$event.preventDefault();_vm.save($event)}}},[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"name"}},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_NAME')))]),_vm._v(" "),_c('input',{directives:[{name:"focus",rawName:"v-focus",value:(true),expression:"true"},{name:"model",rawName:"v-model.trim",value:(_vm.name),expression:"name",modifiers:{"trim":true}}],staticClass:"form-control",attrs:{"id":"name","placeholder":"Name","required":"","autocomplete":"off"},domProps:{"value":(_vm.name)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.name=$event.target.value.trim()},function($event){_vm.name = $event.target.value}],"blur":function($event){_vm.$forceUpdate()}}})])])]),_vm._v(" "),_c('div',{slot:"footer"},[_c('button',{staticClass:"btn btn-link",on:{"click":function($event){_vm.close()}}},[_vm._v(_vm._s(_vm.translate('JCANCEL')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-success",attrs:{"disabled":!_vm.isValid()},on:{"click":function($event){_vm.save()}}},[_vm._v(_vm._s(_vm.translate('JAPPLY'))+"\n        ")])])]):_vm._e()}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-f495ca8a", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-f495ca8a", __vue__options__)
+  }
+})()}
+},{"./../../store/mutation-types":416,"vue":388,"vue-focus":386,"vue-hot-reload-api":387}],406:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16963,6 +17026,9 @@ exports.default = {
             } else {
                 this.$store.commit(types.CHANGE_LIST_VIEW, 'grid');
             }
+        },
+        openRenameModal: function openRenameModal() {
+            this.$store.commit(types.SHOW_RENAME_MODAL);
         }
     }
 };
@@ -16970,7 +17036,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-toolbar"},[_c('media-breadcrumb'),_vm._v(" "),_c('div',{staticClass:"media-view-icons"},[_c('transition',{attrs:{"name":"fade-in"}},[(_vm.atLeastOneItemSelected)?_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":function($event){$event.stopPropagation();_vm.openRenameModal()}}},[_c('span',{staticClass:"fa fa-text-width",attrs:{"aria-hidden":"true"}})]):_vm._e()]),_vm._v(" "),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":function($event){$event.stopPropagation();_vm.changeListView()}}},[_c('span',{class:_vm.toggleListViewBtnIcon,attrs:{"aria-hidden":"true"}})]),_vm._v(" "),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":function($event){$event.stopPropagation();_vm.toggleInfoBar($event)}}},[_c('span',{staticClass:"fa fa-info",attrs:{"aria-hidden":"true"}})]),_vm._v(" "),_c('transition',{attrs:{"name":"fade-in"}},[(_vm.isLoading)?_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-spinner fa-spin",attrs:{"aria-hidden":"true"}})]):_vm._e()])],1)],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-toolbar"},[_c('media-breadcrumb'),_vm._v(" "),_c('div',{staticClass:"media-view-icons"},[_c('transition',{attrs:{"name":"fade-in"}},[(_vm.atLeastOneItemSelected)?_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.openRenameModal()}}},[_c('span',{staticClass:"fa fa-text-width",attrs:{"aria-hidden":"true"}})]):_vm._e()]),_vm._v(" "),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.changeListView()}}},[_c('span',{class:_vm.toggleListViewBtnIcon,attrs:{"aria-hidden":"true"}})]),_vm._v(" "),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":function($event){$event.stopPropagation();$event.preventDefault();_vm.toggleInfoBar($event)}}},[_c('span',{staticClass:"fa fa-info",attrs:{"aria-hidden":"true"}})]),_vm._v(" "),_c('transition',{attrs:{"name":"fade-in"}},[(_vm.isLoading)?_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-spinner fa-spin",attrs:{"aria-hidden":"true"}})]):_vm._e()])],1)],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -16982,7 +17048,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-2ba1163b", __vue__options__)
   }
 })()}
-},{"../../store/mutation-types":415,"vue":388,"vue-hot-reload-api":387}],406:[function(require,module,exports){
+},{"../../store/mutation-types":416,"vue":388,"vue-hot-reload-api":387}],407:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -17009,7 +17075,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-16adac42", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],407:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],408:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -17041,7 +17107,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-6a9fc635", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],408:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],409:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -17091,7 +17157,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-4c306eb8", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],409:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],410:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -17129,7 +17195,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-58a029c3", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],410:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],411:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -17241,7 +17307,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-f6c333ba", __vue__options__)
   }
 })()}
-},{"babel-runtime/core-js/get-iterator":3,"vue":388,"vue-hot-reload-api":387}],411:[function(require,module,exports){
+},{"babel-runtime/core-js/get-iterator":3,"vue":388,"vue-hot-reload-api":387}],412:[function(require,module,exports){
 "use strict";
 
 require("babel-polyfill");
@@ -17302,6 +17368,10 @@ var _previewModal = require("./components/modals/preview-modal.vue");
 
 var _previewModal2 = _interopRequireDefault(_previewModal);
 
+var _renameModal = require("./components/modals/rename-modal.vue");
+
+var _renameModal2 = _interopRequireDefault(_renameModal);
+
 var _infobar = require("./components/infobar/infobar.vue");
 
 var _infobar2 = _interopRequireDefault(_infobar);
@@ -17335,6 +17405,7 @@ _vue2.default.component('media-browser-item', _item4.default);
 _vue2.default.component('media-modal', _modal2.default);
 _vue2.default.component('media-create-folder-modal', _createFolderModal2.default);
 _vue2.default.component('media-preview-modal', _previewModal2.default);
+_vue2.default.component('media-rename-modal', _renameModal2.default);
 _vue2.default.component('media-infobar', _infobar2.default);
 _vue2.default.component('media-upload', _upload2.default);
 
@@ -17354,7 +17425,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     });
 });
 
-},{"./app/Event":391,"./components/app.vue":393,"./components/breadcrumb/breadcrumb.vue":394,"./components/browser/browser.vue":395,"./components/browser/items/item":399,"./components/infobar/infobar.vue":401,"./components/modals/create-folder-modal.vue":402,"./components/modals/modal.vue":403,"./components/modals/preview-modal.vue":404,"./components/toolbar/toolbar.vue":405,"./components/tree/disk.vue":406,"./components/tree/drive.vue":407,"./components/tree/item.vue":408,"./components/tree/tree.vue":409,"./components/upload/upload.vue":410,"./plugins/translate":412,"./store/store":418,"babel-polyfill":1,"vue":388}],412:[function(require,module,exports){
+},{"./app/Event":391,"./components/app.vue":393,"./components/breadcrumb/breadcrumb.vue":394,"./components/browser/browser.vue":395,"./components/browser/items/item":399,"./components/infobar/infobar.vue":401,"./components/modals/create-folder-modal.vue":402,"./components/modals/modal.vue":403,"./components/modals/preview-modal.vue":404,"./components/modals/rename-modal.vue":405,"./components/toolbar/toolbar.vue":406,"./components/tree/disk.vue":407,"./components/tree/drive.vue":408,"./components/tree/item.vue":409,"./components/tree/tree.vue":410,"./components/upload/upload.vue":411,"./plugins/translate":413,"./store/store":419,"babel-polyfill":1,"vue":388}],413:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17378,7 +17449,7 @@ Translate.install = function (Vue, options) {
 
 exports.default = Translate;
 
-},{}],413:[function(require,module,exports){
+},{}],414:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17544,7 +17615,7 @@ var deleteSelectedItems = exports.deleteSelectedItems = function deleteSelectedI
     }
 };
 
-},{"../app/Api":390,"./mutation-types":415}],414:[function(require,module,exports){
+},{"../app/Api":390,"./mutation-types":416}],415:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17588,7 +17659,7 @@ var getSelectedDirectoryFiles = exports.getSelectedDirectoryFiles = function get
     });
 };
 
-},{}],415:[function(require,module,exports){
+},{}],416:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17627,7 +17698,11 @@ var CHANGE_LIST_VIEW = exports.CHANGE_LIST_VIEW = 'CHANGE_LIST_VIEW';
 var SHOW_PREVIEW_MODAL = exports.SHOW_PREVIEW_MODAL = 'SHOW_PREVIEW_MODAL';
 var HIDE_PREVIEW_MODAL = exports.HIDE_PREVIEW_MODAL = 'HIDE_PREVIEW_MODAL';
 
-},{}],416:[function(require,module,exports){
+// Rename modal
+var SHOW_RENAME_MODAL = exports.SHOW_RENAME_MODAL = 'SHOW_RENAME_MODAL';
+var HIDE_RENAME_MODAL = exports.HIDE_RENAME_MODAL = 'HIDE_RENAME_MODAL';
+
+},{}],417:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17847,9 +17922,13 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
     state.showPreviewModal = false;
 }), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.SET_IS_LOADING, function (state, payload) {
     state.isLoading = payload;
+}), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.SHOW_RENAME_MODAL, function (state) {
+    state.showRenameModal = true;
+}), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.HIDE_RENAME_MODAL, function (state) {
+    state.showRenameModal = false;
 }), _types$SELECT_DIRECTO);
 
-},{"./mutation-types":415,"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10,"babel-runtime/helpers/toConsumableArray":11,"path":383}],417:[function(require,module,exports){
+},{"./mutation-types":416,"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10,"babel-runtime/helpers/toConsumableArray":11,"path":383}],418:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17898,19 +17977,21 @@ exports.default = {
     selectedDirectory: options.currentPath || loadedDisks[0].drives[0].root,
     // The currently selected items
     selectedItems: [],
-    // The state of create folder model
-    showCreateFolderModal: false,
     // The state of the infobar
     showInfoBar: false,
     // List view
     listView: 'grid',
+    // The state of create folder model
+    showCreateFolderModal: false,
     // The state of preview model
     showPreviewModal: false,
+    // The state of  model
+    showRenameModal: false,
     // The preview item
     previewItem: null
 };
 
-},{}],418:[function(require,module,exports){
+},{}],419:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17957,4 +18038,4 @@ _vue2.default.use(_vuex2.default
     strict: true
 });
 
-},{"./actions":413,"./getters":414,"./mutations":416,"./state":417,"vue":388,"vuex":389}]},{},[411]);
+},{"./actions":414,"./getters":415,"./mutations":417,"./state":418,"vue":388,"vuex":389}]},{},[412]);

@@ -275,4 +275,20 @@ export default {
     [types.SET_IS_LOADING]: (state, payload) => {
         state.isLoading = payload;
     },
+
+    /**
+     * Show the rename modal
+     * @param state
+     */
+    [types.SHOW_RENAME_MODAL]: (state) => {
+        state.showRenameModal = true;
+    },
+
+    /**
+     * Hide the rename modal
+     * @param state
+     */
+    [types.HIDE_RENAME_MODAL]: (state) => {
+        state.showRenameModal = false;
+    },
 }

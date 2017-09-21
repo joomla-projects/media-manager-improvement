@@ -3,14 +3,14 @@
         <media-breadcrumb></media-breadcrumb>
         <div class="media-view-icons">
             <transition name="fade-in">
-                <a href="#" class="media-toolbar-icon" @click.stop="openRenameModal()" v-if="atLeastOneItemSelected">
+                <a href="#" class="media-toolbar-icon" @click.stop.prevent="openRenameModal()" v-if="atLeastOneItemSelected">
                     <span class="fa fa-text-width" aria-hidden="true"></span>
                 </a>
             </transition>
-            <a href="#" class="media-toolbar-icon" @click.stop="changeListView()">
+            <a href="#" class="media-toolbar-icon" @click.stop.prevent="changeListView()">
                 <span :class="toggleListViewBtnIcon" aria-hidden="true"></span>
             </a>
-            <a href="#" class="media-toolbar-icon" @click.stop="toggleInfoBar">
+            <a href="#" class="media-toolbar-icon" @click.stop.prevent="toggleInfoBar">
                 <span class="fa fa-info" aria-hidden="true"></span>
             </a>
             <transition name="fade-in">
@@ -52,6 +52,9 @@
                 } else {
                     this.$store.commit(types.CHANGE_LIST_VIEW, 'grid');
                 }
+            },
+            openRenameModal() {
+                this.$store.commit(types.SHOW_RENAME_MODAL);
             }
         }
     }
