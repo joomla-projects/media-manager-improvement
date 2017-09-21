@@ -156,7 +156,7 @@ class ApiController extends BaseController
 
 					if ($newPath != null)
 					{
-						list($destination, $destinationPath) = explode(':', $newPath, 2);
+						list($destinationAdapter, $destinationPath) = explode(':', $newPath, 2);
 
 						if ($move)
 						{
