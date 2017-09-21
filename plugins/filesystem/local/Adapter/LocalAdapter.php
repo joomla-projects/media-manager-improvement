@@ -599,7 +599,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function search($path = '/', $needle, $recursive = true)
+	public function search($path = '/', $needle, $recursive)
 	{
 		$pattern = \JPath::clean($this->rootPath . '/' . $path . '/*' . $needle . '*');
 

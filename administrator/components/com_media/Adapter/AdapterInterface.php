@@ -184,5 +184,5 @@ interface AdapterInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function search($path = '/', $needle, $recursive = true);
+	public function search($path = '/', $needle, $recursive);
 }
