@@ -18698,7 +18698,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-modal-backdrop",on:{"click":function($event){_vm.close()}}},[_c('div',{staticClass:"modal",staticStyle:{"display":"block"},on:{"click":function($event){$event.stopPropagation();}}},[_c('div',{staticClass:"modal-dialog",class:_vm.modalClass,attrs:{"role":"document"}},[_c('div',{staticClass:"modal-content"},[_c('div',{staticClass:"modal-header"},[_vm._t("header"),_vm._v(" "),(_vm.showCloseButton)?_c('button',{staticClass:"close",attrs:{"type":"button","aria-label":"Close"},on:{"click":function($event){_vm.close()}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])]):_vm._e()],2),_vm._v(" "),_c('div',{staticClass:"modal-body"},[_vm._t("body")],2),_vm._v(" "),_c('div',{staticClass:"modal-footer"},[_vm._t("footer")],2)])])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-modal-backdrop",on:{"click":function($event){_vm.close()}}},[_c('div',{staticClass:"modal",staticStyle:{"display":"flex"},on:{"click":function($event){$event.stopPropagation();}}},[_vm._t("backdrop-close"),_vm._v(" "),_c('div',{staticClass:"modal-dialog",class:_vm.modalClass,attrs:{"role":"document"}},[_c('div',{staticClass:"modal-content"},[_c('div',{staticClass:"modal-header"},[_vm._t("header"),_vm._v(" "),(_vm.showCloseButton)?_c('button',{staticClass:"close",attrs:{"type":"button","aria-label":"Close"},on:{"click":function($event){_vm.close()}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])]):_vm._e()],2),_vm._v(" "),_c('div',{staticClass:"modal-body"},[_vm._t("body")],2),_vm._v(" "),_c('div',{staticClass:"modal-footer"},[_vm._t("footer")],2)])])],2)])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18745,7 +18745,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.$store.state.showPreviewModal && _vm.item)?_c('media-modal',{attrs:{"size":'md'},on:{"close":function($event){_vm.close()}}},[_c('h3',{staticClass:"modal-title",slot:"header"},[_vm._v(_vm._s(_vm.item.name))]),_vm._v(" "),_c('div',{slot:"body"},[_c('img',{attrs:{"src":_vm.item.url}})]),_vm._v(" "),_c('div',{slot:"footer"},[_c('button',{staticClass:"btn btn-link",on:{"click":function($event){_vm.close()}}},[_vm._v(_vm._s(_vm.translate('JCANCEL')))])])]):_vm._e()}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.$store.state.showPreviewModal && _vm.item)?_c('media-modal',{staticClass:"media-preview-modal",attrs:{"size":'md'},on:{"close":function($event){_vm.close()}}},[_c('h3',{staticClass:"modal-title",slot:"header"},[_vm._v(_vm._s(_vm.item.name))]),_vm._v(" "),_c('div',{slot:"body"},[_c('img',{attrs:{"src":_vm.item.url}})]),_vm._v(" "),_c('a',{staticClass:"media-preview-close",on:{"click":function($event){_vm.close()}},slot:"backdrop-close"},[_c('span',{staticClass:"fa fa-times"})])]):_vm._e()}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -19392,7 +19392,7 @@ Object.defineProperty(exports, "__esModule", {
  */
 var getSelectedDirectory = exports.getSelectedDirectory = function getSelectedDirectory(state) {
     return state.directories.find(function (directory) {
-        return directory.path === state.selectedDirectory;
+        return directory.path.startsWith(state.selectedDirectory);
     });
 };
 
@@ -19404,7 +19404,7 @@ var getSelectedDirectory = exports.getSelectedDirectory = function getSelectedDi
  */
 var getSelectedDirectoryDirectories = exports.getSelectedDirectoryDirectories = function getSelectedDirectoryDirectories(state, getters) {
     return state.directories.filter(function (directory) {
-        return directory.directory === state.selectedDirectory;
+        return directory.directory && directory.directory.startsWith(state.selectedDirectory);
     });
 };
 
@@ -19416,7 +19416,7 @@ var getSelectedDirectoryDirectories = exports.getSelectedDirectoryDirectories = 
  */
 var getSelectedDirectoryFiles = exports.getSelectedDirectoryFiles = function getSelectedDirectoryFiles(state, getters) {
     return state.files.filter(function (file) {
-        return file.directory === state.selectedDirectory;
+        return file.directory && file.directory.startsWith(state.selectedDirectory);
     });
 };
 
