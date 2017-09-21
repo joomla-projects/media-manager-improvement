@@ -108,7 +108,9 @@ class ApiController extends BaseController
 					// Grab options
 					$options = array();
 					$options['url'] = $this->input->getBool('url', false);
-					$data = $this->getModel()->getFiles($adapter, $path, $this->input->getWord('filter'), $options);
+					$options['search'] = $this->input->getString('search', '');
+					$options['recursive'] = $this->input->getBool('recursive', false);
+					$data = $this->getModel()->getFiles($adapter, $path, $options);
 					break;
 
 				case 'delete':
@@ -156,13 +158,15 @@ class ApiController extends BaseController
 
 					if ($newPath != null)
 					{
+						list($destinationAdapter, $destinationPath) = explode(':', $newPath, 2);
+
 						if ($move)
 						{
-							$this->getModel()->move($adapter, $path, $newPath, true);
+							$this->getModel()->move($adapter, $path, $destinationPath, true);
 						}
 						else
 						{
-							$this->getModel()->copy($adapter, $path, $newPath, true);
+							$this->getModel()->copy($adapter, $path, $destinationPath, true);
 						}
 
 						$path = $newPath;

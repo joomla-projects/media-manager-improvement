@@ -7,7 +7,7 @@
             <div class="media-main">
                 <media-toolbar></media-toolbar>
                 <media-browser></media-browser>
-                <media-infobar></media-infobar>
+                <media-infobar v-if="!this.isModal"></media-infobar>
             </div>
         </div>
         <media-upload></media-upload>
@@ -19,6 +19,8 @@
 
 <script>
     import * as types from "./../store/mutation-types";
+    import Api from "./../app/Api";
+
     export default {
         name: 'media-app',
         data() {
@@ -30,6 +32,9 @@
         computed: {
             disks() {
                 return this.$store.state.disks;
+            },
+            isModal() {
+		return Joomla.getOptions('com_media', {}).isModal;
             }
         },
         methods: {
@@ -37,6 +42,7 @@
             setFullHeight() {
                 this.fullHeight = window.innerHeight - this.$el.getBoundingClientRect().top + 'px';
             },
+
         },
         created() {
             // Listen to the toolbar events
