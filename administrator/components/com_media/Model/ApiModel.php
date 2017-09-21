@@ -81,7 +81,14 @@ class ApiModel extends BaseModel
 
 		if (isset($options['url']) && $options['url'] && $file->type == 'file')
 		{
-			$file->url = $this->getUrl($adapter, $file->path);
+			if ($options['temp'])
+			{
+				$file->tempUrl = $this->getTemporaryUrl($adapter, $file->path);
+			}
+			else
+			{
+				$file->url = $this->getUrl( $adapter, $file->path );
+			}
 		}
 
 		$file->path    = $adapter . ":" . $file->path;
@@ -126,9 +133,13 @@ class ApiModel extends BaseModel
 			if (isset($options['url']) && $options['url'] && $file->type == 'file')
 			{
 				if ($options['temp'])
+				{
 					$file->tempUrl = $this->getTemporaryUrl($adapter, $file->path);
+				}
 				else
-					$file->url = $this->getUrl($adapter, $file->path);
+				{
+					$file->url = $this->getUrl( $adapter, $file->path );
+				}
 			}
 
 			$file->path    = $adapter . ":" . $file->path;
