@@ -4,8 +4,7 @@
          @drop="onDrop"
          @dragover="onDragOver"
          @dragleave="onDragLeave"
-         :style="mediaBrowserStyles"
-         ref="browserItems">
+         :style="mediaBrowserStyles">
         <div class="media-dragoutline">
             <span class="fa fa-cloud-upload upload-icon" aria-hidden="true"></span>
             <p>Drop file(s) to Upload</p>
@@ -24,7 +23,7 @@
             <media-browser-item v-for="item in items" :item="item"></media-browser-item>
         </div>
         <div class="media-browser-grid" v-else-if="listView === 'grid'">
-            <div class="media-browser-items">
+            <div class="media-browser-items" ref="browserItems">
                 <media-browser-item v-for="item in items" :item="item"></media-browser-item>
             </div>
         </div>
