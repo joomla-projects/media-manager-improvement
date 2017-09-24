@@ -12,7 +12,7 @@
             <a href="#" class="media-toolbar-icon" @click.stop.prevent="changeListView()">
                 <span :class="toggleListViewBtnIcon" aria-hidden="true"></span>
             </a>
-            <a href="#" class="media-toolbar-icon" @click.stop.prevent="toggleInfoBar">
+            <a href="#" class="media-toolbar-icon media-toolbar-icon-info" @click.stop.prevent="toggleInfoBar">
                 <span class="fa fa-info" aria-hidden="true"></span>
             </a>
         </div>
