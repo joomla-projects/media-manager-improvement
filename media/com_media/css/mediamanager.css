@@ -190,6 +190,7 @@
 
 .media-browser-actions {
   position: absolute;
+  left: 0;
   right: 0;
   bottom: 32px;
   padding: 2px;
@@ -213,12 +214,15 @@
 .image-browser-action {
   height: 2.2rem;
   width: 2.2rem;
-  margin-right: 5px;
+  margin-right: 4px;
+  margin-left: 4px;
   color: white;
   text-align: center;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: .25rem;
   cursor: pointer; }
+  .action-delete .image-browser-action {
+    background-color: #d9534f; }
   .image-browser-action::before {
     font-size: 1.3rem;
     line-height: 2.2rem; }
