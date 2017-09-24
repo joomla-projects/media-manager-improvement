@@ -48,9 +48,9 @@
                     this.$store.commit(types.CHANGE_LIST_VIEW, 'grid');
                 }
             },
-	        selectAll() {
+            selectAll() {
                 this.$store.commit(types.SELECT_ALL_BROWSER_ITEMS);
-	        }
+            }
         }
     }
 </script>
