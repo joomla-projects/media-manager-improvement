@@ -88,6 +88,8 @@ class ApiController extends BaseController
 	 *     path : will be taken as the source
 	 *     index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
 	 * 	   /api/files/sampledata/fruitshop/test.jpg
+	 *
+	 *     JSON body:
 	 *     {
 	 *          "newPath" : "/path/to/destination",
 	 *          "move"    : "1"
@@ -97,6 +99,8 @@ class ApiController extends BaseController
 	 *     path : will be taken as the source
 	 *     index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
 	 * 	   /api/files/sampledata/fruitshop/test.jpg
+	 *
+	 *     JSON body:
 	 *     {
 	 *          "newPath" : "/path/to/destination",
 	 *          "move"    : "0"
