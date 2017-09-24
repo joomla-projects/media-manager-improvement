@@ -49,7 +49,7 @@
                 }
             },
             selectAll() {
-                this.$store.commit(types.SELECT_ALL_BROWSER_ITEMS);
+                this.$store.commit(types.SELECT_BROWSER_ITEMS, [...this.$store.state.directories, ...this.$store.state.files]);
             }
         }
     }
