@@ -54,8 +54,9 @@
                 return (this.$store.state.listView === 'grid');
             },
             allSelected() {
-                let allCount = this.$store.getters.getSelectedDirectoryDirectories.length;
-                allCount = allCount + this.$store.getters.getSelectedDirectoryFiles.length;
+                let allCount =
+                    this.$store.getters.getSelectedDirectoryDirectories.length
+                    + this.$store.getters.getSelectedDirectoryFiles.length;
 
                 return this.$store.state.selectedItems.length == allCount;
             }
