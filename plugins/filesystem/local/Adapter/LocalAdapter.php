@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
+use Joomla\Filesystem\Path;
 use Joomla\Image\Image;
 use Joomla\CMS\Uri\Uri;
 
@@ -573,7 +574,7 @@ class LocalAdapter implements AdapterInterface
 	 */
 	public function getUrl($path)
 	{
-		return Uri::root() . $this->getEncodedPath($this->filePath . $path);
+		return Uri::root() . Path::clean($this->getEncodedPath($this->filePath . $path));
 	}
 
 	/**
