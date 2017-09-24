@@ -3,6 +3,9 @@
     <div class="media-loader" v-if="isLoading"></div>
         <media-breadcrumb></media-breadcrumb>
         <div class="media-view-icons">
+            <a href="#" class="media-toolbar-icon media-toolbar-icon-select-all" @click.stop.prevent="selectAll()">
+                <span :class="toggleListViewBtnIcon" aria-hidden="true"></span>
+            </a>
             <a href="#" class="media-toolbar-icon media-toolbar-icon-list-view" @click.stop.prevent="changeListView()">
                 <span :class="toggleListViewBtnIcon" aria-hidden="true"></span>
             </a>
@@ -44,7 +47,10 @@
                 } else {
                     this.$store.commit(types.CHANGE_LIST_VIEW, 'grid');
                 }
-            }
+            },
+	        selectAll() {
+                this.$store.commit(types.SELECT_ALL_BROWSER_ITEMS);
+	        }
         }
     }
 </script>

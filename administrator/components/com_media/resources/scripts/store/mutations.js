@@ -218,6 +218,15 @@ export default {
     },
 
     /**
+     * Select all browser items
+     * @param state
+     * @param payload the item
+     */
+    [types.SELECT_ALL_BROWSER_ITEMS]: (state) => {
+        state.selectedItems = state.directories.concat(state.files);
+    },
+
+    /**
      * Unselect all browser items
      * @param state
      * @param payload the item
