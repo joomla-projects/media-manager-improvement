@@ -1,12 +1,3 @@
-/** Include the relative styles */
-// if (!document.head.querySelector('#joomla-modal-style')) {
-//   const style = document.createElement('style');
-//   style.id = 'joomla-modal-style';
-//   style.innerHTML = ``;
-//   document.head.appendChild(style);
-// }
-
-
 const Joomla = window.Joomla || {};
 Joomla.selectedFile = {};
 
@@ -35,12 +26,12 @@ Joomla.doIt = function (resp, editor, fieldClass) {
 			Joomla.selectedFile.url = false
 		}
 
-		function isElement(o){
+		const isElement = (o) => {
 			return (
 				typeof HTMLElement === "object" ? o instanceof HTMLElement : //DOM2
 					o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName==="string"
 			);
-		}
+		};
 
 		if (Joomla.selectedFile.url) {
 			if (!isElement(editor) && (typeof editor !== 'object')) {
@@ -48,7 +39,7 @@ Joomla.doIt = function (resp, editor, fieldClass) {
 			} else if (!isElement(editor) && (typeof editor === 'object' && editor.id)) {
 				parent.window.Joomla.editors.instances[editor.id].replaceSelection('<img src="' + Joomla.selectedFile.url + '" alt=""/>')
 			} else {
-				editor.value = Joomla.selectedFile.url
+				editor.value = Joomla.selectedFile.url;
 				fieldClass.updatePreview()
 			}
 		}
@@ -82,6 +73,42 @@ Joomla.getImage = function(data, editor, fieldClass) {
 		});
 	});
 };
+
+if (!document.head.querySelector('#joomla-modal-style')) {
+	const style = document.createElement('style');
+	style.id = 'joomla-modal-style';
+	style.innerHTML = `
+joomla-field-media .field-media-preview {
+	display: flex;
+	align-items: center;
+    justify-content: center;
+	max-width: 336px;
+	height: 180px !important;
+	padding: 10px;
+	background-color: #F2F2F2;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-width: 1px 1px 0 1px;
+	border-radius: 0.25rem 0.25rem 0 0;
+	overflow: hidden;
+}
+joomla-field-media .field-media-preview-icon {
+	font-size: 5rem;
+	opacity: .25;
+}
+joomla-field-media .field-media-input {
+	border-top-left-radius: 0;
+}
+joomla-field-media .button-clear {
+	border-top-right-radius: 0;
+}
+joomla-field-media img {
+	max-height: 100%;
+    max-width: 100%;
+}
+
+  `;
+	document.head.appendChild(style);
+}
 
 class JoomlaFieldMedia extends HTMLElement {
 	static get observedAttributes() {
@@ -191,6 +218,7 @@ class JoomlaFieldMedia extends HTMLElement {
 			if (this.selectedPath) {
 				self.setValue(this.selectedPath);
 			}
+
 			self.modalClose();
 			return false;
 		});
@@ -223,24 +251,24 @@ class JoomlaFieldMedia extends HTMLElement {
 		if (this.preview) {
 			const input = this.querySelector(this.input);
 			const value = input.value;
+			const div = this.querySelector('.field-media-preview');
 
-			if (value) {
-				const div = this.querySelector('.field-media-preview');
+			if (!value) {
+				div.innerHTML = '<span class="field-media-preview-icon fa fa-picture-o"></span>';
+			} else {
 				div.innerHTML = '';
 				const imgPreview = new Image();
 
 				switch (this.type) {
 					case 'image':
-						imgPreview.src = /http/.test(value) ? value : '/' + value;
+						imgPreview.src = imgPreview.src = /http/.test(value) ? value : '/' + value;
 						break;
 					default:
-						imgPreview.src = /http/.test(value) ? value : '/' + value;
+						// imgPreview.src = dummy image path;
 						break;
 				}
 
 				div.style.width = this.previewWidth;
-				imgPreview.style.width = '100%';
-
 				div.appendChild(imgPreview);
 			}
 		}
