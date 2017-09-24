@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b69090ca87f534d8fbbc1d3658f8bea",
+    "content-hash": "1418eec8f5b2a69142821cfbf9d5711c",
     "packages": [],
     "packages-dev": [
         {
@@ -1014,16 +1014,16 @@
         },
         {
             "name": "joomla-projects/joomla-browser",
-            "version": "v3.8.0",
+            "version": "v4.0.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "2b95ae9d107957538c368b7928284a9a834745fd"
+                "reference": "7fba550d49901faf95a1792a9ee08c924baf3d16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/2b95ae9d107957538c368b7928284a9a834745fd",
-                "reference": "2b95ae9d107957538c368b7928284a9a834745fd",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/7fba550d49901faf95a1792a9ee08c924baf3d16",
+                "reference": "7fba550d49901faf95a1792a9ee08c924baf3d16",
                 "shasum": ""
             },
             "require": {
@@ -1061,7 +1061,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2017-09-20T16:29:54+00:00"
+            "time": "2017-09-24T14:12:21+00:00"
         },
         {
             "name": "joomla-projects/jorobo",
@@ -3433,7 +3433,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "joomla-projects/joomla-browser": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
