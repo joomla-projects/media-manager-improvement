@@ -80,7 +80,11 @@ if (!document.head.querySelector('#joomla-modal-style')) {
 	style.innerHTML = `
 joomla-field-media .field-media-preview {
 	display: flex;
+<<<<<<< HEAD
 	align-items: center;
+=======
+	align-items: center;
+>>>>>>> fix CS
     justify-content: center;
 	max-width: 336px;
 	height: 180px !important;
