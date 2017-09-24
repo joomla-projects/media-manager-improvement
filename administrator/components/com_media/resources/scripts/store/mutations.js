@@ -1,10 +1,12 @@
 import * as types from "./mutation-types";
-
 const nodePath = require('path');
 
 // The only way to actually change state in a store is by committing a mutation.
 // Mutations are very similar to events: each mutation has a string type and a handler.
 // The handler function is where we perform actual state modifications, and it will receive the state as the first argument.
+
+// The grid item sizes
+const gridItemSizes = ['xs', 'sm', 'md', 'lg', 'xl'];
 
 export default {
 
@@ -78,9 +80,11 @@ export default {
             state.directories.push(...newDirectories);
 
             // Update the relation to the parent directory
-            state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
-                directories: [...parentDirectory.directories, ...newDirectoryIds]
-            }));
+            if (parentDirectoryIndex !== -1) {
+                state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
+                    directories: [...parentDirectory.directories, ...newDirectoryIds]
+                }));
+            }
         }
 
         // Merge the files
@@ -97,9 +101,11 @@ export default {
             state.files.push(...newFiles);
 
             // Update the relation to the parent directory
-            state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
-                files: [...parentDirectory.files, ...newFileIds]
-            }));
+            if (parentDirectoryIndex !== -1) {
+                state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
+                    files: [...parentDirectory.files, ...newFileIds]
+                }));
+            }
         }
     },
 
@@ -199,6 +205,15 @@ export default {
      */
     [types.SELECT_BROWSER_ITEM]: (state, payload) => {
         state.selectedItems.push(payload);
+    },
+
+    /**
+     * Select browser items
+     * @param state
+     * @param payload the items
+     */
+    [types.SELECT_BROWSER_ITEMS]: (state, payload) => {
+        state.selectedItems = payload;
     },
 
     /**
@@ -309,5 +324,27 @@ export default {
      */
     [types.HIDE_RENAME_MODAL]: (state) => {
         state.showRenameModal = false;
+    },
+
+    /**
+     * Increase the size of the grid items
+     * @param state
+     */
+    [types.INCREASE_GRID_SIZE]: (state) => {
+        let currentSizeIndex = gridItemSizes.indexOf(state.gridSize);
+        if (currentSizeIndex >= 0 && currentSizeIndex < gridItemSizes.length - 1) {
+            state.gridSize = gridItemSizes[++currentSizeIndex];
+        }
+    },
+
+    /**
+     * Increase the size of the grid items
+     * @param state
+     */
+    [types.DECREASE_GRID_SIZE]: (state) => {
+        let currentSizeIndex = gridItemSizes.indexOf(state.gridSize);
+        if (currentSizeIndex > 0 && currentSizeIndex < gridItemSizes.length) {
+            state.gridSize = gridItemSizes[--currentSizeIndex];
+        }
     },
 }
