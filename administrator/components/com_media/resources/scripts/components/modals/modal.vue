@@ -28,6 +28,11 @@
 
     export default {
         name: 'media-modal',
+        data() {
+		    return {
+			    showCloseButton: true,
+		    }
+	    },
         props: {
             /* Whether or not the close button in the header should be shown */
             showClose: {
