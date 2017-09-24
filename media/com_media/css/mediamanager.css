@@ -67,6 +67,8 @@
     background-color: #fff; }
     .breadcrumb-item:last-of-type:after {
       border-left-color: #fff; }
+  .breadcrumb-item:hover {
+    color: #2E5A84; }
 
 .breadcrumb-item, .media-breadcrumb {
   position: relative; }
@@ -518,6 +520,7 @@
 
 .media-loader {
   position: absolute;
+  z-index: 10;
   bottom: 0;
   left: 0;
   right: 100%;
