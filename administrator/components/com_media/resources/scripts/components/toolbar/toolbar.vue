@@ -69,7 +69,7 @@
             },
             selectAll() {
             	const allItems = [
-            		...this.$store.getters.getSelectedDirectoryDirectories,
+            	    ...this.$store.getters.getSelectedDirectoryDirectories,
                     ...this.$store.getters.getSelectedDirectoryFiles
                 ];
                 this.$store.commit(types.SELECT_BROWSER_ITEMS, allItems);
