@@ -53,9 +53,7 @@
                 return (this.$store.state.listView === 'grid');
             },
             allItemsSelected() {
-                return this.$store.state.selectedItems.length ===
-                    (this.$store.getters.getSelectedDirectoryDirectories.length
-                        + this.$store.getters.getSelectedDirectoryFiles.length);
+                return (this.$store.getters.getSelectedDirectoryContents.length === this.$store.state.selectedItems.length);
             }
         },
         methods: {
@@ -87,15 +85,8 @@
                 if (this.allItemsSelected) {
                     this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
                 } else {
-                    this.$store.commit(types.SELECT_BROWSER_ITEMS, [
-                        ...this.$store.getters.getSelectedDirectoryDirectories,
-                        ...this.$store.getters.getSelectedDirectoryFiles
-                    ]);
+                    this.$store.commit(types.SELECT_BROWSER_ITEMS, this.$store.getters.getSelectedDirectoryContents);
                 }
-
-            },
-            selectNone() {
-
             },
             isGridSize(size) {
                 return (this.$store.state.gridSize === size);
