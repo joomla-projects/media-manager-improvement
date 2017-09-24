@@ -1,6 +1,7 @@
 import Directory from "./directory.vue";
 import File from "./file.vue";
 import Image from "./image.vue";
+import Video from "./video.vue";
 import Row from "./row.vue";
 import * as types from "./../../../store/mutation-types";
 
@@ -21,6 +22,7 @@ export default {
             }
 
             let imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+	        let videoExtensions = ['mp4'];
 
             // Render directory items
             if (item.type === 'dir') return Directory;
@@ -30,8 +32,27 @@ export default {
                 return Image;
             }
 
+	        // Render video items
+	        if (item.extension && videoExtensions.indexOf(item.extension.toLowerCase()) !== -1) {
+		        return Video;
+	        }
+
             // Default to file type
             return File;
+        }
+
+        /**
+         * Get the styles for the media browser item
+         * @returns {{}}
+         */
+        function styles() {
+		if (store.state.listView == 'table') {
+		        return {};
+	        }
+
+	        return {
+			        'width': 'calc(' + store.state.gridSize + '% - 20px)',
+	        };
         }
 
         /**
