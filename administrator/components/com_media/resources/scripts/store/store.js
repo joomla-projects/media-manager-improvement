@@ -15,7 +15,8 @@ const persistedStateOptions = {
         'showInfoBar',
         'listView',
         'gridSize',
-    ]
+    ],
+    storage: window.sessionStorage,
 };
 
 // A Vuex instance is created by combining the state, mutations, actions,
