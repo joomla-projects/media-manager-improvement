@@ -54,11 +54,9 @@
                 return (this.$store.state.listView === 'grid');
             },
             allSelected() {
-                let allCount =
-                    this.$store.getters.getSelectedDirectoryDirectories.length
-                    + this.$store.getters.getSelectedDirectoryFiles.length;
-
-                return this.$store.state.selectedItems.length == allCount;
+                return this.$store.state.selectedItems.length ==
+                    (this.$store.getters.getSelectedDirectoryDirectories.length
+	                + this.$store.getters.getSelectedDirectoryFiles.length);
             }
         },
         methods: {
