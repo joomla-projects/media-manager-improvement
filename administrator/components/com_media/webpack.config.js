@@ -1,8 +1,12 @@
 var path = require('path')
 var webpack = require('webpack')
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-    entry: './resources/scripts/mediamanager.js',
+    entry: [
+        './resources/scripts/mediamanager.js',
+        './resources/styles/mediamanager.scss',
+    ],
     output: {
         path: path.resolve(__dirname, './../../../media/com_media/js'),
         publicPath: '/',
@@ -35,9 +39,19 @@ module.exports = {
                 options: {
                     name: '[name].[ext]?[hash]'
                 }
+            },
+            {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
             }
         ]
     },
+    plugins: [
+        new ExtractTextPlugin({
+            filename: './../../../media/com_media/css/mediamanager.css',
+            allChunks: true,
+        }),
+    ],
     resolve: {
         alias: {
             'vue$': 'vue/dist/vue.esm.js'
