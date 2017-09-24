@@ -1,15 +1,36 @@
 <template>
     <div class="media-toolbar">
-    <div class="media-loader" v-if="isLoading"></div>
+        <div class="media-loader" v-if="isLoading"></div>
         <media-breadcrumb></media-breadcrumb>
         <div class="media-view-icons">
-            <a href="#" class="media-toolbar-icon" @click.stop.prevent="changeListView()">
+            <a href="#" class="media-toolbar-icon media-toolbar-decrease-grid-size"
+               v-if="isGridView"
+               :class="{disabled: isGridSize('xs')}"
+               @click.stop.prevent="decreaseGridSize()">
+                <span class="fa fa-minus" aria-hidden="true"></span>
+            </a>
+            <a href="#" class="media-toolbar-icon media-toolbar-increase-grid-size"
+               v-if="isGridView"
+               :class="{disabled: isGridSize('xl')}"
+               @click.stop.prevent="increaseGridSize()">
+                <span class="fa fa-plus" aria-hidden="true"></span>
+            </a>
+            <a href="#" class="media-toolbar-icon media-toolbar-select-all"
+               @click.stop.prevent="selectAll()" v-if="!allSelected">
+                <span class="fa fa-check-square-o" aria-hidden="true"></span>
+            </a>
+            <a href="#" class="media-toolbar-icon media-toolbar-select-none"
+               @click.stop.prevent="selectNone()" v-if="allSelected">
+                <span class="fa fa-square-o" aria-hidden="true"></span>
+            </a>
+            <a href="#" class="media-toolbar-icon media-toolbar-list-view"
+               @click.stop.prevent="changeListView()">
                 <span :class="toggleListViewBtnIcon" aria-hidden="true"></span>
             </a>
-            <a href="#" class="media-toolbar-icon" @click.stop.prevent="toggleInfoBar">
+            <a href="#" class="media-toolbar-icon media-toolbar-info"
+               @click.stop.prevent="toggleInfoBar">
                 <span class="fa fa-info" aria-hidden="true"></span>
             </a>
-
         </div>
     </div>
 </template>
@@ -19,15 +40,23 @@
 
     export default {
         name: 'media-toolbar',
+        data() {
+            return {
+                allSelected: false,
+            }
+        },
         computed: {
             toggleListViewBtnIcon() {
-                return (this.$store.state.listView === 'grid') ? 'fa fa-list' : 'fa fa-th';
+                return (this.isGridView) ? 'fa fa-list' : 'fa fa-th';
             },
             isLoading() {
                 return this.$store.state.isLoading;
             },
             atLeastOneItemSelected() {
                 return this.$store.state.selectedItems.length > 0;
+            },
+            isGridView() {
+                return (this.$store.state.listView === 'grid');
             }
         },
         methods: {
@@ -38,12 +67,40 @@
                     this.$store.commit(types.SHOW_INFOBAR);
                 }
             },
+            decreaseGridSize() {
+                if (!this.isGridSize('xs')) {
+                    this.$store.commit(types.DECREASE_GRID_SIZE);
+                }
+            },
+            increaseGridSize() {
+                if (!this.isGridSize('xl')) {
+                    this.$store.commit(types.INCREASE_GRID_SIZE);
+                }
+            },
             changeListView() {
                 if (this.$store.state.listView === 'grid') {
                     this.$store.commit(types.CHANGE_LIST_VIEW, 'table');
                 } else {
                     this.$store.commit(types.CHANGE_LIST_VIEW, 'grid');
                 }
+            },
+            selectAll() {
+                this.allSelected = true;
+                
+                const allItems = [
+                    ...this.$store.getters.getSelectedDirectoryDirectories,
+                    ...this.$store.getters.getSelectedDirectoryFiles
+                ];
+
+                this.$store.commit(types.SELECT_BROWSER_ITEMS, allItems);
+            },
+            selectNone() {
+                this.allSelected = false;
+                
+                this.$store.commit(types.SELECT_BROWSER_ITEMS, []);
+            },
+            isGridSize(size) {
+                return (this.$store.state.gridSize === size);
             }
         }
     }
