@@ -5,14 +5,17 @@
         <div class="media-view-icons">
             <a href="#" class="media-toolbar-icon media-toolbar-decrease-grid-size"
                v-if="isGridView"
+               :class="{disabled: isGridSize('xs')}"
                @click.stop.prevent="decreaseGridSize()">
                 <span class="fa fa-minus" aria-hidden="true"></span>
             </a>
             <a href="#" class="media-toolbar-icon media-toolbar-increase-grid-size"
                v-if="isGridView"
+               :class="{disabled: isGridSize('xl')}"
                @click.stop.prevent="increaseGridSize()">
                 <span class="fa fa-plus" aria-hidden="true"></span>
             </a>
+
             <a href="#" class="media-toolbar-icon" @click.stop.prevent="changeListView()">
                 <span :class="toggleListViewBtnIcon" aria-hidden="true"></span>
             </a>
@@ -51,10 +54,14 @@
                 }
             },
             decreaseGridSize() {
-                this.$store.commit(types.DECREASE_GRID_SIZE);
+                if (!this.isGridSize('xs')) {
+                    this.$store.commit(types.DECREASE_GRID_SIZE);
+                }
             },
             increaseGridSize() {
-                this.$store.commit(types.INCREASE_GRID_SIZE);
+                if (!this.isGridSize('xl')) {
+                    this.$store.commit(types.INCREASE_GRID_SIZE);
+                }
             },
             changeListView() {
                 if (this.$store.state.listView === 'grid') {
@@ -62,6 +69,9 @@
                 } else {
                     this.$store.commit(types.CHANGE_LIST_VIEW, 'grid');
                 }
+            },
+            isGridSize(size) {
+                return (this.$store.state.gridSize === size);
             }
         }
     }
