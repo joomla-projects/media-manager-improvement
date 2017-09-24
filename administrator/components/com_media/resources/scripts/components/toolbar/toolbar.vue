@@ -1,12 +1,16 @@
 <template>
     <div class="media-toolbar">
-    <div class="media-loader" v-if="isLoading"></div>
+        <div class="media-loader" v-if="isLoading"></div>
         <media-breadcrumb></media-breadcrumb>
         <div class="media-view-icons">
-            <a href="#" class="media-toolbar-icon media-toolbar-decrease-grid-size" @click.stop.prevent="decreaseGridSize()">
+            <a href="#" class="media-toolbar-icon media-toolbar-decrease-grid-size"
+               v-if="isGridView"
+               @click.stop.prevent="decreaseGridSize()">
                 <span class="fa fa-minus" aria-hidden="true"></span>
             </a>
-            <a href="#" class="media-toolbar-icon media-toolbar-increase-grid-size" @click.stop.prevent="increaseGridSize()">
+            <a href="#" class="media-toolbar-icon media-toolbar-increase-grid-size"
+               v-if="isGridView"
+               @click.stop.prevent="increaseGridSize()">
                 <span class="fa fa-plus" aria-hidden="true"></span>
             </a>
             <a href="#" class="media-toolbar-icon" @click.stop.prevent="changeListView()">
@@ -26,13 +30,16 @@
         name: 'media-toolbar',
         computed: {
             toggleListViewBtnIcon() {
-                return (this.$store.state.listView === 'grid') ? 'fa fa-list' : 'fa fa-th';
+                return (this.isGridView) ? 'fa fa-list' : 'fa fa-th';
             },
             isLoading() {
                 return this.$store.state.isLoading;
             },
             atLeastOneItemSelected() {
                 return this.$store.state.selectedItems.length > 0;
+            },
+            isGridView() {
+                return (this.$store.state.listView === 'grid');
             }
         },
         methods: {
