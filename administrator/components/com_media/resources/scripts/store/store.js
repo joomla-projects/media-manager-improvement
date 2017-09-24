@@ -9,7 +9,7 @@ import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex)
 
 const persistedStateOptions = {
-    key: 'cookie-monster',
+    key: 'joomla.mediamanager',
     paths: [
         'selectedDirectory',
         'showInfoBar',
