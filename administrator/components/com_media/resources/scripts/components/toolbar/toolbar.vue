@@ -40,11 +40,11 @@
 
     export default {
         name: 'media-toolbar',
-	    data() {
-		    return {
-			    allSelected: false,
-		    }
-	    },
+        data() {
+            return {
+                allSelected: false,
+            }
+        },
         computed: {
             toggleListViewBtnIcon() {
                 return (this.isGridView) ? 'fa fa-list' : 'fa fa-th';
@@ -85,8 +85,8 @@
                 }
             },
             selectAll() {
-            	this.allSelected = true;
-            	
+                this.allSelected = true;
+                
                 const allItems = [
                     ...this.$store.getters.getSelectedDirectoryDirectories,
                     ...this.$store.getters.getSelectedDirectoryFiles
@@ -95,8 +95,8 @@
                 this.$store.commit(types.SELECT_BROWSER_ITEMS, allItems);
             },
             selectNone() {
-	            this.allSelected = false;
-	            
+                this.allSelected = false;
+                
                 this.$store.commit(types.SELECT_BROWSER_ITEMS, []);
             },
             isGridSize(size) {
