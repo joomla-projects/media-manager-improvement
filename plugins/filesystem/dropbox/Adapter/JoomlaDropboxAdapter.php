@@ -496,7 +496,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function search($path = '/', $needle, $recursive)
+	public function search($path, $needle, $recursive)
 	{
 		return [];
 	}

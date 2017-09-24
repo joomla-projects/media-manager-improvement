@@ -366,7 +366,7 @@ class LocalAdapter implements AdapterInterface
 	public function copy($sourcePath, $destinationPath, $force = false)
 	{
 		// Get absolute paths from relative paths
-		$sourcePath = \JPath::clean($this->rootPath . $sourcePath,'/');
+		$sourcePath = \JPath::clean($this->rootPath . $sourcePath, '/');
 		$destinationPath = \JPath::clean($this->rootPath . $destinationPath, '/');
 
 		if (!file_exists($sourcePath))
@@ -465,7 +465,7 @@ class LocalAdapter implements AdapterInterface
 	public function move($sourcePath, $destinationPath, $force = false)
 	{
 		// Get absolute paths from relative paths
-		$sourcePath = \JPath::clean($this->rootPath . $sourcePath,'/');
+		$sourcePath = \JPath::clean($this->rootPath . $sourcePath, '/');
 		$destinationPath = \JPath::clean($this->rootPath . $destinationPath, '/');
 
 		if (!file_exists($sourcePath))
@@ -599,7 +599,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function search($path = '/', $needle, $recursive)
+	public function search($path, $needle, $recursive)
 	{
 		$pattern = \JPath::clean($this->rootPath . '/' . $path . '/*' . $needle . '*');
 
