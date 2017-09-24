@@ -3,13 +3,18 @@
     <div class="media-loader" v-if="isLoading"></div>
         <media-breadcrumb></media-breadcrumb>
         <div class="media-view-icons">
+            <a href="#" class="media-toolbar-icon media-toolbar-decrease-grid-size" @click.stop.prevent="decreaseGridSize()">
+                <span class="fa fa-minus" aria-hidden="true"></span>
+            </a>
+            <a href="#" class="media-toolbar-icon media-toolbar-increase-grid-size" @click.stop.prevent="increaseGridSize()">
+                <span class="fa fa-plus" aria-hidden="true"></span>
+            </a>
             <a href="#" class="media-toolbar-icon" @click.stop.prevent="changeListView()">
                 <span :class="toggleListViewBtnIcon" aria-hidden="true"></span>
             </a>
             <a href="#" class="media-toolbar-icon" @click.stop.prevent="toggleInfoBar">
                 <span class="fa fa-info" aria-hidden="true"></span>
             </a>
-
         </div>
     </div>
 </template>
@@ -37,6 +42,12 @@
                 } else {
                     this.$store.commit(types.SHOW_INFOBAR);
                 }
+            },
+            decreaseGridSize() {
+                this.$store.commit(types.DECREASE_GRID_SIZE);
+            },
+            increaseGridSize() {
+                this.$store.commit(types.INCREASE_GRID_SIZE);
             },
             changeListView() {
                 if (this.$store.state.listView === 'grid') {
