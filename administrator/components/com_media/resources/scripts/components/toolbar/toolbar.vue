@@ -16,8 +16,12 @@
                 <span class="fa fa-plus" aria-hidden="true"></span>
             </a>
             <a href="#" class="media-toolbar-icon media-toolbar-select-all"
-               @click.stop.prevent="selectAll()">
-                <span :class="toggleListViewBtnIcon" aria-hidden="true"></span>
+               @click.stop.prevent="selectAll()" v-if="!allSelected">
+                <span class="fa fa-check-square-o" aria-hidden="true"></span>
+            </a>
+            <a href="#" class="media-toolbar-icon media-toolbar-select-none"
+               @click.stop.prevent="selectNone()" v-if="allSelected">
+                <span class="fa fa-square-o" aria-hidden="true"></span>
             </a>
             <a href="#" class="media-toolbar-icon media-toolbar-list-view"
                @click.stop.prevent="changeListView()">
@@ -48,6 +52,12 @@
             },
             isGridView() {
                 return (this.$store.state.listView === 'grid');
+            },
+            allSelected() {
+                let allCount = this.$store.getters.getSelectedDirectoryDirectories.length;
+                allCount = allCount + this.$store.getters.getSelectedDirectoryFiles.length;
+
+                return this.$store.state.selectedItems.length == allCount;
             }
         },
         methods: {
@@ -79,9 +89,12 @@
                 const allItems = [
                     ...this.$store.getters.getSelectedDirectoryDirectories,
                     ...this.$store.getters.getSelectedDirectoryFiles
-                ]
+                ];
 
                 this.$store.commit(types.SELECT_BROWSER_ITEMS, allItems);
+            },
+            selectNone() {
+                this.$store.commit(types.SELECT_BROWSER_ITEMS, []);
             },
             isGridSize(size) {
                 return (this.$store.state.gridSize === size);
