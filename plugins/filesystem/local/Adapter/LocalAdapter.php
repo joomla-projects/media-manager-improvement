@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
-use Joomla\Filesystem\Path;
 use Joomla\Image\Image;
 use Joomla\CMS\Uri\Uri;
 
@@ -311,7 +310,7 @@ class LocalAdapter implements AdapterInterface
 			$obj->height = $props->height;
 
 			// Todo : Change this path to an actual thumbnail path
-			$obj->thumb_path = ($this->getUrl($obj->path));
+			$obj->thumb_path = $this->getUrl($obj->path);
 		}
 
 		return $obj;
@@ -574,7 +573,7 @@ class LocalAdapter implements AdapterInterface
 	 */
 	public function getUrl($path)
 	{
-		return Uri::root() . Path::clean($this->getEncodedPath($this->filePath . $path));
+		return Uri::root() . \JPath::clean($this->getEncodedPath($this->filePath . $path));
 	}
 
 	/**
