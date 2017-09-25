@@ -129,11 +129,14 @@
     top: 0;
     margin-bottom: 3px;
     opacity: 0;
-    transition: all .2s ease;
+    transition: all 0s ease;
     transition-delay: 0s;
+    visibility: hidden;
     .media-browser-actions.active & {
       top: 0;
       opacity: 1;
+      visibility: visible; 
+      transition-duration: .2s;
       &:first-of-type {
         transition-delay: .1s;
       }
@@ -195,6 +198,9 @@
 }
 
 .file-icon, .folder-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: 0;
   left: 0;
