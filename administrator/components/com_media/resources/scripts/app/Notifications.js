@@ -26,6 +26,7 @@ class Notifications {
         const alert = document.createElement('joomla-alert');
         alert.setAttribute('level', options.level || 'info');
         alert.setAttribute('dismiss', options.dismiss || true);
+        alert.setAttribute('auto-dismiss', options.autoDismiss || true);
         alert.innerHTML = Joomla.JText._(message, message) || '';
 
         const messageContainer = document.getElementById('system-message');
