@@ -1,6 +1,6 @@
 import {api} from "../app/Api";
-import {notifications} from "../app/Notifications";
 import * as types from "./mutation-types";
+import {notifications} from "../app/Notifications";
 
 // Actions are similar to mutations, the difference being that:
 // - Instead of mutating the state, actions commit mutations.
@@ -106,27 +106,22 @@ export const createDirectory = (context, payload) => {
  * @param payload object with the new folder name and its parent directory
  */
 export const uploadFile = (context, payload) => {
-
-    const exists = context.state.files.some((file) => {
-        return (file.directory === payload.parent && file.name === payload.name)
-    });
-    let override = false;
-
-    // Ask the user if he wants to override the existing file
-    if (exists) {
-        override = notifications.ask('"' + payload.name + '" does already exist. Do you want to override it?', {});
-    }
-
     context.commit(types.SET_IS_LOADING, true);
-    api.upload(payload.name, payload.parent, payload.content, override)
+    api.upload(payload.name, payload.parent, payload.content, payload.override || false)
         .then(file => {
             context.commit(types.UPLOAD_SUCCESS, file);
             context.commit(types.SET_IS_LOADING, false);
         })
         .catch(error => {
-            // TODO error handling
             context.commit(types.SET_IS_LOADING, false);
-            console.log("error", error);
+
+            // Handle file exists
+            if (error.status === 409) {
+                if (notifications.ask('"' + payload.name + '" does already exist. Do you want to override it?', {})) {
+                    payload.override = true;
+                    uploadFile(context, payload);
+                }
+            }
         })
 }
 

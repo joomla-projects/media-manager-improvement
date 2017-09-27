@@ -101,7 +101,7 @@ class Api {
             };
 
             // Append override
-            if(override === true) {
+            if (override === true) {
                 data.override = true;
             }
 
@@ -115,7 +115,6 @@ class Api {
                     resolve(this._normalizeItem(JSON.parse(response).data))
                 },
                 onError: (xhr) => {
-                    notifications.error('COM_MEDIA_UPDLOAD_ERROR');
                     reject(xhr)
                 }
             });
@@ -233,6 +232,9 @@ class Api {
      */
     _handleError(error) {
         switch (error.status) {
+            case 409:
+                // Handled in consumer
+                break;
             case 404:
                 notifications.error('COM_MEDIA_ERROR_NOT_FOUND');
                 break;
