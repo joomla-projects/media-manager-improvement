@@ -169,7 +169,7 @@ class ApiModel extends BaseModel
 	{
 		try
 		{
-			$file = $this->getFile($adapter, $path);
+			$file = $this->getFile($adapter, $path . '/' . $name);
 		}
 		catch (FileNotFoundException $e)
 		{}
@@ -203,7 +203,7 @@ class ApiModel extends BaseModel
 	{
 		try
 		{
-			$file = $this->getFile($adapter, $path);
+			$file = $this->getFile($adapter, $path . '/' . $name);
 		}
 		catch (FileNotFoundException $e)
 		{}
