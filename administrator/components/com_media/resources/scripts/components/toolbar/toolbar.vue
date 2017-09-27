@@ -1,6 +1,12 @@
 <template>
     <div class="media-toolbar">
         <div class="media-loader" v-if="isLoading"></div>
+        <div class="media-view-icons">
+            <a href="#" class="media-toolbar-icon media-toolbar-select-all"
+               @click.stop.prevent="toggleSelectAll()">
+                <span :class="toggleSelectAllBtnIcon" aria-hidden="true"></span>
+            </a>
+        </div>
         <media-breadcrumb></media-breadcrumb>
         <div class="media-view-icons">
             <a href="#" class="media-toolbar-icon media-toolbar-decrease-grid-size"
@@ -14,10 +20,6 @@
                :class="{disabled: isGridSize('xl')}"
                @click.stop.prevent="increaseGridSize()">
                 <span class="fa fa-plus" aria-hidden="true"></span>
-            </a>
-            <a href="#" class="media-toolbar-icon media-toolbar-select-all"
-               @click.stop.prevent="toggleSelectAll()">
-                <span :class="toggleSelectAllBtnIcon" aria-hidden="true"></span>
             </a>
             <a href="#" class="media-toolbar-icon media-toolbar-list-view"
                @click.stop.prevent="changeListView()">
