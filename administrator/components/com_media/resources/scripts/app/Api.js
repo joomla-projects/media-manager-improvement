@@ -87,9 +87,10 @@ class Api {
      * @param name
      * @param parent
      * @param content base64 encoded string
+     * @param override boolean whether or not we should override existing files
      * @return {Promise.<T>}
      */
-    upload(name, parent, content) {
+    upload(name, parent, content, override) {
         // Wrap the jquery call into a real promise
         return new Promise((resolve, reject) => {
             const url = this._baseUrl + '&task=api.files&path=' + parent;
@@ -98,6 +99,11 @@ class Api {
                 name: name,
                 content: content,
             };
+
+            // Append override
+            if(override === true) {
+                data.override = true;
+            }
 
             Joomla.request({
                 url: url,

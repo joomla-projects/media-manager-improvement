@@ -1,10 +1,12 @@
 import {api} from "../app/Api";
+import {notifications} from "../app/Notifications";
 import * as types from "./mutation-types";
 
 // Actions are similar to mutations, the difference being that:
 // - Instead of mutating the state, actions commit mutations.
 // - Actions can contain arbitrary asynchronous operations.
 
+// TODO move to utils
 function updateUrlPath(path) {
     if (path == null) {
         path = '';
@@ -44,6 +46,11 @@ export const getContents = (context, payload) => {
         });
 }
 
+/**
+ * Get the full contents of a directory
+ * @param context
+ * @param payload
+ */
 export const getFullContents = (context, payload) => {
     context.commit(types.SET_IS_LOADING, true);
     api.getContents(payload.path, 1)
@@ -99,8 +106,19 @@ export const createDirectory = (context, payload) => {
  * @param payload object with the new folder name and its parent directory
  */
 export const uploadFile = (context, payload) => {
+
+    const exists = context.state.files.some((file) => {
+        return (file.directory === payload.parent && file.name === payload.name)
+    });
+    let override = false;
+
+    // Ask the user if he wants to override the existing file
+    if (exists) {
+        override = notifications.ask('"' + payload.name + '" does already exist. Do you want to override it?', {});
+    }
+
     context.commit(types.SET_IS_LOADING, true);
-    api.upload(payload.name, payload.parent, payload.content)
+    api.upload(payload.name, payload.parent, payload.content, override)
         .then(file => {
             context.commit(types.UPLOAD_SUCCESS, file);
             context.commit(types.SET_IS_LOADING, false);
