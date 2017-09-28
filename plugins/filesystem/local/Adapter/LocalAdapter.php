@@ -366,7 +366,7 @@ class LocalAdapter implements AdapterInterface
 	public function copy($sourcePath, $destinationPath, $force = false)
 	{
 		// Get absolute paths from relative paths
-		$sourcePath = \JPath::clean($this->rootPath . $sourcePath,'/');
+		$sourcePath = \JPath::clean($this->rootPath . $sourcePath, '/');
 		$destinationPath = \JPath::clean($this->rootPath . $destinationPath, '/');
 
 		if (!file_exists($sourcePath))
@@ -465,7 +465,7 @@ class LocalAdapter implements AdapterInterface
 	public function move($sourcePath, $destinationPath, $force = false)
 	{
 		// Get absolute paths from relative paths
-		$sourcePath = \JPath::clean($this->rootPath . $sourcePath,'/');
+		$sourcePath = \JPath::clean($this->rootPath . $sourcePath, '/');
 		$destinationPath = \JPath::clean($this->rootPath . $destinationPath, '/');
 
 		if (!file_exists($sourcePath))
@@ -573,7 +573,7 @@ class LocalAdapter implements AdapterInterface
 	 */
 	public function getUrl($path)
 	{
-		return Uri::root() . $this->getEncodedPath($this->filePath . $path);
+		return Uri::root() . \JPath::clean($this->getEncodedPath($this->filePath . $path));
 	}
 
 	/**
@@ -599,7 +599,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function search($path = '/', $needle, $recursive)
+	public function search($path, $needle, $recursive)
 	{
 		$pattern = \JPath::clean($this->rootPath . '/' . $path . '/*' . $needle . '*');
 
@@ -647,7 +647,7 @@ class LocalAdapter implements AdapterInterface
 	 * Returns a temporary url for the given path.
 	 * This is used internally in media manager
 	 *
-	 * @param   string $path The path to file
+	 * @param   string  $path  The path to file
 	 *
 	 * @return string
 	 *
