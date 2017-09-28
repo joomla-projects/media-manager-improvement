@@ -226,6 +226,7 @@
 }
 
 .media-dragoutline {
+  z-index: 1040;
   visibility: hidden;
   display: flex;
   flex-direction: column;
@@ -236,7 +237,6 @@
   right: 6px;
   bottom: 1px;
   left: 6px;
-  z-index: 1040;
   content: "";
   background-color: rgba(245, 245, 245, .8);
   border: 3px dashed #999;
