@@ -1,16 +1,15 @@
 .media-infobar {
   background-color: #fafafa;
+  top: 47px;
+  right: 0;
+  z-index: 4;
+  width: 25%;
+  padding: 15px;
   overflow: hidden;
   position: absolute;
-  right: 0;
-  top: 47px;
   bottom: 0;
-  z-index: 4;
   float: none;
-  padding: 0;
-  width: 25%;
   border-left: 1px solid #ccc;
-  padding: 15px;
   h2 {
     padding: 0 15px;
     margin: -15px -15px 15px;

@@ -201,9 +201,9 @@
 
 .image-cropped {
   padding-bottom: 100%;
+  background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  background-repeat: no-repeat;
   border-radius: $grid-item-border-radius;
 }
 
@@ -219,9 +219,9 @@
   align-items: center;
   position: absolute;
   top: 0;
-  left: 0;
   right: 0;
   bottom: 0;
+  left: 0;
   color: #BBB;
 }
 
@@ -233,9 +233,9 @@
   justify-content: center;
   position: absolute;
   top: 6px;
-  left: 6px;
   right: 6px;
   bottom: 1px;
+  left: 6px;
   z-index: 1040;
   content: "";
   background-color: rgba(245, 245, 245, .8);
