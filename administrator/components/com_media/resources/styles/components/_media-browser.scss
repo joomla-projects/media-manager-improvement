@@ -4,7 +4,7 @@
   height: calc(100% - 52px);
   overflow-y: auto;
   width: 75%;
-  transition: width .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition: width .3s cubic-bezier(.4, .0, .2, 1);
 }
 
 // Grid View
@@ -52,14 +52,14 @@
   &::after {
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
     content: "";
     background-color: $grid-item-hover-color;
     border-radius: $grid-item-border-radius;
     opacity: 0;
-    transition: opacity .2s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transition: opacity .2s cubic-bezier(.4, .0, .2, 1);
     .media-browser-item:hover &, .selected & {
       opacity: 1;
     }
@@ -330,13 +330,13 @@
 .media-browser-table {
   height: calc(100% - 52px);
   overflow-y: auto;
-  transition: width .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition: width .3s cubic-bezier(.4, .0, .2, 1);
   .media-browser-item {
     width: 100%;
     margin: 0;
-    border: 1px solid rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, .03);
     &:hover {
-      background-color: rgba(0, 0, 0, 0.03);
+      background-color: rgba(0, 0, 0, .03);
     }
   }
   ul {
