@@ -3,13 +3,13 @@
 	<fieldset name="Resize" label="PLG_MEDIA-ACTION_RESIZE_LABEL">
 		<field
 			name="resize_quality"
+			label="PLG_MEDIA-ACTION_RESIZE_QUALITY"
 			type="integer"
 			addonBefore="PLG_MEDIA-ACTION_RESIZE_QUALITY"
 			first="1"
 			last="100"
 			step="1"
 			default="80"
-			label="PLG_MEDIA-ACTION_RESIZE_QUALITY"
 		/>
 		<field
 			type="spacer"
@@ -19,7 +19,7 @@
 			name="resize_w"
 			type="range"
 			label="PLG_MEDIA-ACTION_CROP_PARAM_WIDTH"
-		    value="0"
+			value="0"
 		/>
 		<field
 			name="resize_h"
