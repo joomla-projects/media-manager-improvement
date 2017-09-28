@@ -1,6 +1,6 @@
 .media-breadcrumb {
   display: flex;
-  margin: 0 auto 0 0px;
+  margin: 0 auto 0 0;
   background: transparent;
   line-height: 46px;
   font-size: .9rem;
@@ -26,9 +26,9 @@
 .media-breadcrumb-item, .media-breadcrumb {
   position: relative;
   &:before, &:after {
-    content: '' !important; 
-    display: block; 
-    width: 0; 
+    content: '' !important;
+    display: block;
+    width: 0;
     height: 0;
     border-top: 23px solid transparent;
     border-bottom: 23px solid transparent;
@@ -54,7 +54,7 @@
   }
   &:after {
     border-left-color: #F5F5F5;
-  }  
+  }
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
