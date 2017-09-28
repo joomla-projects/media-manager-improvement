@@ -330,6 +330,8 @@
 .media-browser-table {
   height: calc(100% - 52px);
   overflow-y: auto;
+  font-size: .9rem;
+  line-height: 30px;
   transition: width .3s cubic-bezier(.4, .0, .2, 1);
   .media-browser-item {
     width: 100%;
@@ -351,8 +353,6 @@
     white-space: nowrap;
     overflow: hidden;
   }
-  font-size: .9rem;
-  line-height: 30px;
   .name {
     width: calc(30% - 40px);
   }
