@@ -77,14 +77,14 @@ ul.media-tree {
     margin: auto;
   }
   &:after {
-    content: '';
-    width: 1px;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.2);
     position: absolute;
     top: 0;
     bottom: 0;
     left: 15px;
+    width: 1px;
+    height: 100%;
+    content: "";
+    background-color: rgba(0, 0, 0, 0.2);
   }
   &:last-child {
     &:after {
