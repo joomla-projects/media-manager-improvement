@@ -24,13 +24,13 @@ ul.media-tree {
 }
 
 .media-disk {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .media-drive {
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.14);
   overflow-x: auto;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, .14);
   + .media-drive {
     border-top: 0;
   }
@@ -40,11 +40,11 @@ ul.media-tree {
 }
 
 .media-drive-name {
-  padding:  4px 10px;
-  &:before {
+  padding: 4px 10px;
+  &::before {
+    margin-right: 6px;
     font-family: FontAwesome;
     content: "\f114";
-    margin-right: 6px;
     opacity: .75;
   }
   &:hover {
@@ -77,7 +77,7 @@ ul.media-tree {
     margin: auto;
   }
   &:after {
-    content:'';
+    content: '';
     width: 1px;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.2);
