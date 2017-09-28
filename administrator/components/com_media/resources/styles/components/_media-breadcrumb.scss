@@ -10,6 +10,7 @@
     cursor: pointer;
   }
 }
+
 .media-breadcrumb-item {
   padding: 0 8px 0 22px;
   background-color: #fafafa;
@@ -23,12 +24,13 @@
     color: #2E5A84;
   }
 }
+
 .media-breadcrumb-item, .media-breadcrumb {
   position: relative;
   &:before, &:after {
-    content: '' !important; 
-    display: block; 
-    width: 0; 
+    content: '' !important;
+    display: block;
+    width: 0;
     height: 0;
     border-top: 23px solid transparent;
     border-bottom: 23px solid transparent;
@@ -41,7 +43,7 @@
     z-index: 2;
   }
   &:before {
-    border-left-color: rgba(0,0,0,.6);
+    border-left-color: rgba(0, 0, 0, .6);
   }
   &:after {
     border-left-color: #fafafa;
@@ -49,12 +51,12 @@
 }
 
 .media-breadcrumb {
-  &:before, &:after{
+  &:before, &:after {
     left: 0;
   }
   &:after {
     border-left-color: #F5F5F5;
-  }  
+  }
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
