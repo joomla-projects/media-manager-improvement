@@ -66,7 +66,7 @@ ul.media-tree {
 .media-tree-item {
   position: relative;
   display: block;
-  &:before {
+  &::before {
     content: '';
     height: 1px;
     width: 10px;
@@ -76,7 +76,7 @@ ul.media-tree {
     left: 15px;
     margin: auto;
   }
-  &:after {
+  &::after {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -87,7 +87,7 @@ ul.media-tree {
     background-color: rgba(0, 0, 0, .2);
   }
   &:last-child {
-    &:after {
+    &::after {
       height: 16px;
     }
   }

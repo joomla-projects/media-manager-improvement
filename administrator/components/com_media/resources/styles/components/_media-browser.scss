@@ -91,7 +91,7 @@
   .media-browser-item:hover & {
     opacity: 1;
   }
-  &:after {
+  &::after {
     position: absolute;
     top: 0;
     left: 0;
@@ -378,10 +378,10 @@
     line-height: 30px;
     background-color: rgba(0, 0, 0, 0.015);
     border-right: 1px solid rgba(0, 0, 0, 0.03);
-    &:before, &:after {
+    &::before, &::after {
       transition: all .2s cubic-bezier(0.4, 0.0, 0.2, 1);
     }
-    &:before {
+    &::before {
       font-family: FontAwesome;
       content: "\f016";
       color: #656565;
@@ -389,7 +389,7 @@
         color: white;
       }
     }
-    &:after {
+    &::after {
       position: absolute;
       top: -1px;
       left: 0;
@@ -401,7 +401,7 @@
     }
     // Folder 
     &[data-type=""] {
-      &:before {
+      &::before {
         content: "\f114";
       }
     }
@@ -413,7 +413,7 @@
     &[data-type="tiff"],
     &[data-type="bmp"],
     &[data-type="svg"] {
-      &:before {
+      &::before {
         content: "\f1c5";
       }
     }
@@ -423,7 +423,7 @@
     &[data-type="mp4"],
     &[data-type="mpg"],
     &[data-type="mpeg"] {
-      &:before {
+      &::before {
         content: "\f1c8";
       }
     }
@@ -432,7 +432,7 @@
     &[data-type="wav"],
     &[data-type="raw"],
     &[data-type="wma"] {
-      &:before {
+      &::before {
         content: "\f1c7";
       }
     }
@@ -441,14 +441,14 @@
     &[data-type="xls"],
     &[data-type="pdf"],
     &[data-type="txt"] {
-      &:before {
+      &::before {
         content: "\f0f6";
       }
     }
     // Code
     &[data-type="html"],
     &[data-type="htm"] {
-      &:before {
+      &::before {
         content: "\f1c9";
       }
     }
@@ -460,10 +460,10 @@
 
 .selected {
   .type {
-    &:before {
+    &::before {
       color: white;
     }
-    &:after {
+    &::after {
       right: 0;
     }
   }

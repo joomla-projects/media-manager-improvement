@@ -62,12 +62,12 @@
 
 .placeholder-icon.fa {
   display: block;
-  border: 2px solid #ccc;
-  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+  margin: 20px auto 15px;
+  line-height: calc(4rem - 4px);
   color: #ccc;
   font-size: 2rem;
-  height: 4rem;
-  line-height: calc(4rem - 4px);
-  margin: 20px auto 15px;
-  width: 4rem;
+  border: 2px solid #ccc;
+  border-radius: 50%;
 }
