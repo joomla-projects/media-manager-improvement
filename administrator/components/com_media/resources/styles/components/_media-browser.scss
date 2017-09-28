@@ -403,63 +403,64 @@
   }
 }
 
-
-[data-type] {
-  &::before {
-    content: "\f016";
+.type {
+  &[data-type] {
+    &::before {
+      content: "\f016";
+    }
   }
-}
-// Folder
-[data-type=""] {
-  &::before {
-    content: "\f114";
+  // Folder
+  &[data-type=""] {
+    &::before {
+      content: "\f114";
+    }
   }
-}
-// Images
-[data-type="jpg"],
-[data-type="png"],
-[data-type="gif"],
-[data-type="jpeg"],
-[data-type="tiff"],
-[data-type="bmp"],
-[data-type="svg"] {
-  &::before {
-    content: "\f1c5";
+  // Images
+  &[data-type="jpg"],
+  &[data-type="png"],
+  &[data-type="gif"],
+  &[data-type="jpeg"],
+  &[data-type="tiff"],
+  &[data-type="bmp"],
+  &[data-type="svg"] {
+    &::before {
+      content: "\f1c5";
+    }
   }
-}
-// Video
-[data-type="mov"],
-[data-type="mkv"],
-[data-type="mp4"],
-[data-type="mpg"],
-[data-type="mpeg"] {
-  &::before {
-    content: "\f1c8";
+  // Video
+  &[data-type="mov"],
+  &[data-type="mkv"],
+  &[data-type="mp4"],
+  &[data-type="mpg"],
+  &[data-type="mpeg"] {
+    &::before {
+      content: "\f1c8";
+    }
   }
-}
-// Audio
-[data-type="mp3"],
-[data-type="wav"],
-[data-type="raw"],
-[data-type="wma"] {
-  &::before {
-    content: "\f1c7";
+  // Audio
+  &[data-type="mp3"],
+  &[data-type="wav"],
+  &[data-type="raw"],
+  &[data-type="wma"] {
+    &::before {
+      content: "\f1c7";
+    }
   }
-}
-// Docs
-[data-type="doc"],
-[data-type="xls"],
-[data-type="pdf"],
-[data-type="txt"] {
-  &::before {
-    content: "\f0f6";
+  // Docs
+  &[data-type="doc"],
+  &[data-type="xls"],
+  &[data-type="pdf"],
+  &[data-type="txt"] {
+    &::before {
+      content: "\f0f6";
+    }
   }
-}
-// Code
-[data-type="html"],
-[data-type="htm"] {
-  &::before {
-    content: "\f1c9";
+  // Code
+  &[data-type="html"],
+  &[data-type="htm"] {
+    &::before {
+      content: "\f1c9";
+    }
   }
 }
 
