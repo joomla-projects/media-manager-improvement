@@ -18,9 +18,9 @@
     padding: 0 15px;
   }
   h3 {
+    padding: 3px;
     text-align: center;
     opacity: .6;
-    padding: 3px;
   }
 }
 
@@ -30,9 +30,9 @@
   justify-content: space-around;
   .btn {
     width: 100%;
-    background-color: #fff;
-    border-color: rgba(0, 0, 0, 0.14);
     font-size: .9rem;
+    background-color: #fff;
+    border-color: rgba(0, 0, 0, .14);
     // line-height: 1rem;
     &:hover, &.active, &:focus {
       color: inherit;
