@@ -83,7 +83,7 @@
                 // Rename the item
                 this.$store.dispatch('renameItem', {
                     path: this.item.path,
-                    newPath: this.item.directory + this.item.name,
+                    newPath: this.item.directory + '/' + this.item.name,
                 });
 
                 this.originalName = '';
