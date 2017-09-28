@@ -129,10 +129,10 @@ ul.media-tree {
 }
 
 .item-name {
+  display: inline-block;
   overflow: hidden;
   font-size: .9em;
   text-overflow: ellipsis;
-  display: inline-block;
   vertical-align: middle;
   white-space: nowrap;
 }
