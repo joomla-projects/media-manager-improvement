@@ -46,12 +46,12 @@
 
 .infobar-close {
   position: absolute;
-  right: 0;
   top: 0;
+  right: 0;
   padding: 0 15px;
-  color: #ccc;
   font-size: 2.6rem;
   line-height: 3.6rem;
+  color: #ccc;
   text-indent: 0;
   text-shadow: none;
   &:hover {
@@ -65,9 +65,9 @@
   width: 4rem;
   height: 4rem;
   margin: 20px auto 15px;
+  font-size: 2rem;
   line-height: calc(4rem - 4px);
   color: #ccc;
-  font-size: 2rem;
   border: 2px solid #ccc;
   border-radius: 50%;
 }

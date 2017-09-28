@@ -1,10 +1,10 @@
 /* Media Tree */
 
 ul.media-tree {
-  list-style: none;
   padding: 0 0 5px;
   margin: 0;
   overflow-x: visible;
+  list-style: none;
   ul {
     margin-left: 2px;
   }
@@ -70,7 +70,7 @@ ul.media-tree {
     content: '';
     height: 1px;
     width: 10px;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, .2);
     position: absolute;
     top: 16px;
     left: 15px;
@@ -100,8 +100,8 @@ ul.media-tree {
   display: block;
   padding: 0 7px;
   cursor: pointer;
-  text-decoration: none;
   line-height: 26px;
+  text-decoration: none;
   white-space: nowrap;
 }
 

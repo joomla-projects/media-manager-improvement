@@ -376,30 +376,30 @@
     text-align: center;
     font-size: 1.2rem;
     line-height: 30px;
-    background-color: rgba(0, 0, 0, 0.015);
-    border-right: 1px solid rgba(0, 0, 0, 0.03);
+    background-color: rgba(0, 0, 0, .015);
+    border-right: 1px solid rgba(0, 0, 0, .03);
     &::before, &::after {
-      transition: all .2s cubic-bezier(0.4, 0.0, 0.2, 1);
+      transition: all .2s cubic-bezier(.4, .0, .2, 1);
     }
     &::before {
       font-family: FontAwesome;
-      content: "\f016";
       color: #656565;
+      content: "\f016";
       .selected & {
-        color: white;
+        color: #fff;
       }
     }
     &::after {
       position: absolute;
       top: -1px;
-      left: 0;
       right: 100%;
       bottom: -1px;
+      left: 0;
       z-index: -1;
       content: "";
       background-color: #006898;
     }
-    // Folder 
+    // Folder
     &[data-type=""] {
       &::before {
         content: "\f114";
@@ -461,7 +461,7 @@
 .selected {
   .type {
     &::before {
-      color: white;
+      color: #fff;
     }
     &::after {
       right: 0;
