@@ -6,6 +6,9 @@ const nodePath = require('path');
 // Mutations are very similar to events: each mutation has a string type and a handler.
 // The handler function is where we perform actual state modifications, and it will receive the state as the first argument.
 
+// The grid item sizes
+const gridItemSizes = ['xs', 'sm', 'md', 'lg', 'xl'];
+
 export default {
 
     /**
@@ -24,21 +27,26 @@ export default {
      */
     [types.LOAD_CONTENTS_SUCCESS]: (state, payload) => {
 
-        const newDirectories = payload.directories
-            .filter(directory => (!state.directories.some(existing => (existing.path === directory.path))));
-        const newFiles = payload.files
-            .filter(file => (!state.files.some(existing => (existing.path === file.path))));
-
         /**
          * Create the directory structure
          * @param path
          */
         function createDirectoryStructureFromPath(path) {
             const exists = state.directories.some(existing => (existing.path === path));
-            const directory = directoryFromPath(path);
-            if (!exists && directory.directory) {
-                createDirectoryStructureFromPath(directory.directory);
+            if (!exists) {
+                const directory = directoryFromPath(path);
+
+                // Add the sub directories and files
+                directory.directories = state.directories
+                    .filter((existing) => existing.directory === directory.path)
+                    .map((existing) => existing.path);
+
+                // Add the directory
                 state.directories.push(directory);
+
+                if (directory.directory) {
+                    createDirectoryStructureFromPath(directory.directory);
+                }
             }
         }
 
@@ -58,49 +66,71 @@ export default {
                 directories: [],
                 files: [],
                 directory: (directory !== '.') ? directory : null,
+                type: 'dir',
+                mime_type: 'directory',
             }
         }
 
-        // Merge the directories
-        if (newDirectories.length > 0) {
-
-            // Get the new directories
-            const newDirectoryIds = newDirectories.map(directory => directory.path);
-
-            // Create the parent directory structure if it does not exist
-            createDirectoryStructureFromPath(newDirectories[0].directory);
-
-            // Get the reference to the parent directory
-            const parentDirectory = state.directories.find((directory) => (directory.path === newDirectories[0].directory));
+        /**
+         * Add a directory
+         * @param state
+         * @param directory
+         */
+        function addDirectory(state, directory) {
+            const parentDirectory = state.directories.find((existing) => (existing.path === directory.directory));
             const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
+            let index = state.directories.findIndex((existing) => (existing.path === directory.path));
+            if (index === -1) {
+                index = state.directories.length;
+            }
 
-            // Add the new directories to the directories array
-            state.directories.push(...newDirectories);
+            // Add the directory
+            state.directories.splice(index, 1, directory);
 
             // Update the relation to the parent directory
-            state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
-                directories: [...parentDirectory.directories, ...newDirectoryIds]
-            }));
+            if (parentDirectoryIndex !== -1) {
+                state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
+                    directories: [...parentDirectory.directories, directory.path]
+                }));
+            }
         }
 
-        // Merge the files
-        if (newFiles.length > 0) {
-            const newFileIds = newFiles.map(file => file.path);
-
-            // Create the parent directory structure if it does not exist
-            createDirectoryStructureFromPath(newFiles[0].directory);
-
-            const parentDirectory = state.directories.find((directory) => (directory.path === newFiles[0].directory));
+        /**
+         * Add a file
+         * @param state
+         * @param directory
+         */
+        function addFile(state, file) {
+            const parentDirectory = state.directories.find((directory) => (directory.path === file.directory));
             const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
+            let index = state.files.findIndex((existing) => (existing.path === file.path));
+            if (index === -1) {
+                index = state.files.length;
+            }
 
-            // Add the new files to the files array
-            state.files.push(...newFiles);
+            // Add the file
+            state.files.splice(index, 1, file);
 
             // Update the relation to the parent directory
-            state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
-                files: [...parentDirectory.files, ...newFileIds]
-            }));
+            if (parentDirectoryIndex !== -1) {
+                state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
+                    files: [...parentDirectory.files, file.path]
+                }));
+            }
         }
+
+        // Create the parent directory structure if it does not exist
+        createDirectoryStructureFromPath(state.selectedDirectory);
+
+        // Add directories
+        payload.directories.forEach((directory) => {
+            addDirectory(state, directory);
+        });
+
+        // Add files
+        payload.files.forEach((file) => {
+            addFile(state, file);
+        });
     },
 
     /**
@@ -199,6 +229,15 @@ export default {
      */
     [types.SELECT_BROWSER_ITEM]: (state, payload) => {
         state.selectedItems.push(payload);
+    },
+
+    /**
+     * Select browser items
+     * @param state
+     * @param payload the items
+     */
+    [types.SELECT_BROWSER_ITEMS]: (state, payload) => {
+        state.selectedItems = payload;
     },
 
     /**
@@ -309,5 +348,27 @@ export default {
      */
     [types.HIDE_RENAME_MODAL]: (state) => {
         state.showRenameModal = false;
+    },
+
+    /**
+     * Increase the size of the grid items
+     * @param state
+     */
+    [types.INCREASE_GRID_SIZE]: (state) => {
+        let currentSizeIndex = gridItemSizes.indexOf(state.gridSize);
+        if (currentSizeIndex >= 0 && currentSizeIndex < gridItemSizes.length - 1) {
+            state.gridSize = gridItemSizes[++currentSizeIndex];
+        }
+    },
+
+    /**
+     * Increase the size of the grid items
+     * @param state
+     */
+    [types.DECREASE_GRID_SIZE]: (state) => {
+        let currentSizeIndex = gridItemSizes.indexOf(state.gridSize);
+        if (currentSizeIndex > 0 && currentSizeIndex < gridItemSizes.length) {
+            state.gridSize = gridItemSizes[--currentSizeIndex];
+        }
     },
 }

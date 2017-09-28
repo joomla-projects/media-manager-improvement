@@ -22,7 +22,7 @@ export default {
             }
 
             let imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-            let videoExtensions = ['mp4'];
+	        let videoExtensions = ['mp4'];
 
             // Render directory items
             if (item.type === 'dir') return Directory;
@@ -32,13 +32,27 @@ export default {
                 return Image;
             }
 
-            // Render video items
-            if (item.extension && videoExtensions.indexOf(item.extension.toLowerCase()) !== -1) {
-                return Video;
-            }
+	        // Render video items
+	        if (item.extension && videoExtensions.indexOf(item.extension.toLowerCase()) !== -1) {
+		        return Video;
+	        }
 
             // Default to file type
             return File;
+        }
+
+        /**
+         * Get the styles for the media browser item
+         * @returns {{}}
+         */
+        function styles() {
+		if (store.state.listView == 'table') {
+		        return {};
+	        }
+
+	        return {
+			        'width': 'calc(' + store.state.gridSize + '% - 20px)',
+	        };
         }
 
         /**
@@ -49,17 +63,6 @@ export default {
             return store.state.selectedItems.some(selected => selected.path === item.path);
         }
 
-	    /**
-	     * Create and dispatch onMediaFileSelected Event
-	     *
-	     * @param {object}  data  The data for the detail
-	     *
-	     * @returns {void}
-	     */
-        function sendEvent(data) {
-	        const ev = new CustomEvent('onMediaFileSelected', {"bubbles":true, "cancelable":false, "detail": data});
-	        window.parent.document.dispatchEvent(ev);
-        }
         /**
          * Handle the click event
          * @param event
@@ -73,39 +76,13 @@ export default {
 		        extension: item.extension ? item.extension : false,
 	        };
 
-            if (item.type === 'file') {
-	            const csrf = Joomla.getOptions('com_media').csrfToken;
-	            const apiBaseUrl = Joomla.getOptions('com_media').apiBaseUrl;
-	            Joomla.request({
-		            url: `${apiBaseUrl}&task=api.files&url=true&path=${item.path}&${csrf}=1`,
-		            method: 'GET',
-		            perform: true,
-		            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-		            onSuccess: (response) => {
-			            const resp = JSON.parse(response);
-			            if (resp.success === true) {
-				            if (resp.data[0].url) {
-					            if (/local-/.test(item.path)) {
-						            const server = Joomla.getOptions('system.paths').rootFull;
-						            const newPath = resp.data[0].url.split(server)[1];
+	        if (item.type === 'file') {
+	            data.path = item.path;
+	            data.thumb = item.thumb ? item.thumb : false;
 
-						            data.path  = newPath;
-						            if (resp.data[0]['thumb_path'])
-						            data.thumb = resp.data[0].thumb_path;
-					            } else {
-						            data.path  = path;
-						            if (resp.data[0]['thumb_path'])
-						            data.thumb = resp.data[0].thumb_path;
-					            }
-				            }
-			            }
-			            sendEvent(data)
-		            },
-		            onError: () => {
-			            sendEvent(data)
-		            },
-	            });
-            }
+		        const ev = new CustomEvent('onMediaFileSelected', {"bubbles":true, "cancelable":false, "detail": data});
+		        window.parent.document.dispatchEvent(ev);
+	        }
 
             // Handle clicks when the item was not selected
             if (!isSelected()) {

@@ -25,25 +25,31 @@ class Api {
 
     /**
      * Get the contents of a directory from the server
-     * @param dir
+     * @param {string}  dir  The directory path
+     * @param {number}  full whether or not the persistent url should be returned
      * @returns {Promise}
      */
     getContents(dir, full) {
         // Wrap the ajax call into a real promise
         return new Promise((resolve, reject) => {
-            const url = this._baseUrl + '&task=api.files&path=' + dir + '&url=' + full;
+            // Do a check on full
+            if (["0", "1"].indexOf(full) !== -1) {
+                throw "Invalid parameter";
+            }
 
-	        Joomla.request({
-		        url:    url,
-		        method: 'GET',
-		        headers: {'Content-Type': 'application/json'},
-		        onSuccess: (response) => {
-			        resolve(this._normalizeArray(JSON.parse(response).data))
-		        },
-		        onError: (xhr) => {
-			        reject(xhr)
-		        }
-	        });
+            const url = this._baseUrl + '&task=api.files&path=' + dir + (full ? '&url=' + full : '');
+
+            Joomla.request({
+                url: url,
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'},
+                onSuccess: (response) => {
+                    resolve(this._normalizeArray(JSON.parse(response).data))
+                },
+                onError: (xhr) => {
+                    reject(xhr)
+                }
+            });
         }).catch(this._handleError);
     }
 
@@ -59,20 +65,20 @@ class Api {
             const url = this._baseUrl + '&task=api.files&path=' + parent;
             const data = {[this._csrfToken]: '1', name: name};
 
-	        Joomla.request({
-			        url:    url,
-			        method: 'POST',
-			        data:    JSON.stringify(data),
-			        headers: {'Content-Type': 'application/json'},
-			        onSuccess: (response) => {
-				        notifications.success('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS');
-				        resolve(this._normalizeItem(JSON.parse(response).data))
-			        },
-			        onError: (xhr) => {
-				        notifications.error('COM_MEDIA_CREATE_NEW_FOLDER_ERROR');
-				        reject(xhr)
-			        }
-		        });
+            Joomla.request({
+                url: url,
+                method: 'POST',
+                data: JSON.stringify(data),
+                headers: {'Content-Type': 'application/json'},
+                onSuccess: (response) => {
+                    notifications.success('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS');
+                    resolve(this._normalizeItem(JSON.parse(response).data))
+                },
+                onError: (xhr) => {
+                    notifications.error('COM_MEDIA_CREATE_NEW_FOLDER_ERROR');
+                    reject(xhr)
+                }
+            });
         }).catch(this._handleError);
     }
 
@@ -81,9 +87,10 @@ class Api {
      * @param name
      * @param parent
      * @param content base64 encoded string
+     * @param override boolean whether or not we should override existing files
      * @return {Promise.<T>}
      */
-    upload(name, parent, content) {
+    upload(name, parent, content, override) {
         // Wrap the jquery call into a real promise
         return new Promise((resolve, reject) => {
             const url = this._baseUrl + '&task=api.files&path=' + parent;
@@ -93,20 +100,24 @@ class Api {
                 content: content,
             };
 
-	        Joomla.request({
-		        url:    url,
-		        method: 'POST',
-		        data:    JSON.stringify(data),
-		        headers: {'Content-Type': 'application/json'},
-		        onSuccess: (response) => {
-			        notifications.success('COM_MEDIA_UPDLOAD_SUCCESS');
-			        resolve(this._normalizeItem(JSON.parse(response).data))
-		        },
-		        onError: (xhr) => {
-			        notifications.error('COM_MEDIA_UPDLOAD_ERROR');
-			        reject(xhr)
-		        }
-	        });
+            // Append override
+            if (override === true) {
+                data.override = true;
+            }
+
+            Joomla.request({
+                url: url,
+                method: 'POST',
+                data: JSON.stringify(data),
+                headers: {'Content-Type': 'application/json'},
+                onSuccess: (response) => {
+                    notifications.success('COM_MEDIA_UPDLOAD_SUCCESS');
+                    resolve(this._normalizeItem(JSON.parse(response).data))
+                },
+                onError: (xhr) => {
+                    reject(xhr)
+                }
+            });
 
         }).catch(this._handleError);
     }
@@ -127,9 +138,9 @@ class Api {
             };
 
             Joomla.request({
-                url:    url,
+                url: url,
                 method: 'PUT',
-                data:    JSON.stringify(data),
+                data: JSON.stringify(data),
                 headers: {'Content-Type': 'application/json'},
                 onSuccess: (response) => {
                     notifications.success('COM_MEDIA_RENAME_SUCCESS');
@@ -157,19 +168,19 @@ class Api {
             const data = {[this._csrfToken]: '1',};
 
             Joomla.request({
-		        url:    url,
-		        method: 'DELETE',
-                data:    JSON.stringify(data),
+                url: url,
+                method: 'DELETE',
+                data: JSON.stringify(data),
                 headers: {'Content-Type': 'application/json'},
-		        onSuccess: () => {
-			        notifications.success('COM_MEDIA_DELETE_SUCCESS');
-			        resolve();
-		        },
-		        onError: (xhr) => {
-			        notifications.error('COM_MEDIA_DELETE_ERROR');
-			        reject(xhr);
-		        }
-	        });
+                onSuccess: () => {
+                    notifications.success('COM_MEDIA_DELETE_SUCCESS');
+                    resolve();
+                },
+                onError: (xhr) => {
+                    notifications.error('COM_MEDIA_DELETE_ERROR');
+                    reject(xhr);
+                }
+            });
         }).catch(this._handleError);
     }
 
@@ -187,7 +198,7 @@ class Api {
 
         item.directory = path.dirname(item.path);
 
-        if(item.directory.indexOf(':', item.directory.length - 1) !== -1) {
+        if (item.directory.indexOf(':', item.directory.length - 1) !== -1) {
             item.directory += '/';
         }
 
@@ -221,6 +232,9 @@ class Api {
      */
     _handleError(error) {
         switch (error.status) {
+            case 409:
+                // Handled in consumer
+                break;
             case 404:
                 notifications.error('COM_MEDIA_ERROR_NOT_FOUND');
                 break;
