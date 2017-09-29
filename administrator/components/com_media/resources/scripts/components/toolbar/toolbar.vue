@@ -6,21 +6,25 @@
             <a href="#" class="media-toolbar-icon media-toolbar-decrease-grid-size"
                v-if="isGridView"
                :class="{disabled: isGridSize('xs')}"
-               @click.stop.prevent="decreaseGridSize()">
+               @click.stop.prevent="decreaseGridSize()" 
+               :aria-label="translate('COM_MEDIA_DECREASE_GRID')">
                 <span class="fa fa-minus" aria-hidden="true"></span>
             </a>
             <a href="#" class="media-toolbar-icon media-toolbar-increase-grid-size"
                v-if="isGridView"
                :class="{disabled: isGridSize('xl')}"
-               @click.stop.prevent="increaseGridSize()">
+               @click.stop.prevent="increaseGridSize()" 
+               :aria-label="translate('COM_MEDIA_INCREASE_GRID')">
                 <span class="fa fa-plus" aria-hidden="true"></span>
             </a>
             <a href="#" class="media-toolbar-icon media-toolbar-select-all"
-               @click.stop.prevent="toggleSelectAll()">
+               @click.stop.prevent="toggleSelectAll()"
+               :aria-label="translate('COM_MEDIA_SELECT_ALL')">
                 <span :class="toggleSelectAllBtnIcon" aria-hidden="true"></span>
             </a>
             <a href="#" class="media-toolbar-icon media-toolbar-list-view"
-               @click.stop.prevent="changeListView()">
+               @click.stop.prevent="changeListView()"
+               :aria-label="translate('COM_MEDIA_TOGGLE_LIST_VIEW')">
                 <span :class="toggleListViewBtnIcon" aria-hidden="true"></span>
             </a>
             <a href="#" class="media-toolbar-icon media-toolbar-info"
