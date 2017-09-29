@@ -143,15 +143,17 @@ class ApiModel extends BaseModel
 		}
 
 		// Add adapter prefix to all the files to be returned
-		foreach ($files as $file)
+		foreach ($files as $key => $file)
 		{
+			// Check if the file is valid
 			if ($file->type == 'file' && !$this->isMediaFile($file->path))
 			{
+				// Remove the file from the data
+				unset($files[$key]);
 				continue;
 			}
 
-			// If requested add options
-			// Url can be provided for a file
+			// Check if we need more information
 			if (isset($options['url']) && $options['url'] && $file->type == 'file')
 			{
 				if (isset($options['temp']) && $options['temp'])
@@ -168,7 +170,8 @@ class ApiModel extends BaseModel
 			$file->adapter = $adapter;
 		}
 
-		return $files;
+		// Return array with proper indexes
+		return array_values($files);
 	}
 
 	/**
