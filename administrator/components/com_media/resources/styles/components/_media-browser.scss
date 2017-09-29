@@ -4,7 +4,7 @@
   height: calc(100% - 52px);
   overflow-y: auto;
   width: 75%;
-  transition: width .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition: width .3s cubic-bezier(.4, .0, .2, 1);
 }
 
 // Grid View
@@ -19,14 +19,13 @@
 
 .media-browser-item {
   position: relative;
-  margin-bottom: $grid-gutter-width;
-  margin-right: $grid-gutter-width;
   width: calc(16.66% - $grid-gutter-width);
+  margin-right: $grid-gutter-width;
+  margin-bottom: $grid-gutter-width;
+  cursor: pointer;
   -moz-user-select: none;
-  -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  cursor: pointer;
   .media-browser-items-xs & {
     width: calc(8.333% - #{$grid-gutter-width});
   }
@@ -52,14 +51,14 @@
   &::after {
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
     content: "";
     background-color: $grid-item-hover-color;
     border-radius: $grid-item-border-radius;
     opacity: 0;
-    transition: opacity .2s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transition: opacity .2s cubic-bezier(.4, .0, .2, 1);
     .media-browser-item:hover &, .selected & {
       opacity: 1;
     }
@@ -79,32 +78,32 @@
   position: absolute;
   top: 6px;
   left: 6px;
-  height: calc(#{$grid-item-icon-size} * 1.54);
   width: calc(#{$grid-item-icon-size} * 1.54);
-  border-radius: $grid-item-border-radius;
+  height: calc(#{$grid-item-icon-size} * 1.54);
+  content: "";
   background-color: $grid-item-icon-bg-color;
   border: 2px solid $grid-item-icon-bg-color-hover;
+  border-radius: $grid-item-border-radius;
   box-shadow: inset 0 0 0 0 $grid-item-icon-color;
-  content: "";
-  transition: all .3s cubic-bezier(0.4, 0.0, 0.2, 1);
   opacity: 0;
+  transition: all .3s cubic-bezier(.4, .0, .2, 1);
   .media-browser-item:hover & {
     opacity: 1;
   }
-  &:after {
+  &::after {
     position: absolute;
     top: 0;
     left: 0;
+    width: calc(#{$grid-item-icon-size} * 1.3);
     content: "\f00c";
     font-family: FontAwesome;
     font-size: $grid-item-icon-size;
     height: calc(#{$grid-item-icon-size} * 1.3);
     line-height: calc(#{$grid-item-icon-size} * 1.3);
     text-align: center;
-    width: calc(#{$grid-item-icon-size} * 1.3);
     transform: scale(.5);
     opacity: 0;
-    transition: all .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transition: all .3s cubic-bezier(.4, .0, .2, 1);
     .selected & {
       transform: scale(1);
       opacity: 1;
@@ -112,8 +111,8 @@
   }
   .selected & {
     color: $grid-item-icon-color-hover;
-    box-shadow: inset 0 0 0 15px $grid-item-icon-bg-color-hover;
     background-color: $grid-item-icon-bg-color-hover;
+    box-shadow: inset 0 0 0 15px $grid-item-icon-bg-color-hover;
     opacity: 1;
   }
 }
@@ -151,7 +150,7 @@
     .media-browser-actions.active & {
       top: 0;
       opacity: 1;
-      visibility: visible; 
+      visibility: visible;
       transition-duration: .2s;
       &:first-of-type {
         transition-delay: .1s;
@@ -170,15 +169,15 @@
 }
 
 .image-browser-action {
-  height: calc(#{$grid-item-icon-size} * 1.55);
   width: calc(#{$grid-item-icon-size} * 1.55);
+  height: calc(#{$grid-item-icon-size} * 1.55);
   margin-right: 4px;
   margin-left: 4px;
   color: $grid-item-icon-color;
   text-align: center;
+  cursor: pointer;
   background-color: $grid-item-icon-bg-color;
   border-radius: $grid-item-border-radius;
-  cursor: pointer;
   .action-delete & {
     background-color: $grid-item-icon-warning-icon-bg;
   }
@@ -187,23 +186,23 @@
     line-height: calc(#{$grid-item-icon-size} * 1.55);
   }
   &:hover {
-    background-color: $grid-item-icon-bg-color-hover;
     color: $grid-item-icon-color-hover;
+    background-color: $grid-item-icon-bg-color-hover;
   }
 }
 
 .image-brackground {
-  background-position: 0px 0px, 10px 10px;
-  background-size: 20px 20px;
   background-color: white;
   background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%), linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%);
+  background-position: 0 0, 10px 10px;
+  background-size: 20px 20px;
 }
 
 .image-cropped {
   padding-bottom: 100%;
+  background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  background-repeat: no-repeat;
   border-radius: $grid-item-border-radius;
 }
 
@@ -214,44 +213,44 @@
 }
 
 .file-icon, .folder-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: absolute;
   top: 0;
-  left: 0;
   right: 0;
   bottom: 0;
-  color: #BBB;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bbb;
 }
 
 .media-dragoutline {
-  visibility: hidden;
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  bottom: 1px;
+  left: 6px;
+  z-index: 1040;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  right: 6px;
-  bottom: 1px;
-  z-index: 1040;
+  visibility: hidden;
   content: "";
-  background-color: rgba(245,245,245,.8);
+  background-color: rgba(245, 245, 245, .8);
   border: 3px dashed #999;
   border-radius: 4px;
-  transition: all .2s ease;
-  transform: scale(0.6);
-  transition-delay: .2s;
   opacity: 0;
+  transition: all .2s ease;
+  transition-delay: .2s;
+  transform: scale(.6);
   .upload-icon {
     font-size: 8rem;
     color: #1C3D5C;
     opacity: 0;
     transition: all .2s ease;
-    transform: translateY(50%);
     transition-delay: .1s;
+    transform: translateY(50%);
   }
   p {
     font-size: 1.4rem;
@@ -261,16 +260,16 @@
   }
   &.active {
     visibility: visible;
-    transform: scale(1);
     opacity: 1;
     transition-delay: 0s;
+    transform: scale(1);
     .upload-icon {
       opacity: 1;
       transform: translateY(0);
     }
     p {
-      transition-delay: .2s;
       opacity: 1;
+      transition-delay: .2s;
     }
   }
 }
@@ -321,37 +320,38 @@
   font-weight: bold;
   .type {
     margin-left: 1px;
-    &:before {
+    &::before {
       display: none;
     }
   }
 }
+
 .media-browser-table {
   height: calc(100% - 52px);
   overflow-y: auto;
-  transition: width .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  font-size: .9rem;
+  line-height: 30px;
+  transition: width .3s cubic-bezier(.4, .0, .2, 1);
   .media-browser-item {
     width: 100%;
     margin: 0;
-    border: 1px solid rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, .03);
     &:hover {
-      background-color: rgba(0, 0, 0, 0.03);
+      background-color: rgba(0, 0, 0, .03);
     }
   }
   ul {
     display: flex;
-    list-style: none;
     padding: 0;
     margin: 0;
+    list-style: none;
   }
   li {
     padding: 0 10px;
+    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
   }
-  font-size: .9rem;
-  line-height: 30px;
   .name {
     width: calc(30% - 40px);
   }
@@ -372,84 +372,30 @@
     z-index: 0;
     width: 40px;
     padding: 0;
-    text-align: center;
     font-size: 1.2rem;
     line-height: 30px;
-    background-color: rgba(0, 0, 0, 0.015);
-    border-right: 1px solid rgba(0, 0, 0, 0.03);
-    &:before, &:after {
-      transition: all .2s cubic-bezier(0.4, 0.0, 0.2, 1);
+    text-align: center;
+    background-color: rgba(0, 0, 0, .015);
+    border-right: 1px solid rgba(0, 0, 0, .03);
+    &::before, &::after {
+      transition: all .2s cubic-bezier(.4, .0, .2, 1);
     }
-    &:before {
+    &::before {
       font-family: FontAwesome;
-      content: "\f016";
       color: #656565;
       .selected & {
-        color: white;
+        color: #fff;
       }
     }
-    &:after {
+    &::after {
       position: absolute;
       top: -1px;
-      left: 0;
       right: 100%;
       bottom: -1px;
+      left: 0;
       z-index: -1;
       content: "";
       background-color: #006898;
-    }
-    // Folder 
-    &[data-type=""] {
-      &:before {
-        content: "\f114";
-      }
-    }
-    // Images
-    &[data-type="jpg"], 
-    &[data-type="png"],
-    &[data-type="gif"],
-    &[data-type="jpeg"],
-    &[data-type="tiff"],
-    &[data-type="bmp"],
-    &[data-type="svg"] {
-      &:before {
-        content: "\f1c5";
-      }
-    }
-    // Video
-    &[data-type="mov"],
-    &[data-type="mkv"],
-    &[data-type="mp4"],
-    &[data-type="mpg"],
-    &[data-type="mpeg"] {
-      &:before {
-        content: "\f1c8";
-      }
-    }
-    // Audio
-    &[data-type="mp3"],
-    &[data-type="wav"],
-    &[data-type="raw"],
-    &[data-type="wma"] {
-      &:before {
-        content: "\f1c7";
-      }
-    }
-    // Docs
-    &[data-type="doc"],
-    &[data-type="xls"],
-    &[data-type="pdf"],
-    &[data-type="txt"] {
-      &:before {
-        content: "\f0f6";
-      }
-    }
-    // Code
-    &[data-type="html"],
-    &[data-type="htm"] {
-      &:before {
-        content: "\f1c9";
-      }
     }
     span {
       visibility: hidden;
@@ -459,11 +405,72 @@
 
 .selected {
   .type {
-    &:before {
-      color: white;
+    &::before {
+      color: #fff;
     }
-    &:after {
+    &::after {
       right: 0;
+    }
+  }
+}
+
+.type {
+  &[data-type] {
+    &::before {
+      content: "\f016";
+    }
+  }
+  // Folder
+  &[data-type=""] {
+    &::before {
+      content: "\f114";
+    }
+  }
+  // Images
+  &[data-type="jpg"],
+  &[data-type="png"],
+  &[data-type="gif"],
+  &[data-type="jpeg"],
+  &[data-type="tiff"],
+  &[data-type="bmp"],
+  &[data-type="svg"] {
+    &::before {
+      content: "\f1c5";
+    }
+  }
+  // Video
+  &[data-type="mov"],
+  &[data-type="mkv"],
+  &[data-type="mp4"],
+  &[data-type="mpg"],
+  &[data-type="mpeg"] {
+    &::before {
+      content: "\f1c8";
+    }
+  }
+  // Audio
+  &[data-type="mp3"],
+  &[data-type="wav"],
+  &[data-type="raw"],
+  &[data-type="wma"] {
+    &::before {
+      content: "\f1c7";
+    }
+  }
+  // Docs
+  &[data-type="doc"],
+  &[data-type="xls"],
+  &[data-type="pdf"],
+  &[data-type="txt"] {
+    &::before {
+      content: "\f0f6";
+    }
+  }
+  // Code
+  &[data-type="html"],
+  &[data-type="htm"] {
+    &::before {
+      content: "\f1c9";
     }
   }
 }
