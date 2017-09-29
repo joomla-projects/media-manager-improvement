@@ -102,6 +102,11 @@ abstract class Dispatcher implements DispatcherInterface
 	 */
 	protected function loadLanguage()
 	{
+		if (!$this->app->getLanguage())
+		{
+			return;
+		}
+
 		// Load common and local language files.
 		$this->app->getLanguage()->load($this->option, JPATH_BASE, null, false, true) ||
 		$this->app->getLanguage()->load($this->option, JPATH_COMPONENT, null, false, true);
