@@ -412,21 +412,29 @@ class ApiModel extends BaseModel
 	 */
 	private function isMediaFile($path)
 	{
+		// Check if there is an extension available
 		if (!strrpos($path, '.'))
 		{
 			return false;
 		}
 
+		// Initialize the allowed extensions
 		if ($this->allowedExtensions === null) {
+
+			// Get the setting from the params
 			$this->allowedExtensions = ComponentHelper::getParams('com_media')->get(
 				'upload_extensions',
 				'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS'
 			);
 
+			// Make them an array
 			$this->allowedExtensions = explode(',', $this->allowedExtensions);
 		}
 
+		// Extract the extension
 		$extension = substr($path, strrpos($path, '.') + 1);
+
+		// Check if the extension exists in the allowed extensions
 		return in_array($extension, $this->allowedExtensions);
 	}
 }
