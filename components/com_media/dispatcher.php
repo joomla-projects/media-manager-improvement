@@ -55,11 +55,29 @@ class MediaDispatcher extends Dispatcher
 		// Access check
 		if (!$user->authorise('core.manage', 'com_media')
 			&& (!$asset || (!$user->authorise('core.edit', $asset)
-			&& !$user->authorise('core.create', $asset)
-			&& count($user->getAuthorisedCategories($asset, 'core.create')) == 0)
-			&& !($user->id == $author && $user->authorise('core.edit.own', $asset))))
+					&& !$user->authorise('core.create', $asset)
+					&& count($user->getAuthorisedCategories($asset, 'core.create')) == 0)
+				&& !($user->id == $author && $user->authorise('core.edit.own', $asset))))
 		{
 			throw new \Joomla\CMS\Access\Exception\Notallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
+	}
+
+	/**
+	 * Get a controller from the component
+	 *
+	 * @param   string  $name    Controller name
+	 * @param   string  $client  Optional client (like Administrator, Site etc.)
+	 * @param   array   $config  Optional controller config
+	 *
+	 * @return  Controller
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getController($name, $client = null, $config = array())
+	{
+		$config['base_path'] = JPATH_ADMINISTRATOR . '/components/com_media';
+
+		return parent::getController($name, $client, $config);
 	}
 }
