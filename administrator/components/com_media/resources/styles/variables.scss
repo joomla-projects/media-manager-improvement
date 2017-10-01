@@ -14,10 +14,10 @@ $grid-outside-padding:              $col-gutter-width;
 $grid-item-hover-color:             rgba(#000000, .5);
 $grid-item-border-radius:           $border-radius;
 $grid-item-icon-size:               1.3rem;
-$grid-item-icon-color:              white;
+$grid-item-icon-color:              #fff;
 $grid-item-icon-bg-color:           rgba(0,0,0,.8);
 $grid-item-icon-color-hover:        rgba(0,0,0,.8);
-$grid-item-icon-bg-color-hover:     white;
+$grid-item-icon-bg-color-hover:     #fff;
 $grid-item-icon-warning-icon-bg:    #d9534f;
 $grid-item-no-preview-bg:           #F5F5F5;
 
@@ -38,3 +38,7 @@ $icon-type-audio:                   "\f1c7";
 $icon-type-docs:                    "\f0f6";
 $icon-type-code:                    "\f1c9";
 
+// Drag n Drop Upload
+$dnd-bg:                            rgba(245, 245, 245, .8);
+$dnd-icon-color:                    #1C3d5c;
+$dnd-border:                        3px dashed #999;

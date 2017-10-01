@@ -1,5 +1,5 @@
 <template>
-    <media-modal v-if="$store.state.showRenameModal" :size="'sm'" @close="close()" show-close="false">
+    <media-modal v-if="$store.state.showRenameModal" :size="'sm'" @close="close()" :show-close="false">
         <h3 slot="header" class="modal-title">{{ translate('COM_MEDIA_RENAME') }}</h3>
         <div slot="body">
             <form class="form" @submit.prevent="save" novalidate>
@@ -41,7 +41,7 @@
             },
             name: {
                 get() {
-                    if(this.originalName.length === 0) {
+                    if (this.originalName.length === 0) {
                         this.originalName = this.item.name;
                     }
                     return this.item.name.replace('.' + this.item.extension, '');
@@ -59,7 +59,7 @@
             }
         },
         methods: {
-            /* Check if the the form is valid */
+            /* Check if the form is valid */
             isValid() {
                 return this.item.name.length > 0;
             },
@@ -80,10 +80,16 @@
                     return;
                 }
 
+                let newPath = this.item.directory;
+                if (newPath.substr(-1) !== '/') {
+                    newPath += '/';
+                }
+                newPath += this.item.name;
+
                 // Rename the item
                 this.$store.dispatch('renameItem', {
                     path: this.item.path,
-                    newPath: this.item.directory + this.item.name,
+                    newPath: newPath,
                 });
 
                 this.originalName = '';
