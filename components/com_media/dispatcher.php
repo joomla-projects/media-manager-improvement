@@ -45,12 +45,9 @@ class MediaDispatcher extends Dispatcher
 	 */
 	protected function loadLanguage()
 	{
-		if ($this->app->getLanguage())
-		{
-			// Load the administrator languages needed for the media manager
-			$this->app->getLanguage()->load('', JPATH_ADMINISTRATOR);
-			$this->app->getLanguage()->load($this->option, JPATH_ADMINISTRATOR);
-		}
+		// Load the administrator languages needed for the media manager
+		$this->app->getLanguage()->load('', JPATH_ADMINISTRATOR);
+		$this->app->getLanguage()->load($this->option, JPATH_ADMINISTRATOR);
 
 		parent::loadLanguage();
 	}
@@ -94,6 +91,7 @@ class MediaDispatcher extends Dispatcher
 	{
 		$config['base_path'] = JPATH_ADMINISTRATOR . '/components/com_media';
 
+		// Force to load the admin controller
 		return parent::getController($name, 'Administrator', $config);
 	}
 }
