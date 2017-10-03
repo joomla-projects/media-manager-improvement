@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Dispatcher class for com_media
@@ -29,14 +30,28 @@ class MediaDispatcher extends Dispatcher
 
 	public function __construct(\Joomla\CMS\Application\CMSApplication $app, \JInput $input = null)
 	{
-		if ($app->isClient('site'))
-		{
-			$app = \Joomla\CMS\Application\CMSApplication::getInstance('administrator');
-		}
-
 		parent::__construct($app, $input);
 
 		$this->input->set('view', 'media');
+	}
+
+	/**
+	 * Load the language
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	protected function loadLanguage()
+	{
+		if ($this->app->getLanguage())
+		{
+			// Load the administrator languages needed for the media manager
+			$this->app->getLanguage()->load('', JPATH_ADMINISTRATOR);
+			$this->app->getLanguage()->load($this->option, JPATH_ADMINISTRATOR);
+		}
+
+		parent::loadLanguage();
 	}
 
 	/**
@@ -70,14 +85,14 @@ class MediaDispatcher extends Dispatcher
 	 * @param   string  $client  Optional client (like Administrator, Site etc.)
 	 * @param   array   $config  Optional controller config
 	 *
-	 * @return  Controller
+	 * @return  BaseController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getController($name, $client = null, $config = array())
+	public function getController(string $name, string $client = '', array $config = array()): BaseController
 	{
 		$config['base_path'] = JPATH_ADMINISTRATOR . '/components/com_media';
 
-		return parent::getController($name, $client, $config);
+		return parent::getController($name, 'Administrator', $config);
 	}
 }
