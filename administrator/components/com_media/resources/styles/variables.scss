@@ -27,14 +27,14 @@ $grid-item-width-lg:                25%;
 $grid-item-width-xl:                50%;
 $grid-item-width-default:           $grid-item-width-xl;
 
-// Media Browser Table 
+// Media Browser Table
 $table-item-height:                 30px;
 $table-item-icon-size:              1.2rem;
 $table-item-icon-color:             #656565;
-$table-item-icon-bg:                rgba(0, 0, 0, 0.015);
+$table-item-icon-bg:                rgba(0, 0, 0, .015);
 $table-item-icon-color-selected:    #fff;
 $table-item-icon-bg-selected:       #006898;
-$table-item-bg-hover:               rgba(0, 0, 0, 0.03);
+$table-item-bg-hover:               rgba(0, 0, 0, .03);
 
 // Table Icon Mapping
 $icon-type-default:                 "\f016";
@@ -47,5 +47,5 @@ $icon-type-code:                    "\f1c9";
 
 // Drag n Drop Upload
 $dnd-bg:                            rgba(245, 245, 245, .8);
-$dnd-icon-color:                    #1C3d5c;
+$dnd-icon-color:                    #1c3d5c;
 $dnd-border:                        3px dashed #999;
