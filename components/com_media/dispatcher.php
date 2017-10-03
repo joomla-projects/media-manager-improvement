@@ -32,6 +32,7 @@ class MediaDispatcher extends Dispatcher
 	{
 		parent::__construct($app, $input);
 
+		// As default the view is set to featured, so we need to initialize it
 		$this->input->set('view', 'media');
 	}
 
