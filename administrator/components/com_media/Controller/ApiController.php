@@ -149,7 +149,7 @@ class ApiController extends BaseController
 	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg
 	 * 		/api/files/sampledata/fruitshop/test.jpg
 	 *
-	 * @return  array  The data to send with the response
+	 * @return  null
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
