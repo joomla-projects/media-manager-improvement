@@ -1,4 +1,5 @@
 .media-infobar {
+  position: absolute;
   top: ($toolbar-height + 1px);
   right: 0;
   bottom: 0;
@@ -7,7 +8,6 @@
   width: 25%;
   padding: $gutter-width;
   overflow: hidden;
-  position: absolute;
   background-color: $info-bg;
   border-left: 1px solid $border-color;
   h2 {
