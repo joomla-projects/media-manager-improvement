@@ -60,7 +60,7 @@ ul.media-tree {
     content: '';
     height: 1px;
     width: 10px;
-    background-color: $sidebar-tree-line-height;
+    background-color: $sidebar-tree-line-color;
     position: absolute;
     top: ($sidebar-tree-line-height / 2);
     left: 15px;
@@ -74,7 +74,7 @@ ul.media-tree {
     width: 1px;
     height: 100%;
     content: "";
-    background-color: $sidebar-tree-line-height;
+    background-color: $sidebar-tree-line-color;
   }
   &:last-child {
     &::after {
@@ -83,6 +83,9 @@ ul.media-tree {
   }
   li {
     padding-left: 25px;
+    &::before, &::after {
+      left: 13px;
+    }
   }
 }
 
