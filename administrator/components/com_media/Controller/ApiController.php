@@ -63,7 +63,7 @@ class ApiController extends BaseController
 
 			if (!in_array($this->doTask, $this->taskMap))
 			{
-				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 404);
+				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 405);
 			}
 
 			$data = $this->$doTask();
