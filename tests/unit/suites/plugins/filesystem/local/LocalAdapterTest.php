@@ -39,9 +39,11 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	protected function setUp()
 	{
+		$this->saveFactoryState();
+
 		// Set up the application and session
 		JFactory::$application = $this->getMockCmsApp();
-		JFactory::$session     = $this->getMockSession();
+		JFactory::$session     = $this->getMockSession(['get.user.id' => 1]);
 
 		// Register the needed classes
 		JLoader::register('JPath', JPATH_PLATFORM . '/joomla/filesystem/path.php');
@@ -52,6 +54,8 @@ class LocalAdapterTest extends TestCaseDatabase
 		$this->imagePath = 'tmp/test/';
 		$this->root      = JPath::clean(JPATH_TESTS . '/tmp/test/');
 		JFolder::create($this->root);
+
+		JFactory::$application->getConfig()->set('root_user', 1);
 	}
 
 	/**
@@ -61,6 +65,8 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
+		$this->restoreFactoryState();
+
 		// Delete the temp root folder
 		JFolder::delete($this->root);
 	}
@@ -481,6 +487,25 @@ class LocalAdapterTest extends TestCaseDatabase
 	}
 
 	/**
+	 * LocalAdapter::copy with a file which has an invalid name.
+	 *
+	 * @return void
+	 */
+	public function testFileCopyInvalidName()
+	{
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+
+		$this->cleanRootFolder();
+
+		JFile::write($this->root . 'test-src.txt', 'test');
+		JFolder::create($this->root . 'src');
+
+		// Test file copy
+		$adapter->copy('test-src.txt', 'src/test-"dest.txt');
+		$this->assertTrue(JFile::exists($this->root . 'src/test-dest.txt'));
+	}
+
+	/**
 	 * LocalAdapter::copy with a folder
 	 *
 	 * @return void
@@ -571,6 +596,27 @@ class LocalAdapterTest extends TestCaseDatabase
 	}
 
 	/**
+	 * LocalAdapter::copy with a folder
+	 *
+	 * @return void
+	 */
+	public function testFolderCopyInvalidName()
+	{
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+		$this->cleanRootFolder();
+
+		// Make some mock folders in the root
+		JFile::write($this->root . 'test-src.txt', 'test');
+		JFolder::create($this->root . 'src');
+		JFile::write($this->root . 'src/bar.txt', 'bar');
+
+		// Test Folder copy
+		$adapter->copy('src', 'dest"invalid');
+		$this->assertTrue(JFolder::exists($this->root . 'destinvalid'));
+		$this->assertTrue(JFile::exists($this->root . 'destinvalid/bar.txt'));
+	}
+
+	/**
 	 * LocalAdapter::move with a file
 	 *
 	 * @return void
@@ -658,6 +704,27 @@ class LocalAdapterTest extends TestCaseDatabase
 	}
 
 	/**
+	 * LocalAdapter::move a file with an invalid name
+	 *
+	 * @return void
+	 */
+	public function testMoveFileInvalidName()
+	{
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+		$this->cleanRootFolder();
+
+		// Make some mock folders in the root
+		JFile::write($this->root . 'src-text.txt', 'some text here');
+		JFolder::create($this->root . 'src');
+		JFile::write($this->root . 'src/bar-test.txt', 'bar');
+
+		// Test file move
+		$adapter->move('src-text.txt', 'dest-"text.txt');
+		$this->assertTrue(JFile::exists($this->root . 'dest-text.txt'));
+		$this->assertFalse(JFile::exists('src-text.txt'));
+	}
+
+	/**
 	 * LocalAdapter::move with a folder
 	 *
 	 * @return void
@@ -719,6 +786,26 @@ class LocalAdapterTest extends TestCaseDatabase
 		$this->assertTrue(JFile::exists($this->root . 'dest/some-another-text'));
 		$this->assertTrue(JFolder::exists($this->root . 'dest/some/folder'));
 		$this->assertFalse(JFolder::exists($this->root . 'src'));
+	}
+
+	/**
+	 * LocalAdapter::move a folder with an invalid name
+	 *
+	 * @return void
+	 */
+	public function testMoveFolderInvalidName()
+	{
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+		$this->cleanRootFolder();
+
+		JFile::write($this->root . 'src-text.txt', 'some text here');
+		JFolder::create($this->root . 'src');
+		JFile::write($this->root . 'src/bar-test.txt', 'bar');
+
+		$adapter->move('src', 'de"st');
+		$this->assertTrue(JFolder::exists($this->root . 'dest'));
+		$this->assertTrue(JFile::exists($this->root . 'dest/bar-test.txt'));
+		$this->assertFalse(JFile::exists('src'));
 	}
 
 	/**

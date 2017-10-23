@@ -204,7 +204,7 @@ class LocalAdapter implements AdapterInterface
 	{
 		$name = $this->getSafeName($name);
 
-		$this->checkContent($name, $data);
+		$this->checkContent($name, $path, $data);
 
 		\JFile::write($this->rootPath . $path . '/' . $name, $data);
 
@@ -230,7 +230,7 @@ class LocalAdapter implements AdapterInterface
 			throw new FileNotFoundException;
 		}
 
-		$this->checkContent($name, $data);
+		$this->checkContent($name, $path, $data);
 
 		\JFile::write($this->rootPath . $path . '/' . $name, $data);
 	}
@@ -402,7 +402,7 @@ class LocalAdapter implements AdapterInterface
 		// If the safe name is different normalize the file name
 		if ($safeName != $name)
 		{
-			$destinationPath = substr($destinationPath, 0, -count($name)) . '/' . $safeName;
+			$destinationPath = substr($destinationPath, 0, -strlen($name)) . '/' . $safeName;
 		}
 
 		// Check for existence of the file in destination
@@ -512,7 +512,7 @@ class LocalAdapter implements AdapterInterface
 		// If the safe name is different normalize the file name
 		if ($safeName != $name)
 		{
-			$destinationPath = substr($destinationPath, 0, -count($name)) . '/' . $safeName;
+			$destinationPath = substr($destinationPath, 0, -strlen($name)) . '/' . $safeName;
 		}
 
 		if (is_dir($sourcePath))
@@ -754,6 +754,7 @@ class LocalAdapter implements AdapterInterface
 	 * Performs various check if it is allowed to save the content with the given name.
 	 *
 	 * @param   string  $name          The filename
+	 * @param   string  $path          The path
 	 * @param   string  $mediaContent  The media content
 	 *
 	 * @return  void
@@ -761,13 +762,13 @@ class LocalAdapter implements AdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	private function checkContent($name, $mediaContent)
+	private function checkContent($name, $path, $mediaContent)
 	{
 		// The helper
 		$helper = new MediaHelper;
 
 		// @todo find a better way to check the input, by not writing the file to the disk
-		$tmpFile = Factory::getApplication()->getConfig()->get('tmp_path') . '/' . uniqid() . '.' . \JFile::getExt($name);
+		$tmpFile = \JPath::clean($this->rootPath . '/' . $path . '/' . uniqid() . '.' . \JFile::getExt($name));
 
 		if (!\JFile::write($tmpFile, $mediaContent))
 		{
