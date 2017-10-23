@@ -155,7 +155,7 @@ class MediaHelper
 
 		jimport('joomla.filesystem.file');
 
-		if (str_replace(' ', '', $file['name']) !== $file['name'] || $file['name'] !== \JFile::makeSafe($file['name']))
+		if ($file['name'] !== \JFile::makeSafe($file['name']))
 		{
 			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'error');
 
