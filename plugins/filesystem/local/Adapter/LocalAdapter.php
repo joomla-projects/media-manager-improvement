@@ -166,7 +166,7 @@ class LocalAdapter implements AdapterInterface
 	 * Creates a folder with the given name in the given path.
 	 *
 	 * It returns the new folder name. This allows the implementation
-	 * classes to normalize the file name.
+	 * classes to normalise the file name.
 	 *
 	 * @param   string  $name  The name
 	 * @param   string  $path  The folder
@@ -189,7 +189,7 @@ class LocalAdapter implements AdapterInterface
 	 * Creates a file with the given name in the given path with the data.
 	 *
 	 * It returns the new file name. This allows the implementation
-	 * classes to normalize the file name.
+	 * classes to normalise the file name.
 	 *
 	 * @param   string  $name  The name
 	 * @param   string  $path  The folder
@@ -374,7 +374,7 @@ class LocalAdapter implements AdapterInterface
 	 * Copies a file or folder from source to destination.
 	 *
 	 * It returns the new destination path. This allows the implementation
-	 * classes to normalize the file name.
+	 * classes to normalise the file name.
 	 *
 	 * @param   string  $sourcePath       The source path
 	 * @param   string  $destinationPath  The destination path
@@ -399,7 +399,7 @@ class LocalAdapter implements AdapterInterface
 		$name     = basename($destinationPath);
 		$safeName = $this->getSafeName($name);
 
-		// If the safe name is different normalize the file name
+		// If the safe name is different normalise the file name
 		if ($safeName != $name)
 		{
 			$destinationPath = substr($destinationPath, 0, -strlen($name)) . '/' . $safeName;
@@ -484,7 +484,7 @@ class LocalAdapter implements AdapterInterface
 	 * Moves a file or folder from source to destination.
 	 *
 	 * It returns the new destination path. This allows the implementation
-	 * classes to normalize the file name.
+	 * classes to normalise the file name.
 	 *
 	 * @param   string  $sourcePath       The source path
 	 * @param   string  $destinationPath  The destination path
@@ -509,7 +509,7 @@ class LocalAdapter implements AdapterInterface
 		$name     = basename($destinationPath);
 		$safeName = $this->getSafeName($name);
 
-		// If the safe name is different normalize the file name
+		// If the safe name is different normalise the file name
 		if ($safeName != $name)
 		{
 			$destinationPath = substr($destinationPath, 0, -strlen($name)) . '/' . $safeName;

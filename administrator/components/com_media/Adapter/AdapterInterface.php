@@ -72,7 +72,7 @@ interface AdapterInterface
 	 * Creates a folder with the given name in the given path.
 	 *
 	 * It returns the new folder name. This allows the implementation
-	 * classes to normalize the file name.
+	 * classes to normalise the file name.
 	 *
 	 * @param   string  $name  The name
 	 * @param   string  $path  The folder
@@ -88,7 +88,7 @@ interface AdapterInterface
 	 * Creates a file with the given name in the given path with the data.
 	 *
 	 * It returns the new file name. This allows the implementation
-	 * classes to normalize the file name.
+	 * classes to normalise the file name.
 	 *
 	 * @param   string  $name  The name
 	 * @param   string  $path  The folder
@@ -131,7 +131,7 @@ interface AdapterInterface
 	 * Moves a file or folder from source to destination.
 	 *
 	 * It returns the new destination path. This allows the implementation
-	 * classes to normalize the file name.
+	 * classes to normalise the file name.
 	 *
 	 * @param   string  $sourcePath       The source path
 	 * @param   string  $destinationPath  The destination path
@@ -148,7 +148,7 @@ interface AdapterInterface
 	 * Copies a file or folder from source to destination.
 	 *
 	 * It returns the new destination path. This allows the implementation
-	 * classes to normalize the file name.
+	 * classes to normalise the file name.
 	 *
 	 * @param   string  $sourcePath       The source path
 	 * @param   string  $destinationPath  The destination path

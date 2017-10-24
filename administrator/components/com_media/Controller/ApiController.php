@@ -331,7 +331,7 @@ class ApiController extends BaseController
 	}
 
 	/**
-	 * Performs various check if it is allowed to save the content.
+	 * Performs various checks if it is allowed to save the content.
 	 *
 	 * @return  void
 	 *
