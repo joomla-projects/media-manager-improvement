@@ -19,15 +19,17 @@
   .modal-header {
     position: absolute;
     top: 0;
-    right: 0;
     left: 0;
-    padding: 0 20px;
-    line-height: 3rem;
-    background-color: #fff;
+    justify-content: flex-start;
+    padding: 15px;
     border: 0;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    box-shadow: $modal-box-shadow;
+  }
+
+  .modal-title {
+    color: #fff;
+    line-height: 2.5rem;
   }
 
   .modal-body {
@@ -68,13 +70,28 @@
 }
 
 .media-preview-close {
-  margin: 3px 0;
-  font-size: 3rem;
-  opacity: .7;
-  &:hover {
-    cursor: pointer;
-    opacity: 1;
+  width: 2.5rem;
+  padding-right: 2px;
+  margin-right: 10px;
+  font-size: 1.4rem;
+  line-height: 2.5rem;
+  text-align: center;
+  border-radius: $border-radius;
+  i {
+    color: #fff;
   }
+  &:hover {
+    background-color: rgba(255,255,255,.3);
+    cursor: pointer;
+  }
+}
+
+.media-backdrop-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 @keyframes fadeInUp {
