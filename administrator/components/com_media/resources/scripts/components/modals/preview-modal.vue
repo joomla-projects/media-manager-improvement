@@ -7,8 +7,8 @@
                 <source :src="item.url" :type="item.mime_type">
             </video>
         </div>
-        <a slot="backdrop-close" @click="close()" class="media-preview-close">
-            <span class="fa fa-times"></span>
+        <a slot="close" @click="close()" class="media-preview-close">
+            <span>&times;</span>
         </a>
     </media-modal>
 </template>

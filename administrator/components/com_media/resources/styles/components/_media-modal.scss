@@ -12,7 +12,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100vh;
     animation: .5s ease 0s normal none 1 running fadeIn;
+  }
+
+  .modal-header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 0 20px;
+    background-color: #fff;
+    line-height: 3rem;
+    border: 0;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    box-shadow: $modal-box-shadow;
   }
 
   .modal-body {
@@ -21,13 +36,13 @@
   }
 
   .modal-content {
+    margin-top: 3rem;
     box-shadow: $modal-box-shadow;
   }
 
 }
 
 .media-preview-modal {
-  color: $modal-preview-text-color;
 
   .modal-dialog {
     max-width: 70vw;
@@ -38,13 +53,7 @@
     border: 0;
     box-shadow: none;
   }
-  .modal-header {
-    padding: 0;
-    border: 0;
-    > .close {
-      display: none;
-    }
-  }
+
   .modal-body {
     padding: 0;
     background-color: #fff;
@@ -59,10 +68,7 @@
 }
 
 .media-preview-close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 5px 20px;
+  margin: 3px 0;
   font-size: 3rem;
   opacity: .7;
   &:hover {
