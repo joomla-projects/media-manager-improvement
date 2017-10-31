@@ -308,7 +308,7 @@ class LocalAdapter implements AdapterInterface
 		// Set the values
 		$obj            = new \stdClass;
 		$obj->type      = $isDir ? 'dir' : 'file';
-		$obj->name      = $this->getFileName($path);
+		$obj->name      = basename($path);
 		$obj->path      = str_replace($this->rootPath, '/', $path);
 		$obj->localpath = $path;
 		$obj->extension = !$isDir ? \JFile::getExt($obj->name) : '';
@@ -396,7 +396,7 @@ class LocalAdapter implements AdapterInterface
 			throw new FileNotFoundException;
 		}
 
-		$name     = $this->getFileName($destinationPath);
+		$name     = basename($destinationPath);
 		$safeName = $this->getSafeName($name);
 
 		// If the safe name is different normalise the file name
@@ -436,7 +436,7 @@ class LocalAdapter implements AdapterInterface
 		if (is_dir($destinationPath))
 		{
 			// If the destination is a folder we create a file with the same name as the source
-			$destinationPath = $destinationPath . '/' . $this->getFileName($sourcePath);
+			$destinationPath = $destinationPath . '/' . basename($sourcePath);
 		}
 
 		if (file_exists($destinationPath) && !$force)
@@ -506,7 +506,7 @@ class LocalAdapter implements AdapterInterface
 			throw new FileNotFoundException;
 		}
 
-		$name     = $this->getFileName($destinationPath);
+		$name     = basename($destinationPath);
 		$safeName = $this->getSafeName($name);
 
 		// If the safe name is different normalise the file name
@@ -544,7 +544,7 @@ class LocalAdapter implements AdapterInterface
 		if (is_dir($destinationPath))
 		{
 			// If the destination is a folder we create a file with the same name as the source
-			$destinationPath = $destinationPath . '/' . $this->getFileName($sourcePath);
+			$destinationPath = $destinationPath . '/' . basename($sourcePath);
 		}
 
 		if (file_exists($destinationPath) && !$force)
@@ -681,7 +681,7 @@ class LocalAdapter implements AdapterInterface
 		$files = glob($pattern, $flags);
 		foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir)
 		{
-			$files = array_merge($files, $this->rglob($dir . '/' . $this->getFileName($pattern), $flags));
+			$files = array_merge($files, $this->rglob($dir . '/' . basename($pattern), $flags));
 		}
 
 		return $files;
@@ -783,24 +783,5 @@ class LocalAdapter implements AdapterInterface
 		{
 			throw new \Exception(\JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'), 403);
 		}
-	}
-
-	/**
-	 * Returns the file name of the given path.
-	 *
-	 * @param   string  $path The path
-	 *
-	 * @return  string
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws  \Exception
-	 */
-	private function getFileName($path)
-	{
-		// Basename does not work here as it strips out certain characters like the upper case umlaut u
-		$path = explode(DIRECTORY_SEPARATOR, $path);
-
-		// Return the last element
-		return array_pop($path);
 	}
 }
