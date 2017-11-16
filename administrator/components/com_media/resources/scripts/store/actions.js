@@ -1,6 +1,7 @@
 import {api} from "../app/Api";
 import * as types from "./mutation-types";
 import {notifications} from "../app/Notifications";
+import * as FileSaver from './../../../node_modules/file-saver/FileSaver';
 
 // Actions are similar to mutations, the difference being that:
 // - Instead of mutating the state, actions commit mutations.
@@ -61,6 +62,23 @@ export const getFullContents = (context, payload) => {
         .catch(error => {
             // TODO error handling
             context.commit(types.SET_IS_LOADING, false);
+            console.log("error", error);
+        });
+}
+
+/**
+ * Download a file
+ * @param context
+ * @param payload
+ */
+export const download = (context, payload) => {
+    api.getContents(payload.path, 0, 1)
+        .then(contents => {
+            var file = contents.files[0];
+	        var fileObject = new File([atob(file.content)], file.name, {type: file.mime + ";charset=utf-8"});
+	        FileSaver.saveAs(fileObject);
+        })
+        .catch(error => {
             console.log("error", error);
         });
 }

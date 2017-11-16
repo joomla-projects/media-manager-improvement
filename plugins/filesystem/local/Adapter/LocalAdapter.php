@@ -173,7 +173,7 @@ class LocalAdapter implements AdapterInterface
 	 * @throws  \Exception
 	 */
 	public function getResource($path)
-	{echo $this->rootPath . '/' . $path;
+	{
 		return fopen($this->rootPath . '/' . $path, 'r');
 	}
 
