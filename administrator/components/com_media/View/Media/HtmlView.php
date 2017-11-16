@@ -48,7 +48,7 @@ class HtmlView extends BaseHtmlView
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
-	{Factory::getApplication()->enqueueMessage('sdfsdf');
+	{
 		// Prepare the toolbar
 		$this->prepareToolbar();
 

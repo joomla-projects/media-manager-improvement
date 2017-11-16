@@ -75,8 +75,26 @@ export const download = (context, payload) => {
     api.getContents(payload.path, 0, 1)
         .then(contents => {
             var file = contents.files[0];
-	        var fileObject = new File([atob(file.content)], file.name, {type: file.mime + ";charset=utf-8"});
-	        FileSaver.saveAs(fileObject);
+
+            // Converte the base 64 encoded string to a blob
+	        var byteCharacters = atob(file.content);
+	        var byteArrays = [];
+
+	        for (var offset = 0; offset < byteCharacters.length; offset += 512) {
+		        var slice = byteCharacters.slice(offset, offset + 512);
+
+		        var byteNumbers = new Array(slice.length);
+		        for (var i = 0; i < slice.length; i++) {
+			        byteNumbers[i] = slice.charCodeAt(i);
+		        }
+
+		        var byteArray = new Uint8Array(byteNumbers);
+
+		        byteArrays.push(byteArray);
+	        }
+
+	        // Open the save as file dialog
+	        FileSaver.saveAs(new Blob(byteArrays, {type: file.mime_type}), file.name);
         })
         .catch(error => {
             console.log("error", error);

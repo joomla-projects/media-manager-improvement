@@ -114,12 +114,7 @@ class ApiModel extends BaseDatabaseModel
 
 			if ($resource)
 			{
-				$data = '';
-				while (!feof($resource))
-				{
-					$data .= fread($resource, 1024);
-				}
-				$file->content = base64_encode($data);
+				$file->content = base64_encode(stream_get_contents($resource));
 			}
 		}
 
