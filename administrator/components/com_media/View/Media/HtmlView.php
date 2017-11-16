@@ -12,6 +12,7 @@ namespace Joomla\Component\Media\Administrator\View\Media;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -58,7 +59,7 @@ class HtmlView extends BaseHtmlView
 		// Check that there are providers
 		if (!count($this->providers))
 		{
-			// TODO throw an exception
+			Factory::getApplication()->enqueueMessage(Text::_('COM_MEDIA_ERROR_NO_PROVIDERS'), 'warning');
 		}
 
 		$this->currentPath = Factory::getApplication()->input->getString('path');
