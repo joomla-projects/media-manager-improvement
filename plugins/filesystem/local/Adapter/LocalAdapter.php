@@ -25,7 +25,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Local file adapter.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class LocalAdapter implements AdapterInterface
 {
@@ -34,7 +34,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @var string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $rootPath = null;
 
@@ -43,7 +43,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @var string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $filePath = null;
 
@@ -53,7 +53,7 @@ class LocalAdapter implements AdapterInterface
 	 * @param   string  $rootPath  The root path
 	 * @param   string  $filePath  The file path of media folder
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($rootPath, $filePath)
 	{
@@ -86,7 +86,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  \stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function getFile($path = '/')
@@ -123,7 +123,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  \stdClass[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function getFiles($path = '/')
@@ -163,6 +163,21 @@ class LocalAdapter implements AdapterInterface
 	}
 
 	/**
+	 * Returns a resource to download the path.
+	 *
+	 * @param   string  $path  The path to download
+	 *
+	 * @return  resource
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function getResource($path)
+	{
+		return fopen($this->rootPath . '/' . $path, 'r');
+	}
+
+	/**
 	 * Creates a folder with the given name in the given path.
 	 *
 	 * It returns the new folder name. This allows the implementation
@@ -173,7 +188,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function createFolder($name, $path)
@@ -199,7 +214,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function createFile($name, $path, $data)
@@ -224,7 +239,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function updateFile($name, $path, $data)
@@ -249,7 +264,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function delete($path)
@@ -300,7 +315,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  \stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getPathInformation($path)
 	{
@@ -320,7 +335,7 @@ class LocalAdapter implements AdapterInterface
 		$obj->path      = str_replace($this->rootPath, '/', $path);
 		$obj->localpath = $path;
 		$obj->extension = !$isDir ? \JFile::getExt($obj->name) : '';
-		$obj->size      = !$isDir ? filesize($path) : 0;
+		$obj->size      = !$isDir ? filesize($path) : '';
 		$obj->mime_type = MediaHelper::getMimeType($path, MediaHelper::isImage($obj->name));
 		$obj->width     = 0;
 		$obj->height    = 0;
@@ -352,7 +367,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  Date[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getDate($date = null)
 	{
@@ -390,8 +405,8 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws  \Exception
+	 * @since 4.0.0
+	 * @throws \Exception
 	 */
 	public function copy($sourcePath, $destinationPath, $force = false)
 	{
@@ -436,7 +451,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 * @throws  \Exception
 	 */
 	private function copyFile($sourcePath, $destinationPath, $force = false)
@@ -467,7 +482,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 * @throws  \Exception
 	 */
 	private function copyFolder($sourcePath, $destinationPath, $force = false)
@@ -500,8 +515,8 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws  \Exception
+	 * @since 4.0.0
+	 * @throws \Exception
 	 */
 	public function move($sourcePath, $destinationPath, $force = false)
 	{
@@ -544,7 +559,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 * @throws  \Exception
 	 */
 	private function moveFile($sourcePath, $destinationPath, $force = false)
@@ -575,7 +590,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 * @throws  \Exception
 	 */
 	private function moveFolder($sourcePath, $destinationPath, $force = false)
@@ -621,7 +636,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function getUrl($path)
 	{
@@ -633,7 +648,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getAdapterName()
 	{
@@ -649,7 +664,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return \stdClass[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function search($path, $needle, $recursive)
 	{
@@ -682,7 +697,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function rglob($pattern, $flags = 0)
 	{
@@ -703,7 +718,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws FileNotFoundException
 	 */
 	public function getTemporaryUrl($path)
@@ -718,7 +733,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws FileNotFoundException
 	 */
 	private function getEncodedPath($path)

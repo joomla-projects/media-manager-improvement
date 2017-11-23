@@ -25,7 +25,7 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 /**
  * Api Model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ApiModel extends BaseDatabaseModel
 {
@@ -33,7 +33,7 @@ class ApiModel extends BaseDatabaseModel
 	 * Holds available media file adapters.
 	 *
 	 * @var   ProviderManager
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $providerManager = null;
 
@@ -41,7 +41,7 @@ class ApiModel extends BaseDatabaseModel
 	 * The available extensions.
 	 *
 	 * @var   string[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $allowedExtensions = null;
 
@@ -50,7 +50,7 @@ class ApiModel extends BaseDatabaseModel
 	 *
 	 * @param   string  $name  Name of the provider
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @return AdapterInterface
 	 *
 	 * @throws \Exception
@@ -81,7 +81,7 @@ class ApiModel extends BaseDatabaseModel
 	 *
 	 * @return  \stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::getFile()
 	 */
@@ -108,6 +108,16 @@ class ApiModel extends BaseDatabaseModel
 			}
 		}
 
+		if (isset($options['content']) && $options['content'] && $file->type == 'file')
+		{
+			$resource = $this->getAdapter($adapter)->getResource($file->path);
+
+			if ($resource)
+			{
+				$file->content = base64_encode(stream_get_contents($resource));
+			}
+		}
+
 		$file->path    = $adapter . ":" . $file->path;
 		$file->adapter = $adapter;
 
@@ -124,7 +134,7 @@ class ApiModel extends BaseDatabaseModel
 	 *
 	 * @return  \stdClass[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::getFile()
 	 */
@@ -166,6 +176,16 @@ class ApiModel extends BaseDatabaseModel
 				}
 			}
 
+			if (isset($options['content']) && $options['content'] && $file->type == 'file')
+			{
+				$resource = $this->getAdapter($adapter)->getResource($file->path);
+
+				if ($resource)
+				{
+					$file->content = base64_encode(stream_get_contents($resource));
+				}
+			}
+
 			$file->path    = $adapter . ":" . $file->path;
 			$file->adapter = $adapter;
 		}
@@ -185,7 +205,7 @@ class ApiModel extends BaseDatabaseModel
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::createFolder()
 	 */
@@ -201,7 +221,7 @@ class ApiModel extends BaseDatabaseModel
 		}
 
 		// Check if the file exists
-		if ($file && !$override)
+		if (isset($file) && !$override)
 		{
 			throw new FileExistsException;
 		}
@@ -221,7 +241,7 @@ class ApiModel extends BaseDatabaseModel
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::createFile()
 	 */
@@ -262,7 +282,7 @@ class ApiModel extends BaseDatabaseModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::updateFile()
 	 */
@@ -286,7 +306,7 @@ class ApiModel extends BaseDatabaseModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::delete()
 	 */
@@ -314,7 +334,7 @@ class ApiModel extends BaseDatabaseModel
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function copy($adapter, $sourcePath, $destinationPath, $force = false)
@@ -333,7 +353,7 @@ class ApiModel extends BaseDatabaseModel
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function move($adapter, $sourcePath, $destinationPath, $force = false)
@@ -350,7 +370,7 @@ class ApiModel extends BaseDatabaseModel
 	 *
 	 * @return  string  Permalink to the relative file
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  FileNotFoundException
 	 */
 	public function getUrl($adapter, $path)
@@ -374,7 +394,7 @@ class ApiModel extends BaseDatabaseModel
 	 *
 	 * @return \stdClass[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws \Exception
 	 */
 	public function search($adapter, $needle, $path = '/', $recursive = true)
@@ -391,7 +411,7 @@ class ApiModel extends BaseDatabaseModel
 	 *
 	 * @return string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws \Exception
 	 */
 	public function getTemporaryUrl($adapter, $path)
@@ -412,7 +432,7 @@ class ApiModel extends BaseDatabaseModel
 	 *
 	 * @return boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function isMediaFile($path)
 	{

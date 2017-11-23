@@ -28,7 +28,7 @@ use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
  *
  * This is NO public api controller, it is internal for the com_media component only!
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ApiController extends BaseController
 {
@@ -39,7 +39,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  mixed   The value returned by the called method.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function execute($task)
@@ -127,7 +127,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  array  The data to send with the response
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function getFiles()
@@ -138,6 +138,7 @@ class ApiController extends BaseController
 		$options['temp'] = $this->input->getBool('temp', false);
 		$options['search'] = $this->input->getString('search', '');
 		$options['recursive'] = $this->input->getBool('recursive', true);
+		$options['content'] = $this->input->getBool('content', false);
 
 		return $this->getModel()->getFiles($this->getAdapter(), $this->getPath(), $options);
 	}
@@ -156,7 +157,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function deleteFiles()
@@ -187,7 +188,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  array  The data to send with the response
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function postFiles()
@@ -253,7 +254,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  array  The data to send with the response
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function putFiles()
@@ -303,7 +304,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function sendResponse($data = null, $responseCode = 200)
 	{
@@ -328,7 +329,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  Model|boolean  Model object on success; otherwise false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getModel($name = 'Api', $prefix = 'Administrator', $config = array())
 	{
@@ -340,7 +341,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	private function checkContent()
@@ -365,27 +366,41 @@ class ApiController extends BaseController
 	}
 
 	/**
-	 * Get the Adapter
+	 * Get the Adapter.
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getAdapter()
 	{
-		return explode(':', $this->input->getString('path', ''), 2)[0];
+		$parts = explode(':', $this->input->getString('path', ''), 2);
+
+		if (count($parts) < 1)
+		{
+			return null;
+		}
+
+		return $parts[0];
 	}
 
 	/**
-	 * Get the Path
+	 * Get the Path.
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getPath()
 	{
-		return explode(':', $this->input->getString('path', ''), 2)[1];
+		$parts = explode(':', $this->input->getString('path', ''), 2);
+
+		if (count($parts) < 2)
+		{
+			return null;
+		}
+
+		return $parts[1];
 	}
 
 }
