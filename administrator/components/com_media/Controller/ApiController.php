@@ -395,7 +395,7 @@ class ApiController extends BaseController
 			return null;
 		}
 
-		return $parts[0];
+		return $parts[1];
 	}
 
 }
