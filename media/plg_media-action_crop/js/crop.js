@@ -57,7 +57,16 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 			Joomla.MediaManager.Edit.crop.cropper.setData({height: parseInt(this.value)});
 		});
 
-		var elements = document.querySelectorAll("#jform_aspectRatio input");
+		var elements = document.querySelectorAll(".crop-aspect-ratio-option");
+
+		// Set default aspect ratio after numeric check, option has a dummy value
+		var defaultCropFactor = image.naturalWidth / image.naturalHeight;
+		if (!isNaN(+defaultCropFactor) && isFinite(defaultCropFactor)){
+			elements[0].value = defaultCropFactor;
+		}
+			Joomla.MediaManager.Edit.crop.cropper.setAspectRatio(elements[0].value);
+
+		// Set click listener and function to the aspect ratio list
 		for (var i = 0; i < elements.length; i++) {
 			elements[i].addEventListener('click', function (e) {
 				Joomla.MediaManager.Edit.crop.cropper.setAspectRatio(this.value);
