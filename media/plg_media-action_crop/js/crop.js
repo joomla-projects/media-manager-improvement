@@ -60,21 +60,21 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 		var elements = [].slice.call(document.querySelectorAll(".crop-aspect-ratio-option"));
 
 		// Wait for the image to load its data
-		setTimeout(function() {
+		image.addEventListener('load', function() {
 			// Set default aspect ratio after numeric check, option has a dummy value
 			var defaultCropFactor = image.naturalWidth / image.naturalHeight;
 			if (!isNaN(+defaultCropFactor) && isFinite(defaultCropFactor)){
 				elements[0].value = defaultCropFactor;
 			}
 			Joomla.MediaManager.Edit.crop.cropper.setAspectRatio(elements[0].value);
-
-			// Set click listener and function to the aspect ratio list
-			elements.forEach(function(element) {
-				element.addEventListener('click', function (e) {
-					Joomla.MediaManager.Edit.crop.cropper.setAspectRatio(this.value);
-  				});
-			});
-		}, 2000);
+		});
+		
+		// Set click listener and function to the aspect ratio list
+		elements.forEach(function(element) {
+			element.addEventListener('click', function (e) {
+				Joomla.MediaManager.Edit.crop.cropper.setAspectRatio(this.value);
+  			});
+		});
 	};
 
 	// Register the Events
