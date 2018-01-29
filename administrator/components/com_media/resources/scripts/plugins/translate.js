@@ -2,8 +2,6 @@
  * Translate plugin
  */
 
-import './../../../node_modules/sprintf-js/src/sprintf';
-
 let Translate = {};
 
 Translate.translate = function (key) {
@@ -11,22 +9,33 @@ Translate.translate = function (key) {
 	return Joomla.JText._(key, key);
 }
 
-Translate.sprintf = function (key) {
-	// Convert the arguments to array
-	var args = Array.prototype.slice.call(arguments);
-
-	// Remove the key
-	args.shift();
-
-	// Change the placeholders from the arguments
-	return vsprintf(this.translate(key), args);
+/**
+ *
+ * @param key
+ */
+Translate.sprintf = function (string, ...args) {
+	string = this.translate(string);
+	var i = 0;
+	return string.replace(/%((%)|s|d)/g, function (m) {
+		var val = args[i];
+		switch (m) {
+			case '%d':
+				val = parseFloat(val);
+				if (isNaN(val)) {
+					val = 0;
+				}
+				break;
+		}
+		i++;
+		return val;
+	});
 }
 
 Translate.install = function (Vue, options) {
 	Vue.mixin({
 		methods: {
 			translate: function (key) {
-				 return Translate.translate(key);
+				return Translate.translate(key);
 			}
 		}
 	})
