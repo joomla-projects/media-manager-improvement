@@ -9,22 +9,18 @@ Translate.translate = function (key) {
 	return Joomla.JText._(key, key);
 }
 
-/**
- *
- * @param key
- */
+
 Translate.sprintf = function (string, ...args) {
 	string = this.translate(string);
 	var i = 0;
 	return string.replace(/%((%)|s|d)/g, function (m) {
 		var val = args[i];
-		switch (m) {
-			case '%d':
-				val = parseFloat(val);
-				if (isNaN(val)) {
-					val = 0;
-				}
-				break;
+
+		if (m == '%d') {
+			val = parseFloat(val);
+			if (isNaN(val)) {
+				val = 0;
+			}
 		}
 		i++;
 		return val;
