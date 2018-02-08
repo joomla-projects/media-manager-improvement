@@ -15,6 +15,10 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 		// The image element
 		var image = document.getElementById('image-source');
 
+		// The flip values
+		var flipH = document.getElementById('jform_flip_image0').checked;
+		var flipV = document.getElementById('jform_flip_image1').checked;
+
 		// The canvas where we will resize the image
 		var canvas = document.createElement("canvas");
 
@@ -29,6 +33,12 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 		}
 		var ctx = canvas.getContext("2d");
 		ctx.translate(canvas.width / 2, canvas.height / 2);
+
+		// Flip/flop the canvas
+		if(flipH) var flipScale = -1; else var flipScale = 1;
+		if(flipV) var flopScale = -1; else var flopScale = 1;
+		ctx.scale(flipScale, flopScale);
+		
 		ctx.rotate(angle * Math.PI / 180);
 		ctx.drawImage(image, -image.width / 2, -image.height / 2);
 
