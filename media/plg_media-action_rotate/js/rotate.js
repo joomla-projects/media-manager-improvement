@@ -66,6 +66,15 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
 	var initRotate = function (mediaData) {
 		var funct = function () {
+
+			// The flip listeners, get the angle from the _rotate_a input
+			document.getElementById('jform_flip_image0').addEventListener('change', function () {
+				rotate(parseInt(document.getElementById('jform_rotate_a').value));
+			});
+			document.getElementById('jform_flip_image1').addEventListener('change', function () {
+				rotate(parseInt(document.getElementById('jform_rotate_a').value));
+			});
+
 			// The number input listener
 			document.getElementById('jform_rotate_a').addEventListener('input', function () {
 				rotate(parseInt(this.value));
