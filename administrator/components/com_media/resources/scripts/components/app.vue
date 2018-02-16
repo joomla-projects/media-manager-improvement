@@ -7,7 +7,7 @@
             <div class="media-main">
                 <media-toolbar></media-toolbar>
                 <media-browser></media-browser>
-                <media-infobar v-if="!this.isModal"></media-infobar>
+                <media-infobar ref="infobar" v-if="!this.isModal"></media-infobar>
             </div>
         </div>
         <media-upload></media-upload>
