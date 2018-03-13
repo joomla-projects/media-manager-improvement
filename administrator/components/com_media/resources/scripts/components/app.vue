@@ -9,7 +9,7 @@
                 <media-browser></media-browser>
             </div>
         </div>
-        <media-upload ref="uplooad"></media-upload>
+        <media-upload></media-upload>
         <media-create-folder-modal></media-create-folder-modal>
         <media-preview-modal></media-preview-modal>
         <media-rename-modal></media-rename-modal>
