@@ -76,7 +76,8 @@
             /* Unselect all browser items */
             unselectAllBrowserItems(event) {
                 const notInBrowserItems = (this.$refs.browserItems && !this.$refs.browserItems.contains(event.target)) || event.target === this.$refs.browserItems;
-                const clickedOutside = notInBrowserItems && !this.$refs.infobar.$el.contains(event.target);
+                const notClickedInfobar = this.$refs.infobar !== undefined && !this.$refs.infobar.$el.contains(event.target);
+                const clickedOutside = notInBrowserItems && notClickedInfobar;
                 if (clickedOutside) {
                     this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
                 }
