@@ -11,6 +11,10 @@
   background-color: $info-bg;
   border-left: 1px solid $border-color;
   h2 {
+    width:90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:ellipsis;
     padding: 0 $gutter-width;
     margin: (-$gutter-width) (-$gutter-width) $gutter-width;
     font-weight: normal;
@@ -32,6 +36,7 @@
     padding-left: ($col-gutter-width / 2);
   }
   dt {
+    padding-left:2px;
     flex: 0 0 $info-dt-width;
     max-width: $info-dt-width;
     font-weight: normal;
