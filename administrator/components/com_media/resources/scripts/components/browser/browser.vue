@@ -75,9 +75,9 @@
         methods: {
             /* Unselect all browser items */
             unselectAllBrowserItems(event) {
-                const notInBrowserItems = (this.$refs.browserItems && !this.$refs.browserItems.contains(event.target)) || event.target === this.$refs.browserItems;
+                const notClickedBrowserItems = (this.$refs.browserItems && !this.$refs.browserItems.contains(event.target)) || event.target === this.$refs.browserItems;
                 const notClickedInfobar = this.$refs.infobar !== undefined && !this.$refs.infobar.$el.contains(event.target);
-                const clickedOutside = notInBrowserItems && notClickedInfobar;
+                const clickedOutside = notClickedBrowserItems && notClickedInfobar;
                 if (clickedOutside) {
                     this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
                 }
