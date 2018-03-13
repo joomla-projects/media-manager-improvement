@@ -7,10 +7,9 @@
             <div class="media-main">
                 <media-toolbar></media-toolbar>
                 <media-browser></media-browser>
-                <media-infobar ref="infobar" v-if="!this.isModal"></media-infobar>
             </div>
         </div>
-        <media-upload></media-upload>
+        <media-upload ref="uplooad"></media-upload>
         <media-create-folder-modal></media-create-folder-modal>
         <media-preview-modal></media-preview-modal>
         <media-rename-modal></media-rename-modal>
@@ -26,16 +25,13 @@
         data() {
             return {
                 // The full height of the app in px
-                fullHeight: '',
+                fullHeight: ''
             };
         },
         computed: {
             disks() {
                 return this.$store.state.disks;
             },
-            isModal() {
-		return Joomla.getOptions('com_media', {}).isModal;
-            }
         },
         methods: {
             /* Set the full height on the app container */
