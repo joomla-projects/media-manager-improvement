@@ -7,18 +7,15 @@
   float: none;
   width: 25%;
   padding: $gutter-width;
-  overflow: hidden;
+  overflow-y: scroll;
   background-color: $info-bg;
   border-left: 1px solid $border-color;
   h2 {
-    width:90%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    padding: 0 $gutter-width;
+    padding: 10px ($gutter-width + 30px) 10px $gutter-width;
     margin: (-$gutter-width) (-$gutter-width) $gutter-width;
     font-weight: normal;
     line-height: $info-title-height;
+    word-wrap: break-word;
     background-color: $info-title-bg;
     border-bottom: 1px solid #eee;
   }
@@ -36,7 +33,6 @@
     padding-left: ($col-gutter-width / 2);
   }
   dt {
-    padding-left:2px;
     flex: 0 0 $info-dt-width;
     max-width: $info-dt-width;
     font-weight: normal;
