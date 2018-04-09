@@ -9,6 +9,7 @@
             </a>
         </div>
         <media-breadcrumb></media-breadcrumb>
+        <input type="text" :value="search" @input="changeSearch" placeholder="Search item.."/>
         <div class="media-view-icons">
             <a href="#" class="media-toolbar-icon media-toolbar-decrease-grid-size"
                v-if="isGridView"
@@ -43,6 +44,12 @@
 
     export default {
         name: 'media-toolbar',
+        props: ['search'],
+        data(){
+            return{
+                search:''
+            }
+        },
         computed: {
             toggleListViewBtnIcon() {
                 return (this.isGridView) ? 'fa fa-list' : 'fa fa-th';
@@ -97,6 +104,10 @@
             },
             isGridSize(size) {
                 return (this.$store.state.gridSize === size);
+            },
+            changeSearch(query){
+                this.search = query.target.value;
+                this.$emit('newQuery', this.search);
             }
         }
     }
