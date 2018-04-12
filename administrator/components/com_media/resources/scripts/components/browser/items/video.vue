@@ -36,6 +36,10 @@
                     <span class="image-browser-action fa fa-text-width" aria-hidden="true"
                           @click.stop="openRenameModal()"></span>
                 </a>
+                <a href="#" class="action-url"
+                  :aria-label="translate('COM_MEDIA_ACTION_SHARE')">
+                    <span class="image-browser-action fa fa-link" aria-hidden="true" @click.stop="fetchUrl()"></span>
+                </a>
                 <a href="#" class="action-delete"
                   :aria-label="translate('COM_MEDIA_ACTION_DELETE')">
                     <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="deleteItem()"></span>
