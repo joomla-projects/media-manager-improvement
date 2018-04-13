@@ -7,7 +7,7 @@
                 
                 <template v-if="!url">
                     <div class="control">
-                        <a class="btn btn-success btn-block" role="button" @click="generateUrl">Get Sharable URL</a>
+                        <a class="btn btn-success btn-block" role="button" @click="generateUrl">{{ translate('COM_MEDIA_ACTION_SHARE') }}</a>
                     </div>
                 </template>
                 <template v-else>
@@ -15,7 +15,7 @@
                         <span class="input-group">
                             <input id="url" ref="urlText" readonly v-model="url" class="form-control input-xxlarge" placeholder="URL" autocomplete="off">
                             <span class="input-group-append">
-                                <a class="btn btn-secondary" role="button" @click="copyToClipboard">
+                                <a class="btn btn-secondary" role="button" @click="copyToClipboard" title="Copy to clipboard">
                                     <span class="fa fa-clipboard" aria-hidden="true"></span>
                                 </a>
                             </span>
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div slot="footer">
-            <button class="btn btn-primary" @click="close()">{{ translate('JCANCEL') }}</button>
+            <button class="btn btn-link" @click="close()">{{ translate('JCANCEL') }}</button>
         </div>
     </media-modal>
 </template>
@@ -48,17 +48,26 @@
         methods: {
             /* Close the modal instance and reset the form */
             close() {
-                // this.url = '';
                 this.$store.commit(types.HIDE_SHARE_MODAL);
                 this.$store.commit(types.LOAD_FULL_CONTENTS_SUCCESS, null);
             },
 
+            // Generate the url from backend
             generateUrl () {
                 this.$store.dispatch('getFullContents', this.item);
             },
 
+            // Copy to clipboard
             copyToClipboard() {
-                console.log(this.$refs.urlText.value)
+                this.$refs.urlText.focus();
+                this.$refs.urlText.select();
+
+                try {
+                    document.execCommand('copy');
+                } catch (err) {
+                    // TODO Error handling in joomla way
+                    alert(translate('COM_MEDIA_SHARE_COPY_FAILED_ERROR'));
+                }
             }
         }
     }
