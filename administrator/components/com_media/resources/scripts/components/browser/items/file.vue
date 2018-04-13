@@ -33,7 +33,7 @@
                 </a>
                 <a href="#" class="action-url"
                   :aria-label="translate('COM_MEDIA_ACTION_SHARE')">
-                    <span class="image-browser-action fa fa-link" aria-hidden="true" @click.stop="fetchUrl()"></span>
+                    <span class="image-browser-action fa fa-link" aria-hidden="true" @click.stop="openShareUrlModal()"></span>
                 </a>
                 <a href="#" class="action-delete"
                   :aria-label="translate('COM_MEDIA_ACTION_DELETE')">
@@ -73,8 +73,9 @@
             toggleSelect() {
                 this.$store.dispatch('toggleBrowserItemSelect', this.item);
             },
-            /* Fetch sharable url for file */
-            fetchUrl() {
+            /* Open modal for share url */
+            openShareUrlModal() {
+                this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
                 this.$store.commit(types.SHOW_SHARE_MODAL);
             },
         }
