@@ -168,6 +168,8 @@ export const uploadFile = (context, payload) => {
  * @param payload object: the item to delete
  */
 export const deleteItem = (context, payload) => {
+    if (!notifications.ask('Do you want to delete this ?')) return;
+
     context.commit(types.SET_IS_LOADING, true);
     const item = payload;
     api.delete(item.path)
@@ -212,10 +214,13 @@ export const renameItem = (context, payload) => {
  * @param payload object
  */
 export const deleteSelectedItems = (context, payload) => {
-    context.commit(types.SET_IS_LOADING, true);
     // Get the selected items from the store
     const selectedItems = context.state.selectedItems;
+
     if (selectedItems.length > 0) {
+        if (!notifications.ask(`Do you want to delete ${selectedItems.length} items ?`)) return;
+
+        context.commit(types.SET_IS_LOADING, true);
         selectedItems.forEach(item => {
             api.delete(item.path)
                 .then(() => {
@@ -230,7 +235,7 @@ export const deleteSelectedItems = (context, payload) => {
                 })
         })
     } else {
-        // TODO notify the user that he has to select at least one item
+        notifications.error('You have to select at least one item')
     }
 }
 
