@@ -1,6 +1,5 @@
 <template>
     <div>
-        <media-toolbar :search="query" @newQuery="query = $event"></media-toolbar>
         <div class="media-browser"
             @dragenter="onDragEnter"
             @drop="onDrop"
@@ -40,11 +39,6 @@
 
     export default {
         name: 'media-browser',
-        data() {
-            return{
-                query:''
-            }
-        },
         computed: {
             /* Get the contents of the currently selected directory */
             items() {
@@ -52,13 +46,13 @@
                     // Sort by type and alphabetically
                     return (a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1;
                 }).filter(a => {
-                    return a.name.toLowerCase().includes(this.query.toLowerCase())
+                    return a.name.toLowerCase().includes(this.$store.state.search.toLowerCase())
                 });
                 const files = this.$store.getters.getSelectedDirectoryFiles.sort((a, b) => {
                     // Sort by type and alphabetically
                     return (a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1;
                 }).filter(a => {
-                    return a.name.toLowerCase().includes(this.query.toLowerCase())
+                    return a.name.toLowerCase().includes(this.$store.state.search.toLowerCase())
                 });
 
                 return [...directories, ...files];

@@ -5,6 +5,7 @@
         </div>
         <div class="col-md-10">
             <div class="media-main">
+                <media-toolbar></media-toolbar>
                 <media-browser></media-browser>
             </div>
         </div>

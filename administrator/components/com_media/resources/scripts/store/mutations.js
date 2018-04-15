@@ -371,4 +371,13 @@ export default {
             state.gridSize = gridItemSizes[--currentSizeIndex];
         }
     },
+
+    /**
+    * Search an item in the directory
+    * @param state
+    * @param query
+    */
+    [types.SEARCH_QUERY]: (state, query) => {
+        state.search = query;
+    },
 }

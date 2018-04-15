@@ -44,12 +44,6 @@
 
     export default {
         name: 'media-toolbar',
-        props: ['search'],
-        data(){
-            return{
-                search:''
-            }
-        },
         computed: {
             toggleListViewBtnIcon() {
                 return (this.isGridView) ? 'fa fa-list' : 'fa fa-th';
@@ -106,8 +100,7 @@
                 return (this.$store.state.gridSize === size);
             },
             changeSearch(query){
-                this.search = query.target.value;
-                this.$emit('newQuery', this.search);
+                this.$store.commit(types.SEARCH_QUERY, query.target.value);
             }
         }
     }
