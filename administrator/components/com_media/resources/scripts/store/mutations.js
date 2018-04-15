@@ -373,7 +373,7 @@ export default {
     },
 
     /**
-    * Search an item in the directory
+    * Set search query
     * @param state
     * @param query
     */
