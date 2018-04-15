@@ -168,6 +168,8 @@ export const uploadFile = (context, payload) => {
  * @param payload object: the item to delete
  */
 export const deleteItem = (context, payload) => {
+    if (!notifications.ask(translate.translate('COM_MEDIA_DELETE_ITEM_PROMPT'))) return;
+
     context.commit(types.SET_IS_LOADING, true);
     const item = payload;
     api.delete(item.path)
@@ -212,10 +214,13 @@ export const renameItem = (context, payload) => {
  * @param payload object
  */
 export const deleteSelectedItems = (context, payload) => {
-    context.commit(types.SET_IS_LOADING, true);
     // Get the selected items from the store
     const selectedItems = context.state.selectedItems;
+
     if (selectedItems.length > 0) {
+        if (!notifications.ask(translate.sprintf('COM_MEDIA_DELETE_ITEMS_PROMPT', selectedItems.length))) return;
+
+        context.commit(types.SET_IS_LOADING, true);
         selectedItems.forEach(item => {
             api.delete(item.path)
                 .then(() => {
@@ -230,7 +235,7 @@ export const deleteSelectedItems = (context, payload) => {
                 })
         })
     } else {
-        // TODO notify the user that he has to select at least one item
+        notifications.error(translate.translate('COM_MEDIA_ERROR_DELETE_SELECT_ATLEAST_ONE'))
     }
 }
 
