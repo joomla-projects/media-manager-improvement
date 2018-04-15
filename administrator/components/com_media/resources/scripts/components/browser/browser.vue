@@ -45,14 +45,14 @@
                 const directories = this.$store.getters.getSelectedDirectoryDirectories.sort((a, b) => {
                     // Sort by type and alphabetically
                     return (a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1;
-                }).filter(a => {
-                    return a.name.toLowerCase().includes(this.$store.state.search.toLowerCase())
+                }).filter( dir => {
+                    return dir.name.toLowerCase().includes(this.$store.state.search.toLowerCase())
                 });
                 const files = this.$store.getters.getSelectedDirectoryFiles.sort((a, b) => {
                     // Sort by type and alphabetically
                     return (a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1;
-                }).filter(a => {
-                    return a.name.toLowerCase().includes(this.$store.state.search.toLowerCase())
+                }).filter( file => {
+                    return file.name.toLowerCase().includes(this.$store.state.search.toLowerCase())
                 });
 
                 return [...directories, ...files];
