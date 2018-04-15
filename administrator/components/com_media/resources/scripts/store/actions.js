@@ -168,7 +168,7 @@ export const uploadFile = (context, payload) => {
  * @param payload object: the item to delete
  */
 export const deleteItem = (context, payload) => {
-    if (!notifications.ask('Do you want to delete this ?')) return;
+    if (!notifications.ask(translate.translate('COM_MEDIA_DELETE_ITEM_PROMPT'))) return;
 
     context.commit(types.SET_IS_LOADING, true);
     const item = payload;
@@ -218,7 +218,7 @@ export const deleteSelectedItems = (context, payload) => {
     const selectedItems = context.state.selectedItems;
 
     if (selectedItems.length > 0) {
-        if (!notifications.ask(`Do you want to delete ${selectedItems.length} items ?`)) return;
+        if (!notifications.ask(translate.sprintf('COM_MEDIA_DELETE_ITEMS_PROMPT', selectedItems.length))) return;
 
         context.commit(types.SET_IS_LOADING, true);
         selectedItems.forEach(item => {
@@ -235,7 +235,7 @@ export const deleteSelectedItems = (context, payload) => {
                 })
         })
     } else {
-        notifications.error('You have to select at least one item')
+        notifications.error(translate.translate('COM_MEDIA_ERROR_DELETE_SELECT_ATLEAST_ONE'))
     }
 }
 
