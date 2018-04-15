@@ -47,3 +47,5 @@ JText::script('JCANCEL', true);
 JText::script('JAPPLY', true);
 JText::script('JLIB_FORM_FIELD_REQUIRED_VALUE', true);
 JText::script('COM_MEDIA_FILE_EXISTS_AND_OVERRIDE', true);
+JText::script('COM_MEDIA_DELETE_ITEM_PROMPT', true);
+JText::script('COM_MEDIA_DELETE_ITEMS_PROMPT', true);
