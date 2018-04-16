@@ -9,7 +9,7 @@
             </a>
         </div>
         <media-breadcrumb></media-breadcrumb>
-        <input type="text" :value="search" @input="changeSearch" placeholder="Search item.."/>
+        <input type="text" @input="changeSearch" placeholder="Search item.."/>
         <div class="media-view-icons">
             <a href="#" class="media-toolbar-icon media-toolbar-decrease-grid-size"
                v-if="isGridView"
@@ -100,7 +100,7 @@
                 return (this.$store.state.gridSize === size);
             },
             changeSearch(query){
-                this.$store.commit(types.SEARCH_QUERY, query.target.value);
+                this.$store.commit(types.SET_SEARCH_QUERY, query.target.value);
             }
         }
     }

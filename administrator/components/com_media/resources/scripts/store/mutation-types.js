@@ -42,4 +42,4 @@ export const HIDE_RENAME_MODAL = 'HIDE_RENAME_MODAL';
 export const RENAME_SUCCESS = 'RENAME_SUCCESS';
 
 // Search Query
-export const SEARCH_QUERY = 'SEARCH_QUERY';
+export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';

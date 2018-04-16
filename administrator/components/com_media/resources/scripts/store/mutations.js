@@ -377,7 +377,7 @@ export default {
     * @param state
     * @param query
     */
-    [types.SEARCH_QUERY]: (state, query) => {
+    [types.SET_SEARCH_QUERY]: (state, query) => {
         state.search = query;
     },
 }
