@@ -9,7 +9,7 @@
             </a>
         </div>
         <media-breadcrumb></media-breadcrumb>
-        <input type="text" @input="changeSearch" placeholder="Search item.."/>
+        <input type="text" @input="changeSearch" placeholder="Search"/>
         <div class="media-view-icons">
             <a href="#" class="media-toolbar-icon media-toolbar-decrease-grid-size"
                v-if="isGridView"
