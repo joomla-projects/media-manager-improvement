@@ -28,7 +28,6 @@
             deleteItem() {
                 try {
                     this.$store.dispatch('deleteItem', this.item);
-                    alert("Delete Successfull");
                 } catch (err) {
                     console.log(err);
                 }
