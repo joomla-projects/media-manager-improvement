@@ -71,5 +71,7 @@ export default {
     // The preview item
     previewItem: null,
     // The Search Query
-    search: ''
+    search: '',
+    // The state of confirm delete model
+    showConfirmDeleteModal: false,
 }
