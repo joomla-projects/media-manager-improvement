@@ -18,6 +18,17 @@
 		/>
 
 		<field
+			name="flip_image"
+			type="checkboxes"
+			hiddenLabel="true"
+			class=""
+			default=""
+			>
+			<option class="btn btn-outline-secondary" value="1">PLG_MEDIA-ACTION_ROTATE_PARAM_FLIP_HORIZONTAL</option>
+			<option class="btn btn-outline-secondary" value="1">PLG_MEDIA-ACTION_ROTATE_PARAM_FLIP_VERTICAL</option>
+		</field>
+
+		<field
 			name="rotate_a"
 			type="number"
 			label="PLG_MEDIA-ACTION_ROTATE_PARAM_ANGLE"
@@ -32,7 +43,7 @@
 			type="radio"
 			hiddenLabel="true"
 			class="btn-group btn-group-rotate"
-			default=""
+			default="0"
 			>
 			<option value="0">0</option>
 			<option value="90">90</option>
