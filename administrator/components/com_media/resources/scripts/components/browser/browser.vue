@@ -1,35 +1,37 @@
 <template>
-    <div class="media-browser"
-        @dragenter="onDragEnter"
-        @drop="onDrop"
-        @dragover="onDragOver"
-        @dragleave="onDragLeave"
-        :style="mediaBrowserStyles"
-        ref="browserItems">
-        <div class="media-dragoutline">
-            <span class="fa fa-cloud-upload upload-icon" aria-hidden="true"></span>
-            <p>Drop file(s) to Upload</p>
-        </div>
-        <div v-if="listView === 'table'" class="media-browser-table">
-            <div class="media-browser-table-head">
-                <ul>
-                    <li class="type"></li>
-                    <li class="name">{{ translate('COM_MEDIA_MEDIA_NAME') }}</li>
-                    <li class="size">{{ translate('COM_MEDIA_MEDIA_SIZE') }}</li>
-                    <li class="dimension">{{ translate('COM_MEDIA_MEDIA_DIMENSION') }}</li>
-                    <li class="created">{{ translate('COM_MEDIA_MEDIA_CREATED_AT') }}</li>
-                    <li class="modified">{{ translate('COM_MEDIA_MEDIA_MODIFIED_AT') }}</li>
-                </ul>
+    <div>
+        <div class="media-browser"
+            @dragenter="onDragEnter"
+            @drop="onDrop"
+            @dragover="onDragOver"
+            @dragleave="onDragLeave"
+            :style="mediaBrowserStyles"
+            ref="browserItems">
+            <div class="media-dragoutline">
+                <span class="fa fa-cloud-upload upload-icon" aria-hidden="true"></span>
+                <p>Drop file(s) to Upload</p>
             </div>
-            <media-browser-item v-for="item in items" :key="item.path" :item="item"></media-browser-item>
-        </div>
-        <div class="media-browser-grid" v-else-if="listView === 'grid'">
-            <div class="media-browser-items" :class="mediaBrowserGridItemsClass">
+            <div v-if="listView === 'table'" class="media-browser-table">
+                <div class="media-browser-table-head">
+                    <ul>
+                        <li class="type"></li>
+                        <li class="name">{{ translate('COM_MEDIA_MEDIA_NAME') }}</li>
+                        <li class="size">{{ translate('COM_MEDIA_MEDIA_SIZE') }}</li>
+                        <li class="dimension">{{ translate('COM_MEDIA_MEDIA_DIMENSION') }}</li>
+                        <li class="created">{{ translate('COM_MEDIA_MEDIA_CREATED_AT') }}</li>
+                        <li class="modified">{{ translate('COM_MEDIA_MEDIA_MODIFIED_AT') }}</li>
+                    </ul>
+                </div>
                 <media-browser-item v-for="item in items" :key="item.path" :item="item"></media-browser-item>
             </div>
+            <div class="media-browser-grid" v-else-if="listView === 'grid'">
+                <div class="media-browser-items" :class="mediaBrowserGridItemsClass">
+                    <media-browser-item v-for="item in items" :key="item.path" :item="item"></media-browser-item>
+                </div>
+            </div>
         </div>
+        <media-infobar v-if="!this.isModal" ref="infobar"></media-infobar>
     </div>
-    <media-infobar v-if="!this.isModal" ref="infobar"></media-infobar>
 </template>
 
 <script>
@@ -71,7 +73,7 @@
                 }
             },
             isModal() {
-		        return Joomla.getOptions('com_media', {}).isModal;
+                return Joomla.getOptions('com_media', {}).isModal;
             }
         },
         methods: {
