@@ -1,9 +1,9 @@
 /* Media browser */
 .media-browser {
   position: relative;
+  width: 75%;
   height: calc(100vh - 208px);
   overflow-y: auto;
-  width: 75%;
   transition: width .3s cubic-bezier(.4, .0, .2, 1);
 }
 
