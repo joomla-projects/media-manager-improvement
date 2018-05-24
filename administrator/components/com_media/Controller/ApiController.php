@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -281,11 +281,11 @@ class ApiController extends BaseController
 
 			if ($move)
 			{
-				$destinationPath = $this->getModel()->move($adapter, $path, $destinationPath, true);
+				$destinationPath = $this->getModel()->move($adapter, $path, $destinationPath, false);
 			}
 			else
 			{
-				$destinationPath = $this->getModel()->copy($adapter, $path, $destinationPath, true);
+				$destinationPath = $this->getModel()->copy($adapter, $path, $destinationPath, false);
 			}
 
 			$path = $destinationPath;

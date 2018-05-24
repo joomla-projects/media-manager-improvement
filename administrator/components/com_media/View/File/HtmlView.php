@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,10 +48,10 @@ class HtmlView extends BaseHtmlView
 		$this->file = $this->getModel()->getFileInformation($input->getString('path', null));
 
 		// At the moment we only support local files to edit
-		if (empty($this->file->localpath))
+		if (empty($this->file->content))
 		{
 			// @todo error handling controller redirect files
-			throw new \Exception('Image file is not locally');
+			throw new \Exception('No content available!');
 		}
 
 		$this->addToolbar();
