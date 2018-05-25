@@ -228,7 +228,12 @@ class ApiModel extends BaseDatabaseModel
 			throw new FileExistsException;
 		}
 
-		$object = $this->triggerEvent($adapter, $name, $path, 0, function ($object)
+		$object = $this->triggerEvent(
+			$adapter,
+			$name,
+			$path,
+			0,
+			function ($object)
 			{
 				$object->name = $this->getAdapter($object->adapter)->createFolder($object->name, $object->path);
 			}
@@ -276,7 +281,12 @@ class ApiModel extends BaseDatabaseModel
 			throw new InvalidPathException;
 		}
 
-		$object = $this->triggerEvent($adapter, $name, $path, $data, function ($object)
+		$object = $this->triggerEvent(
+			$adapter,
+			$name,
+			$path,
+			$data,
+			function ($object)
 			{
 				$object->name = $this->getAdapter($object->adapter)->createFile($object->name, $object->path, $object->data);
 			}
@@ -308,7 +318,12 @@ class ApiModel extends BaseDatabaseModel
 			throw new InvalidPathException;
 		}
 
-		$this->triggerEvent($adapter, $name, $path, $data, function ($object)
+		$this->triggerEvent(
+			$adapter,
+			$name,
+			$path,
+			$data,
+			function ($object)
 			{
 				$this->getAdapter($object->adapter)->updateFile($object->name, $object->path, $object->data);
 			}

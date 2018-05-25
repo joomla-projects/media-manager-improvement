@@ -75,7 +75,7 @@ class PlgMediaActionResize extends \Joomla\Component\Media\Administrator\Plugin\
 
 		ob_start();
 		$imgObject->toFile(null, $type);
-		$item->data =  ob_get_contents();
+		$item->data = ob_get_contents();
 		ob_end_clean();
 	}
 }
