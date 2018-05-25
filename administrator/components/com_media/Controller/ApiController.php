@@ -20,6 +20,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
+use Joomla\Component\Media\Administrator\Exception\NotAllowedException;
 
 \JLoader::import('joomla.filesystem.file');
 
@@ -83,6 +84,10 @@ class ApiController extends BaseController
 		catch (InvalidPathException $e)
 		{
 			$this->sendResponse($e, 400);
+		}
+		catch (NotAllowedException $e)
+		{
+			$this->sendResponse($e, 403);
 		}
 		catch (\Exception $e)
 		{

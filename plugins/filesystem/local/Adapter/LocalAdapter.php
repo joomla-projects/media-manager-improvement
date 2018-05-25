@@ -11,6 +11,7 @@ namespace Joomla\Plugin\Filesystem\Local\Adapter;
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Media\Administrator\Exception\NotAllowedException;
 use Joomla\Image\Image;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
@@ -474,7 +475,7 @@ class LocalAdapter implements AdapterInterface
 
 		if (!\JFile::copy($sourcePath, $destinationPath))
 		{
-			throw new \Exception('Copy file is not possible');
+			throw new NotAllowedException('Copy file is not possible');
 		}
 	}
 
@@ -504,7 +505,7 @@ class LocalAdapter implements AdapterInterface
 
 		if (!\JFolder::copy($sourcePath, $destinationPath, '', $force))
 		{
-			throw new \Exception('Copy folder is not possible');
+			throw new NotAllowedException('Copy folder is not possible');
 		}
 	}
 
@@ -585,7 +586,7 @@ class LocalAdapter implements AdapterInterface
 
 		if (!\JFile::move($sourcePath, $destinationPath))
 		{
-			throw new \Exception('Move file is not possible');
+			throw new NotAllowedException('Move file is not possible');
 		}
 	}
 
