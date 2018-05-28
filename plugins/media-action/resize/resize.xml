@@ -21,20 +21,20 @@
 		<fields name="params">
 			<fieldset name="batch" label="PLG_MEDIA-ACTION_RESIZE_BATCH_LABEL" description="PLG_MEDIA-ACTION_RESIZE_BATCH_DESC">
 				<field
-						name="batch_width"
-						type="text"
-						label="PLG_MEDIA-ACTION_RESIZE_BATCH_MAX_WIDTH_LABEL"
-						descripton="PLG_MEDIA-ACTION_RESIZE_BATCH_MAX_WIDTH_DESC"
-						addonAfter="px"
-						filter="int"
+					name="batch_width"
+					type="text"
+					label="PLG_MEDIA-ACTION_RESIZE_BATCH_MAX_WIDTH_LABEL"
+					descripton="PLG_MEDIA-ACTION_RESIZE_BATCH_MAX_WIDTH_DESC"
+					addonAfter="px"
+					filter="integer"
 				/>
 				<field
-						name="batch_height"
-						type="text"
-						label="PLG_MEDIA-ACTION_RESIZE_BATCH_MAX_HEIGHT_LABEL"
-						descripton="PLG_MEDIA-ACTION_RESIZE_BATCH_MAX_HEIGHT_DESC"
-						addonAfter="px"
-						filter="int"
+					name="batch_height"
+					type="text"
+					label="PLG_MEDIA-ACTION_RESIZE_BATCH_MAX_HEIGHT_LABEL"
+					descripton="PLG_MEDIA-ACTION_RESIZE_BATCH_MAX_HEIGHT_DESC"
+					addonAfter="px"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>
