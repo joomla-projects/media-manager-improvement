@@ -231,6 +231,12 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 	/**
 	 * @TODO Extend Joomla.request and drop this code!!!!
 	 */
+	// The upload object
+	Joomla.UploadFile = {};
+
+	/**
+	 * @TODO Extend Joomla.request and drop this code!!!!
+	 */
 	Joomla.UploadFile.exec = function (name, data, uploadPath, url, type) {
 
 		// Prepare the options
