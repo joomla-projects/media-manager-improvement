@@ -81,7 +81,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 		alert.setAttribute('auto-dismiss', true);
 		alert.innerHTML = '<progress id="mediaProgressBar" value="0" max="100"'
         		+ 'style="font-size: 20px;vertical-align: middle;"> </progress>'
-        		+ '<span id="mediaProgressText" style="font-size: 20px;vertical-align: middle;">0 %</span>';
+        		+ '<span style="font-size: 20px;vertical-align: middle;">0 %</span>';
 		const messageContainer = document.getElementById('system-message');
         	messageContainer.appendChild(alert);
 	};
@@ -91,7 +91,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 		let value = 0;
 		e.lengthComputable ? value = Math.round((e.loaded / e.total) * 100) : 0;
 		const mediaProgressBar = document.getElementById('mediaProgressBar');
-		const mediaProgressText = document.getElementById('mediaProgressText');
+		const mediaProgressText = document.getElementById('mediaProgressBar').nextSibling;
 		mediaProgressBar.setAttribute('value', value);
 		mediaProgressText.innerHTML = value + ' %';
 	};
@@ -145,6 +145,18 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
 	// Customize the buttons
 	Joomla.submitbutton = function(task) {
+		
+		let pathName = window.location.pathname.replace(/&view=file.*/g, ''),
+		    uploadPath = options.uploadPath;
+
+		let fileDirectory = uploadPath.split('/');
+		    fileDirectory.pop();
+		    fileDirectory = fileDirectory.join('/');
+
+		// If we are in root add a backslash
+		if (fileDirectory.endsWith(':')) {
+			fileDirectory = fileDirectory + '/';
+		}
 
 		switch (task) {
 			case 'apply':
