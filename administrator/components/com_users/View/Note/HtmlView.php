@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Administrator\View\Note;
@@ -50,7 +50,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a \JError object.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 */

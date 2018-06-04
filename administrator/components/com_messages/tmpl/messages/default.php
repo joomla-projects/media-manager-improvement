@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th style="width:15%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MESSAGES_HEADING_FROM', 'a.user_id_from', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:20%" class="nowrap hidden-sm-down">
+						<th style="width:20%" class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.date_time', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -69,7 +69,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td>
 							<?php echo $item->user_from; ?>
 						</td>
-						<td class="hidden-sm-down">
+						<td class="d-none d-md-table-cell">
 							<?php echo JHtml::_('date', $item->date_time, JText::_('DATE_FORMAT_LC2')); ?>
 						</td>
 					</tr>

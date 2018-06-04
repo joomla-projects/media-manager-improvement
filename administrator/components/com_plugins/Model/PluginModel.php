@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Plugins\Administrator\Model;
@@ -222,7 +222,7 @@ class PluginModel extends AdminModel
 		// Execute the parent method.
 		parent::populateState();
 
-		$app = \JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('extension_id');

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Modules\Administrator\Controller;
@@ -24,7 +24,7 @@ class ModuleController extends FormController
 	/**
 	 * Override parent add method.
 	 *
-	 * @return  mixed  True if the record can be added, a \JError object if not.
+	 * @return  mixed  True if the record can be added, a \Exception object if not.
 	 *
 	 * @since   1.6
 	 */
@@ -228,7 +228,6 @@ class ModuleController extends FormController
 
 			// Add path of forms directory
 			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
-
 		}
 
 		parent::save($key, $urlVar);

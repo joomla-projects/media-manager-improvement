@@ -3,13 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  mod_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Module\Banners\Site\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Component\Banners\Site\Model\BannersModel;
 
 /**
@@ -28,8 +29,8 @@ class ModBannersHelper
 	 */
 	public static function &getList(&$params)
 	{
-		$document = \JFactory::getDocument();
-		$app      = \JFactory::getApplication();
+		$document = Factory::getDocument();
+		$app      = Factory::getApplication();
 		$keywords = explode(',', $document->getMetaData('keywords'));
 
 		$model = new BannersModel(array('ignore_request' => true));

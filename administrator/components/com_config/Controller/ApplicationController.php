@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Session\Session;
 
 /**
  * Controller for global configuration
@@ -208,7 +209,7 @@ class ApplicationController extends BaseController
 		$this->app->sendHeaders();
 
 		// Check if user token is valid.
-		if (!\JSession::checkToken('get'))
+		if (!Session::checkToken('get'))
 		{
 			$this->app->enqueueMessage(\JText::_('JINVALID_TOKEN'), 'error');
 			echo new JsonResponse;

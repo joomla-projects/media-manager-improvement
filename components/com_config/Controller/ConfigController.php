@@ -1,9 +1,9 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,7 +107,7 @@ class ConfigController extends BaseController
 
 		// Access backend com_config
 		\JLoader::registerPrefix('Config', JPATH_ADMINISTRATOR . '/components/com_config');
-		$saveClass = new \Joomla\Component\Config\Administrator\Controller\Application;
+		$saveClass = new \Joomla\Component\Config\Administrator\Controller\ApplicationController;
 
 		// Get a document object
 		$document = \JFactory::getDocument();

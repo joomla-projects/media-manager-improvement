@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Joomlaupdate\Administrator\Model;
@@ -263,7 +263,7 @@ class UpdateModel extends BaseDatabaseModel
 	/**
 	 * Downloads the update package to the site.
 	 *
-	 * @return  bool|string False on failure, basename of the file in any other case.
+	 * @return  boolean|string  False on failure, basename of the file in any other case.
 	 *
 	 * @since   2.5.4
 	 */
@@ -271,6 +271,7 @@ class UpdateModel extends BaseDatabaseModel
 	{
 		$updateInfo = $this->getUpdateInformation();
 		$packageURL = $updateInfo['object']->downloadurl->_data;
+		$sources    = $updateInfo['object']->get('downloadSources', array());
 		$headers    = get_headers($packageURL, 1);
 
 		// Follow the Location headers until the actual download URL is known
@@ -299,7 +300,16 @@ class UpdateModel extends BaseDatabaseModel
 		if (!$exists)
 		{
 			// Not there, let's fetch it.
-			return $this->downloadPackage($packageURL, $target);
+			$mirror = 0;
+
+			while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
+			{
+				$name       = $sources[$mirror];
+				$packageURL = $name->url;
+				$mirror++;
+			}
+
+			return $download;
 		}
 		else
 		{
@@ -308,7 +318,16 @@ class UpdateModel extends BaseDatabaseModel
 
 			if (empty($filesize))
 			{
-				return $this->downloadPackage($packageURL, $target);
+				$mirror = 0;
+
+				while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
+				{
+					$name       = $sources[$mirror];
+					$packageURL = $name->url;
+					$mirror++;
+				}
+
+				return $download;
 			}
 
 			// Yes, it's there, skip downloading.
@@ -932,7 +951,7 @@ ENDDATA;
 	 *
 	 * @param   array  $credentials  The credentials to authenticate the user with
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.6.0
 	 */
@@ -968,7 +987,7 @@ ENDDATA;
 	/**
 	 * Does the captive (temporary) file we uploaded before still exist?
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.6.0
 	 */
@@ -1036,24 +1055,6 @@ ENDDATA;
 		$option->state  = $this->isPhpVersionSupported();
 		$option->notice = null;
 		$options[]      = $option;
-
-		// Only check if required PHP version is less than 7.
-		if (version_compare($this->getTargetMinimumPHPVersion(), '7', '<'))
-		{
-			// Check for magic quotes gpc.
-			$option         = new \stdClass;
-			$option->label  = \JText::_('INSTL_MAGIC_QUOTES_GPC');
-			$option->state  = (ini_get('magic_quotes_gpc') == false);
-			$option->notice = null;
-			$options[]      = $option;
-
-			// Check for register globals.
-			$option         = new \stdClass;
-			$option->label  = \JText::_('INSTL_REGISTER_GLOBALS');
-			$option->state  = (ini_get('register_globals') == false);
-			$option->notice = null;
-			$options[]      = $option;
-		}
 
 		// Check for zlib support.
 		$option         = new \stdClass;
@@ -1139,24 +1140,6 @@ ENDDATA;
 		$setting->state = (bool) ini_get('file_uploads');
 		$setting->recommended = true;
 		$settings[] = $setting;
-
-		// Only check if required PHP version is less than 7.
-		if (version_compare($this->getTargetMinimumPHPVersion(), '7', '<'))
-		{
-			// Check for magic quotes runtimes.
-			$setting = new \stdClass;
-			$setting->label = \JText::_('INSTL_MAGIC_QUOTES_RUNTIME');
-			$setting->state = (bool) ini_get('magic_quotes_runtime');
-			$setting->recommended = false;
-			$settings[] = $setting;
-
-			// Check for safe mode.
-			$setting = new \stdClass;
-			$setting->label = \JText::_('INSTL_SAFE_MODE');
-			$setting->state = (bool) ini_get('safe_mode');
-			$setting->recommended = false;
-			$settings[] = $setting;
-		}
 
 		// Check for output buffering.
 		$setting = new \stdClass;

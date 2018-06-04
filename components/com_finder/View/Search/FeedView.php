@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Finder\Site\View\Search;
@@ -24,7 +24,7 @@ class FeedView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  \JError object on failure, void on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 */

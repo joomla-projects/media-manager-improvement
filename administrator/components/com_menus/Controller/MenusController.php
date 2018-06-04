@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Menus\Administrator\Controller;
@@ -142,7 +142,7 @@ class MenusController extends BaseController
 	/**
 	 * Temporary method. This should go into the 1.5 to 1.6 upgrade routines.
 	 *
-	 * @return  \JException|void  \JException instance on error
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

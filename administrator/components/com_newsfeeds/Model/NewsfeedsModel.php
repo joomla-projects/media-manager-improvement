@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Newsfeeds\Administrator\Model;
@@ -57,7 +57,8 @@ class NewsfeedsModel extends ListModel
 				'tag',
 			);
 
-			$assoc =  Associations::isEnabled();
+			$assoc = Associations::isEnabled();
+
 			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
@@ -286,6 +287,7 @@ class NewsfeedsModel extends ListModel
 		{
 			ArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
+
 			if (!empty($tagId))
 			{
 				$hasTag = true;

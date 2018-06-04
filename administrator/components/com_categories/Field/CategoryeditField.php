@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Categories\Administrator\Field;
@@ -67,7 +67,7 @@ class CategoryeditField extends \JFormFieldList
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -87,7 +87,7 @@ class CategoryeditField extends \JFormFieldList
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -176,6 +176,7 @@ class CategoryeditField extends \JFormFieldList
 			{
 				$language = $db->quote($this->element['language']);
 			}
+
 			$query->where($db->quoteName('a.language') . ' IN (' . $language . ')');
 		}
 

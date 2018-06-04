@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Modules\Administrator\Model;
@@ -36,7 +36,7 @@ class SelectModel extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication();
 
 		// Load the filter state.
 		$clientId = $app->getUserState('com_modules.modules.client_id', 0);

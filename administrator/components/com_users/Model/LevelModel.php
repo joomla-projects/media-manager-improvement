@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Administrator\Model;
@@ -113,7 +113,7 @@ class LevelModel extends AdminModel
 	 *
 	 * @since   1.6
 	 */
-	public function getTable($type = 'Viewlevel', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+	public function getTable($type = 'ViewLevel', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
 	{
 		$return = Table::getInstance($type, $prefix, $config);
 

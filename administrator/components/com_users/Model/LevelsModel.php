@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Administrator\Model;
@@ -181,7 +181,7 @@ class LevelsModel extends ListModel
 	 * @param   array    $pks    An array of primary key ids.
 	 * @param   integer  $order  Order position
 	 *
-	 * @return  boolean|\JException  Boolean true on success, boolean false or \JException instance on error
+	 * @return  boolean  Boolean true on success, boolean false
 	 */
 	public function saveorder($pks, $order)
 	{
@@ -191,7 +191,9 @@ class LevelsModel extends ListModel
 
 		if (empty($pks))
 		{
-			return \JFactory::getApplication()->enqueueMessage(\JText::_('COM_USERS_ERROR_LEVELS_NOLEVELS_SELECTED'), 'error');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_USERS_ERROR_LEVELS_NOLEVELS_SELECTED'), 'error');
+
+			return false;
 		}
 
 		// Update ordering values

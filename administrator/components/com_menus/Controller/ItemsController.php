@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Menus\Administrator\Controller;
@@ -183,11 +183,11 @@ class ItemsController extends AdminController
 		}
 
 		$this->setRedirect(
-				\JRoute::_(
-						'index.php?option=' . $this->option . '&view=' . $this->view_list
-						. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
-						)
-				);
+			\JRoute::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_list
+				. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
+			)
+		);
 	}
 
 	/**
@@ -256,7 +256,6 @@ class ItemsController extends AdminController
 				}
 
 				$this->setMessage(\JText::plural($ntext, count($cid)), $messageType);
-
 			}
 			catch (\Exception $e)
 			{

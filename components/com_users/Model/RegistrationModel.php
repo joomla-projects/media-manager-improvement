@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Site\Model;
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -33,13 +34,14 @@ class RegistrationModel extends FormModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MVCFactoryInterface   $factory      The factory.
+	 * @param   FormFactoryInterface  $formFactory  The form factory.
 	 *
 	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
 	{
 		$config = array_merge(
 			array(
@@ -47,7 +49,7 @@ class RegistrationModel extends FormModel
 			), $config
 		);
 
-		parent::__construct($config, $factory);
+		parent::__construct($config, $factory, $formFactory);
 	}
 
 	/**

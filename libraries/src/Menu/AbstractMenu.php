@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -90,8 +90,9 @@ abstract class AbstractMenu
 	 *
 	 * @return  AbstractMenu  A menu object.
 	 *
-	 * @since   1.5
-	 * @throws  \Exception
+	 * @since       1.5
+	 * @throws      \Exception
+	 * @deprecated  5.0 Use the MenuFactoryInterface from the container instead
 	 */
 	public static function getInstance($client, $options = array())
 	{

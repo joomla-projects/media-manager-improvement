@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Administrator\Model;
@@ -70,7 +70,7 @@ class UsersModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.name', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication();
 
 		// Adjust the context to support modal layouts.
 		if ($layout = $app->input->get('layout', 'default', 'cmd'))

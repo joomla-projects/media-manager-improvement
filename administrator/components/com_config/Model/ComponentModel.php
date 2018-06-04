@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Access as JAccess;
 use Joomla\CMS\Access\Rules as JAccessRules;
 use Joomla\CMS\Component\ComponentHelper;
-use \Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 

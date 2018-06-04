@@ -1,9 +1,9 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Component\Modules\Administrator\Controller\Module;
+use Joomla\Component\Modules\Administrator\Controller\ModuleController;
 
 /**
  * Component Controller
@@ -48,7 +48,7 @@ class ModulesController extends BaseController
 	/**
 	 * Method to handle cancel
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -61,7 +61,7 @@ class ModulesController extends BaseController
 	/**
 	 * Method to save module editing.
 	 *
-	 * @return  bool	True on success.
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -101,11 +101,14 @@ class ModulesController extends BaseController
 
 		\JLoader::register('ModulesDispatcher', JPATH_ADMINISTRATOR . '/components/com_modules/dispatcher.php');
 
+		/** @var AdministratorApplication $app */
 		$app = Factory::getContainer()->get(AdministratorApplication::class);
 		$app->loadLanguage($this->app->getLanguage());
-		$dispatcher      = new \ModulesDispatcher($app, $this->input);
 
-		/** @var Module $controllerClass */
+		/** @var \Joomla\CMS\Dispatcher\Dispatcher $dispatcher */
+		$dispatcher = $app->bootComponent('com_modules')->getDispatcher($app);
+
+		/** @var ModuleController $controllerClass */
 		$controllerClass = $dispatcher->getController('Module');
 
 		// Get a document object
@@ -125,7 +128,9 @@ class ModulesController extends BaseController
 		if ($return === false)
 		{
 			// Save the data in the session.
-			$app->setUserState('com_config.modules.global.data', $data);
+			$data = $this->input->post->get('jform', array(), 'array');
+
+			$this->app->setUserState('com_config.modules.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
 			$this->app->enqueueMessage(\JText::_('JERROR_SAVE_FAILED'));

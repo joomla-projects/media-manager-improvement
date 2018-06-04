@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Newsfeeds\Administrator\Model;
@@ -117,6 +117,7 @@ class NewsfeedModel extends AdminModel
 			if (!$this->table->check())
 			{
 				$this->setError($this->table->getError());
+
 				return false;
 			}
 
@@ -124,6 +125,7 @@ class NewsfeedModel extends AdminModel
 			if (!$this->table->store())
 			{
 				$this->setError($this->table->getError());
+
 				return false;
 			}
 
@@ -332,6 +334,7 @@ class NewsfeedModel extends AdminModel
 					$data['alias'] = '';
 				}
 			}
+
 			$data['published'] = 0;
 		}
 
@@ -470,6 +473,7 @@ class NewsfeedModel extends AdminModel
 	{
 		$condition = array();
 		$condition[] = 'catid = ' . (int) $table->catid;
+
 		return $condition;
 	}
 
@@ -540,12 +544,14 @@ class NewsfeedModel extends AdminModel
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
+
 		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
 		{
 			if ($name == $table->name)
 			{
 				$name = StringHelper::increment($name);
 			}
+
 			$alias = StringHelper::increment($alias, 'dash');
 		}
 
@@ -555,7 +561,7 @@ class NewsfeedModel extends AdminModel
 	/**
 	 * Is the user allowed to create an on the fly category?
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.6.1
 	 */

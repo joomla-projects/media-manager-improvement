@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Filesystem.Local
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,13 +11,15 @@ namespace Joomla\Plugin\Filesystem\Local\Adapter;
 
 defined('_JEXEC') or die;
 
+use Joomla\Image\Image;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
-use Joomla\Image\Image;
-use Joomla\CMS\Uri\Uri;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -169,7 +171,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  resource
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function getResource($path)
@@ -333,7 +335,6 @@ class LocalAdapter implements AdapterInterface
 		$obj->type      = $isDir ? 'dir' : 'file';
 		$obj->name      = $this->getFileName($path);
 		$obj->path      = str_replace($this->rootPath, '/', $path);
-		$obj->localpath = $path;
 		$obj->extension = !$isDir ? \JFile::getExt($obj->name) : '';
 		$obj->size      = !$isDir ? filesize($path) : '';
 		$obj->mime_type = MediaHelper::getMimeType($path, MediaHelper::isImage($obj->name));
@@ -342,9 +343,9 @@ class LocalAdapter implements AdapterInterface
 
 		// Dates
 		$obj->create_date             = $createDate->format('c', true);
-		$obj->create_date_formatted   = $createDate->format(\JText::_('DATE_FORMAT_LC5'), true);
+		$obj->create_date_formatted   = $createDate->format(Text::_('DATE_FORMAT_LC5'), true);
 		$obj->modified_date           = $modifiedDate->format('c', true);
-		$obj->modified_date_formatted = $modifiedDate->format(\JText::_('DATE_FORMAT_LC5'), true);
+		$obj->modified_date_formatted = $modifiedDate->format(Text::_('DATE_FORMAT_LC5'), true);
 
 		if (MediaHelper::isImage($obj->name))
 		{
@@ -371,10 +372,10 @@ class LocalAdapter implements AdapterInterface
 	 */
 	private function getDate($date = null)
 	{
-		$dateObj = \JFactory::getDate($date);
+		$dateObj = Factory::getDate($date);
 
-		$timezone = \JFactory::getApplication()->get('offset');
-		$user     = \JFactory::getUser();
+		$timezone = Factory::getApplication()->get('offset');
+		$user     = Factory::getUser();
 
 		if ($user->id)
 		{
@@ -439,7 +440,7 @@ class LocalAdapter implements AdapterInterface
 			$this->copyFile($sourcePath, $destinationPath, $force);
 		}
 
-		//get relative path
+		// Get the relative path
 		$destinationPath = str_replace($this->rootPath, '', $destinationPath);
 
 		return $destinationPath;
@@ -550,7 +551,7 @@ class LocalAdapter implements AdapterInterface
 			$this->moveFile($sourcePath, $destinationPath, $force);
 		}
 
-		//get relative path
+		// Get the relative path
 		$destinationPath = str_replace($this->rootPath, '', $destinationPath);
 
 		return $destinationPath;
@@ -754,7 +755,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	private function getSafeName($name)
@@ -787,7 +788,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	private function checkContent($localPath, $mediaContent)
@@ -802,16 +803,16 @@ class LocalAdapter implements AdapterInterface
 
 		if (!\JFile::write($tmpFile, $mediaContent))
 		{
-			throw new \Exception(\JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 500);
+			throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 500);
 		}
 
-		$can = $helper->canUpload(array('name' => $name, 'size' => count($mediaContent), 'tmp_name' => $tmpFile), 'com_media');
+		$can = $helper->canUpload(array('name' => $name, 'size' => strlen($mediaContent), 'tmp_name' => $tmpFile), 'com_media');
 
 		\JFile::delete($tmpFile);
 
 		if (!$can)
 		{
-			throw new \Exception(\JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'), 403);
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'), 403);
 		}
 	}
 
@@ -822,13 +823,13 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	private function getFileName($path)
-	{	
+	{
 		$path = \JPath::clean($path);
-		
+
 		// Basename does not work here as it strips out certain characters like upper case umlaut u
 		$path = explode(DIRECTORY_SEPARATOR, $path);
 
@@ -845,7 +846,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  InvalidPathException
 	 */
 	private function getLocalPath($path)

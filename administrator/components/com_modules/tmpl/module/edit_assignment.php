@@ -3,17 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 // Initialise related data.
-JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+\JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+\JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/helpers/modules.php');
 $menuTypes = MenusHelper::getMenuLinks();
 
-JHtml::_('script', 'system/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div class="control-group">

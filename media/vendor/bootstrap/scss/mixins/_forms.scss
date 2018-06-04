@@ -27,7 +27,6 @@
 
 
 @mixin form-validation-state($state, $color) {
-
   .#{$state}-feedback {
     display: none;
     width: 100%;
@@ -41,12 +40,12 @@
     top: 100%;
     z-index: 5;
     display: none;
-    width: 250px;
+    max-width: 100%; // Contain to parent when possible
     padding: .5rem;
     margin-top: .1rem;
     font-size: .875rem;
     line-height: 1;
-    color: #fff;
+    color: $white;
     background-color: rgba($color, .8);
     border-radius: .2rem;
   }
@@ -69,11 +68,26 @@
     }
   }
 
+  .form-control-file {
+    .was-validated &:#{$state},
+    &.is-#{$state} {
+      ~ .#{$state}-feedback,
+      ~ .#{$state}-tooltip {
+        display: block;
+      }
+    }
+  }
+
   .form-check-input {
     .was-validated &:#{$state},
     &.is-#{$state} {
       ~ .form-check-label {
         color: $color;
+      }
+
+      ~ .#{$state}-feedback,
+      ~ .#{$state}-tooltip {
+        display: block;
       }
     }
   }

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Content\Site\Model;
@@ -14,6 +14,8 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Multilanguage;
+
 
 /**
  * Content Component Article Model
@@ -188,6 +190,11 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 			$data['associations'] = $associations;
 		}
 
+		if (!Multilanguage::isEnabled())
+		{
+			$data['language'] = '*';
+		}
+
 		return parent::save($data);
 	}
 
@@ -210,6 +217,12 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 		{
 			$form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
 			$form->setFieldAttribute('catid', 'readonly', 'true');
+		}
+
+		if (!Multilanguage::isEnabled())
+		{
+			$form->setFieldAttribute('language', 'type', 'hidden');
+			$form->setFieldAttribute('language', 'default', '*');
 		}
 
 		return parent::preprocessForm($form, $data, $group);

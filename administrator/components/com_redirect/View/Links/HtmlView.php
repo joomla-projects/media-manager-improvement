@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Redirect\Administrator\View\Links;
@@ -154,7 +154,7 @@ class HtmlView extends BaseHtmlView
 				\JToolbarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE', true);
 			}
 
-			if ($state->get('filter.state') != -1 )
+			if ($state->get('filter.state') != -1)
 			{
 				\JToolbarHelper::divider();
 

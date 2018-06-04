@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,21 +55,21 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 								</th>
 								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-publish" aria-hidden="true"></span>
-									<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
+									<span class="d-none d-md-inline"><?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-unpublish" aria-hidden="true"></span>
-									<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
+									<span class="d-none d-md-inline"><?php echo JText::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-trash" aria-hidden="true"></span>
-									<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
+									<span class="d-none d-md-inline"><?php echo JText::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 								</th>
 								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-cube" aria-hidden="true"></span>
-									<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
+									<span class="d-none d-md-inline"><?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 								</th>
-								<th style="width:5%" class="nowrap hidden-sm-down text-center">
+								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -149,7 +149,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 															<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
 													<?php else : ?>
                                                         <a href="#" class="disabled" disabled="disabled">
-														    <span class="dropdown-item"><?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
+                                                            <span class="dropdown-item"><?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
                                                         </a>
 													<?php endif; ?>
 												<?php endforeach; ?>
@@ -213,7 +213,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 											); ?>
 									<?php endif; ?>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php echo $item->id; ?>
 								</td>
 							</tr>
