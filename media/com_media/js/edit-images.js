@@ -74,7 +74,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 	// Create the progress bar
 	Joomla.MediaManager.Edit.createProgressBar = function() {};
 
-		const alert = document.createElement('joomla-alert');
+		var alert = document.createElement('joomla-alert');
 		options.type
 		alert.setAttribute('type', 'success');
 		alert.setAttribute('dismiss', true);
@@ -82,7 +82,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 		alert.innerHTML = '<progress id="mediaProgressBar" value="0" max="100"'
         		+ 'style="font-size: 20px;vertical-align: middle;"> </progress>'
         		+ '<span style="font-size: 20px;vertical-align: middle;">0 %</span>';
-		const messageContainer = document.getElementById('system-message');
+		var messageContainer = document.getElementById('system-message');
         	messageContainer.appendChild(alert);
 	};
  
@@ -90,8 +90,8 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 	Joomla.MediaManager.Edit.updateProgressBar = function(e) {
 		var value = 0;
 		e.lengthComputable ? value = Math.round((e.loaded / e.total) * 100) : 0;
-		const mediaProgressBar = document.getElementById('mediaProgressBar');
-		const mediaProgressText = document.getElementById('mediaProgressBar').nextSibling;
+		var mediaProgressBar = document.getElementById('mediaProgressBar');
+		var mediaProgressText = document.getElementById('mediaProgressBar').nextSibling;
 		mediaProgressBar.setAttribute('value', value);
 		mediaProgressText.innerHTML = value + ' %';
 	};
@@ -170,14 +170,14 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
 						if (resp && resp.success == 1) {
 							// Success message?
-							//const options = {'type': 'success'};
+							//var options = {'type': 'success'};
 							//_notify('COM_MEDIA_UPDLOAD_SUCCESS', options);
 
 							Joomla.MediaManager.Edit.Reset(true);
 						} else {
 							window.log ? console.log("error", Joomla.JText._('COM_MEDIA_SERVER_ERROR', 'COM_MEDIA_SERVER_ERROR')): null;
 
-							const options = {'type': 'danger'};
+							var options = {'type': 'danger'};
 		        				_notify('COM_MEDIA_SERVER_ERROR', options);
 
 							Joomla.MediaManager.Edit.Reset(false);
@@ -186,7 +186,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 					.catch(error => {
 						window.log ? console.log("error", Joomla.JText._('COM_MEDIA_ERROR', 'COM_MEDIA_ERROR')): 'Error Ajax';
 
-						const options = {'type': 'danger','dismiss': 'false','autoDismiss': 'false'};
+						var options = {'type': 'danger','dismiss': 'false','autoDismiss': 'false'};
 						_notify('COM_MEDIA_ERROR', options);
 
 						Joomla.MediaManager.Edit.Reset(false);
@@ -203,14 +203,14 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
 					if (resp && resp.success == 1) {
 						// Success message?
-						//const options = {'type': 'success'};
+						//var options = {'type': 'success'};
 	        				//_notify('COM_MEDIA_UPDLOAD_SUCCESS', options);
 
 	        				window.location = pathName + '?option=com_media&path=' + fileDirectory;
 					} else {
 						window.log ? console.log("error", Joomla.JText._('COM_MEDIA_SERVER_ERROR', 'COM_MEDIA_SERVER_ERROR')): null;
 
-						const options = {'type': 'danger','dismiss': 'false','autoDismiss': 'false'};
+						var options = {'type': 'danger','dismiss': 'false','autoDismiss': 'false'};
 						_notify('COM_MEDIA_SERVER_ERROR', options);
 
 						Joomla.MediaManager.Edit.Reset(false);
@@ -219,7 +219,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 				.catch(error => {
 					window.log ? console.log("error", Joomla.JText._('COM_MEDIA_ERROR', 'COM_MEDIA_ERROR')): 'Error Ajax';
 
-					const options = {'type': 'danger','dismiss': 'false','autoDismiss': 'false'};
+					var options = {'type': 'danger','dismiss': 'false','autoDismiss': 'false'};
         				_notify('COM_MEDIA_ERROR', options);
 
 					Joomla.MediaManager.Edit.Reset(false);
@@ -261,7 +261,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
 		// Set up XMLHttpRequest instance
 		try{
-			const xhr = new XMLHttpRequest();
+			var xhr = new XMLHttpRequest();
 
 			xhr.onload = function() {
 				if (options.onSuccess) {
@@ -418,13 +418,13 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 	* Send a notification as a modal message.
 	*/
 	function _notify(message, options) { 
-		const alert = document.createElement('joomla-alert');
+		var alert = document.createElement('joomla-alert');
 		alert.setAttribute('type', options.type || 'info');	
 		alert.setAttribute('dismiss', options.dismiss || true);
 		alert.setAttribute('auto-dismiss', options.autoDismiss || true);
 		alert.innerHTML = Joomla.JText._(message, message) || '';
 
-		const messageContainer = document.getElementById('system-message');
+		var messageContainer = document.getElementById('system-message');
 		messageContainer.appendChild(alert);
     }
 
