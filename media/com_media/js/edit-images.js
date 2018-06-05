@@ -88,7 +88,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
  
  	// Update the progress bar
 	Joomla.MediaManager.Edit.updateProgressBar = function(e) {
-		let value = 0;
+		var value = 0;
 		e.lengthComputable ? value = Math.round((e.loaded / e.total) * 100) : 0;
 		const mediaProgressBar = document.getElementById('mediaProgressBar');
 		const mediaProgressText = document.getElementById('mediaProgressBar').nextSibling;
@@ -101,7 +101,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 	 */
 	Joomla.MediaManager.Edit.Promise = function() {
 
-		let format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension,
+		var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension,
 		pathName = window.location.pathname.replace(/&view=file.*/g, ''),
 		name = options.uploadPath.split('/').pop(),
 		forUpload = {
@@ -114,7 +114,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 		// @ToDo Replace with Joomla token in header if Joomla 4.0 supports it.
 		forUpload[options.csrfToken] = "1";
 
-		let fileDirectory = uploadPath.split('/');
+		var fileDirectory = uploadPath.split('/');
 		fileDirectory.pop();
 		fileDirectory = fileDirectory.join('/');
 
