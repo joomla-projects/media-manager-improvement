@@ -79,9 +79,8 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 		alert.setAttribute('type', 'success');
 		alert.setAttribute('dismiss', true);
 		alert.setAttribute('auto-dismiss', true);
-		alert.innerHTML = '<progress id="mediaProgressBar" value="0" max="100"'
-        		+ 'style="font-size: 20px;vertical-align: middle;"> </progress>'
-        		+ '<span style="font-size: 20px;vertical-align: middle;">0 %</span>';
+		alert.innerHTML = '<progress id="mediaProgressBar" class="media-manager-progress" value="0" max="100"></progress>'
+        		+ '<span>0 %</span>';
 		var messageContainer = document.getElementById('system-message');
         	messageContainer.appendChild(alert);
 	};
