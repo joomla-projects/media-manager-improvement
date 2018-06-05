@@ -146,10 +146,10 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 	// Customize the buttons
 	Joomla.submitbutton = function(task) {
 		
-		let pathName = window.location.pathname.replace(/&view=file.*/g, ''),
+		var pathName = window.location.pathname.replace(/&view=file.*/g, ''),
 		    uploadPath = options.uploadPath;
 
-		let fileDirectory = uploadPath.split('/');
+		var fileDirectory = uploadPath.split('/');
 		    fileDirectory.pop();
 		    fileDirectory = fileDirectory.join('/');
 
