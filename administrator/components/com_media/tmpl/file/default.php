@@ -22,6 +22,9 @@ $params = JComponentHelper::getParams('com_media');
 // Add stylesheets
 JHtml::_('stylesheet', 'media/com_media/css/mediamanager.css');
 
+// Populate the language
+$this->loadTemplate('texts');
+
 /**
  * @var JForm $form
  */
