@@ -62,7 +62,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 			if (Joomla.MediaManager.Edit.history[key] && Joomla.MediaManager.Edit.history[key - 1] && Joomla.MediaManager.Edit.history[key] === Joomla.MediaManager.Edit.history[key - 1]) {
 				return;
 			}
-			Joomla.MediaManager.Edit.history[key + 1] = Joomla.MediaManager.Edit.current.contents;
+			Joomla.MediaManager.Edit.history[key + 1] = JSON.parse.contents;
 		}
 	});
 
@@ -71,28 +71,23 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 	// @TODO History
 	Joomla.MediaManager.Edit.Redo = function() {};
 
-	// Create the progress bar
-	Joomla.MediaManager.Edit.createProgressBar = function() {};
+	// The progress bar called from request onBefore event
+	Joomla.MediaManager.Edit.createProgressBar = function() {
+	    var name = options.uploadPath.split('/').pop(),
+	        notifyOptions = {'type': 'success'};
 
-		var alert = document.createElement('joomla-alert');
-		options.type
-		alert.setAttribute('type', 'success');
-		alert.setAttribute('dismiss', true);
-		alert.setAttribute('auto-dismiss', true);
-		alert.innerHTML = '<progress id="mediaProgressBar" class="media-manager-progress" value="0" max="100"></progress>'
-        		+ '<span>0 %</span>';
-		var messageContainer = document.getElementById('system-message');
-        	messageContainer.appendChild(alert);
+	    _notifyProgress(name, notifyOptions);
+
 	};
- 
- 	// Update the progress bar
+
+	// Update the progress bar called from request upload progress event
 	Joomla.MediaManager.Edit.updateProgressBar = function(e) {
+	    var name = options.uploadPath.split('/').pop();
 		var value = 0;
-		e.lengthComputable ? value = Math.round((e.loaded / e.total) * 100) : 0;
-		var mediaProgressBar = document.getElementById('mediaProgressBar');
-		var mediaProgressText = document.getElementById('mediaProgressBar').nextSibling;
-		mediaProgressBar.setAttribute('value', value);
-		mediaProgressText.innerHTML = value + ' %';
+
+		if(e.lengthComputable){value = Math.round((e.loaded / e.total) * 100)};
+
+		_notifyProgressUpdate(name, value);
 	};
 
 	/**
@@ -101,21 +96,22 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 	Joomla.MediaManager.Edit.Promise = function() {
 
 		var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension,
-		pathName = window.location.pathname.replace(/&view=file.*/g, ''),
-		name = options.uploadPath.split('/').pop(),
-		forUpload = {
-			'name': name,
-			'content': Joomla.MediaManager.Edit.current.contents.replace('data:image/' + format + ';base64,', '')
-		},
-		uploadPath = options.uploadPath,
-		url = options.apiBaseUrl + '&task=api.files&path=' + uploadPath;
+		    pathName = window.location.pathname.replace(/&view=file.*/g, ''),
+			name = options.uploadPath.split('/').pop(),
+			uploadPath = options.uploadPath,
+			url = options.apiBaseUrl + '&task=api.files&path=' + uploadPath;
+
+		var forUpload = {
+				'name': name,
+				'content': Joomla.MediaManager.Edit.current.contents.replace('data:image/' + format + ';base64,', '')
+			};
 
 		// @ToDo Replace with Joomla token in header if Joomla 4.0 supports it.
 		forUpload[options.csrfToken] = "1";
 
 		var fileDirectory = uploadPath.split('/');
-		fileDirectory.pop();
-		fileDirectory = fileDirectory.join('/');
+			fileDirectory.pop();
+			fileDirectory = fileDirectory.join('/');
 
 		// If we are in root add a backslash
 		if (fileDirectory.endsWith(':')) {
@@ -123,43 +119,43 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 		}
 
 		// Wrap the ajax call into a real promise
-        	return new Promise((resolve, reject) => {
-	        	Joomla.UploadFile.exec({
-        			name: name,
-        			data: JSON.stringify(forUpload),
-        			url: url,
-        			headers: {'Content-Type': 'application/json'},
-        			method: "PUT",
-        			onBefore: Joomla.MediaManager.Edit.createProgressBar,
-        			onSuccess: (response) => {
-        				resolve(response)
-                		},
-        			onError: (xhr) => {
-        				reject(xhr);
-        			},
-      		  		onUploadProgress: Joomla.MediaManager.Edit.updateProgressBar,
-        		});
-        	});
+        return new Promise((resolve, reject) => {
+
+        	Joomla.UploadFile.exec({
+        		name: name,
+        		data: JSON.stringify(forUpload),
+        		url: url,
+        		headers: {'Content-Type': 'application/json'},
+        		method: "PUT",
+        		onBefore: Joomla.MediaManager.Edit.createProgressBar(),
+        		onSuccess: (response) => {
+        			resolve(response)
+                },
+        		onError: (xhr) => {
+        			reject(xhr);
+        		},
+        		onUploadProgress: Joomla.MediaManager.Edit.updateProgressBar,
+            });
+        });
 	}
 
 	// Customize the buttons
 	Joomla.submitbutton = function(task) {
-		
 		var pathName = window.location.pathname.replace(/&view=file.*/g, ''),
-		    uploadPath = options.uploadPath;
+			uploadPath = options.uploadPath;
 
 		var fileDirectory = uploadPath.split('/');
-		    fileDirectory.pop();
-		    fileDirectory = fileDirectory.join('/');
+			fileDirectory.pop();
+			fileDirectory = fileDirectory.join('/');
 
-		// If we are in root add a backslash
-		if (fileDirectory.endsWith(':')) {
-			fileDirectory = fileDirectory + '/';
-		}
+			// If we are in root add a backslash
+			if (fileDirectory.endsWith(':')) {
+				fileDirectory = fileDirectory + '/';
+			}
 
 		switch (task) {
 			case 'apply':
-				Joomla.MediaManager.Edit.Promise()
+			    Joomla.MediaManager.Edit.Promise()
 					.then(function(responseText, xhr){
 						try {
 							var resp = JSON.parse(responseText);
@@ -168,28 +164,30 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 						}
 
 						if (resp && resp.success == 1) {
-							// Success message?
+							// @ToDo Remove before merge
+							// Activate if a succes messsage is needed
 							//var options = {'type': 'success'};
-							//_notify('COM_MEDIA_UPDLOAD_SUCCESS', options);
+		        			//_notify('COM_MEDIA_UPDLOAD_SUCCESS', options);
 
 							Joomla.MediaManager.Edit.Reset(true);
 						} else {
 							window.log ? console.log("error", Joomla.JText._('COM_MEDIA_SERVER_ERROR', 'COM_MEDIA_SERVER_ERROR')): null;
 
 							var options = {'type': 'danger'};
-		        				_notify('COM_MEDIA_SERVER_ERROR', options);
+		        			_notify('COM_MEDIA_SERVER_ERROR', options);
 
-							Joomla.MediaManager.Edit.Reset(false);
+							Joomla.MediaManager.Edit.Reset(true);
 						}
 					})
 					.catch(error => {
 						window.log ? console.log("error", Joomla.JText._('COM_MEDIA_ERROR', 'COM_MEDIA_ERROR')): 'Error Ajax';
 
 						var options = {'type': 'danger','dismiss': 'false','autoDismiss': 'false'};
-						_notify('COM_MEDIA_ERROR', options);
+	        			_notify('COM_MEDIA_ERROR', options);
 
-						Joomla.MediaManager.Edit.Reset(false);
+	        			Joomla.MediaManager.Edit.Reset(true);
 					})
+
 				break;
 			case 'save':
 			    Joomla.MediaManager.Edit.Promise()
@@ -201,27 +199,28 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 					}
 
 					if (resp && resp.success == 1) {
-						// Success message?
+						// @ToDo Remove before merge
+						// Activate if a succes messsage is needed
 						//var options = {'type': 'success'};
-	        				//_notify('COM_MEDIA_UPDLOAD_SUCCESS', options);
+	        			//_notify('COM_MEDIA_UPDLOAD_SUCCESS', options);
 
-	        				window.location = pathName + '?option=com_media&path=' + fileDirectory;
+	        			window.location = pathName + '?option=com_media&path=' + fileDirectory;
 					} else {
 						window.log ? console.log("error", Joomla.JText._('COM_MEDIA_SERVER_ERROR', 'COM_MEDIA_SERVER_ERROR')): null;
 
 						var options = {'type': 'danger','dismiss': 'false','autoDismiss': 'false'};
-						_notify('COM_MEDIA_SERVER_ERROR', options);
+	        			_notify('COM_MEDIA_SERVER_ERROR', options);
 
-						Joomla.MediaManager.Edit.Reset(false);
+						Joomla.MediaManager.Edit.Reset(true);
 					}
 				})
 				.catch(error => {
 					window.log ? console.log("error", Joomla.JText._('COM_MEDIA_ERROR', 'COM_MEDIA_ERROR')): 'Error Ajax';
 
 					var options = {'type': 'danger','dismiss': 'false','autoDismiss': 'false'};
-        				_notify('COM_MEDIA_ERROR', options);
+        			_notify('COM_MEDIA_ERROR', options);
 
-					Joomla.MediaManager.Edit.Reset(false);
+        			Joomla.MediaManager.Edit.Reset(true);
 				})
 				break;
 			case 'cancel':
@@ -248,7 +247,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 	/**
 	 * @TODO Extend Joomla.request and drop this code!!!!
 	 */
-	Joomla.UploadFile.exec = function (name, data, uploadPath, url, type) {
+	Joomla.UploadFile.exec = function (options) {
 
 		// Prepare the options
 		options = Joomla.extend({
@@ -274,8 +273,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 				}
 			};
 
-			// Events missing in core.js
-			// Progress us used here
+			// Missing in core.js
 			if(options.onUploadProgress){
 				xhr.upload.addEventListener("progress", options.onUploadProgress);
 			}
@@ -289,7 +287,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 				xhr.upload.addEventListener("abort", options.onUploadAbort);
 			}
 
-			// Mising in core.js
+			// Missing in core.js
 			xhr.onprogress = function() {
 				if (options.onProgress) {
 					options.onProgress(event);
@@ -330,7 +328,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 					// Request interrupted
 					return xhr;
 				}
-	
+
 				xhr.send(options.data);
 			}
 
@@ -362,7 +360,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 					}
 
 					var contents;
-					var data = Joomla.MediaManager.Edit.current;;
+					var data = Joomla.MediaManager.Edit.current;
 					if (!contents in Joomla.MediaManager.Edit.current) {
 						data = Joomla.MediaManager.Edit.original;
 					}
@@ -380,17 +378,17 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 	var activate = function(name, data) {
 		// Amend the layout
 		var tabContent = document.getElementById('myTabContent'),
-		    pluginControls = document.getElementById('attrib-' + name);
+			pluginControls = document.getElementById('attrib-' + name);
 
 		tabContent.classList.add('row', 'ml-0', 'mr-0', 'p-0');
 		pluginControls.classList.add('col-md-3', 'p-4');
 
 		// Create the images for edit and preview
 		var baseContainer = document.getElementById('media-manager-edit-container'),
-		    editContainer = document.createElement('div'),
-		    previewContainer = document.createElement('div'),
-		    imageSrc = document.createElement('img'),
-		    imagePreview = document.createElement('img');
+			editContainer = document.createElement('div'),
+			previewContainer = document.createElement('div'),
+			imageSrc = document.createElement('img'),
+			imagePreview = document.createElement('img');
 
 		baseContainer.innerHTML = '';
 
@@ -412,19 +410,72 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 		Joomla.MediaManager.Edit[name.toLowerCase()].Activate(data);
 	};
 
-	// @ToDo Replace this code with calls to a future Joomla core code. 
-	/** 
-	* Send a notification as a modal message.
-	*/
-	function _notify(message, options) { 
-		var alert = document.createElement('joomla-alert');
-		alert.setAttribute('type', options.type || 'info');	
-		alert.setAttribute('dismiss', options.dismiss || true);
-		alert.setAttribute('auto-dismiss', options.autoDismiss || true);
-		alert.innerHTML = Joomla.JText._(message, message) || '';
+	// @ToDo Replace this code with calls to a future Joomla core code.
+    /**
+     * Send a notification as a modal message.
+     *
+     */
+	function _notify(message, options) {
+        var alert = document.createElement('joomla-alert');
+        alert.setAttribute('type', options.type || 'info');
+        alert.setAttribute('dismiss', options.dismiss || true);
+        alert.setAttribute('auto-dismiss', options.autoDismiss || true);
+        alert.innerHTML = Joomla.JText._(message, message) || '';
 
+        var messageContainer = document.getElementById('system-message');
+        messageContainer.appendChild(alert);
+    }
+
+    // @ToDo Outsource to a library
+	/**
+     * Send a progress as a modal message.
+     *
+     * @param {string} name       The filename
+     * @param {object} options    For the HTML attributes
+     *
+     * @return  {void}
+    */
+	function _notifyProgress(name, options) {
+		var idMediaProgress = 'mediaProgress',
+		    nameTag = '';
+
+		if (typeof name == 'string' || name instanceof String) {
+			idMediaProgress = idMediaProgress + name;
+			nameTag = '<p>' + name + '</p>';
+		}
+
+		var alert = document.createElement('joomla-alert');
+	    alert.setAttribute('type', options.type || 'info');
+	    alert.setAttribute('dismiss', options.dismiss || true);
+	    alert.setAttribute('auto-dismiss', options.autoDismiss || false);
+		alert.innerHTML = '<progress id="' + idMediaProgress + '" class="media-manager-progress" value="0" max="100"></progress>'
+			+ '<span>0 %</span>'	+ nameTag;
 		var messageContainer = document.getElementById('system-message');
 		messageContainer.appendChild(alert);
-    }
+	}
+
+    // @ToDo Outsource to a library
+	/**
+     * Update a progress in a modal message.
+     *
+     * @param {string} name     The filename
+     * @param {int} value       Value for progress %
+     *
+     * @return  {void}
+     *
+    */
+	function _notifyProgressUpdate(name, value) {
+		var selector = 'mediaProgress';
+
+		if (typeof name == 'string' || name instanceof String) {
+			selector = selector + name;
+		}
+
+		var mediaProgressBar = document.getElementById(selector);
+		var mediaProgressText = document.getElementById(selector).nextSibling;
+
+		mediaProgressBar.setAttribute('value', value);
+		mediaProgressText.innerHTML = value + ' %';
+	}
 
 })();
