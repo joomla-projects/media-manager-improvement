@@ -23,7 +23,15 @@ HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.keepalive');
 
 // Add javascripts
-HTMLHelper::_('script', 'media/com_media/js/mediamanager.js');
+//JHtml::_('script', 'media/com_media/js/mediamanager.js');
+
+Factory::getDocument()->addScriptDeclaration('
+document.addEventListener(\'WebComponentsReady\', function() {
+	var elem = document.createElement(\'script\');
+	elem.src = "' . \Joomla\CMS\Uri\Uri::root(false) . 'media/com_media/js/mediamanager.js";
+	document.head.appendChild(elem);
+});
+');
 
 // Add stylesheets
 HTMLHelper::_('stylesheet', 'media/com_media/css/mediamanager.css');
