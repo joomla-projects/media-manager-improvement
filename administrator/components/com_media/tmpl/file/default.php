@@ -60,8 +60,12 @@ $this->useCoreUI = true;
 	<?php $fieldSets = $form->getFieldsets(); ?>
 	<?php if ($fieldSets) : ?>
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name)); ?>
-		<?php echo '<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around form-validate col-md-9 p-4"></div>'; ?>
-		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+		<div class="row">
+			<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around form-validate col-md-9 p-4"></div>
+			<div class="col-md-3">
+				<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+			</div>
+		</div>
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	<?php endif; ?>
 	</form>
