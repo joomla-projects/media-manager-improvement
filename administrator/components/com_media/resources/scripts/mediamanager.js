@@ -47,10 +47,8 @@ window.MediaManager = window.MediaManager || {};
 window.MediaManager.Event = new Event();
 
 // Create the root Vue instance
-document.addEventListener("DOMContentLoaded",
-    (e) => new Vue({
-        el: '#com-media',
-        store,
-        render: h => h(App)
-    })
-)
+new Vue({
+    el: '#com-media',
+    store,
+    render: h => h(App)
+});
