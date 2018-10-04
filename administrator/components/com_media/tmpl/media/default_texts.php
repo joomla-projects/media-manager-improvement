@@ -14,6 +14,7 @@ Text::script('COM_MEDIA_ACTIN_RENAME', true);
 Text::script('COM_MEDIA_ACTION_DELETE', true);
 Text::script('COM_MEDIA_ACTION_EDIT', true);
 Text::script('COM_MEDIA_ACTION_PREVIEW', true);
+Text::script('COM_MEDIA_CREATE', true);
 Text::script('COM_MEDIA_CREATE_NEW_FOLDER', true);
 Text::script('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS', true);
 Text::script('COM_MEDIA_CREATE_NEW_FOLDER_ERROR', true);
