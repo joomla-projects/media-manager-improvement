@@ -20,6 +20,7 @@
 
 <script>
     import * as types from "./../../store/mutation-types";
+    import {translate} from "./../../plugins/translate";
     import {focus} from 'vue-focus';
 
     export default {
@@ -27,7 +28,7 @@
         directives: {focus: focus},
         data() {
             return {
-                folder: 'Untitled folder',
+                folder: this.translate('COM_MEDIA_UNTITLED_FOLDER'),
             }
         },
         methods: {
@@ -58,7 +59,7 @@
             },
             /* Reset the form */
             reset() {
-                this.folder = 'Untitled folder';
+                this.folder = this.translate('COM_MEDIA_UNTITLED_FOLDER');
             }
         },
     }

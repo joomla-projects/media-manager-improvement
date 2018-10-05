@@ -50,6 +50,7 @@ Text::script('COM_MEDIA_SERVER_ERROR', true);
 Text::script('COM_MEDIA_TOGGLE_INFO', true);
 Text::script('COM_MEDIA_TOGGLE_LIST_VIEW', true);
 Text::script('COM_MEDIA_TOGGLE_SELECT_ITEM', true);
+Text::script('COM_MEDIA_UNTITLED_FOLDER', true);
 Text::script('COM_MEDIA_UPDLOAD_SUCCESS', true);
 Text::script('JCANCEL', true);
 Text::script('JAPPLY', true);
