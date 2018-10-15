@@ -1,7 +1,7 @@
 <template>
     <div class="media-browser-image" @dblclick="openPreview()" @mouseleave="showActions = false">
         <div class="media-browser-item-preview">
-            <div class="image-brackground">
+            <div class="image-background">
                 <div class="image-cropped" :style="{ backgroundImage: 'url(' + thumbUrl + ')' }"></div>
             </div>
         </div>
