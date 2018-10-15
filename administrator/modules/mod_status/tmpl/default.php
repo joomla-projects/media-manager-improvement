@@ -21,19 +21,20 @@ use Joomla\Module\Multilangstatus\Administrator\Helper\MultilangstatusAdminHelpe
 
 $hideLinks = $app->input->getBool('hidemainmenu');
 
-// Check if the multilangstatus module is present in the site
-if (class_exists(MultilangstatusAdminHelper::class) && MultilangstatusAdminHelper::isEnabled())
-{
-	// Publish/Unpublish the module if it exists in the modules table
-	// depending on the status of the languagefilter
-	MultilangstatusAdminHelper::publish();
-}
 ?>
 <div class="ml-auto">
 	<ul class="nav text-center">
-		<?php if (class_exists(MultilangstatusAdminHelper::class) && Multilanguage::isEnabled() && MultilangstatusAdminHelper::isEnabled()) : ?>
-			<?php $module = ModuleHelper::getModule('mod_multilangstatus'); ?>
-			<?php echo ModuleHelper::renderModule($module); ?>
+		<?php // Check if the multilangstatus module is present and enabled in the site ?>
+		<?php if (class_exists(MultilangstatusAdminHelper::class) && MultilangstatusAdminHelper::isEnabled()) : ?>
+			<?php if (Multilanguage::isEnabled()) : ?>
+				<?php // Publish and display the module ?>
+				<?php MultilangstatusAdminHelper::publish(); ?>
+				<?php $module = ModuleHelper::getModule('mod_multilangstatus'); ?>
+				<?php echo ModuleHelper::renderModule($module); ?>
+			<?php else : ?>
+				<?php // Unpublish the module ?>
+				<?php MultilangstatusAdminHelper::publish(); ?>
+			<?php endif; ?>
 		<?php endif; ?>
 
 		<li class="nav-item">
@@ -47,7 +48,7 @@ if (class_exists(MultilangstatusAdminHelper::class) && MultilangstatusAdminHelpe
 			<a class="nav-link dropdown-toggle" href="<?php echo Route::_('index.php?option=com_messages'); ?>" title="<?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?>">
 				<span class="fa fa-envelope-o" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?></span>
-				<?php $countUnread = Factory::getSession()->get('messages.unread'); ?>
+				<?php $countUnread = $app->getSession()->get('messages.unread'); ?>
 				<?php if ($countUnread > 0) : ?>
 					<span class="badge badge-pill badge-danger"><?php echo $countUnread; ?></span>
 				<?php endif; ?>

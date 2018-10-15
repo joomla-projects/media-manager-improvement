@@ -80,10 +80,10 @@ class FieldsHelper
 	 * The values of the fields can be overridden by an associative array where the keys
 	 * have to be a name and its corresponding value.
 	 *
-	 * @param   string    $context           The context of the content passed to the helper
-	 * @param   stdClass  $item              item
-	 * @param   boolean   $prepareValue      prepareValue
-	 * @param   array     $valuesToOverride  The values to override
+	 * @param   string     $context           The context of the content passed to the helper
+	 * @param   \stdClass  $item              item
+	 * @param   int|bool   $prepareValue      (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
+	 * @param   array      $valuesToOverride  The values to override
 	 *
 	 * @return  array
 	 *
@@ -189,7 +189,8 @@ class FieldsHelper
 
 				$field->rawvalue = $field->value;
 
-				if ($prepareValue)
+				// If boolean prepare, if int, it is the event type: 1 - After Title, 2 - Before Display, 3 - After Display, 0 - Do not prepare
+				if ($prepareValue && (is_bool($prepareValue) || $prepareValue === (int) $field->params->get('display', '2')))
 				{
 					PluginHelper::importPlugin('fields');
 
@@ -549,6 +550,100 @@ class FieldsHelper
 	}
 
 	/**
+	 * Return a boolean based on field (and field group) display / show_on settings
+	 *
+	 * @param   \stdClass  $field  The field
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.8.7
+	 */
+	public static function displayFieldOnForm($field)
+	{
+		$app = Factory::getApplication();
+
+		// Detect if the field should be shown at all
+		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))
+		{
+			return false;
+		}
+		elseif ($field->params->get('show_on') == 2 && $app->isClient('site'))
+		{
+			return false;
+		}
+
+		if (!self::canEditFieldValue($field))
+		{
+			$fieldDisplayReadOnly = $field->params->get('display_readonly', '2');
+
+			if ($fieldDisplayReadOnly == '2')
+			{
+				// Inherit from field group display read-only setting
+				$groupModel = $app->bootComponent('com_fields')
+					->createMVCFactory($app)
+					->createModel('Group', 'Administrator', ['ignore_request' => true]);
+				$groupDisplayReadOnly = $groupModel->getItem($field->group_id)->params->get('display_readonly', '1');
+				$fieldDisplayReadOnly = $groupDisplayReadOnly;
+			}
+
+			if ($fieldDisplayReadOnly == '0')
+			{
+				// Do not display field on form when field is read-only
+				return false;
+			}
+		}
+
+		// Display field on form
+		return true;
+	}
+
+	/**
+	 * Adds Count Items for Category Manager.
+	 *
+	 * @param   \stdClass[]  &$items  The field category objects
+	 *
+	 * @return  \stdClass[]
+	 *
+	 * @since   3.7.0
+	 */
+	public static function countItems(&$items)
+	{
+		$db = Factory::getDbo();
+
+		foreach ($items as $item)
+		{
+			$item->count_trashed     = 0;
+			$item->count_archived    = 0;
+			$item->count_unpublished = 0;
+			$item->count_published   = 0;
+
+			$query = $db->getQuery(true);
+			$query->select('state, count(1) AS count')
+				->from($db->quoteName('#__fields'))
+				->where('group_id = ' . (int) $item->id)
+				->group('state');
+			$db->setQuery($query);
+
+			$fields = $db->loadObjectList();
+
+			$states = array(
+				'-2' => 'count_trashed',
+				'0'  => 'count_unpublished',
+				'1'  => 'count_published',
+				'2'  => 'count_archived',
+			);
+
+			foreach ($fields as $field)
+			{
+				$property = $states[$field->state];
+				$item->$property = $field->count;
+			}
+		}
+
+		return $items;
+	}
+
+	/**
 	 * Gets assigned categories titles for a field
 	 *
 	 * @param   \stdClass[]  $fieldId  The field ID
@@ -582,7 +677,7 @@ class FieldsHelper
 	/**
 	 * Gets the fields system plugin extension id.
 	 *
-	 * @return  int  The fields system plugin extension id.
+	 * @return  integer  The fields system plugin extension id.
 	 *
 	 * @since   3.7.0
 	 */
